@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>띠니 | 제로음료·단백질음료 100ml당 가격 비교</title>
+  <meta name="description" content="제로 음료와 단백질 음료를 100ml당 가격과 병당 단백질(g)로 비교해요. 확인한 시각 기준이며, 가격은 바뀔 수 있어요.">
+  <meta name="theme-color" content="#F6F3EC">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="apple-touch-icon" href="images/apple-touch.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="띠니 | 제로음료·단백질음료 100ml당 가격 비교">
+  <meta property="og:description" content="제로 음료는 100ml당 가격 순으로, 단백질 음료는 병당 단백질(g) 순으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta property="og:image" content="images/zero-100ml-rank.png">
+  <meta property="og:image:width" content="1080">
+  <meta property="og:image:height" content="1350">
+  <meta property="og:image:alt" content="제로음료 100ml당 가격 순위">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="띠니 | 제로음료·단백질음료 100ml당 가격 비교">
+  <meta name="twitter:description" content="제로 음료는 100ml당 가격 순으로, 단백질 음료는 병당 단백질(g) 순으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta name="twitter:image" content="images/zero-100ml-rank.png">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#products">상품 목록으로 건너뛰기</a>
+
+  <div class="legal" role="note">
+    이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+  </div>
+
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="#top" aria-label="띠니 홈">
+        <span class="mark" aria-hidden="true">띠</span>
+        <span class="word">
+          <strong>띠니</strong>
+          <em>제로 음료 비교 마트</em>
+        </span>
+      </a>
+    </div>
+    <div class="kakao-wrap">
+      <a class="kakao-btn" href="https://open.kakao.com/o/goXz5qUi" target="_blank" rel="noopener noreferrer">💬 100ml당 단가 낮은 제로음료 특가 알림방 들어가기</a>
+      <p class="kakao-sub">새로 싸진 제로·단백질 음료를 먼저 알려드려요</p>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow">단백질부터, 단가로 비교해요</p>
+      <h1>제로 음료 비교 마트</h1>
+      <p class="lead">
+        단백질 음료는 병당 단백질(g)이 높은 순으로, 제로 음료는 분류마다 100ml당 가격이 낮은 순으로 모아 두었어요.
+        분말·티백은 100g당 가격으로 따로 비교해요. 효능을 약속하지 않아요.
+      </p>
+      <p class="when" id="source-when"></p>
+    </section>
+
+    <div class="tabs-wrap" id="tabs-wrap">
+      <nav class="tabs" id="tabs" aria-label="음료 분류"></nav>
+      <nav class="filters" id="filters" aria-label="용기"></nav>
+      <nav class="filters ingredients" id="ingredients" aria-label="성분"></nav>
+      <p class="ing-note">성분표 확인된 상품만 표시</p>
+    </div>
+
+    <section class="calc" id="calc" aria-label="내 한 달 음료값 절약 계산기">
+      <h2>내 한 달 음료값 절약 계산기</h2>
+      <div class="calc-controls">
+        <fieldset class="calc-count">
+          <legend>하루</legend>
+          <button type="button" class="calc-n" data-n="1" aria-selected="true">1개</button>
+          <button type="button" class="calc-n" data-n="2">2개</button>
+          <button type="button" class="calc-n" data-n="3">3개</button>
+        </fieldset>
+        <label class="calc-type">음료
+          <select id="calc-type"></select>
+        </label>
+      </div>
+      <p class="calc-result" id="calc-result"></p>
+      <p class="calc-note">편의점 가격은 2,000원 가정</p>
+      <button type="button" class="calc-copy" id="calc-copy">결과 복사하기</button>
+      <p class="calc-copied" id="calc-copied" hidden>복사했어요</p>
+    </section>
+
+    <p class="cat-note" id="cat-note" hidden></p>
+
+    <nav class="sorts" id="sorts" aria-label="비교 기준"></nav>
+
+    <section class="deals" id="deals" hidden>
+      <h2 id="deals-title">오늘 할인 큰 순 TOP 3</h2>
+      <div class="deals-row" id="deals-row"></div>
+    </section>
+
+    <section id="products" class="shelf" aria-live="polite">
+      <h2 class="visually-hidden">상품</h2>
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>이 분류에 해당하는 상품이 없어요.</p>
+    </section>
+
+    <section class="compare" id="compare" hidden>
+      <h2>한눈에 비교</h2>
+      <div class="compare-wrap">
+        <table class="compare-table" id="compare-table"></table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p class="legal-foot">이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격은 확인한 시각 기준이며, 바뀔 수 있어요. 건강·효능을 약속하지 않아요.</p>
+    <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
+    <div class="kakao-wrap kakao-wrap-foot">
+      <a class="kakao-btn" href="https://open.kakao.com/o/goXz5qUi" target="_blank" rel="noopener noreferrer">💬 100ml당 단가 낮은 제로음료 특가 알림방 들어가기</a>
+      <p class="kakao-sub">새로 싸진 제로·단백질 음료를 먼저 알려드려요</p>
+    </div>
+    <p class="copy">띠니 · 제로 음료 비교 마트</p>
+  </footer>
+
+  <script src="js/products.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
