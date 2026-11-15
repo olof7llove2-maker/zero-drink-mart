@@ -203,7 +203,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "코카콜라-제로-190ml-30개",
+    "id": "kokakolra-jero-190ml-30gae",
     "group": "제로콜라",
     "category": "cola",
     "brand": "코카콜라",
@@ -222,7 +222,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 279,
     "unitPrice": "100ml당 279원",
     "unitEach": "개당 약 530원",
-    "image": "images/코카콜라-제로-190ml-30개.jpg",
+    "image": "images/kokakolra-jero-190ml-30gae.jpg",
     "container": "can",
     "caffeine": "contains",
     "aspartame": null,
@@ -232,7 +232,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "코카콜라-제로제로-190ml-30개",
+    "id": "kokakolra-jerojero-190ml-30gae",
     "group": "제로콜라",
     "category": "cola",
     "brand": "코카콜라",
@@ -251,7 +251,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 246,
     "unitPrice": "100ml당 246원",
     "unitEach": "개당 약 467원",
-    "image": "images/코카콜라-제로제로-190ml-30개.jpg",
+    "image": "images/kokakolra-jerojero-190ml-30gae.jpg",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -261,7 +261,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "펩시-제로슈거-라임향-1-5L-12개",
+    "id": "pepsi-jerosyugeo-raimhyang-1-5l-12gae",
     "group": "제로콜라",
     "category": "cola",
     "brand": "펩시",
@@ -278,7 +278,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 110,
     "unitPrice": "100ml당 110원",
     "unitEach": "개당 약 1,654원",
-    "image": "images/펩시-제로슈거-라임향-1-5L-12개.jpg",
+    "image": "images/pepsi-jerosyugeo-raimhyang-1-5l-12gae.jpg",
     "cheapestPer100": true,
     "container": "pet-large",
     "caffeine": "contains",
@@ -318,7 +318,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "나랑드사이다-제로-345ml-24개",
+    "id": "narangdeusaida-jero-345ml-24gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "나랑드사이다",
@@ -337,7 +337,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 140,
     "unitPrice": "100ml당 140원",
     "unitEach": "개당 약 484원",
-    "image": "images/나랑드사이다-제로-345ml-24개.png",
+    "image": "images/narangdeusaida-jero-345ml-24gae.png",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -347,7 +347,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "나랑드사이다-제로-500ml-24개",
+    "id": "narangdeusaida-jero-500ml-24gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "나랑드사이다",
@@ -366,7 +366,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 127,
     "unitPrice": "100ml당 127원",
     "unitEach": "개당 약 635원",
-    "image": "images/나랑드사이다-제로-500ml-24개.jpg",
+    "image": "images/narangdeusaida-jero-500ml-24gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -376,7 +376,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "칠성사이다-제로-210ml-30개",
+    "id": "chilseongsaida-jero-210ml-30gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "칠성사이다",
@@ -395,7 +395,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 258,
     "unitPrice": "100ml당 258원",
     "unitEach": "개당 약 543원",
-    "image": "images/칠성사이다-제로-210ml-30개.png",
+    "image": "images/chilseongsaida-jero-210ml-30gae.png",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -405,7 +405,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "나랑드사이다-제로-1-5L-12개",
+    "id": "narangdeusaida-jero-1-5l-12gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "나랑드사이다",
@@ -424,7 +424,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 88,
     "unitPrice": "100ml당 88원",
     "unitEach": "개당 약 1,322원",
-    "image": "images/나랑드사이다-제로-1-5L-12개.jpg",
+    "image": "images/narangdeusaida-jero-1-5l-12gae.jpg",
     "cheapestPer100": true,
     "container": "pet-large",
     "caffeine": "none",
@@ -435,7 +435,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "트레비-플레인-190ml-30개",
+    "id": "teurebi-peulrein-190ml-30gae",
     "group": "탄산수",
     "category": "sparkling",
     "brand": "트레비",
@@ -452,7 +452,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 174,
     "unitPrice": "100ml당 174원",
     "unitEach": "개당 약 330원",
-    "image": "images/트레비-플레인-190ml-30개.jpg",
+    "image": "images/teurebi-peulrein-190ml-30gae.jpg",
     "container": "can",
     "caffeine": "none",
     "aspartame": "none",
@@ -462,7 +462,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "트레비-레몬-ECO-탄산음료-무라벨-350ml-20개",
+    "id": "teurebi-remon-eco-tansaneumryo-murabel-350ml-20gae",
     "group": "탄산수",
     "category": "sparkling",
     "brand": "트레비",
@@ -479,7 +479,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 163,
     "unitPrice": "100ml당 163원",
     "unitEach": "개당 약 570원",
-    "image": "images/트레비-레몬-ECO-탄산음료-무라벨-350ml-20개.jpg",
+    "image": "images/teurebi-remon-eco-tansaneumryo-murabel-350ml-20gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -489,7 +489,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "싱하-소다워터-탄산수-325ml-24개",
+    "id": "singha-sodawoteo-tansansu-325ml-24gae",
     "group": "탄산수",
     "category": "sparkling",
     "brand": "싱하",
@@ -508,7 +508,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 246,
     "unitPrice": "100ml당 246원",
     "unitEach": "개당 약 800원",
-    "image": "images/싱하-소다워터-탄산수-325ml-24개.jpg",
+    "image": "images/singha-sodawoteo-tansansu-325ml-24gae.jpg",
     "container": "can",
     "caffeine": "none",
     "aspartame": "none",
@@ -518,7 +518,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "탐사스파클링-플레인-무라벨-500ml-20개",
+    "id": "tamsaseupakeulring-peulrein-murabel-500ml-20gae",
     "group": "탄산수",
     "category": "sparkling",
     "brand": "탐사스파클링",
@@ -537,7 +537,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 88,
     "unitPrice": "100ml당 88원",
     "unitEach": "개당 약 440원",
-    "image": "images/탐사스파클링-플레인-무라벨-500ml-20개.jpg",
+    "image": "images/tamsaseupakeulring-peulrein-murabel-500ml-20gae.jpg",
     "cheapestPer100": true,
     "container": "pet-small",
     "caffeine": "none",
@@ -548,7 +548,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "초정탄산수-190ml-30개",
+    "id": "chojeongtansansu-190ml-30gae",
     "group": "탄산수",
     "category": "sparkling",
     "brand": "초정탄산수",
@@ -565,7 +565,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 191,
     "unitPrice": "100ml당 191원",
     "unitEach": "개당 약 363원",
-    "image": "images/초정탄산수-190ml-30개.png",
+    "image": "images/chojeongtansansu-190ml-30gae.png",
     "container": "can",
     "caffeine": "none",
     "aspartame": "none",
@@ -575,7 +575,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "클룹-애사비소다-오리지널-500ml-24개",
+    "id": "keulrup-aesabisoda-orijineol-500ml-24gae",
     "group": "애플사이다비네거 음료",
     "category": "acv",
     "brand": "클룹",
@@ -594,7 +594,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 220,
     "unitPrice": "100ml당 220원",
     "unitEach": "개당 약 1,102원",
-    "image": "images/클룹-애사비소다-오리지널-500ml-24개.jpg",
+    "image": "images/keulrup-aesabisoda-orijineol-500ml-24gae.jpg",
     "cheapestPer100": true,
     "container": "pet-small",
     "caffeine": "none",
@@ -605,7 +605,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "클룹-애사비소다-오리지널-제로-250ml-24개",
+    "id": "keulrup-aesabisoda-orijineol-jero-250ml-24gae",
     "group": "애플사이다비네거 음료",
     "category": "acv",
     "brand": "클룹",
@@ -624,7 +624,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 298,
     "unitPrice": "100ml당 298원",
     "unitEach": "개당 약 746원",
-    "image": "images/클룹-애사비소다-오리지널-제로-250ml-24개.png",
+    "image": "images/keulrup-aesabisoda-orijineol-jero-250ml-24gae.png",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -634,7 +634,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "클룹-애사비소다-오리지널-탄산음료-500ml-12개",
+    "id": "keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae",
     "group": "애플사이다비네거 음료",
     "category": "acv",
     "brand": "클룹",
@@ -653,7 +653,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 233,
     "unitPrice": "100ml당 233원",
     "unitEach": "개당 약 1,167원",
-    "image": "images/클룹-애사비소다-오리지널-탄산음료-500ml-12개.jpg",
+    "image": "images/keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -663,7 +663,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "클룹-애사비소다-자두-제로-탄산음료-6개-500ml",
+    "id": "keulrup-aesabisoda-jadu-jero-tansaneumryo-6gae-500ml",
     "group": "애플사이다비네거 음료",
     "category": "acv",
     "brand": "클룹",
@@ -682,7 +682,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 279,
     "unitPrice": "100ml당 279원",
     "unitEach": "개당 약 1,395원",
-    "image": "images/클룹-애사비소다-자두-제로-탄산음료-6개-500ml.jpg",
+    "image": "images/keulrup-aesabisoda-jadu-jero-tansaneumryo-6gae-500ml.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -692,7 +692,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "토레타-제로-이온음료-500ml-24개",
+    "id": "toreta-jero-ioneumryo-500ml-24gae",
     "group": "제로 이온음료",
     "category": "ion",
     "brand": "토레타",
@@ -711,7 +711,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 150,
     "unitPrice": "100ml당 150원",
     "unitEach": "개당 약 748원",
-    "image": "images/토레타-제로-이온음료-500ml-24개.jpg",
+    "image": "images/toreta-jero-ioneumryo-500ml-24gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -721,7 +721,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "링티-제로-복숭아맛-24개-500ml",
+    "id": "ringti-jero-boksungamat-24gae-500ml",
     "group": "제로 이온음료",
     "category": "ion",
     "brand": "링티",
@@ -740,7 +740,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 177,
     "unitPrice": "100ml당 177원",
     "unitEach": "개당 약 883원",
-    "image": "images/링티-제로-복숭아맛-24개-500ml.jpg",
+    "image": "images/ringti-jero-boksungamat-24gae-500ml.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -750,7 +750,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "파워에이드-제로-600ml-20개",
+    "id": "pawoeideu-jero-600ml-20gae",
     "group": "제로 이온음료",
     "category": "ion",
     "brand": "파워에이드",
@@ -769,7 +769,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 165,
     "unitPrice": "100ml당 165원",
     "unitEach": "개당 약 988원",
-    "image": "images/파워에이드-제로-600ml-20개.jpg",
+    "image": "images/pawoeideu-jero-600ml-20gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -779,7 +779,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "비타500-이온킥-제로-음료-1-5L-12개",
+    "id": "bita500-ionkik-jero-eumryo-1-5l-12gae",
     "group": "제로 이온음료",
     "category": "ion",
     "brand": "비타500",
@@ -798,7 +798,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 95,
     "unitPrice": "100ml당 95원",
     "unitEach": "개당 약 1,432원",
-    "image": "images/비타500-이온킥-제로-음료-1-5L-12개.jpg",
+    "image": "images/bita500-ionkik-jero-eumryo-1-5l-12gae.jpg",
     "cheapestPer100": true,
     "container": "pet-large",
     "caffeine": "none",
@@ -838,7 +838,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "핫식스-더킹-제로-24개-355ml",
+    "id": "hatsikseu-deoking-jero-24gae-355ml",
     "group": "제로 에너지드링크",
     "category": "energy",
     "brand": "핫식스",
@@ -855,7 +855,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 228,
     "unitPrice": "100ml당 228원",
     "unitEach": "개당 약 808원",
-    "image": "images/핫식스-더킹-제로-24개-355ml.jpg",
+    "image": "images/hatsikseu-deoking-jero-24gae-355ml.jpg",
     "container": "can",
     "caffeine": "contains",
     "aspartame": null,
@@ -865,7 +865,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "박카스-얼박사-제로-24개-355ml",
+    "id": "bakkaseu-eolbaksa-jero-24gae-355ml",
     "group": "제로 에너지드링크",
     "category": "energy",
     "brand": "박카스",
@@ -882,7 +882,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 126,
     "unitPrice": "100ml당 126원",
     "unitEach": "개당 약 448원",
-    "image": "images/박카스-얼박사-제로-24개-355ml.jpg",
+    "image": "images/bakkaseu-eolbaksa-jero-24gae-355ml.jpg",
     "cheapestPer100": true,
     "container": "can",
     "caffeine": "contains",
@@ -893,7 +893,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "립톤-제로-복숭아-아이스티-355ml-24개",
+    "id": "ripton-jero-boksunga-aiseuti-355ml-24gae",
     "group": "제로 아이스티",
     "category": "icetea",
     "brand": "립톤",
@@ -912,7 +912,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 144,
     "unitPrice": "100ml당 144원",
     "unitEach": "개당 약 512원",
-    "image": "images/립톤-제로-복숭아-아이스티-355ml-24개.jpg",
+    "image": "images/ripton-jero-boksunga-aiseuti-355ml-24gae.jpg",
     "cheapestPer100": true,
     "container": "can",
     "caffeine": "contains",
@@ -923,7 +923,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "탐사-제로-스윗-복숭아-아이스티-1개-2-1L",
+    "id": "tamsa-jero-seuwit-boksunga-aiseuti-1gae-2-1l",
     "group": "제로 아이스티",
     "category": "icetea",
     "brand": "탐사",
@@ -942,7 +942,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 190,
     "unitPrice": "100ml당 190원",
     "unitEach": "개당 3,990원",
-    "image": "images/탐사-제로-스윗-복숭아-아이스티-1개-2-1L.jpg",
+    "image": "images/tamsa-jero-seuwit-boksunga-aiseuti-1gae-2-1l.jpg",
     "container": "pet-large",
     "caffeine": "contains",
     "aspartame": null,
@@ -952,7 +952,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "하늘보리-500ml-20개",
+    "id": "haneulbori-500ml-20gae",
     "group": "무당 차음료",
     "category": "tea",
     "brand": "하늘보리",
@@ -971,7 +971,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 141,
     "unitPrice": "100ml당 141원",
     "unitEach": "개당 약 705원",
-    "image": "images/하늘보리-500ml-20개.jpg",
+    "image": "images/haneulbori-500ml-20gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -981,7 +981,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "하늘보리-에코-무라벨-1-5L-12개",
+    "id": "haneulbori-eko-murabel-1-5l-12gae",
     "group": "무당 차음료",
     "category": "tea",
     "brand": "하늘보리",
@@ -998,7 +998,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 86,
     "unitPrice": "100ml당 86원",
     "unitEach": "개당 약 1,296원",
-    "image": "images/하늘보리-에코-무라벨-1-5L-12개.jpg",
+    "image": "images/haneulbori-eko-murabel-1-5l-12gae.jpg",
     "cheapestPer100": true,
     "container": "pet-large",
     "caffeine": "none",
@@ -1009,7 +1009,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "다하다-호박팥차-1-5g-40개입-1개",
+    "id": "dahada-hobakpatcha-1-5g-40gaeip-1gae",
     "group": "분말·티백",
     "category": "powder",
     "brand": "다하다",
@@ -1027,7 +1027,7 @@ const PRODUCTS = [
     "unitPrice": "100g당 9,830원",
     "unitPriceRecomputedFrom": "10g당 983원",
     "unitEach": "개당 약 148원",
-    "image": "images/다하다-호박팥차-1-5g-40개입-1개.jpg",
+    "image": "images/dahada-hobakpatcha-1-5g-40gaeip-1gae.jpg",
     "unitPricePer100g": 9830,
     "container": "powder",
     "caffeine": "none",
@@ -1038,7 +1038,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "매일두유-고단백-검은콩-190ml-24개",
+    "id": "maeilduyu-godanbaek-geomeunkong-190ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "매일두유",
@@ -1060,7 +1060,7 @@ const PRODUCTS = [
     "unitPrice": "100ml당 392원",
     "bottlePrice": 745,
     "unitEach": "병당 약 745원",
-    "image": "images/매일두유-고단백-검은콩-190ml-24개.jpg",
+    "image": "images/maeilduyu-godanbaek-geomeunkong-190ml-24gae.jpg",
     "protein_g_per_bottle": 12,
     "kcal_per_bottle": 105,
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
@@ -1075,7 +1075,7 @@ const PRODUCTS = [
     "proteinPerG": 62
   },
   {
-    "id": "매일두유-고단백-플레인-두유-190ml-24개",
+    "id": "maeilduyu-godanbaek-peulrein-duyu-190ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "매일두유",
@@ -1097,7 +1097,7 @@ const PRODUCTS = [
     "unitPrice": "100ml당 351원",
     "bottlePrice": 666,
     "unitEach": "병당 약 666원",
-    "image": "images/매일두유-고단백-플레인-두유-190ml-24개.jpg",
+    "image": "images/maeilduyu-godanbaek-peulrein-duyu-190ml-24gae.jpg",
     "cheapestPer100": true,
     "protein_g_per_bottle": 12,
     "kcal_per_bottle": 90,
@@ -1113,7 +1113,7 @@ const PRODUCTS = [
     "proteinPerG": 56
   },
   {
-    "id": "더단백-드링크-초코-250ml-18개",
+    "id": "deodanbaek-deuringkeu-choko-250ml-18gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "더단백",
@@ -1135,7 +1135,7 @@ const PRODUCTS = [
     "unitPriceRecomputedFrom": "10ml당 53원",
     "bottlePrice": 1329,
     "unitEach": "병당 약 1,329원",
-    "image": "images/더단백-드링크-초코-250ml-18개.jpg",
+    "image": "images/deodanbaek-deuringkeu-choko-250ml-18gae.jpg",
     "protein_g_per_bottle": 20,
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
@@ -1149,7 +1149,7 @@ const PRODUCTS = [
     "proteinPerG": 66
   },
   {
-    "id": "뉴케어-올프로틴-고소한맛-245ml-24개",
+    "id": "nyukeeo-olpeurotin-gosohanmat-245ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "뉴케어",
@@ -1172,7 +1172,7 @@ const PRODUCTS = [
     "unitPriceRecomputedFrom": "10ml당 70원",
     "bottlePrice": 1722,
     "unitEach": "병당 약 1,722원",
-    "image": "images/뉴케어-올프로틴-고소한맛-245ml-24개.jpg",
+    "image": "images/nyukeeo-olpeurotin-gosohanmat-245ml-24gae.jpg",
     "protein_g_per_bottle": 25,
     "kcal_per_bottle": 135,
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
@@ -1187,7 +1187,7 @@ const PRODUCTS = [
     "proteinPerG": 69
   },
   {
-    "id": "매일두유-99-9-서리태-24개-190ml",
+    "id": "maeilduyu-99-9-seoritae-24gae-190ml",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "매일두유",
@@ -1209,7 +1209,7 @@ const PRODUCTS = [
     "unitPrice": "100ml당 382원",
     "bottlePrice": 726,
     "unitEach": "병당 약 726원",
-    "image": "images/매일두유-99-9-서리태-24개-190ml.jpg",
+    "image": "images/maeilduyu-99-9-seoritae-24gae-190ml.jpg",
     "protein_g_per_bottle": 9,
     "kcal_per_bottle": 95,
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
@@ -1224,7 +1224,7 @@ const PRODUCTS = [
     "proteinPerG": 81
   },
   {
-    "id": "아몬드브리즈-뉴트리플러스-프로틴-190ml-24개",
+    "id": "amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "아몬드브리즈",
@@ -1246,7 +1246,7 @@ const PRODUCTS = [
     "unitPrice": "100ml당 384원",
     "bottlePrice": 729,
     "unitEach": "병당 약 729원",
-    "image": "images/아몬드브리즈-뉴트리플러스-프로틴-190ml-24개.jpg",
+    "image": "images/amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae.jpg",
     "protein_g_per_bottle": 6,
     "kcal_per_bottle": 60,
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
@@ -1261,7 +1261,7 @@ const PRODUCTS = [
     "proteinPerG": 121
   },
   {
-    "id": "더단백-드링크-딸기-250ml-18개",
+    "id": "deodanbaek-deuringkeu-ttalgi-250ml-18gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "더단백",
@@ -1283,7 +1283,7 @@ const PRODUCTS = [
     "unitPriceRecomputedFrom": "10ml당 52원",
     "bottlePrice": 1294,
     "unitEach": "병당 약 1,294원",
-    "image": "images/더단백-드링크-딸기-250ml-18개.jpg",
+    "image": "images/deodanbaek-deuringkeu-ttalgi-250ml-18gae.jpg",
     "protein_g_per_bottle": 20,
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
@@ -1297,7 +1297,7 @@ const PRODUCTS = [
     "proteinPerG": 65
   },
   {
-    "id": "더단백-드링크-커피-A-250ml-18개",
+    "id": "deodanbaek-deuringkeu-keopi-a-250ml-18gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "더단백",
@@ -1319,7 +1319,7 @@ const PRODUCTS = [
     "unitPriceRecomputedFrom": "10ml당 53원",
     "bottlePrice": 1321,
     "unitEach": "병당 약 1,321원",
-    "image": "images/더단백-드링크-커피-A-250ml-18개.jpg",
+    "image": "images/deodanbaek-deuringkeu-keopi-a-250ml-18gae.jpg",
     "protein_g_per_bottle": 20,
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
@@ -1333,7 +1333,7 @@ const PRODUCTS = [
     "proteinPerG": 66
   },
   {
-    "id": "테이크핏-맥스-초코맛-프로틴-250ml-24개",
+    "id": "teikeupit-maekseu-chokomat-peurotin-250ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "테이크핏",
@@ -1351,7 +1351,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 533,
     "unitPrice": "100ml당 533원",
     "unitEach": "병당 약 1,333원",
-    "image": "images/테이크핏-맥스-초코맛-프로틴-250ml-24개.jpg",
+    "image": "images/teikeupit-maekseu-chokomat-peurotin-250ml-24gae.jpg",
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
     "proteinStatus": "24g",
@@ -1366,7 +1366,7 @@ const PRODUCTS = [
     "proteinPerG": 56
   },
   {
-    "id": "하이뮨-프로틴-밸런스-액티브-오리지널-250ml-18개",
+    "id": "haimyun-peurotin-baelreonseu-aektibeu-orijineol-250ml-18gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "하이뮨",
@@ -1384,7 +1384,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 622,
     "unitPrice": "100ml당 622원",
     "unitEach": "병당 약 1,556원",
-    "image": "images/하이뮨-프로틴-밸런스-액티브-오리지널-250ml-18개.jpg",
+    "image": "images/haimyun-peurotin-baelreonseu-aektibeu-orijineol-250ml-18gae.jpg",
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
     "proteinStatus": "20g",
@@ -1399,7 +1399,7 @@ const PRODUCTS = [
     "proteinPerG": 78
   },
   {
-    "id": "셀렉스-프로핏-모카-초콜릿-250ml-18개",
+    "id": "selrekseu-peuropit-moka-chokolrit-250ml-18gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "셀렉스",
@@ -1417,7 +1417,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 553,
     "unitPrice": "100ml당 553원",
     "unitEach": "병당 약 1,383원",
-    "image": "images/셀렉스-프로핏-모카-초콜릿-250ml-18개.jpg",
+    "image": "images/selrekseu-peuropit-moka-chokolrit-250ml-18gae.jpg",
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
     "proteinStatus": "20g",
@@ -1432,7 +1432,7 @@ const PRODUCTS = [
     "proteinPerG": 69
   },
   {
-    "id": "마이밀-뉴프로틴-드링크-오리지널-190ml-30개",
+    "id": "maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "마이밀",
@@ -1449,7 +1449,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 535,
     "unitPrice": "100ml당 535원",
     "unitEach": "병당 약 1,017원",
-    "image": "images/마이밀-뉴프로틴-드링크-오리지널-190ml-30개.png",
+    "image": "images/maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae.png",
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
     "kcalStatus": "150kcal",
@@ -1462,7 +1462,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "닥터유-프로-단백질-40g-드링크-초코-350ml-6개",
+    "id": "dakteoyu-peuro-danbaekjil-40g-deuringkeu-choko-350ml-6gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "닥터유",
@@ -1478,7 +1478,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 786,
     "unitPrice": "100ml당 786원",
     "unitEach": "병당 약 2,750원",
-    "image": "images/닥터유-프로-단백질-40g-드링크-초코-350ml-6개.png",
+    "image": "images/dakteoyu-peuro-danbaekjil-40g-deuringkeu-choko-350ml-6gae.png",
     "container": "pet-small",
     "nutritionCheckedAt": "2026-11-15 20:00",
     "nutritionCheckedLabel": "11/15 20:00 쿠팡 상품 페이지 기준",
@@ -1495,7 +1495,7 @@ const PRODUCTS = [
     "proteinPerG": 69
   },
   {
-    "id": "더단백-40g-고함량-드링크-더블초코-350ml-20개",
+    "id": "deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "더단백",
@@ -1511,7 +1511,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 758,
     "unitPrice": "100ml당 758원",
     "unitEach": "병당 약 2,654원",
-    "image": "images/더단백-40g-고함량-드링크-더블초코-350ml-20개.jpg",
+    "image": "images/deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae.jpg",
     "container": "pet-small",
     "nutritionCheckedAt": "2026-11-15 20:00",
     "nutritionCheckedLabel": "11/15 20:00 쿠팡 상품 페이지 기준",
@@ -1530,7 +1530,7 @@ const PRODUCTS = [
     "proteinPerG": 66
   },
   {
-    "id": "닥터유-단백질드링크-딸기-40g-350ml-6개",
+    "id": "dakteoyu-danbaekjildeuringkeu-ttalgi-40g-350ml-6gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "닥터유",
@@ -1546,7 +1546,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 813,
     "unitPrice": "100ml당 813원",
     "unitEach": "병당 약 2,845원",
-    "image": "images/닥터유-단백질드링크-딸기-40g-350ml-6개.png",
+    "image": "images/dakteoyu-danbaekjildeuringkeu-ttalgi-40g-350ml-6gae.png",
     "container": "pet-small",
     "nutritionCheckedAt": "2026-11-15 20:00",
     "nutritionCheckedLabel": "11/15 20:00 쿠팡 상품 페이지 기준",
@@ -1563,7 +1563,7 @@ const PRODUCTS = [
     "proteinPerG": 71
   },
   {
-    "id": "더단백-드링크-다크초코-330ml-12개",
+    "id": "deodanbaek-deuringkeu-dakeuchoko-330ml-12gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "더단백",
@@ -1579,7 +1579,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 711,
     "unitPrice": "100ml당 711원",
     "unitEach": "병당 약 2,345원",
-    "image": "images/더단백-드링크-다크초코-330ml-12개.jpg",
+    "image": "images/deodanbaek-deuringkeu-dakeuchoko-330ml-12gae.jpg",
     "container": "pet-small",
     "nutritionCheckedAt": "2026-11-15 20:00",
     "nutritionCheckedLabel": "11/15 20:00 쿠팡 상품 페이지 기준",
@@ -1599,7 +1599,7 @@ const PRODUCTS = [
     "proteinPerG": 67
   },
   {
-    "id": "스파클-스파클링-탄산수-플레인-500ml-20병",
+    "id": "seupakeul-seupakeulring-tansansu-peulrein-500ml-20byeong",
     "group": "탄산수",
     "category": "sparkling",
     "platform": "toss",
@@ -1619,7 +1619,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 89,
     "unitPrice": "100ml당 89원",
     "unitEach": "병당 약 445원",
-    "image": "images/스파클-스파클링-탄산수-플레인-500ml-20병.png",
+    "image": "images/seupakeul-seupakeulring-tansansu-peulrein-500ml-20byeong.png",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": "none",
@@ -1629,7 +1629,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "스파클-생수-무라벨-500ml-40병",
+    "id": "seupakeul-saengsu-murabel-500ml-40byeong",
     "group": "생수",
     "category": "water",
     "platform": "toss",
@@ -1650,7 +1650,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 44,
     "unitPrice": "100ml당 44원",
     "unitEach": "병당 약 222원",
-    "image": "images/스파클-생수-무라벨-500ml-40병.jpeg",
+    "image": "images/seupakeul-saengsu-murabel-500ml-40byeong.jpeg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": "none",
@@ -1660,7 +1660,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "해태htb-갈배사이다-제로-355ml-24개",
+    "id": "haetaehtb-galbaesaida-jero-355ml-24gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "갈배사이다",
@@ -1677,7 +1677,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 140,
     "unitPrice": "100ml당 140원",
     "unitEach": "개당 약 496원",
-    "image": "images/해태htb-갈배사이다-제로-355ml-24개.jpg",
+    "image": "images/haetaehtb-galbaesaida-jero-355ml-24gae.jpg",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -1689,7 +1689,7 @@ const PRODUCTS = [
     "discountPct": 40
   },
   {
-    "id": "스프라이트-제로-사이다-350ml-24개",
+    "id": "seupeuraiteu-jero-saida-350ml-24gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "스프라이트",
@@ -1706,7 +1706,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 172,
     "unitPrice": "100ml당 172원",
     "unitEach": "개당 약 602원",
-    "image": "images/스프라이트-제로-사이다-350ml-24개.jpg",
+    "image": "images/seupeuraiteu-jero-saida-350ml-24gae.jpg",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -1718,7 +1718,7 @@ const PRODUCTS = [
     "discountPct": 37
   },
   {
-    "id": "웰치스-제로-그레이프맛-355ml-24개",
+    "id": "welchiseu-jero-geureipeumat-355ml-24gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "웰치스",
@@ -1735,7 +1735,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 192,
     "unitPrice": "100ml당 192원",
     "unitEach": "개당 약 683원",
-    "image": "images/웰치스-제로-그레이프맛-355ml-24개.jpg",
+    "image": "images/welchiseu-jero-geureipeumat-355ml-24gae.jpg",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -1745,7 +1745,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "초록매실-스파클링-제로-캔-350ml-24개",
+    "id": "chorokmaesil-seupakeulring-jero-kaen-350ml-24gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "초록매실",
@@ -1762,7 +1762,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 161,
     "unitPrice": "100ml당 161원",
     "unitEach": "개당 약 563원",
-    "image": "images/초록매실-스파클링-제로-캔-350ml-24개.png",
+    "image": "images/chorokmaesil-seupakeulring-jero-kaen-350ml-24gae.png",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -1774,7 +1774,7 @@ const PRODUCTS = [
     "discountPct": 2
   },
   {
-    "id": "클룹-제로소다-포도-250ml-24개",
+    "id": "keulrup-jerosoda-podo-250ml-24gae",
     "group": "제로사이다",
     "category": "cider",
     "brand": "클룹",
@@ -1791,7 +1791,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 265,
     "unitPrice": "100ml당 265원",
     "unitEach": "개당 약 663원",
-    "image": "images/클룹-제로소다-포도-250ml-24개.jpg",
+    "image": "images/keulrup-jerosoda-podo-250ml-24gae.jpg",
     "container": "can",
     "caffeine": "none",
     "aspartame": null,
@@ -1803,7 +1803,7 @@ const PRODUCTS = [
     "discountPct": 11
   },
   {
-    "id": "게토레이-제로-600ml-24개",
+    "id": "getorei-jero-600ml-24gae",
     "group": "제로 이온음료",
     "category": "ion",
     "brand": "게토레이",
@@ -1820,7 +1820,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 134,
     "unitPrice": "100ml당 134원",
     "unitEach": "개당 약 804원",
-    "image": "images/게토레이-제로-600ml-24개.png",
+    "image": "images/getorei-jero-600ml-24gae.png",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -1830,7 +1830,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "이프로-부족할때-제로-복숭아-500ml-24개",
+    "id": "ipeuro-bujokhalttae-jero-boksunga-500ml-24gae",
     "group": "제로 이온음료",
     "category": "ion",
     "brand": "이프로",
@@ -1847,7 +1847,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 143,
     "unitPrice": "100ml당 143원",
     "unitEach": "개당 약 713원",
-    "image": "images/이프로-부족할때-제로-복숭아-500ml-24개.jpg",
+    "image": "images/ipeuro-bujokhalttae-jero-boksunga-500ml-24gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -1857,7 +1857,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "보성홍차-아이스티-제로-애플-샤인머스캣-500ml-24개",
+    "id": "boseonghongcha-aiseuti-jero-aepeul-syainmeoseukaet-500ml-24gae",
     "group": "제로 아이스티",
     "category": "icetea",
     "brand": "보성홍차",
@@ -1874,7 +1874,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 141,
     "unitPrice": "100ml당 141원",
     "unitEach": "개당 약 704원",
-    "image": "images/보성홍차-아이스티-제로-애플-샤인머스캣-500ml-24개.jpg",
+    "image": "images/boseonghongcha-aiseuti-jero-aepeul-syainmeoseukaet-500ml-24gae.jpg",
     "container": "pet-small",
     "caffeine": "contains",
     "aspartame": null,
@@ -1886,7 +1886,7 @@ const PRODUCTS = [
     "discountPct": 67
   },
   {
-    "id": "펩시-제로슈거-피치향-355ml-24개",
+    "id": "pepsi-jerosyugeo-pichihyang-355ml-24gae",
     "group": "제로콜라",
     "category": "cola",
     "brand": "펩시",
@@ -1903,7 +1903,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 187,
     "unitPrice": "100ml당 187원",
     "unitEach": "개당 약 662원",
-    "image": "images/펩시-제로슈거-피치향-355ml-24개.png",
+    "image": "images/pepsi-jerosyugeo-pichihyang-355ml-24gae.png",
     "container": "can",
     "caffeine": "contains",
     "aspartame": null,
@@ -1913,7 +1913,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "레드불-슈가프리-250ml-24개",
+    "id": "redeubul-syugapeuri-250ml-24gae",
     "group": "제로 에너지드링크",
     "category": "energy",
     "brand": "레드불",
@@ -1930,7 +1930,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 917,
     "unitPrice": "100ml당 917원",
     "unitEach": "개당 약 2,292원",
-    "image": "images/레드불-슈가프리-250ml-24개.jpg",
+    "image": "images/redeubul-syugapeuri-250ml-24gae.jpg",
     "container": "can",
     "caffeine": "contains",
     "aspartame": null,
@@ -1940,7 +1940,7 @@ const PRODUCTS = [
     "priceHistoryDays": 1
   },
   {
-    "id": "맛있는두유GT-고단백-두유-190ml-24개",
+    "id": "matitneunduyugt-godanbaek-duyu-190ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "맛있는두유GT",
@@ -1957,7 +1957,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 293,
     "unitPrice": "100ml당 293원",
     "unitEach": "병당 약 556원",
-    "image": "images/맛있는두유GT-고단백-두유-190ml-24개.jpg",
+    "image": "images/matitneunduyugt-godanbaek-duyu-190ml-24gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -1974,7 +1974,7 @@ const PRODUCTS = [
     "proteinPerG": 43
   },
   {
-    "id": "케어웰-밸런스N-고단백-바나나맛-200ml-60개",
+    "id": "keeowel-baelreonseun-godanbaek-bananamat-200ml-60gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "케어웰",
@@ -1991,7 +1991,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 710,
     "unitPrice": "100ml당 710원",
     "unitEach": "병당 약 1,426원",
-    "image": "images/케어웰-밸런스N-고단백-바나나맛-200ml-60개.jpg",
+    "image": "images/keeowel-baelreonseun-godanbaek-bananamat-200ml-60gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -2011,7 +2011,7 @@ const PRODUCTS = [
     "kcalStatus": "200kcal"
   },
   {
-    "id": "허쉬-초콜릿-드링크-프로틴-235ml-24개",
+    "id": "heoswi-chokolrit-deuringkeu-peurotin-235ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "허쉬",
@@ -2028,7 +2028,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 353,
     "unitPrice": "100ml당 353원",
     "unitEach": "병당 약 829원",
-    "image": "images/허쉬-초콜릿-드링크-프로틴-235ml-24개.jpg",
+    "image": "images/heoswi-chokolrit-deuringkeu-peurotin-235ml-24gae.jpg",
     "container": "pet-small",
     "caffeine": "contains",
     "aspartame": null,
@@ -2045,7 +2045,7 @@ const PRODUCTS = [
     "proteinPerG": 104
   },
   {
-    "id": "연세두유-고단백-검은콩-앤-고칼슘-저당-190ml-32개",
+    "id": "yeonseduyu-godanbaek-geomeunkong-aen-gokalsyum-jeodang-190ml-32gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "연세두유",
@@ -2062,7 +2062,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 414,
     "unitPrice": "100ml당 414원",
     "unitEach": "병당 약 788원",
-    "image": "images/연세두유-고단백-검은콩-앤-고칼슘-저당-190ml-32개.jpg",
+    "image": "images/yeonseduyu-godanbaek-geomeunkong-aen-gokalsyum-jeodang-190ml-32gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -2079,7 +2079,7 @@ const PRODUCTS = [
     "kcalStatus": "155kcal"
   },
   {
-    "id": "베지밀-고단백두유-검은콩-190ml-32개",
+    "id": "bejimil-godanbaekduyu-geomeunkong-190ml-32gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "베지밀",
@@ -2096,7 +2096,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 294,
     "unitPrice": "100ml당 294원",
     "unitEach": "병당 약 559원",
-    "image": "images/베지밀-고단백두유-검은콩-190ml-32개.jpg",
+    "image": "images/bejimil-godanbaekduyu-geomeunkong-190ml-32gae.jpg",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -2111,7 +2111,7 @@ const PRODUCTS = [
     "proteinPerG": 47
   },
   {
-    "id": "연세두유-고단백-Pro-플레인-240ml-32개",
+    "id": "yeonseduyu-godanbaek-pro-peulrein-240ml-32gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "연세두유",
@@ -2128,7 +2128,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 389,
     "unitPrice": "100ml당 389원",
     "unitEach": "병당 약 934원",
-    "image": "images/연세두유-고단백-Pro-플레인-240ml-32개.png",
+    "image": "images/yeonseduyu-godanbaek-pro-peulrein-240ml-32gae.png",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -2147,7 +2147,7 @@ const PRODUCTS = [
     "kcalStatus": "180kcal"
   },
   {
-    "id": "빙그레-요플레-프로틴-드링크-딸기바나나-210ml-12개",
+    "id": "binggeure-yopeulre-peurotin-deuringkeu-ttalgibanana-210ml-12gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "요플레",
@@ -2164,7 +2164,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 972,
     "unitPrice": "100ml당 972원",
     "unitEach": "병당 약 2,042원",
-    "image": "images/빙그레-요플레-프로틴-드링크-딸기바나나-210ml-12개.png",
+    "image": "images/binggeure-yopeulre-peurotin-deuringkeu-ttalgibanana-210ml-12gae.png",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -2179,7 +2179,7 @@ const PRODUCTS = [
     "proteinPerG": 120
   },
   {
-    "id": "마이프로틴-드링크-시그니처-초콜릿-340ml-24개",
+    "id": "maipeurotin-deuringkeu-sigeunicheo-chokolrit-340ml-24gae",
     "group": "단백질 음료",
     "category": "protein",
     "brand": "마이프로틴",
@@ -2196,7 +2196,7 @@ const PRODUCTS = [
     "unitPricePer100ml": 700,
     "unitPrice": "100ml당 700원",
     "unitEach": "병당 약 2,373원",
-    "image": "images/마이프로틴-드링크-시그니처-초콜릿-340ml-24개.jpg",
+    "image": "images/maipeurotin-deuringkeu-sigeunicheo-chokolrit-340ml-24gae.jpg",
     "container": "pet-small",
     "caffeine": "contains",
     "aspartame": null,
