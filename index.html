@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교</title>
-  <meta name="description" content="제로 음료는 100ml당, 단백질 음료·쉐이크는 1회 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 확인한 시각 기준이며, 가격은 바뀔 수 있어요.">
+  <meta name="description" content="제로 음료는 100ml당, 단백질 음료·쉐이크와 식단 고기는 단백질 20g당·100g당 가격으로 비교해요. 60일 최저가 대비까지 한눈에. 가격은 바뀔 수 있어요.">
   <meta name="theme-color" content="#2FBE8C">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -18,131 +18,159 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="띠니마트">
   <meta property="og:title" content="띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교">
-  <meta property="og:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크는 1회 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta property="og:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크와 식단 고기는 단백질 20g당·100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
   <meta property="og:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
   <meta property="og:image:alt" content="띠니마트 아이콘">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교">
-  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크는 1회 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크와 식단 고기는 단백질 20g당·100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
   <meta name="twitter:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <a class="skip" href="#products">상품 목록으로 건너뛰기</a>
+<body data-tab="home">
+  <a class="skip" href="#main">본문으로 건너뛰기</a>
 
   <div class="legal" role="note">
     이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
   </div>
 
-  <header class="top">
-    <div class="top-inner">
-      <a class="brand" href="#top" aria-label="띠니마트 홈">
-        <img class="mark-img" src="images/icon-192.png" alt="" width="40" height="40" decoding="async">
+  <header class="hdr">
+    <div class="hdr-in">
+      <a class="brand" href="#home" data-goto="home" aria-label="띠니마트 홈">
+        <img class="mark-img" src="images/icon-192.png" alt="" width="34" height="34" decoding="async">
         <span class="word">
           <strong>띠니마트</strong>
-          <em>운동·식단러를 위한 단가·성분 비교 마트</em>
+          <em>단가·성분 비교</em>
         </span>
       </a>
-    </div>
-    <div class="shortcut-wrap">
-      <div class="shortcut-row">
-        <button type="button" class="shortcut-btn" data-shortcut>📲 띠니 마트 바로가기 추가</button>
-        <button type="button" class="share-btn" data-share>🔗 마트 공유하기</button>
-      </div>
-      <p class="shortcut-sub">한 번 추가하면 홈 화면에서 '띠니마트'로 바로 열려요</p>
+      <nav class="topnav" id="topnav" aria-label="주요 메뉴"></nav>
+      <button type="button" class="hdr-share" data-share aria-label="띠니마트 공유하기">🔗</button>
     </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
+  <main id="main">
+    <section class="hero" id="hero" aria-label="띠니마트 소개">
       <p class="eyebrow">제로음료 · 단백질(WPI·WPC·ISP) · 식단 고기</p>
       <h1>띠니마트</h1>
       <div class="update-band" id="update-band" aria-label="가격 업데이트 안내">
         <div class="update-when">
           <span class="update-lab">마지막 업데이트</span>
           <p class="update-date"><strong id="update-date-big">11/16</strong><span class="update-weekday" id="update-weekday">(월)</span></p>
-          <span class="update-full" id="update-date-full">2026.11.16</span>
         </div>
         <div class="update-cycle">
           <span class="update-cycle-main"><span class="update-ico" aria-hidden="true">🔄</span><span id="update-cycle-main">매일 오전 9시 가격 자동 업데이트</span></span>
           <span class="update-cycle-note" id="update-cycle-note">쿠팡·토스 가격을 다시 확인해요</span>
         </div>
       </div>
-      <p class="lead">운동·식단러를 위한 단가 &amp; 성분 비교 — 제로는 100ml당, 단백질은 주 성분·함량, 고기는 100g당 영양으로 한눈에 골라 보세요.</p>
-      <p class="when" id="source-when">※ 쿠팡·토스 판매가 기준 · 실시간 변동 가능 (상품별 확인 시각은 카드 하단 표기)</p>
+      <p class="lead">제로 음료는 100ml당, 단백질 음료·쉐이크와 고기는 단백질 20g당 —<br>같은 돈으로 뭐가 제일 남는지 단가로 골라 보세요.</p>
     </section>
 
-    <div class="search-wrap" id="search-wrap">
+    <div class="toolbar" id="toolbar">
       <div class="search-box">
         <span class="search-ico" aria-hidden="true">🔍</span>
         <input class="search-input" id="search-input" type="search" inputmode="search" autocomplete="off"
-               placeholder="상품명·브랜드·부위 검색 (예: 펩시, 셀렉스, 닭가슴살)" aria-label="상품 검색">
+               placeholder="상품명·브랜드·부위 검색 (펩시, 셀렉스, 닭가슴살)" aria-label="상품 검색">
         <button type="button" class="search-clear" id="search-clear" aria-label="검색어 지우기" hidden>✕</button>
       </div>
       <p class="search-status" id="search-status" hidden></p>
     </div>
 
-    <div class="tabs-wrap" id="tabs-wrap">
-      <nav class="parts" id="parts" aria-label="대분류"></nav>
-      <div class="filter-row" id="row-part" hidden>
-        <span class="filter-lab" aria-hidden="true">종류</span>
-        <nav class="filters part-filters" id="part-filters" aria-label="종류별 세부 분류"></nav>
+    <!-- ── 홈 ─────────────────────────────────────────── -->
+    <section class="view" id="view-home" data-view="home">
+      <div class="quick-row">
+        <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
+        <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
       </div>
-      <div class="filter-row" id="row-container">
-        <span class="filter-lab" aria-hidden="true">용기</span>
-        <nav class="filters" id="filters" aria-label="용기"></nav>
-      </div>
-      <div class="filter-row" id="row-ingredient">
-        <span class="filter-lab" aria-hidden="true">성분</span>
-        <nav class="filters ingredients" id="ingredients" aria-label="성분"></nav>
-      </div>
-      <p class="ing-note">성분표 확인된 상품만 표시</p>
-    </div>
 
-    <p class="cat-note" id="cat-note" hidden></p>
-
-    <nav class="sorts" id="sorts" aria-label="비교 기준"></nav>
-
-    <section class="deals" id="deals" hidden>
-      <h2 id="deals-title">오늘 할인 큰 순 TOP 3</h2>
-      <div class="deals-row" id="deals-row"></div>
-    </section>
-
-    <section id="products" class="shelf" aria-live="polite">
-      <h2 class="visually-hidden">상품</h2>
-      <div class="grid" id="grid"></div>
-      <div class="empty" id="empty" hidden>
-        <p class="empty-text" id="empty-text">이 분류에 해당하는 상품이 없어요.</p>
-        <div class="empty-actions" id="empty-actions" hidden>
-          <button type="button" class="empty-btn" id="empty-clear">검색어 지우기</button>
-          <button type="button" class="empty-btn is-primary" id="empty-reset">전체에서 다시 찾기</button>
+      <section class="deals" id="deals" hidden aria-label="오늘의 특가">
+        <div class="sec-head">
+          <h2 id="deals-title">오늘 특가 TOP 3</h2>
+          <button type="button" class="sec-more" data-goto="hotdeal">핫딜 전체 →</button>
         </div>
+        <div class="deals-row" id="deals-row"></div>
+      </section>
+
+      <div class="panel" data-controls="home"></div>
+
+      <div class="sec-head">
+        <h2>전체 상품 <span class="sec-count" id="home-count"></span></h2>
+        <span class="sec-sub" id="home-sub">분류별로 단가가 낮은 순</span>
       </div>
+      <div class="shelf" id="home-list"></div>
     </section>
 
-    <section class="compare" id="compare" hidden>
-      <h2>한눈에 비교</h2>
-      <div class="compare-wrap">
-        <table class="compare-table" id="compare-table"></table>
+    <!-- ── 카테고리 ───────────────────────────────────── -->
+    <section class="view" id="view-category" data-view="category" hidden>
+      <div class="view-head">
+        <h1>카테고리</h1>
+        <p>대분류와 종류·용기·성분으로 좁혀 보기</p>
       </div>
+      <nav class="parts" id="parts" aria-label="대분류"></nav>
+      <div class="filters-wrap" id="filters-wrap">
+        <div class="filter-row" id="row-part" hidden>
+          <span class="filter-lab">종류</span>
+          <nav class="filters" id="part-filters" aria-label="종류별 세부 분류"></nav>
+        </div>
+        <div class="filter-row" id="row-container">
+          <span class="filter-lab">용기</span>
+          <nav class="filters" id="filters" aria-label="용기"></nav>
+        </div>
+        <div class="filter-row" id="row-ingredient">
+          <span class="filter-lab">성분</span>
+          <nav class="filters ingredients" id="ingredients" aria-label="성분"></nav>
+        </div>
+        <p class="ing-note">성분표가 확인된 상품만 걸러요</p>
+      </div>
+      <div class="panel" data-controls="category"></div>
+      <p class="cat-note" id="cat-note" hidden></p>
+      <div class="shelf" id="cat-list"></div>
+      <section class="compare" id="compare" hidden>
+        <h2>한눈에 비교</h2>
+        <div class="compare-wrap">
+          <table class="compare-table" id="compare-table"></table>
+        </div>
+      </section>
     </section>
+
+    <!-- ── 랭킹 ───────────────────────────────────────── -->
+    <section class="view" id="view-ranking" data-view="ranking" hidden>
+      <div class="view-head">
+        <h1>랭킹</h1>
+        <p>부문별 최저가와 인기 순위 TOP 10</p>
+      </div>
+      <nav class="seg" id="rank-parts" aria-label="부문"></nav>
+      <div class="panel" data-controls="ranking"></div>
+      <p class="rank-note" id="rank-note"></p>
+      <div class="ranking-list" id="rank-list"></div>
+    </section>
+
+    <!-- ── 핫딜 ───────────────────────────────────────── -->
+    <section class="view" id="view-hotdeal" data-view="hotdeal" hidden>
+      <div class="view-head">
+        <h1>핫딜</h1>
+        <p>할인 큰 상품과 60일 저점에 붙은 특가만 모았어요</p>
+      </div>
+      <div class="panel" data-controls="hotdeal"></div>
+      <p class="rank-note" id="deal-note"></p>
+      <div class="deal-list" id="deal-list"></div>
+    </section>
+
+    <footer class="foot">
+      <p class="legal-foot">이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격은 확인한 시각 기준이며, 바뀔 수 있어요. 건강·효능을 약속하지 않아요.</p>
+      <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
+      <div class="quick-row quick-row-foot">
+        <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
+        <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
+      </div>
+      <p class="copy">띠니 · 띠니마트</p>
+    </footer>
   </main>
 
-  <footer class="foot">
-    <p class="legal-foot">이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격은 확인한 시각 기준이며, 바뀔 수 있어요. 건강·효능을 약속하지 않아요.</p>
-    <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
-    <div class="shortcut-wrap shortcut-wrap-foot">
-      <div class="shortcut-row">
-        <button type="button" class="shortcut-btn shortcut-btn-foot" data-shortcut>📲 띠니 마트 바로가기 추가</button>
-        <button type="button" class="share-btn share-btn-foot" data-share>🔗 마트 공유하기</button>
-      </div>
-    </div>
-    <p class="copy">띠니 · 띠니마트</p>
-  </footer>
+  <nav class="tabbar" id="tabbar" aria-label="주요 메뉴"></nav>
 
   <div class="install-modal" id="install-modal" hidden>
     <div class="install-card" role="dialog" aria-modal="true" aria-labelledby="install-title">
