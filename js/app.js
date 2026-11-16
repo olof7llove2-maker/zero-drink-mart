@@ -363,12 +363,15 @@ function lowBadges(p, withAvg = true) {
   const s = lowStats(p);
   if (s.state === "none") return "";
   if (s.state === "tracking") return `<span class="bd bd-track" title="가격 기록을 오늘부터 쌓고 있어요">추적 시작</span>`;
-  let main;
+  const volatile = s.info && s.info.volatile;
+  const warn = volatile ? " · 묶음 구성이 바뀐 기록이 섞여 있어 참고용" : "";
+  const lowIsMeaningful = s.pct <= 3 || !volatile;
+  let main = "";
   if (s.state === "low") {
-    main = `<span class="bd bd-low" title="쿠프라이스가 최근 60일 사이 확인한 최저가와 같거나 낮아요">60일 최저가!</span>`;
+    main = `<span class="bd bd-low" title="쿠프라이스가 최근 60일 사이 확인한 최저가와 같거나 낮아요${warn}">60일 최저가!</span>`;
   } else if (s.state === "near") {
-    main = `<span class="bd bd-near" title="60일 최저가 바로 위">저점 근접 +${s.pct}%</span>`;
-  } else {
+    main = `<span class="bd bd-near" title="60일 최저가 바로 위${warn}">저점 근접 +${s.pct}%</span>`;
+  } else if (lowIsMeaningful) {
     main = `<span class="bd bd-up" title="60일 최저가 대비">저점 대비 +${s.pct}% ▲</span>`;
   }
   let avg = "";
@@ -620,17 +623,19 @@ function emptyNode() {
   return box;
 }
 
-function groupBlock(catId, list) {
+function groupBlock(catId, list, hideHead) {
   const sec = document.createElement("section");
   sec.className = "group-block";
   sec.id = `group-${catId}`;
   const cat = (state.data.categories || []).find((c) => c.id === catId);
-  const head = document.createElement("div");
-  head.className = "group-head";
-  head.innerHTML = `<h2>${cat && cat.icon ? `<span class="cat-ico">${escapeHtml(cat.icon)}</span>` : ""}${escapeHtml(
-    cat ? cat.label : catId
-  )}</h2><span class="group-hint">${escapeHtml(groupHint())}</span>`;
-  sec.appendChild(head);
+  if (!hideHead) {
+    const head = document.createElement("div");
+    head.className = "group-head";
+    head.innerHTML = `<h2>${cat && cat.icon ? `<span class="cat-ico">${escapeHtml(cat.icon)}</span>` : ""}${escapeHtml(
+      cat ? cat.label : catId
+    )}</h2><span class="group-hint">${escapeHtml(groupHint())}</span>`;
+    sec.appendChild(head);
+  }
   const grid = document.createElement("div");
   grid.className = "list";
   sortList(list).forEach((p) => grid.appendChild(cardEl(p)));
@@ -677,7 +682,11 @@ function renderListInto(target, list, opts = {}) {
     if (state.part === "all") section.appendChild(partHead(pid, items.length));
     ids
       .filter((cid) => items.some((p) => p.category === cid))
-      .forEach((cid) => section.appendChild(groupBlock(cid, items.filter((p) => p.category === cid))));
+      .forEach((cid) => {
+        const partLabel = (partById(pid) || {}).label || "";
+        const hideHead = state.part === "all" && categoryLabel(cid) === partLabel;
+        section.appendChild(groupBlock(cid, items.filter((p) => p.category === cid), hideHead));
+      });
     target.appendChild(section);
   });
   if (opts.compare) renderCompare([]);
@@ -1113,7 +1122,12 @@ function hotdealRows() {
   if (state.dealMode === "low") {
     const rows = pool
       .map((p) => ({ p, s: lowStats(p) }))
-      .filter((x) => (x.s.state === "low" || x.s.state === "near" || x.s.state === "above") && x.s.pct <= 30);
+      .filter(
+        (x) =>
+          (x.s.state === "low" || x.s.state === "near" || x.s.state === "above") &&
+          x.s.pct <= 30 &&
+          (x.s.pct <= 3 || (x.s.pctAvg != null && x.s.pctAvg <= -5))
+      );
     rows.sort((a, b) => a.s.pct - b.s.pct);
     return rows.map((x) => x.p);
   }
@@ -1138,7 +1152,7 @@ function renderHotdeal() {
   if (note) {
     note.textContent =
       state.dealMode === "low"
-        ? `쿠프라이스가 최근 60일에 확인한 판매가와 견줘 60일 최저가에서 +30% 안쪽인 상품 ${rows.length}개를 싼 순으로 보여 줘요 · 기록이 없는 상품은 '추적 시작'이에요.`
+        ? `60일 최저가에 붙어 있거나 60일 평균보다 확실히 싼 상품 ${rows.length}개만 모았어요 · 묶음 구성이 바뀐 기록이 있는 상품은 참고값이에요.`
         : `할인율(정가 대비)이 확인된 상품 ${rows.length}개를 할인 큰 순으로 보여 줘요 · 상위 ${shown.length}개.`;
   }
 }
