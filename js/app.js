@@ -1645,12 +1645,6 @@ async function init() {
   if (typeof initPriceModal === "function") initPriceModal();
   applyUrlState();
   renderUpdateBand();
-  const when = $("source-when");
-  if (when) {
-    const src = state.data.site.sourceNote || "";
-    const note = state.data.site.priceNote || "";
-    when.textContent = [src, note].filter(Boolean).join(" ");
-  }
   initSearch();
   paint();
   if (state.highlightId) {

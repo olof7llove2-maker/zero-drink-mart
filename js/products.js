@@ -359,7 +359,7 @@ const PARTS = [
         "sources": [
           "soy"
         ],
-        "note": "분리대두단백(ISP)이 주원료인 식물성 상품이에요."
+        "note": "분리대두단백(ISP)이나 콩(원액두유)이 주원료인 식물성 상품이에요. 두유는 단백질 대부분이 콩에서 오고 일부만 ISP로 보강해요."
       },
       {
         "id": "src-blend",
@@ -1450,7 +1450,11 @@ const PRODUCTS = [
     "lowest30d": 17890,
     "priceHistoryDays": 1,
     "proteinPerG": 62,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(두유·ISP)",
+    "proteinSourceDetail": "원액두유·ISP",
+    "sugarPerServing": 1.7
   },
   {
     "id": "maeilduyu-godanbaek-peulrein-duyu-190ml-24gae",
@@ -1490,7 +1494,11 @@ const PRODUCTS = [
     "lowest30d": 15990,
     "priceHistoryDays": 1,
     "proteinPerG": 56,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(두유·ISP)",
+    "proteinSourceDetail": "원액두유·ISP",
+    "sugarPerServing": 1.2
   },
   {
     "id": "deodanbaek-deuringkeu-choko-250ml-18gae",
@@ -1572,7 +1580,11 @@ const PRODUCTS = [
     "lowest30d": 41320,
     "priceHistoryDays": 1,
     "proteinPerG": 69,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "blend",
+    "proteinSource": "유청+대두 혼합단백",
+    "proteinSourceDetail": "ISP·WPI",
+    "sugarPerServing": 0
   },
   {
     "id": "maeilduyu-99-9-seoritae-24gae-190ml",
@@ -1611,7 +1623,11 @@ const PRODUCTS = [
     "lowest30d": 17430,
     "priceHistoryDays": 1,
     "proteinPerG": 81,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(두유)",
+    "proteinSourceDetail": "원액두유 99.9%",
+    "sugarPerServing": 1.8
   },
   {
     "id": "amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae",
@@ -1650,7 +1666,11 @@ const PRODUCTS = [
     "lowest30d": 17490,
     "priceHistoryDays": 1,
     "proteinPerG": 121,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(ISP)",
+    "proteinSourceDetail": "분리대두단백 단일",
+    "sugarPerServing": 3
   },
   {
     "id": "deodanbaek-deuringkeu-ttalgi-250ml-18gae",
@@ -1688,7 +1708,11 @@ const PRODUCTS = [
     "lowest30d": 23290,
     "priceHistoryDays": 1,
     "proteinPerG": 65,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPC)",
+    "proteinSourceDetail": "분리·농축우유단백",
+    "sugarPerServing": 0.7
   },
   {
     "id": "deodanbaek-deuringkeu-keopi-a-250ml-18gae",
@@ -1756,7 +1780,7 @@ const PRODUCTS = [
     "nutritionCheckedAt": "2026-11-15T19:51:00+09:00",
     "nutritionCheckedLabel": "11/15 19:51 쿠팡 상품 페이지 기준",
     "proteinStatus": "24g",
-    "kcalStatus": "160kcal",
+    "kcalStatus": "106kcal",
     "container": "pet-small",
     "caffeine": "none",
     "aspartame": null,
@@ -1765,7 +1789,11 @@ const PRODUCTS = [
     "lowest30d": 32000,
     "priceHistoryDays": 1,
     "proteinPerG": 56,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "blend",
+    "proteinSource": "유청+대두 혼합단백",
+    "proteinSourceDetail": "ISP·WPI·MPC",
+    "sugarPerServing": 0.7
   },
   {
     "id": "haimyun-peurotin-baelreonseu-aektibeu-orijineol-250ml-18gae",
@@ -1800,7 +1828,11 @@ const PRODUCTS = [
     "lowest30d": 28000,
     "priceHistoryDays": 1,
     "proteinPerG": 78,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPC)",
+    "proteinSourceDetail": "MPC·탈지분유·산양유",
+    "sugarPerServing": 4
   },
   {
     "id": "selrekseu-peuropit-moka-chokolrit-250ml-18gae",
@@ -1871,7 +1903,13 @@ const PRODUCTS = [
     "previousPrice": null,
     "lowest30d": 30500,
     "priceHistoryDays": 1,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "blend",
+    "proteinSource": "동·식물성 복합단백",
+    "proteinSourceDetail": "ISP·카제인·탈지분유",
+    "sugarPerServing": 10,
+    "proteinStatus": "9g",
+    "protein_g_per_bottle": 9
   },
   {
     "id": "dakteoyu-peuro-danbaekjil-40g-deuringkeu-choko-350ml-6gae",
@@ -1906,7 +1944,11 @@ const PRODUCTS = [
     "lowest30d": 16500,
     "priceHistoryDays": 1,
     "proteinPerG": 69,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "blend",
+    "proteinSource": "동·식물성 복합단백",
+    "proteinSourceDetail": "ISP·WPI·분유",
+    "sugarPerServing": 4.8
   },
   {
     "id": "deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae",
@@ -1943,7 +1985,11 @@ const PRODUCTS = [
     "lowest30d": 53070,
     "priceHistoryDays": 1,
     "proteinPerG": 66,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPI)",
+    "proteinSourceDetail": "분리우유단백 100%",
+    "sugarPerServing": 0.8
   },
   {
     "id": "dakteoyu-danbaekjildeuringkeu-ttalgi-40g-350ml-6gae",
@@ -1978,7 +2024,11 @@ const PRODUCTS = [
     "lowest30d": 17070,
     "priceHistoryDays": 1,
     "proteinPerG": 71,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "blend",
+    "proteinSource": "동·식물성 복합단백",
+    "proteinSourceDetail": "ISP·WPI·분유",
+    "sugarPerServing": 4
   },
   {
     "id": "deodanbaek-deuringkeu-dakeuchoko-330ml-12gae",
@@ -2016,7 +2066,11 @@ const PRODUCTS = [
     "lowest30d": 28140,
     "priceHistoryDays": 1,
     "proteinPerG": 67,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPC)",
+    "proteinSourceDetail": "분리·농축우유단백",
+    "sugarPerServing": 0.9
   },
   {
     "id": "seupakeul-seupakeulring-tansansu-peulrein-500ml-20byeong",
@@ -2405,7 +2459,11 @@ const PRODUCTS = [
     "protein_g_per_bottle": 13,
     "proteinStatus": "13g",
     "proteinPerG": 43,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(두유·ISP)",
+    "proteinSourceDetail": "원액두유·ISP",
+    "sugarPerServing": 0.9
   },
   {
     "id": "keeowel-baelreonseun-godanbaek-bananamat-200ml-60gae",
@@ -2439,12 +2497,16 @@ const PRODUCTS = [
     "discountPct": 16,
     "nutritionCheckedAt": "2026-11-15 20:51",
     "nutritionCheckedLabel": "11/15 20:51 쿠팡 상품 페이지 기준",
-    "protein_g_per_bottle": 8,
-    "proteinStatus": "8g",
+    "protein_g_per_bottle": 14,
+    "proteinStatus": "14g",
     "proteinPerG": 178,
     "kcal_per_bottle": 200,
     "kcalStatus": "200kcal",
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "blend",
+    "proteinSource": "동·식물성 복합단백",
+    "proteinSourceDetail": "ISP·카제인",
+    "sugarPerServing": 3
   },
   {
     "id": "heoswi-chokolrit-deuringkeu-peurotin-235ml-24gae",
@@ -2480,7 +2542,11 @@ const PRODUCTS = [
     "protein_g_per_bottle": 8,
     "proteinStatus": "8g",
     "proteinPerG": 104,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(탈지분유)",
+    "proteinSourceDetail": "가공유(초코우유)",
+    "sugarPerServing": 27
   },
   {
     "id": "yeonseduyu-godanbaek-geomeunkong-aen-gokalsyum-jeodang-190ml-32gae",
@@ -2511,12 +2577,16 @@ const PRODUCTS = [
     "priceHistoryDays": 1,
     "nutritionCheckedAt": "2026-11-15 20:51",
     "nutritionCheckedLabel": "11/15 20:51 쿠팡 상품 페이지 기준",
-    "protein_g_per_bottle": 12.9,
-    "proteinStatus": "12.9g",
+    "protein_g_per_bottle": 12,
+    "proteinStatus": "12g",
     "proteinPerG": 61,
     "kcal_per_bottle": 155,
     "kcalStatus": "155kcal",
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(두유)",
+    "proteinSourceDetail": "두유액 기반",
+    "sugarPerServing": 4
   },
   {
     "id": "bejimil-godanbaekduyu-geomeunkong-190ml-32gae",
@@ -2550,7 +2620,11 @@ const PRODUCTS = [
     "protein_g_per_bottle": 12,
     "proteinStatus": "12g",
     "proteinPerG": 47,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(두유·ISP)",
+    "proteinSourceDetail": "원액두유·ISP",
+    "sugarPerServing": 7.5
   },
   {
     "id": "yeonseduyu-godanbaek-pro-peulrein-240ml-32gae",
@@ -2588,7 +2662,11 @@ const PRODUCTS = [
     "proteinPerG": 39,
     "kcal_per_bottle": 180,
     "kcalStatus": "180kcal",
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "soy",
+    "proteinSource": "대두단백(두유·ISP)",
+    "proteinSourceDetail": "ISP·두유액·콜라겐",
+    "sugarPerServing": 2.2
   },
   {
     "id": "binggeure-yopeulre-peurotin-deuringkeu-ttalgibanana-210ml-12gae",
@@ -2622,7 +2700,11 @@ const PRODUCTS = [
     "protein_g_per_bottle": 17,
     "proteinStatus": "17g",
     "proteinPerG": 120,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "whey",
+    "proteinSource": "유청단백(WPC)",
+    "proteinSourceDetail": "WPC·원유",
+    "sugarPerServing": 16.5
   },
   {
     "id": "maipeurotin-deuringkeu-sigeunicheo-chokolrit-340ml-24gae",
@@ -2661,7 +2743,11 @@ const PRODUCTS = [
     "proteinPerG": 85,
     "kcal_per_bottle": 145,
     "kcalStatus": "145kcal",
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPC)",
+    "proteinSourceDetail": "WPI·MPC",
+    "sugarPerServing": 0
   },
   {
     "platform": "toss",
@@ -4127,7 +4213,11 @@ const PRODUCTS = [
     "kcal_per_bottle": null,
     "proteinStatus": "20g",
     "proteinUnitLabel": "병당 단백질",
-    "proteinPerG": 81
+    "proteinPerG": 81,
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPC)",
+    "proteinSourceDetail": "농축유단백·탈지분유",
+    "sugarPerServing": 8
   },
   {
     "part": "meat",
