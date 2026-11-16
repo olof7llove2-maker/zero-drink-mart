@@ -33,7 +33,7 @@ def container_of(p):
     v = p.get("volumeMl")
     if not v:
         return None
-    return "can" if v <= 270 else ("pet-small" if v <= 700 else "pet-large")
+    return "can" if v <= 360 else ("pet-small" if v <= 700 else "pet-large")
 
 
 def unit_kind(p):

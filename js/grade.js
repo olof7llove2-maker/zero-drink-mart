@@ -41,7 +41,8 @@ function containerClass(p) {
 function containerFromVolume(volumeMl) {
   const v = Number(volumeMl);
   if (!v) return null;
-  if (v <= 270) return "can";
+  /* 캔은 190~360ml(355ml 표준캔 포함), 그 위는 페트 */
+  if (v <= 360) return "can";
   if (v <= 700) return "pet-small";
   return "pet-large";
 }
@@ -183,10 +184,10 @@ function signedPct(pct) {
 function gradeLineHTML(p) {
   const g = gradeForProduct(p);
   if (!g) return "";
-  const title = `${g.market.label} ${won(Math.round(g.market.value))}원/${g.label} (표본 ${g.market.sample}개) · ${g.days}일 관측 기록 기준`;
+  const title = `${g.market.label} ${won(Math.round(g.market.value))}/${g.label} (표본 ${g.market.sample}개) · ${g.days}일 관측 기록 기준`;
   return `<p class="grade-line" title="${escapeHtml(title)}"><span class="grade-badge ${g.band.cls}">${g.band.id}</span><span class="grade-note">${escapeHtml(
     g.market.shortLabel
-  )} <b>${won(Math.round(g.market.value))}</b>원/${g.label} 대비 <b>${signedPct(g.pct)}</b></span></p>`;
+  )} <b>${won(Math.round(g.market.value))}</b>/${g.label} 대비 <b>${signedPct(g.pct)}</b></span></p>`;
 }
 
 /* ── 제목에서 값 읽기 ───────────────────────────────────── */

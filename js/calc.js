@@ -62,12 +62,24 @@ function calcUnitKind() {
   return "per100ml";
 }
 
+/* 용량만으로는 350ml 캔과 350ml 페트를 가릴 수 없어, 같은 분류에서 같은 용량의 상품 용기를 먼저 찾습니다. */
 function calcContainer(vol) {
   if (calcUnitKind() === "per100g") {
     const cat = (state.data.categories || []).find((c) => c.id === calcState.category);
     return cat && cat.part === "meat" ? "raw" : "powder";
   }
-  return containerFromVolume(vol);
+  const pool = (state.data.products || []).filter((p) => p.category === calcState.category && p.volumeMl && p.container);
+  const exact = pool.filter((p) => Number(p.volumeMl) === Number(vol));
+  const near = pool.filter((p) => Math.abs(Number(p.volumeMl) - Number(vol)) <= Number(vol) * 0.1);
+  const pick = (list) => {
+    if (!list.length) return null;
+    const count = {};
+    list.forEach((p) => {
+      count[p.container] = (count[p.container] || 0) + 1;
+    });
+    return Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+  };
+  return pick(exact) || pick(near) || containerFromVolume(vol);
 }
 
 function calcKvHTML(rows) {
@@ -109,7 +121,7 @@ function runCalc() {
     head = `<div class="calc-verdict">
       <span class="grade-badge ${band.cls}">${band.id}</span>
       <p class="calc-verdict-t">${escapeHtml(band.verdict)}</p>
-      <p class="calc-verdict-sub">${escapeHtml(market.label)} <b>${won(Math.round(market.value))}</b>원/${unitLabel} 대비 <b class="${pct <= 0 ? "minus" : "plus"}">${signedPct(
+      <p class="calc-verdict-sub">${escapeHtml(market.label)} <b>${won(Math.round(market.value))}</b>/${unitLabel} 대비 <b class="${pct <= 0 ? "minus" : "plus"}">${signedPct(
       pct
     )}</b> · 표본 ${market.sample}개</p>
     </div>`;
@@ -121,11 +133,11 @@ function runCalc() {
   }
 
   const rows = [
-    [unitLabel, `<b>${won(Math.round(unit))}원</b>`],
-    ["1개(캔·병)당", `${won(Math.round(each))}원`],
+    [unitLabel, `<b>${won(Math.round(unit))}</b>`],
+    ["1개(캔·병)당", won(Math.round(each))],
   ];
-  if (protein20) rows.push(["단백질 20g당", `${won(Math.round(protein20))}원`]);
-  rows.push(["총 결제액", `${won(total)}원${ship > 0 ? ` (배송비 ${won(ship)}원 포함)` : ""}`]);
+  if (protein20) rows.push(["단백질 20g당", won(Math.round(protein20))]);
+  rows.push(["총 결제액", `${won(total)}${ship > 0 ? ` (배송비 ${won(ship)} 포함)` : ""}`]);
 
   const shareText = `${calcState.brand ? calcState.brand + " " : ""}${vol}${unitKind === "per100g" ? "g" : "ml"} × ${qty}개 ${won(
     total

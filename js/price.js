@@ -428,7 +428,7 @@ function gradeBlock(p) {
   if (g) {
     return `<div class="pm-block"><h4>지금 사도 될까?</h4>
       <div class="grade-line" style="margin:2px 0 8px"><span class="grade-badge ${g.band.cls}">${g.band.id}</span>
-        <span class="grade-note">${escapeHtml(g.market.label)} <b>${won(Math.round(g.market.value))}</b>원/${g.label} 대비 <b>${signedPct(g.pct)}</b></span></div>
+        <span class="grade-note">${escapeHtml(g.market.label)} <b>${won(Math.round(g.market.value))}</b>/${g.label} 대비 <b>${signedPct(g.pct)}</b></span></div>
       <ul class="pm-list"><li>${escapeHtml(g.band.verdict)}</li>
         <li>${escapeHtml(g.market.label)}는 같은 용기 안 같은 브랜드 상품 ${g.market.sample}개의 단가 중간값이고, 이 상품은 ${g.days}일 관측 기록이 있어요.</li></ul></div>`;
   }
