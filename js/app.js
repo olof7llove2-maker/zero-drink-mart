@@ -317,7 +317,10 @@ function visibleSorts(listArg) {
   order.push("discount", "price");
   if (list.some((p) => p.rating != null)) order.push("rating");
   if (list.some((p) => p.reviewCount != null)) order.push("reviews");
-  return order.map((id) => sorts.find((s) => s.id === id)).filter(Boolean);
+  return order
+    .map((id) => sorts.find((s) => s.id === id))
+    .filter(Boolean)
+    .map((s) => (s.id === "price" && state.part === "meat" ? { ...s, label: "가격" } : s));
 }
 
 /* ── URL ─────────────────────────────────────────────── */
@@ -548,7 +551,11 @@ function renderDeals() {
   const row = $("deals-row");
   const title = $("deals-title");
   if (!sec || !row || !title) return;
-  const { title: heading, items } = topDeals(state.data.products || []);
+  const pool =
+    state.part === "all"
+      ? state.data.products || []
+      : (state.data.products || []).filter((p) => partOf(p) === state.part);
+  const { title: heading, items } = topDeals(pool);
   if (!items.length) {
     sec.hidden = true;
     row.innerHTML = "";
@@ -759,7 +766,9 @@ function chips(p, isProteinCard) {
     const kcalText = kcalLabel(p);
     if (kcalText) parts.push(`<span class="chip chip-kcal">${escapeHtml(kcalText)}</span>`);
   }
-  if (p.unitPrice) parts.push(`<span class="chip chip-unit">${escapeHtml(p.unitPrice)}</span>`);
+  if (p.unitPrice && !meat) {
+    parts.push(`<span class="chip chip-unit">${escapeHtml(p.unitPrice)}</span>`);
+  }
   if (isProteinCard) {
     const perg = proteinPerG(p);
     if (perg != null) {
@@ -1099,7 +1108,7 @@ async function shareMart(p) {
       await navigator.share({ title, text, url });
       return;
     } catch (err) {
-      if (err && (err.name === "AbortError" || err.name === "NotAllowedError")) return;
+      if (err && err.name === "AbortError") return;
     }
   }
   const ok = await copyText(url);

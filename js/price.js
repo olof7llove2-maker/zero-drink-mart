@@ -256,7 +256,7 @@ function trackingBlock(p, entry) {
       ? "과거 기록을 확인하지 못했어요. 다음 수집 때 다시 확인해요."
       : p.platform === "toss"
       ? "토스에서 파는 상품이라 쿠팡 과거 관측 기록이 없어요."
-      : "이 상품은 아직 과거 관측 기록이 없어요. 오늘 확인한 가격부터 쌓아요.";
+      : "이 상품은 아직 과거 관측 기록이 없어요.";
   const max = list || now;
   const listPct = max ? Math.round((now / max) * 100) : 0;
   const bars =
