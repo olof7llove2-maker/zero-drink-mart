@@ -1208,6 +1208,10 @@ main { max-width: var(--max); margin: 0 auto; padding: 4px var(--pad) 48px; }
 }
 .part-filters .chip-ico { font-size: 13px; line-height: 1; }
 .part-filters .chip-n { margin-left: 1px; }
+@media (min-width: 640px) {
+  /* 넓은 화면에서는 세부 분류를 접지 않고 한 번에 다 보여 줌 */
+  .part-filters { flex-wrap: wrap; overflow-x: visible; }
+}
 .part-filters .filter[aria-selected="true"] {
   background: var(--sage);
   border-color: var(--sage);
