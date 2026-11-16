@@ -4,7 +4,7 @@
 `index.html` 하나와 `css/`, `js/`, `images/`, `data/` 자산으로 이루어져 있고, 빌드 없이 그대로 열립니다.
 
 - 배포: https://zero-drink-mart.vercel.app (Vercel, main 브랜치 push 시 자동 배포)
-- 상품 데이터: `js/products.js` (112개 상품). `data/products.json`은 같은 데이터의 JSON 사본이고,
+- 상품 데이터: `js/products.js` (125개 상품). `data/products.json`은 같은 데이터의 JSON 사본이고,
   `js/products.js`가 로드되지 않을 때 사이트가 이 파일로 넘어갑니다. 두 파일 내용은 항상 같게 유지합니다.
 - 첫 화면의 **마지막 업데이트** 날짜는 상품 카드의 `priceCheckedAt` 중 가장 늦은 날짜에서 계산합니다
   (`js/app.js`의 `latestChecked()`). 그래서 가격을 갱신하기만 하면 날짜도 같이 바뀝니다.
@@ -12,7 +12,7 @@
 - 세부 분류는 `CATEGORIES`(이름·이모지)와 `PARTS[].filters`(칩 이름·이모지·한 줄 설명)로 그립니다.
   2026-11-16에 `python3 scripts/update_labels_20261116.py`로 이름을 풀네임으로 다듬었습니다
   (이온 → 이온음료, 에너지 → 에너지음료, 애사비 → 애사비(사과식초), 분말 → 분말·티백 등).
-- 대분류 4단: `PARTS`(전체 112 · 🥤 제로 음료 52 · 💪 단백질 음료·쉐이크 30 · 🥩 식단 고기·조리 30) → `CATEGORIES`(세부 분류).
+- 대분류 4단: `PARTS`(전체 125 · 🥤 제로 음료 52 · 💪 단백질 음료·쉐이크 30 · 🥩 식단 고기·조리 43) → `CATEGORIES`(세부 분류).
   탭에 상품 개수가 함께 표시되고, 세부 분류는 뭉치지 않고 하나씩 나뉩니다.
   (제로: 콜라·사이다·탄산수·생수·차·아이스티·이온음료·에너지음료·애사비(사과식초)·분말·티백 /
    고기: 소고기·돼지고기·닭고기·양고기·오리고기·연어·에어프라이어·조리기구)
@@ -23,7 +23,11 @@
   (이 스크립트는 `const PARTS` 중 **첫 번째** 블록만 바꿉니다. 2026-11-16에 뒤에 남아 있던
   예전 `const PARTS` 사본을 `scripts/update_labels_20261116.py`로 지워, 이제 선언은 하나뿐입니다.)
   `전체`에서는 단백질·제로 음료가 먼저, 고기·조리기구가 맨 뒤에 옵니다.
-- 고기·조리기구 27종은 `data/meat-candidates.json` 원본을 `scripts/merge_meat_products.py`로 합칩니다.
+- 고기·조리기구 43종(소 10 · 돼지 10 · 닭 10 · 양 2 · 오리 3 · 연어 3 · 조리기구 5)은 `data/meat-candidates.json`(초기 27종)과
+  `data/meat-airfryer-candidates.json`(2026-11-17 추가 13종) 원본을 `scripts/merge_meat_products.py`(초기)·
+  `scripts/merge_meat_airfryer_20261117.py`(추가분)로 합칩니다. 후자를 다시 돌려도 13종은 중복으로 들어가지 않습니다.
+- 에어프라이어 조리 팁: 상품에 `airfryerTip`(카드 한 줄 표기, 예: `에프 200℃ 6분→뒤집어 4분`)이 있으면
+  카드의 단백질·지방 줄 아래에 작은 한 줄로 보이고, 마우스를 올리면 `airfryerTipNote`(레스팅·주의사항까지 담은 원문)가 툴팁으로 나옵니다.
 - 구매 링크: 각 상품의 `affiliateUrl`만 사용합니다. 공유 버튼은 제휴 링크가 아니라 마트 주소를 공유합니다.
 - 홈 화면 아이콘: `python3 scripts/make_icons.py` (민트 배경 + 흰 'ㅌ' 캐릭터).
 

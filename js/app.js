@@ -528,6 +528,12 @@ function subLine(p) {
   return bits.filter(Boolean).join(" · ");
 }
 
+function airfryerTipHTML(p) {
+  if (!isMeat(p) || isGadget(p) || !p.airfryerTip) return "";
+  const full = p.airfryerTipNote || p.airfryerTip;
+  return `<p class="pc-tip" title="${escapeHtml(full)}"><span class="pc-tip-ico" aria-hidden="true">🔥</span> ${escapeHtml(p.airfryerTip)}</p>`;
+}
+
 function priceRowHTML(p) {
   if (p.price == null) return "";
   const off = p.discountPct ? `<span class="off">${p.discountPct}%</span>` : "";
@@ -566,6 +572,7 @@ function cardEl(p, opts = {}) {
       <h3 class="pc-name">${escapeHtml(p.name)}</h3>
       ${unitLineHTML(p, opts.unit)}
       <p class="pc-sub">${escapeHtml(opts.showCategory ? `${categoryLabel(p.category)} · ${subLine(p)}` : subLine(p))}</p>
+      ${airfryerTipHTML(p)}
       ${priceRowHTML(p)}
       <div class="pc-deal">${lowBadges(p)}</div>
       ${rateHTML(p)}
