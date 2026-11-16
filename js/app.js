@@ -1,6 +1,5 @@
 const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
 const $ = (id) => document.getElementById(id);
-const CONV_UNIT = 2000;
 const SHARE_BASE = "https://zero-drink-mart.vercel.app";
 
 const state = {
@@ -12,8 +11,7 @@ const state = {
   sort: "per100",
   container: "all",
   ingredient: "all",
-  calcCount: 1,
-  calcTarget: "all",
+  query: "",
   highlightId: null,
 };
 
@@ -82,17 +80,21 @@ function currentFilter(partId, filterId) {
   return partFilters(pid).find((x) => x.id === fid) || null;
 }
 
-/* 단백질 음료 세부 타입: soy(두유·식물성) · choco(초코·커피) · fruit(과일맛) · plain(플레인·고소한) */
-function proteinType(p) {
-  return p.proteinType || "plain";
+/* 단백질 세부 타입: soy(두유·식물성) · choco(초코·커피) · fruit(과일맛) · plain(플레인·고소한)
+   한 상품이 두 타입에 걸릴 수 있어 배열도 받아요(예: 식물성 초코 쉐이크). */
+function proteinTypes(p) {
+  if (Array.isArray(p.proteinType)) return p.proteinType;
+  return [p.proteinType || "plain"];
 }
 
 function matchesFilter(p, f) {
   if (!f) return true;
   const cats = f.cats || [];
   const types = f.types || [];
+  const own = proteinTypes(p);
   if (cats.length && !cats.includes(p.category)) return false;
-  if (types.length && !types.includes(proteinType(p))) return false;
+  if (types.length && !types.some((t) => own.includes(t))) return false;
+  if (f.sources && f.sources.length && !f.sources.includes(p.proteinSourceKey)) return false;
   if (typeof f.proteinMin === "number") {
     const g = proteinValue(p);
     if (g == null || g < f.proteinMin) return false;
@@ -101,7 +103,7 @@ function matchesFilter(p, f) {
 }
 
 function partCount(partId) {
-  const list = state.data.products || [];
+  const list = (state.data.products || []).filter(matchesQuery);
   if (!partId || partId === "all") return list.length;
   return list.filter((p) => partOf(p) === partId).length;
 }
@@ -111,12 +113,50 @@ function filterCount(partId, f, ignorePack) {
   const pack = ignorePack ? "all" : state.container;
   const ing = ignorePack ? "all" : state.ingredient;
   return (state.data.products || []).filter((p) => {
+    if (!matchesQuery(p)) return false;
     if (pid !== "all" && partOf(p) !== pid) return false;
     if (!matchesFilter(p, f)) return false;
-    if (pack && pack !== "all" && !isMeat(p) && p.container !== pack) return false;
+    if (pack && pack !== "all" && !isMeat(p) && !isPowder(p) && p.container !== pack) return false;
     if (ing && ing !== "all" && !isMeat(p) && !matchesIngredient(p, ing)) return false;
     return true;
   }).length;
+}
+
+/* ── 검색 ────────────────────────────────────────────── */
+
+function normText(s) {
+  return String(s == null ? "" : s)
+    .toLowerCase()
+    .replace(/[\s()\[\]{},·\-–—/]+/g, "");
+}
+
+function searchTokens() {
+  return String(state.query || "")
+    .toLowerCase()
+    .split(/\s+/)
+    .map(normText)
+    .filter(Boolean);
+}
+
+function categoryLabelOf(p) {
+  const cat = (state.data.categories || []).find((c) => c.id === p.category);
+  return cat ? cat.label : "";
+}
+
+function searchHaystack(p) {
+  if (!p.__hay) {
+    p.__hay = normText(
+      [p.name, p.brand, p.kind, p.flavor, p.cut, p.cutGroup, p.group, categoryLabelOf(p)].join(" ")
+    );
+  }
+  return p.__hay;
+}
+
+function matchesQuery(p) {
+  const tokens = searchTokens();
+  if (!tokens.length) return true;
+  const hay = searchHaystack(p);
+  return tokens.every((t) => hay.includes(t));
 }
 
 /* ── 단가 계산 ───────────────────────────────────────── */
@@ -207,11 +247,12 @@ function productsIn(partId, filterId, container, ingredient) {
   const pack = container == null ? state.container : container;
   const ing = ingredient == null ? state.ingredient : ingredient;
   let all = (state.data.products || []).filter((p) => {
+    if (!matchesQuery(p)) return false;
     if (pid !== "all" && partOf(p) !== pid) return false;
     return matchesFilter(p, f);
   });
   if (pack && pack !== "all") {
-    all = all.filter((p) => (isMeat(p) ? true : p.container === pack));
+    all = all.filter((p) => (isMeat(p) || isPowder(p) ? true : p.container === pack));
   }
   if (ing && ing !== "all") {
     all = all.filter((p) => (isMeat(p) ? true : matchesIngredient(p, ing)));
@@ -225,7 +266,7 @@ function drinkProducts() {
 
 function categoryOrder() {
   const ids = (state.data.categories || []).filter((c) => c.id !== "all").map((c) => c.id);
-  const protein = ids.filter((id) => id === "protein");
+  const protein = ids.filter((id) => id === "protein" || id === "shake");
   const zero = ids.filter((id) => {
     const cat = state.data.categories.find((c) => c.id === id);
     return cat && cat.part === "zero" && id !== "powder";
@@ -312,7 +353,9 @@ function cheapLabel(p) {
 }
 
 function topProteinIds(list) {
-  const arr = list.filter((p) => p.category === "protein" && proteinValue(p) != null);
+  const arr = list.filter(
+    (p) => (p.category === "protein" || p.category === "shake") && proteinValue(p) != null
+  );
   const ids = new Set();
   if (!arr.length) return ids;
   const m = Math.max(...arr.map((p) => proteinValue(p)));
@@ -333,14 +376,15 @@ function isWeightMeat(catId) {
 
 function defaultSortForCategory(catId) {
   if (catId === "protein") return "protein";
+  if (catId === "shake") return "protein";
   if (catId === "gadget") return "price";
   if (catId === "powder" || isWeightMeat(catId)) return "per100g";
   return "per100";
 }
 
 function sortApplies(key, catId) {
-  if (key === "protein" || key === "proteinPerG") return catId === "protein";
-  if (key === "per100g") return catId === "powder" || isWeightMeat(catId);
+  if (key === "protein" || key === "proteinPerG") return catId === "protein" || catId === "shake";
+  if (key === "per100g") return catId === "powder" || catId === "shake" || isWeightMeat(catId);
   if (key === "per100") {
     return catId !== "protein" && catId !== "powder" && !isWeightMeat(catId) && catId !== "gadget";
   }
@@ -355,7 +399,8 @@ function visibleSorts(listArg) {
   const order = [];
   if (kinds.has("per100ml")) order.push("per100");
   if (kinds.has("per100g")) order.push("per100g");
-  if (list.some((p) => p.category === "protein")) order.push("protein", "proteinPerG");
+  if (list.some((p) => p.category === "protein" || p.category === "shake"))
+    order.push("protein", "proteinPerG");
   order.push("discount", "price");
   if (list.some((p) => p.rating != null)) order.push("rating");
   if (list.some((p) => p.reviewCount != null)) order.push("reviews");
@@ -395,6 +440,7 @@ function syncUrl() {
   put("sort", state.sort === defaultSortFor() ? "" : state.sort);
   put("pack", state.container);
   put("ing", state.ingredient);
+  put("q", state.query.trim());
   put("p", state.highlightId);
   url.searchParams.delete("cat");
   history.replaceState({}, "", url);
@@ -457,6 +503,90 @@ function renderUpdateBand() {
   if (cycleEl) cycleEl.textContent = site.updateCycle || "매일 오전 9시 가격 자동 업데이트";
   if (cycleNoteEl) cycleNoteEl.textContent = site.updateCycleNote || "쿠팡·토스 가격을 다시 확인해요";
   if (band) band.hidden = false;
+}
+
+/* ── 검색 UI ─────────────────────────────────────────── */
+
+function renderSearchStatus() {
+  const status = $("search-status");
+  const clear = $("search-clear");
+  const input = $("search-input");
+  const q = String(state.query || "").trim();
+  if (clear) clear.hidden = !q;
+  if (input && document.activeElement !== input && input.value !== state.query) {
+    input.value = state.query;
+  }
+  if (!status) return;
+  if (!q) {
+    status.hidden = true;
+    status.innerHTML = "";
+    return;
+  }
+  const n = (state.data.products || []).filter(matchesQuery).length;
+  status.hidden = false;
+  status.innerHTML = n
+    ? `🔍 ‘${escapeHtml(q)}’ 검색 결과 <strong>${n}개</strong> <button type="button" class="search-reset" id="search-reset">초기화</button>`
+    : `🔍 ‘${escapeHtml(q)}’ 검색 결과가 없어요`;
+  const reset = $("search-reset");
+  if (reset) reset.addEventListener("click", resetSearch);
+}
+
+function resetSearch() {
+  state.query = "";
+  const input = $("search-input");
+  if (input) input.value = "";
+  paint();
+}
+
+function resetAllFilters() {
+  state.query = "";
+  state.part = "all";
+  state.filter = "all";
+  state.container = "all";
+  state.ingredient = "all";
+  state.highlightId = null;
+  state.sort = defaultSortFor();
+  const input = $("search-input");
+  if (input) input.value = "";
+  paint();
+}
+
+function renderEmpty() {
+  const text = $("empty-text");
+  const actions = $("empty-actions");
+  const q = String(state.query || "").trim();
+  if (text) {
+    text.textContent = q ? `‘${q}’ 검색 결과가 없어요.` : "이 분류에 해당하는 상품이 없어요.";
+  }
+  if (actions) actions.hidden = !q;
+}
+
+function initSearch() {
+  const input = $("search-input");
+  const clear = $("search-clear");
+  if (input) {
+    input.addEventListener("input", () => {
+      state.query = input.value;
+      state.highlightId = null;
+      paint();
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        resetSearch();
+      }
+    });
+  }
+  if (clear) {
+    clear.addEventListener("click", () => {
+      resetSearch();
+      if (input) input.focus();
+    });
+  }
+  const emptyClear = $("empty-clear");
+  if (emptyClear) emptyClear.addEventListener("click", resetSearch);
+  const emptyReset = $("empty-reset");
+  if (emptyReset) emptyReset.addEventListener("click", resetAllFilters);
 }
 
 /* ── 탭 · 필터 ───────────────────────────────────────── */
@@ -698,123 +828,6 @@ function renderDeals() {
   });
 }
 
-/* ── 절약 계산기 (음료만) ────────────────────────────── */
-
-function cheapestUnitIn(list) {
-  let best = null;
-  list.forEach((p) => {
-    const each = unitEachPrice(p);
-    if (each == null) return;
-    if (!best || each < best.each) best = { p, each };
-  });
-  return best;
-}
-
-function calcSelection() {
-  const all = drinkProducts();
-  const val = state.calcTarget;
-  if (val === "all") {
-    const best = cheapestUnitIn(all);
-    return best ? { label: `전체 · ${best.p.name}`, each: best.each, p: best.p } : null;
-  }
-  if (val.startsWith("cat:")) {
-    const cat = val.slice(4);
-    const label = (state.data.categories || []).find((c) => c.id === cat);
-    const best = cheapestUnitIn(all.filter((p) => p.category === cat));
-    if (!best) return null;
-    return { label: `${label ? label.label : cat} · ${best.p.name}`, each: best.each, p: best.p };
-  }
-  if (val.startsWith("p:")) {
-    const p = all.find((x) => x.id === val.slice(2));
-    const each = p ? unitEachPrice(p) : null;
-    if (!p || each == null) return null;
-    return { label: p.name, each, p };
-  }
-  return null;
-}
-
-function calcSavings() {
-  const sel = calcSelection();
-  if (!sel) return null;
-  const unitSave = Math.max(0, CONV_UNIT - sel.each);
-  const amount = Math.round(30 * state.calcCount * unitSave);
-  return { ...sel, amount };
-}
-
-function renderCalcResult() {
-  const el = $("calc-result");
-  if (!el) return;
-  const res = calcSavings();
-  if (!res) {
-    el.textContent = "계산할 상품이 없어요.";
-    return;
-  }
-  el.textContent = `편의점(개당 2,000원 기준) 대신 여기서 박스 구매 시 한 달 ${won(res.amount)} 절약!`;
-}
-
-function calcCopyText() {
-  const res = calcSavings();
-  if (!res) return "";
-  return [
-    `하루 ${state.calcCount}개, ${res.label}`,
-    `편의점(개당 2,000원 기준) 대신 여기서 박스 구매 시 한 달 ${won(res.amount)} 절약!`,
-    location.href,
-  ].join("\n");
-}
-
-function fillCalcSelect() {
-  const sel = $("calc-type");
-  if (!sel || sel.dataset.ready === "1") return;
-  const cats = (state.data.categories || []).filter((c) => c.id !== "all" && c.part !== "meat");
-  const all = drinkProducts();
-  let html = `<option value="all">전체 (가장 싼 개당가)</option>`;
-  html += `<optgroup label="분류 (가장 싼 개당가)">`;
-  cats.forEach((c) => {
-    if (!all.some((p) => p.category === c.id && unitEachPrice(p) != null)) return;
-    html += `<option value="cat:${escapeHtml(c.id)}">${escapeHtml(c.label)}</option>`;
-  });
-  html += `</optgroup><optgroup label="상품">`;
-  all.forEach((p) => {
-    if (unitEachPrice(p) == null) return;
-    html += `<option value="p:${escapeHtml(p.id)}">${escapeHtml(p.name)}</option>`;
-  });
-  html += `</optgroup>`;
-  sel.innerHTML = html;
-  sel.value = state.calcTarget;
-  sel.dataset.ready = "1";
-  sel.addEventListener("change", () => {
-    state.calcTarget = sel.value;
-    renderCalcResult();
-  });
-}
-
-function bindCalc() {
-  document.querySelectorAll(".calc-n").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.calcCount = Number(btn.getAttribute("data-n")) || 1;
-      document.querySelectorAll(".calc-n").forEach((b) => {
-        b.setAttribute("aria-selected", String(b === btn));
-      });
-      renderCalcResult();
-    });
-  });
-  const copyBtn = $("calc-copy");
-  const copied = $("calc-copied");
-  if (copyBtn) {
-    copyBtn.addEventListener("click", async () => {
-      const text = calcCopyText();
-      if (!text) return;
-      await copyText(text);
-      if (copied) {
-        copied.hidden = false;
-        setTimeout(() => {
-          copied.hidden = true;
-        }, 1600);
-      }
-    });
-  }
-}
-
 /* ── 상품 카드 ───────────────────────────────────────── */
 
 function priceBlock(p) {
@@ -826,6 +839,17 @@ function priceBlock(p) {
   const from = p.unitPriceRecomputedFrom
     ? `<span class="unit-note">목록 표기 ${escapeHtml(p.unitPriceRecomputedFrom)}</span>`
     : "";
+  // 쉐이크는 100g 가격보다 '한 번에 얼마'가 먼저 보이게 둔다
+  if (p.category === "shake") {
+    return `
+    <div class="price-row">
+      ${pct}
+      <span class="price">${won(p.price)}</span>
+      ${list}
+    </div>
+    <p class="units"><span class="unit is-strong">${each}</span></p>
+    <p class="unit-note">${unit}</p>`;
+  }
   return `
     <div class="price-row">
       ${pct}
@@ -872,6 +896,22 @@ function chips(p, isProteinCard) {
   if (meat && p.cut) {
     parts.push(`<span class="chip chip-cut">${escapeHtml(p.cut)}</span>`);
   }
+  if (meat && p.proteinPer100g != null) {
+    parts.push(
+      `<span class="chip chip-nutri">단백질 ${p.proteinPer100g}g · 지방 ${p.fatPer100g}g / 100g</span>`
+    );
+    if (p.nutritionBasis) {
+      parts.push(`<span class="chip chip-nutri-note">${escapeHtml(p.nutritionBasis)}</span>`);
+    }
+  }
+  if (p.proteinSource) {
+    const detail = p.proteinSourceDetail
+      ? `<span class="chip-source-detail">${escapeHtml(p.proteinSourceDetail)}</span>`
+      : "";
+    parts.push(
+      `<span class="chip chip-source">🧬 ${escapeHtml(p.proteinSource)}${detail}</span>`
+    );
+  }
   if (p.rating != null) {
     const reviews = p.reviewCount != null ? ` · 리뷰 ${reviewCountLabel(p.reviewCount)}` : "";
     parts.push(`<span class="chip chip-rating">★ ${Number(p.rating).toFixed(1)}${reviews}</span>`);
@@ -880,7 +920,10 @@ function chips(p, isProteinCard) {
     const kcalText = kcalLabel(p);
     if (kcalText) parts.push(`<span class="chip chip-kcal">${escapeHtml(kcalText)}</span>`);
   }
-  if (p.unitPrice && !meat) {
+  if (isProteinCard && p.sugarPerServing != null) {
+    parts.push(`<span class="chip chip-sugar">당류 ${p.sugarPerServing}g</span>`);
+  }
+  if (p.unitPrice && !meat && p.category !== "shake") {
     parts.push(`<span class="chip chip-unit">${escapeHtml(p.unitPrice)}</span>`);
   }
   if (isProteinCard) {
@@ -897,11 +940,15 @@ function proteinHero(p) {
   const prot = proteinValue(p);
   const kcalText = kcalLabel(p);
   if (prot == null && !kcalText) return "";
+  const label = p.proteinUnitLabel || "단백질";
   const figure = prot != null
-    ? `<div class="protein-figure">${prot}<span class="g">g</span><span class="label">단백질</span></div>`
+    ? `<div class="protein-figure">${prot}<span class="g">g</span><span class="label">${escapeHtml(label)}</span></div>`
     : "";
+  const sugar = p.sugarPerServing != null ? ` · 당류 ${p.sugarPerServing}g` : "";
   const kcalSide = kcalText
-    ? `<div class="kcal-side">${escapeHtml(kcalText)}</div>`
+    ? `<div class="kcal-side">${escapeHtml(kcalText)}${escapeHtml(sugar)}</div>`
+    : p.sugarPerServing != null
+    ? `<div class="kcal-side">당류 ${p.sugarPerServing}g</div>`
     : "";
   return `<div class="protein-hero">${figure}${kcalSide}</div>`;
 }
@@ -914,7 +961,7 @@ function photoHTML(p, rankMark) {
 }
 
 function card(p, cheap, topProt, rank) {
-  const isProtein = p.category === "protein";
+  const isProtein = p.category === "protein" || p.category === "shake";
   const meat = isMeat(p);
   const el = document.createElement("article");
   el.className = "card" + (isProtein ? " card-protein" : "") + (meat ? " card-meat" : "");
@@ -965,12 +1012,16 @@ function renderCompare(list) {
   const showPerG = list.some((p) => proteinPerG(p) != null);
   const showRating = list.some((p) => p.rating != null);
   const showCut = list.some((p) => p.cut);
+  const showSource = list.some((p) => p.proteinSource);
+  const showMeatNutri = list.some((p) => p.proteinPer100g != null);
   const unitHead = unitHeadFor(list);
   const cheap = cheapestIds(list);
   const topProt = topProteinIds(list);
   const head = `<thead><tr>
     <th>상품</th>
     <th>${showCut ? "부위" : "맛"}</th>
+    ${showSource ? "<th>주 단백질 성분</th>" : ""}
+    ${showMeatNutri ? "<th>100g당 단백질·지방</th>" : ""}
     <th>${unitHead}</th>
     <th>할인</th>
     ${showRating ? "<th>평점</th>" : ""}
@@ -998,6 +1049,8 @@ function renderCompare(list) {
     return `<tr>
       <td class="cmp-name">${thumb}<span>${escapeHtml(p.name)}${marks}</span></td>
       <td>${escapeHtml(p.cut || p.kind || p.flavor || "")}</td>
+      ${showSource ? `<td>${p.proteinSource ? escapeHtml(p.proteinSource) : ""}</td>` : ""}
+      ${showMeatNutri ? `<td>${p.proteinPer100g != null ? `${p.proteinPer100g}g · ${p.fatPer100g}g` : ""}</td>` : ""}
       <td>${per}</td>
       <td>${disc}</td>
       ${showRating ? `<td>${rating}</td>` : ""}
@@ -1024,6 +1077,13 @@ function proteinRanks(list) {
 
 function groupHint(catId) {
   const chosen = sortApplies(state.sort, catId) ? state.sort : defaultSortForCategory(catId);
+  if (catId === "shake") {
+    if (chosen === "proteinPerG") return "단백질 1g당 가격 낮은 순 · 주 성분 표시";
+    if (chosen === "per100g") return "100g당 가격 낮은 순 · 주 성분 표시";
+    if (chosen === "discount") return "할인율 높은 순 · 주 성분 표시";
+    if (chosen === "price") return "가격 낮은 순 · 주 성분 표시";
+    return "1회 단백질(g) 높은 순 · 주 성분 표시";
+  }
   if (catId === "protein") {
     if (chosen === "proteinPerG") return "단백질 1g당 가격 낮은 순";
     if (chosen === "discount") return "할인율 높은 순";
@@ -1050,7 +1110,7 @@ function orderedForGroup(catId, list) {
 
 function renderGroup(parent, catId, list, cheap, topProt) {
   const cat = state.data.categories.find((c) => c.id === catId);
-  const isProtein = catId === "protein";
+  const isProtein = catId === "protein" || catId === "shake";
   const ordered = orderedForGroup(catId, list);
   const ranks = isProtein && proteinUsesGOrder() ? proteinRanks(ordered) : {};
   const sec = document.createElement("section");
@@ -1128,6 +1188,7 @@ function renderProducts() {
   if (!list.length) {
     empty.hidden = false;
     grid.hidden = true;
+    renderEmpty();
     renderCompare([]);
     return;
   }
@@ -1165,7 +1226,8 @@ function renderProducts() {
 
   const catId = ids[0];
   const ordered = orderedForGroup(catId, list);
-  const ranks = catId === "protein" && proteinUsesGOrder() ? proteinRanks(ordered) : {};
+  const ranks =
+    (catId === "protein" || catId === "shake") && proteinUsesGOrder() ? proteinRanks(ordered) : {};
   ordered.forEach((p) => grid.appendChild(card(p, cheap.has(p.id), topProt.has(p.id), ranks[p.id])));
   renderCompare(ordered);
 }
@@ -1517,6 +1579,7 @@ function initShortcut() {
 
 function paint() {
   syncUrl();
+  renderSearchStatus();
   renderParts();
   renderPartFilters();
   renderFilters();
@@ -1524,7 +1587,6 @@ function paint() {
   renderSorts();
   renderProducts();
   renderDeals();
-  renderCalcResult();
 }
 
 function catalogFromGlobals() {
@@ -1565,6 +1627,12 @@ function applyUrlState() {
   if (q.get("ing") && ings.includes(q.get("ing"))) state.ingredient = q.get("ing");
   const pid = q.get("p");
   if (pid && (state.data.products || []).some((p) => p.id === pid)) state.highlightId = pid;
+  const query = q.get("q");
+  if (query) {
+    state.query = query;
+    const input = $("search-input");
+    if (input) input.value = query;
+  }
 }
 
 async function init() {
@@ -1583,8 +1651,7 @@ async function init() {
     const note = state.data.site.priceNote || "";
     when.textContent = [src, note].filter(Boolean).join(" ");
   }
-  fillCalcSelect();
-  bindCalc();
+  initSearch();
   paint();
   if (state.highlightId) {
     const id = state.highlightId;
@@ -1594,7 +1661,8 @@ async function init() {
 
 init().catch((err) => {
   const empty = $("empty");
-  empty.hidden = false;
-  empty.textContent = "상품 정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.";
+  const text = $("empty-text");
+  if (empty) empty.hidden = false;
+  if (text) text.textContent = "상품 정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.";
   console.error(err);
 });

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>띠니마트 | 제로음료·단백질음료·식단고기 단가 비교</title>
-  <meta name="description" content="제로 음료는 100ml당, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 확인한 시각 기준이며, 가격은 바뀔 수 있어요.">
+  <title>띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교</title>
+  <meta name="description" content="제로 음료는 100ml당, 단백질 음료·쉐이크는 1회 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 확인한 시각 기준이며, 가격은 바뀔 수 있어요.">
   <meta name="theme-color" content="#2FBE8C">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -17,15 +17,15 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="띠니마트">
-  <meta property="og:title" content="띠니마트 | 제로음료·단백질음료·식단고기 단가 비교">
-  <meta property="og:description" content="제로 음료는 100ml당, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta property="og:title" content="띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교">
+  <meta property="og:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크는 1회 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
   <meta property="og:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
   <meta property="og:image:alt" content="띠니마트 아이콘">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="띠니마트 | 제로음료·단백질음료·식단고기 단가 비교">
-  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta name="twitter:title" content="띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교">
+  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크는 1회 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
   <meta name="twitter:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -44,7 +44,7 @@
         <img class="mark-img" src="images/icon-192.png" alt="" width="40" height="40" decoding="async">
         <span class="word">
           <strong>띠니마트</strong>
-          <em>제로 음료 · 단백질 · 식단 고기 비교</em>
+          <em>운동·식단러를 위한 단가·성분 비교 마트</em>
         </span>
       </a>
     </div>
@@ -59,7 +59,7 @@
 
   <main id="top">
     <section class="hero">
-      <p class="eyebrow">제로 음료부터 식단 고기까지, 단가로 비교해요</p>
+      <p class="eyebrow">제로음료 · 단백질(WPI·WPC·ISP) · 식단 고기</p>
       <h1>띠니마트</h1>
       <div class="update-band" id="update-band" aria-label="가격 업데이트 안내">
         <div class="update-when">
@@ -73,11 +73,21 @@
         </div>
       </div>
       <p class="lead">
-        제로 음료는 100ml당 가격, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 모았어요.
-        고기·조리기구는 맨 뒤에 두었어요. 효능을 약속하지 않아요.
+        제로 음료는 100ml당 가격, 단백질 음료·쉐이크는 1회 단백질(g)과 주 성분, 식단 고기는 100g당 가격과 단백질·지방으로 모았어요.
+        가성비 좋은 선택으로 매일 가볍고 건강한 식단 루틴을 챙겨 보세요! 고기·조리기구는 맨 뒤에 두었어요.
       </p>
       <p class="when" id="source-when"></p>
     </section>
+
+    <div class="search-wrap" id="search-wrap">
+      <div class="search-box">
+        <span class="search-ico" aria-hidden="true">🔍</span>
+        <input class="search-input" id="search-input" type="search" inputmode="search" autocomplete="off"
+               placeholder="상품명·브랜드·부위 검색 (예: 펩시, 셀렉스, 닭가슴살)" aria-label="상품 검색">
+        <button type="button" class="search-clear" id="search-clear" aria-label="검색어 지우기" hidden>✕</button>
+      </div>
+      <p class="search-status" id="search-status" hidden></p>
+    </div>
 
     <div class="tabs-wrap" id="tabs-wrap">
       <nav class="parts" id="parts" aria-label="대분류"></nav>
@@ -96,25 +106,6 @@
       <p class="ing-note">성분표 확인된 상품만 표시</p>
     </div>
 
-    <section class="calc" id="calc" aria-label="내 한 달 음료값 절약 계산기">
-      <h2>내 한 달 음료값 절약 계산기</h2>
-      <div class="calc-controls">
-        <fieldset class="calc-count">
-          <legend>하루</legend>
-          <button type="button" class="calc-n" data-n="1" aria-selected="true">1개</button>
-          <button type="button" class="calc-n" data-n="2">2개</button>
-          <button type="button" class="calc-n" data-n="3">3개</button>
-        </fieldset>
-        <label class="calc-type">음료
-          <select id="calc-type"></select>
-        </label>
-      </div>
-      <p class="calc-result" id="calc-result"></p>
-      <p class="calc-note">편의점 가격은 2,000원 가정</p>
-      <button type="button" class="calc-copy" id="calc-copy">결과 복사하기</button>
-      <p class="calc-copied" id="calc-copied" hidden>복사했어요</p>
-    </section>
-
     <p class="cat-note" id="cat-note" hidden></p>
 
     <nav class="sorts" id="sorts" aria-label="비교 기준"></nav>
@@ -127,7 +118,13 @@
     <section id="products" class="shelf" aria-live="polite">
       <h2 class="visually-hidden">상품</h2>
       <div class="grid" id="grid"></div>
-      <p class="empty" id="empty" hidden>이 분류에 해당하는 상품이 없어요.</p>
+      <div class="empty" id="empty" hidden>
+        <p class="empty-text" id="empty-text">이 분류에 해당하는 상품이 없어요.</p>
+        <div class="empty-actions" id="empty-actions" hidden>
+          <button type="button" class="empty-btn" id="empty-clear">검색어 지우기</button>
+          <button type="button" class="empty-btn is-primary" id="empty-reset">전체에서 다시 찾기</button>
+        </div>
+      </div>
     </section>
 
     <section class="compare" id="compare" hidden>

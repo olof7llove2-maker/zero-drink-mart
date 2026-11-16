@@ -2,8 +2,8 @@
  * 띠니 상품 데이터 (이 파일 하나만 보면 됩니다).
  *
  * 구매 버튼은 각 상품의 affiliateUrl만 사용합니다.
- * 지금은 쿠팡 상품은 www.coupang.com 주소, 토스 상품은 쉐어링크(있으면 shareLink,
- * 없으면 토스 상품 페이지)입니다.
+ * 지금은 쿠팡 상품은 www.coupang.com 주소(파트너스 링크가 있으면 link.coupang.com),
+ * 토스 상품은 쉐어링크(있으면 shareLink, 없으면 토스 상품 페이지)입니다.
  *
  * 쿠팡 파트너스 단축 링크(https://link.coupang.com/...)가 준비되면
  * partners-links.json 에 상품 id → 파트너스 URL 을 적은 뒤
@@ -11,16 +11,14 @@
  *   python3 scripts/apply-partners-links.py
  *
  * 를 실행하세요. affiliateUrl만 바뀌고, 나머지 상품 정보는 그대로입니다.
- * 이 파일에서 affiliateUrl을 직접 고쳐도 됩니다.
  */
-
 
 const SITE = {
   "name": "띠니",
-  "tagline": "제로 음료 비교 마트",
+  "tagline": "제로 음료·단백질 쉐이크·식단 고기 단가 비교",
   "disclosure": "이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
   "priceNote": "가격은 바뀔 수 있어요",
-  "sourceNote": "쿠팡 검색 판매량순 목록에서 2026-11-15 19:25(Asia/Seoul)에 확인한 값이에요. 토스 상품 가격은 2026-11-16 14:00(Asia/Seoul) 토스쇼핑 카테고리 판매 베스트에서 확인한 값이에요. 고기·조리기구 가격은 2026-11-16 16:00~17:00(Asia/Seoul)에 쿠팡에서 확인한 값이에요.",
+  "sourceNote": "쿠팡 검색 판매량순 목록에서 2026-11-15 19:25(Asia/Seoul)에 확인한 값이에요. 토스 상품 가격은 2026-11-16 14:00(Asia/Seoul) 토스쇼핑 카테고리 판매 베스트에서 확인한 값이에요. 고기·조리기구 가격은 2026-11-16 16:00~17:00(Asia/Seoul)에 쿠팡에서 확인한 값이에요. 단백질 쉐이크·부채살 가격은 2026-11-16 22:55(Asia/Seoul)에 쿠팡에서 확인한 값이에요.",
   "kakao": {
     "label": "카톡 핫딜방",
     "note": "무료, 알림만 와요",
@@ -44,6 +42,13 @@ const CATEGORIES = [
     "icon": "💪",
     "part": "protein",
     "note": "병당 단백질(g)과 열량은 쿠팡 상품 페이지에서 2026-11-15 19:51(Asia/Seoul)에 확인한 값이에요. 병당 가격은 박스 가격을 개수로 나눈 값이에요. 정가와 할인율이 확인되지 않은 상품은 판매가만 적어요."
+  },
+  {
+    "id": "shake",
+    "label": "단백질 쉐이크",
+    "icon": "🥛",
+    "part": "protein",
+    "note": "가루 쉐이크라 100g당 가격으로 비교하고, 카드에는 1회 섭취분의 단백질(g)과 열량을 적었어요. 단백질(g)은 제품 포장 표기 기준이에요."
   },
   {
     "id": "cola",
@@ -275,7 +280,8 @@ const PARTS = [
         "id": "all",
         "label": "전체",
         "cats": [
-          "protein"
+          "protein",
+          "shake"
         ]
       },
       {
@@ -286,7 +292,16 @@ const PARTS = [
           "protein"
         ],
         "proteinMin": 20,
-        "note": "병당 단백질 20g 이상 상품만 모았어요. 단백질(g)은 제품 표기 기준이에요."
+        "note": "1회(병·포) 단백질 20g 이상 상품만 모았어요. 단백질(g)은 제품 표기 기준이에요."
+      },
+      {
+        "id": "shake",
+        "label": "단백질 쉐이크",
+        "icon": "🥛",
+        "cats": [
+          "shake"
+        ],
+        "note": "1회 섭취분 단백질(g)과 열량, 100g당 가격을 같이 봐요. 가루 제품은 물이나 우유에 타서 마셔요."
       },
       {
         "id": "soy",
@@ -335,6 +350,46 @@ const PARTS = [
           "plain"
         ],
         "note": "플레인·고소한·오리지널 타입이에요."
+      },
+      {
+        "id": "src-milk",
+        "label": "유청·우유단백",
+        "icon": "🥛",
+        "cats": [
+          "protein",
+          "shake"
+        ],
+        "sources": [
+          "milk",
+          "whey"
+        ],
+        "note": "우유·유청에서 뽑은 단백질(WPI·WPC·MPC)이 주원료인 상품이에요."
+      },
+      {
+        "id": "src-soy",
+        "label": "대두단백(ISP)",
+        "icon": "🌱",
+        "cats": [
+          "protein",
+          "shake"
+        ],
+        "sources": [
+          "soy"
+        ],
+        "note": "분리대두단백(ISP)이 주원료인 식물성 상품이에요."
+      },
+      {
+        "id": "src-blend",
+        "label": "혼합단백",
+        "icon": "🧬",
+        "cats": [
+          "protein",
+          "shake"
+        ],
+        "sources": [
+          "blend"
+        ],
+        "note": "유청·우유단백과 대두단백을 섞은 상품이에요."
       }
     ]
   },
@@ -457,11 +512,11 @@ const CONTAINERS = [
   },
   {
     "id": "pet-small",
-    "label": "소형 페트(≤600ml)"
+    "label": "소형 페트"
   },
   {
     "id": "pet-large",
-    "label": "대용량(1L+)"
+    "label": "대용량"
   }
 ];
 
@@ -1520,7 +1575,11 @@ const PRODUCTS = [
     "lowest30d": 23930,
     "priceHistoryDays": 1,
     "proteinPerG": 66,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPC)",
+    "proteinSourceDetail": "분리·농축우유단백",
+    "sugarPerServing": 0.8
   },
   {
     "id": "nyukeeo-olpeurotin-gosohanmat-245ml-24gae",
@@ -1714,7 +1773,11 @@ const PRODUCTS = [
     "lowest30d": 23780,
     "priceHistoryDays": 1,
     "proteinPerG": 66,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "milk",
+    "proteinSource": "우유단백(MPC)",
+    "proteinSourceDetail": "분리·농축우유단백",
+    "sugarPerServing": 0.9
   },
   {
     "id": "teikeupit-maekseu-chokomat-peurotin-250ml-24gae",
@@ -1819,7 +1882,11 @@ const PRODUCTS = [
     "lowest30d": 24900,
     "priceHistoryDays": 1,
     "proteinPerG": 69,
-    "part": "protein"
+    "part": "protein",
+    "proteinSourceKey": "blend",
+    "proteinSource": "유청+대두 혼합단백",
+    "proteinSourceDetail": "분리유단백·ISP",
+    "sugarPerServing": 0
   },
   {
     "id": "maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae",
@@ -2989,7 +3056,12 @@ const PRODUCTS = [
     "weightG": 200,
     "per100g": 9340,
     "unitPrice": "100g당 9,340원",
-    "unitEach": "200g 1팩"
+    "unitEach": "200g 1팩",
+    "proteinPer100g": 19.9,
+    "fatPer100g": 14.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~19.9g · 지방 ~14.3g (부위 기준)"
   },
   {
     "id": "meat-beef-mokuchon-chaekkeut-300g",
@@ -3018,7 +3090,12 @@ const PRODUCTS = [
     "weightG": 300,
     "per100g": 7960,
     "unitPrice": "100g당 7,960원",
-    "unitEach": "300g 1팩"
+    "unitEach": "300g 1팩",
+    "proteinPer100g": 17.7,
+    "fatPer100g": 5.7,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~17.7g · 지방 ~5.7g (부위 기준)"
   },
   {
     "id": "meat-beef-us-choice-buchaesal-steak-1kg",
@@ -3046,7 +3123,12 @@ const PRODUCTS = [
     "weightG": 1000,
     "per100g": 3890,
     "unitPrice": "100g당 3,890원",
-    "unitEach": "1kg 1팩"
+    "unitEach": "1kg 1팩",
+    "proteinPer100g": 20.4,
+    "fatPer100g": 6.9,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.4g · 지방 ~6.9g (부위 기준)"
   },
   {
     "id": "meat-beef-au-salchisal-steak-400g",
@@ -3074,7 +3156,12 @@ const PRODUCTS = [
     "weightG": 400,
     "per100g": 6150,
     "unitPrice": "100g당 6,150원",
-    "unitEach": "400g 1팩"
+    "unitEach": "400g 1팩",
+    "proteinPer100g": 18.0,
+    "fatPer100g": 12.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~18.0g · 지방 ~12.0g (부위 기준)"
   },
   {
     "id": "meat-beef-miteunjoy-galbi-400g",
@@ -3102,7 +3189,12 @@ const PRODUCTS = [
     "weightG": 400,
     "per100g": 4998,
     "unitPrice": "100g당 4,998원",
-    "unitEach": "400g 1팩"
+    "unitEach": "400g 1팩",
+    "proteinPer100g": 18.4,
+    "fatPer100g": 13.4,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~18.4g · 지방 ~13.4g (부위 기준)"
   },
   {
     "id": "meat-pork-dodram-handon-samgyeopsal-1kg",
@@ -3130,7 +3222,12 @@ const PRODUCTS = [
     "weightG": 1000,
     "per100g": 2423,
     "unitPrice": "100g당 2,423원",
-    "unitEach": "1kg 1팩"
+    "unitEach": "1kg 1팩",
+    "proteinPer100g": 13.9,
+    "fatPer100g": 33.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)"
   },
   {
     "id": "meat-pork-moamit-canada-samgyeopsal-1kg",
@@ -3158,7 +3255,12 @@ const PRODUCTS = [
     "weightG": 1000,
     "per100g": 1673,
     "unitPrice": "100g당 1,673원",
-    "unitEach": "1kg 1팩"
+    "unitEach": "1kg 1팩",
+    "proteinPer100g": 13.9,
+    "fatPer100g": 33.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)"
   },
   {
     "id": "meat-pork-moamit-canada-moksal-1kg",
@@ -3186,7 +3288,12 @@ const PRODUCTS = [
     "weightG": 1000,
     "per100g": 1477,
     "unitPrice": "100g당 1,477원",
-    "unitEach": "1kg 1팩"
+    "unitEach": "1kg 1팩",
+    "proteinPer100g": 17.2,
+    "fatPer100g": 16.4,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~17.2g · 지방 ~16.4g (부위 기준)"
   },
   {
     "id": "meat-pork-handon-hindleg-2kg",
@@ -3216,7 +3323,12 @@ const PRODUCTS = [
     "weightG": 2000,
     "per100g": 1490,
     "unitPrice": "100g당 1,490원",
-    "unitEach": "200g×10팩 = 2kg"
+    "unitEach": "200g×10팩 = 2kg",
+    "proteinPer100g": 20.9,
+    "fatPer100g": 5.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.9g · 지방 ~5.0g (부위 기준)"
   },
   {
     "id": "meat-pork-saengsaengfork-gaelmaegi-300g",
@@ -3244,7 +3356,12 @@ const PRODUCTS = [
     "weightG": 300,
     "per100g": 4827,
     "unitPrice": "100g당 4,827원",
-    "unitEach": "300g 1팩"
+    "unitEach": "300g 1팩",
+    "proteinPer100g": 17.9,
+    "fatPer100g": 12.2,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~17.9g · 지방 ~12.2g (부위 기준)"
   },
   {
     "id": "meat-chicken-harim-jayeonsilrok-breast-400g",
@@ -3273,7 +3390,12 @@ const PRODUCTS = [
     "weightG": 400,
     "per100g": 1638,
     "unitPrice": "100g당 1,638원",
-    "unitEach": "400g 1팩"
+    "unitEach": "400g 1팩",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.3g (부위 기준)"
   },
   {
     "id": "meat-chicken-harim-iff-breast-2kg",
@@ -3301,7 +3423,12 @@ const PRODUCTS = [
     "weightG": 2000,
     "per100g": 1110,
     "unitPrice": "100g당 1,110원",
-    "unitEach": "2kg 1팩"
+    "unitEach": "2kg 1팩",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.3g (부위 기준)"
   },
   {
     "id": "meat-chicken-harim-tenderloin-350g",
@@ -3329,7 +3456,12 @@ const PRODUCTS = [
     "weightG": 350,
     "per100g": 1757,
     "unitPrice": "100g당 1,757원",
-    "unitEach": "350g 1팩"
+    "unitEach": "350g 1팩",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.5,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.5g (부위 기준)"
   },
   {
     "id": "meat-chicken-hangang-iqf-tenderloin-2kg",
@@ -3358,7 +3490,12 @@ const PRODUCTS = [
     "weightG": 2000,
     "per100g": 920,
     "unitPrice": "100g당 920원",
-    "unitEach": "2kg 1팩"
+    "unitEach": "2kg 1팩",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.5,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.5g (부위 기준)"
   },
   {
     "id": "meat-chicken-pultorae-drumstick-2kg",
@@ -3386,7 +3523,12 @@ const PRODUCTS = [
     "weightG": 2000,
     "per100g": 1325,
     "unitPrice": "100g당 1,325원",
-    "unitEach": "2kg 1팩"
+    "unitEach": "2kg 1팩",
+    "proteinPer100g": 18.5,
+    "fatPer100g": 7.5,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~18.5g · 지방 ~7.5g (부위 기준)"
   },
   {
     "id": "meat-lamb-gome-shoulderrack-400g",
@@ -3414,7 +3556,12 @@ const PRODUCTS = [
     "weightG": 400,
     "per100g": 4875,
     "unitPrice": "100g당 4,875원",
-    "unitEach": "400g 1팩"
+    "unitEach": "400g 1팩",
+    "proteinPer100g": 17.5,
+    "fatPer100g": 15.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~17.5g · 지방 ~15.0g (부위 기준)"
   },
   {
     "id": "meat-lamb-gome-frenchrack-300g",
@@ -3442,7 +3589,12 @@ const PRODUCTS = [
     "weightG": 300,
     "per100g": 7717,
     "unitPrice": "100g당 7,717원",
-    "unitEach": "300g 1팩"
+    "unitEach": "300g 1팩",
+    "proteinPer100g": 17.5,
+    "fatPer100g": 14.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~17.5g · 지방 ~14.0g (부위 기준)"
   },
   {
     "id": "meat-duck-dahyang-hunje-600g",
@@ -3470,7 +3622,12 @@ const PRODUCTS = [
     "weightG": 600,
     "per100g": 2112,
     "unitPrice": "100g당 2,112원",
-    "unitEach": "600g 1팩"
+    "unitEach": "600g 1팩",
+    "proteinPer100g": 18.0,
+    "fatPer100g": 20.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~18.0g · 지방 ~20.0g (부위 기준)"
   },
   {
     "id": "meat-duck-gomgom-hunje-600g",
@@ -3498,7 +3655,12 @@ const PRODUCTS = [
     "weightG": 600,
     "per100g": 1690,
     "unitPrice": "100g당 1,690원",
-    "unitEach": "600g 1팩"
+    "unitEach": "600g 1팩",
+    "proteinPer100g": 18.0,
+    "fatPer100g": 20.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~18.0g · 지방 ~20.0g (부위 기준)"
   },
   {
     "id": "meat-duck-mokuchon-herbgarlic-6pack",
@@ -3527,7 +3689,12 @@ const PRODUCTS = [
     "weightG": 1260,
     "per100g": 1786,
     "unitPrice": "100g당 1,786원",
-    "unitEach": "210g×6팩 = 1,260g"
+    "unitEach": "210g×6팩 = 1,260g",
+    "proteinPer100g": 18.0,
+    "fatPer100g": 20.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~18.0g · 지방 ~20.0g (부위 기준)"
   },
   {
     "id": "meat-salmon-mowi-saeng-500g",
@@ -3555,7 +3722,12 @@ const PRODUCTS = [
     "weightG": 500,
     "per100g": 4496,
     "unitPrice": "100g당 4,496원",
-    "unitEach": "500g 1팩"
+    "unitEach": "500g 1팩",
+    "proteinPer100g": 20.0,
+    "fatPer100g": 13.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.0g · 지방 ~13.0g (부위 기준)"
   },
   {
     "id": "meat-salmon-gomgom-hunje-500g",
@@ -3583,7 +3755,12 @@ const PRODUCTS = [
     "weightG": 500,
     "per100g": 3498,
     "unitPrice": "100g당 3,498원",
-    "unitEach": "500g 1팩"
+    "unitEach": "500g 1팩",
+    "proteinPer100g": 22.0,
+    "fatPer100g": 12.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~22.0g · 지방 ~12.0g (부위 기준)"
   },
   {
     "id": "meat-salmon-eunhasusan-steak-400g",
@@ -3611,7 +3788,12 @@ const PRODUCTS = [
     "weightG": 400,
     "per100g": 5373,
     "unitPrice": "100g당 5,373원",
-    "unitEach": "400g 1팩"
+    "unitEach": "400g 1팩",
+    "proteinPer100g": 20.0,
+    "fatPer100g": 13.0,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.0g · 지방 ~13.0g (부위 기준)"
   },
   {
     "id": "meat-gadget-homeplanet-airfryer-3-5l",
@@ -3721,5 +3903,343 @@ const PRODUCTS = [
     "spec": "39cm",
     "unitPrice": "1세트 20,740원",
     "unitEach": "39cm"
+  },
+  {
+    "part": "protein",
+    "category": "shake",
+    "group": "단백질 쉐이크",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "nutritionCheckedLabel": "11/16 22:55 쿠팡 상품 페이지·제품 표기 기준",
+    "container": "powder",
+    "caffeine": null,
+    "aspartame": null,
+    "previousPrice": null,
+    "lowest30d": null,
+    "priceHistoryDays": 0,
+    "id": "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg",
+    "brand": "칼로바이",
+    "name": "칼로바이 퍼펙트 파워쉐이크 블렌드 단백질쉐이크 초코맛, 1.8kg, 1개",
+    "kind": "단백질 쉐이크 · 초코",
+    "flavor": "초코",
+    "proteinType": "choco",
+    "price": 41900,
+    "listPrice": 79200,
+    "discountPct": 47,
+    "netWeightG": 1800,
+    "servingG": 30,
+    "packCount": 60,
+    "rating": 4.5,
+    "reviewCount": 612,
+    "url": "https://www.coupang.com/vp/products/9411472223",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9411472223",
+    "image": "images/kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg.jpg",
+    "unitPricePer100g": 2328,
+    "unitPrice": "100g당 2,328원",
+    "unitEach": "1회(30g)분 약 698원",
+    "protein_g_per_bottle": 21,
+    "kcal_per_bottle": 115,
+    "proteinStatus": "21g",
+    "kcalStatus": "115kcal",
+    "proteinPerG": 33,
+    "proteinBasis": "1회(30g)",
+    "proteinUnitLabel": "1회 단백질",
+    "sugarPerServing": 1,
+    "proteinSource": "동·식물성 복합단백",
+    "proteinSourceDetail": "WPC·MPC·ISP",
+    "proteinSourceKey": "blend"
+  },
+  {
+    "part": "protein",
+    "category": "shake",
+    "group": "단백질 쉐이크",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "nutritionCheckedLabel": "11/16 22:55 쿠팡 상품 페이지·제품 표기 기준",
+    "container": "powder",
+    "caffeine": null,
+    "aspartame": null,
+    "previousPrice": null,
+    "lowest30d": null,
+    "priceHistoryDays": 0,
+    "id": "kalobai-peopekteu-pawosweikeu-soi-peurotin-1-8kg",
+    "brand": "칼로바이",
+    "name": "칼로바이 퍼펙트 파워쉐이크 소이 프로틴 EAA 초코맛, 1.8kg, 1개",
+    "kind": "단백질 쉐이크 · 식물성 초코",
+    "flavor": "초코",
+    "proteinType": [
+      "soy",
+      "choco"
+    ],
+    "price": 27900,
+    "listPrice": 30900,
+    "discountPct": 9,
+    "netWeightG": 1800,
+    "servingG": 30,
+    "packCount": 60,
+    "rating": 5,
+    "reviewCount": 102,
+    "url": "https://www.coupang.com/vp/products/9705618995",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9705618995",
+    "image": "images/kalobai-peopekteu-pawosweikeu-soi-peurotin-1-8kg.jpg",
+    "unitPricePer100g": 1550,
+    "unitPrice": "100g당 1,550원",
+    "unitEach": "1회(30g)분 약 465원",
+    "protein_g_per_bottle": 21,
+    "kcal_per_bottle": 120,
+    "proteinStatus": "21g",
+    "kcalStatus": "120kcal",
+    "proteinPerG": 22,
+    "proteinBasis": "1회(30g)",
+    "proteinUnitLabel": "1회 단백질",
+    "sugarPerServing": 1,
+    "proteinSource": "ISP 분리대두단백",
+    "proteinSourceDetail": "식물성 단일원료",
+    "proteinSourceKey": "soy"
+  },
+  {
+    "part": "protein",
+    "category": "shake",
+    "group": "단백질 쉐이크",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "nutritionCheckedLabel": "11/16 22:55 쿠팡 상품 페이지·제품 표기 기준",
+    "container": "powder",
+    "caffeine": null,
+    "aspartame": null,
+    "previousPrice": null,
+    "lowest30d": null,
+    "priceHistoryDays": 0,
+    "id": "peulraimil-rieolchoko-630g",
+    "brand": "플라이밀",
+    "name": "플라이밀 리얼초코 고단백 단백질 쉐이크, 630g, 1개",
+    "kind": "단백질 쉐이크 · 리얼초코",
+    "flavor": "리얼초코",
+    "proteinType": "choco",
+    "price": 26800,
+    "netWeightG": 630,
+    "servingG": 45,
+    "packCount": 14,
+    "rating": 5,
+    "reviewCount": 2265,
+    "listPrice": null,
+    "discountPct": null,
+    "url": "https://www.coupang.com/vp/products/9445621038",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9445621038",
+    "image": "images/peulraimil-rieolchoko-630g.jpg",
+    "unitPricePer100g": 4254,
+    "unitPrice": "100g당 4,254원",
+    "unitEach": "1회(45g)분 약 1,914원",
+    "protein_g_per_bottle": 23.7,
+    "kcal_per_bottle": 159,
+    "proteinStatus": "23.7g",
+    "kcalStatus": "159kcal",
+    "proteinPerG": 81,
+    "proteinBasis": "1회(45g)",
+    "proteinUnitLabel": "1회 단백질",
+    "sugarPerServing": 1.2,
+    "proteinSource": "동·식물성 복합단백",
+    "proteinSourceDetail": "WPI·WPC·ISP·콜라겐",
+    "proteinSourceKey": "blend"
+  },
+  {
+    "part": "protein",
+    "category": "shake",
+    "group": "단백질 쉐이크",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "nutritionCheckedLabel": "11/16 22:55 쿠팡 상품 페이지·제품 표기 기준",
+    "container": "powder",
+    "caffeine": null,
+    "aspartame": null,
+    "previousPrice": null,
+    "lowest30d": null,
+    "priceHistoryDays": 0,
+    "id": "peulraimil-beuraun-630g",
+    "brand": "플라이밀",
+    "name": "플라이밀 브라운 17곡미숫가루 고단백 단백질 쉐이크, 630g, 1개",
+    "kind": "단백질 쉐이크 · 미숫가루",
+    "flavor": "17곡미숫가루",
+    "proteinType": "plain",
+    "price": 26800,
+    "netWeightG": 630,
+    "servingG": 45,
+    "packCount": 14,
+    "rating": 5,
+    "reviewCount": 8580,
+    "listPrice": null,
+    "discountPct": null,
+    "url": "https://www.coupang.com/vp/products/7537043284",
+    "affiliateUrl": "https://www.coupang.com/vp/products/7537043284",
+    "image": "images/peulraimil-beuraun-630g.jpg",
+    "unitPricePer100g": 4254,
+    "unitPrice": "100g당 4,254원",
+    "unitEach": "1회(45g)분 약 1,914원",
+    "protein_g_per_bottle": 20,
+    "kcal_per_bottle": 166,
+    "proteinStatus": "20g",
+    "kcalStatus": "166kcal",
+    "proteinPerG": 96,
+    "proteinBasis": "1회(45g)",
+    "proteinUnitLabel": "1회 단백질",
+    "sugarPerServing": 1,
+    "proteinSource": "유청+대두 혼합단백",
+    "proteinSourceDetail": "ISP·WPC·밀크단백",
+    "proteinSourceKey": "blend"
+  },
+  {
+    "part": "protein",
+    "category": "shake",
+    "group": "단백질 쉐이크",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "nutritionCheckedLabel": "11/16 22:55 쿠팡 상품 페이지·제품 표기 기준",
+    "container": "powder",
+    "caffeine": null,
+    "aspartame": null,
+    "previousPrice": null,
+    "lowest30d": null,
+    "priceHistoryDays": 0,
+    "id": "mirit-danbaekjil-sweikeu-piseutacio-560g",
+    "brand": "밀잇",
+    "name": "밀잇 단백질 쉐이크 피스타치오맛, 560g, 1개",
+    "kind": "단백질 쉐이크 · 피스타치오",
+    "flavor": "피스타치오",
+    "proteinType": "plain",
+    "price": 29900,
+    "listPrice": 50000,
+    "discountPct": 40,
+    "netWeightG": 560,
+    "servingG": 40,
+    "packCount": 14,
+    "rating": 5,
+    "reviewCount": 656,
+    "url": "https://www.coupang.com/vp/products/8725390495",
+    "affiliateUrl": "https://www.coupang.com/vp/products/8725390495",
+    "image": "images/mirit-danbaekjil-sweikeu-piseutacio-560g.jpg",
+    "unitPricePer100g": 5339,
+    "unitPrice": "100g당 5,339원",
+    "unitEach": "1회(40g)분 약 2,136원",
+    "protein_g_per_bottle": 15,
+    "kcal_per_bottle": 164,
+    "proteinStatus": "15g",
+    "kcalStatus": "164kcal",
+    "proteinPerG": 142,
+    "proteinBasis": "1회(40g)",
+    "proteinUnitLabel": "1회 단백질",
+    "sugarPerServing": 2.6,
+    "proteinSource": "유청+대두 혼합단백",
+    "proteinSourceDetail": "WPC·ISP·MPC",
+    "proteinSourceKey": "blend"
+  },
+  {
+    "part": "protein",
+    "category": "protein",
+    "group": "단백질 음료",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "nutritionCheckedLabel": "11/16 22:55 쿠팡 상품 페이지·제품 표기 기준",
+    "container": "pet-small",
+    "caffeine": "contains",
+    "aspartame": null,
+    "previousPrice": null,
+    "lowest30d": null,
+    "priceHistoryDays": 0,
+    "id": "kalobai-peopekteu-pawosweikeu-choko-250ml-24gae",
+    "brand": "칼로바이",
+    "name": "칼로바이 퍼펙트 파워쉐이크 초코맛 20g, 250ml, 24개",
+    "kind": "단백질 음료 · 초코",
+    "flavor": "초코",
+    "proteinType": "choco",
+    "price": 38900,
+    "listPrice": 40540,
+    "discountPct": 4,
+    "volumeMl": 250,
+    "packCount": 24,
+    "rating": 5,
+    "reviewCount": 1703,
+    "url": "https://www.coupang.com/vp/products/7645380932",
+    "affiliateUrl": "https://www.coupang.com/vp/products/7645380932",
+    "image": "images/kalobai-peopekteu-pawosweikeu-choko-250ml-24gae.jpg",
+    "unitPricePer100ml": 648,
+    "unitPrice": "100ml당 648원",
+    "unitEach": "병당 약 1,621원",
+    "protein_g_per_bottle": 20,
+    "kcal_per_bottle": null,
+    "proteinStatus": "20g",
+    "proteinUnitLabel": "병당 단백질",
+    "proteinPerG": 81
+  },
+  {
+    "part": "meat",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "meatType": "소고기",
+    "id": "meat-beef-au-buchaesal-steak-600g",
+    "category": "beef",
+    "group": "소고기",
+    "cut": "부채살",
+    "cutGroup": "부채살(스테이크용)",
+    "brand": "호주산",
+    "name": "호주산 부채살 스테이크용 (냉장), 600g, 1개",
+    "kind": "호주산 부채살 · 스테이크용",
+    "price": 19520,
+    "listPrice": 29590,
+    "discountPct": 34,
+    "weightG": 600,
+    "rating": 4.5,
+    "reviewCount": 23100,
+    "categoryId": "beef",
+    "url": "https://www.coupang.com/vp/products/7538803722",
+    "affiliateUrl": "https://www.coupang.com/vp/products/7538803722",
+    "image": "images/meat-beef-au-buchaesal-steak-600g.jpg",
+    "per100g": 3253,
+    "unitPrice": "100g당 3,253원",
+    "unitEach": "600g 1팩",
+    "proteinPer100g": 20.4,
+    "fatPer100g": 6.9,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.4g · 지방 ~6.9g (부위 기준)"
+  },
+  {
+    "part": "meat",
+    "platform": "coupang",
+    "priceCheckedAt": "2026-11-16 22:55",
+    "priceCheckedLabel": "11/16 22:55 쿠팡 기준",
+    "meatType": "소고기",
+    "id": "meat-beef-gomgom-au-buchaesal-gui-600g",
+    "category": "beef",
+    "group": "소고기",
+    "cut": "부채살",
+    "cutGroup": "부채살(구이용)",
+    "brand": "곰곰",
+    "name": "곰곰 호주산 부채살 구이용 (냉장), 600g, 1팩",
+    "kind": "호주산 부채살 · 구이용",
+    "price": 21590,
+    "listPrice": 23990,
+    "discountPct": 10,
+    "weightG": 600,
+    "rating": 4.5,
+    "reviewCount": 50467,
+    "categoryId": "beef",
+    "url": "https://www.coupang.com/vp/products/1232707733",
+    "affiliateUrl": "https://www.coupang.com/vp/products/1232707733",
+    "image": "images/meat-beef-gomgom-au-buchaesal-gui-600g.jpg",
+    "per100g": 3598,
+    "unitPrice": "100g당 3,598원",
+    "unitEach": "600g 1팩",
+    "proteinPer100g": 20.4,
+    "fatPer100g": 6.9,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.4g · 지방 ~6.9g (부위 기준)"
   }
 ];
