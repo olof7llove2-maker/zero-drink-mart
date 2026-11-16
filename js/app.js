@@ -533,8 +533,10 @@ function sourceChip(p) {
 function cta(p) {
   const href = p.affiliateUrl;
   if (!href) return `<p class="pending-label">링크 준비 중</p>`;
-  const label = isToss(p) ? "토스에서 보기" : "쿠팡에서 보기";
-  return `<a class="cta" href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+  const toss = isToss(p);
+  const label = toss ? "토스에서 보기" : "쿠팡에서 보기";
+  const cls = toss ? "cta cta-toss" : "cta";
+  return `<a class="${cls}" href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`;
 }
 
 function chips(p, isProteinCard) {
@@ -757,6 +759,258 @@ function renderProducts() {
   }
 }
 
+/* ---- 홈 화면 바로가기 추가 ---- */
+let installPromptEvent = null;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  installPromptEvent = e;
+});
+
+window.addEventListener("appinstalled", () => {
+  installPromptEvent = null;
+  hideShortcutBanners();
+});
+
+function isStandalone() {
+  try {
+    return (
+      (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+      (window.matchMedia && window.matchMedia("(display-mode: fullscreen)").matches) ||
+      window.navigator.standalone === true
+    );
+  } catch {
+    return false;
+  }
+}
+
+function hideShortcutBanners() {
+  document.querySelectorAll(".shortcut-wrap").forEach((el) => {
+    el.hidden = true;
+  });
+}
+
+function deviceEnv() {
+  const ua = navigator.userAgent || "";
+  const iOS =
+    /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const android = /Android/i.test(ua);
+  const inApp = /KAKAOTALK|NAVER|Instagram|FBAN|FBAV|Line\/|Twitter/i.test(ua);
+  const mac = !iOS && /Macintosh|Mac OS X/.test(ua);
+  return { iOS, android, inApp, mac };
+}
+
+function shortcutGuide() {
+  const { iOS, android, inApp, mac } = deviceEnv();
+  const ua = navigator.userAgent || "";
+
+  if (iOS) {
+    if (inApp) {
+      return {
+        device: "아이폰 · 앱 안 브라우저",
+        steps: [
+          "지금은 앱 안의 브라우저로 열려 있어요",
+          "오른쪽 위 ⋯ 메뉴에서 'Safari로 열기'를 눌러요",
+          "Safari 하단 공유 버튼(□↑) → '홈 화면에 추가' → '추가'",
+        ],
+        hint: "카카오톡·인스타그램 안에서는 홈 화면 추가가 막혀 있어요.",
+      };
+    }
+    const safari = /Safari/i.test(ua) && !/CriOS|FxiOS|EdgiOS/i.test(ua);
+    if (!safari) {
+      return {
+        device: "아이폰 · Chrome 등",
+        steps: [
+          "오른쪽 위 공유 버튼을 눌러요",
+          "'홈 화면에 추가'를 골라요",
+          "'추가'를 누르면 끝!",
+        ],
+        hint: "공유 메뉴에 항목이 없으면 Safari로 열어 주세요.",
+      };
+    }
+    return {
+      device: "아이폰 · 아이패드 (Safari)",
+      steps: [
+        "하단 가운데 공유 버튼(□↑)을 눌러요",
+        "목록에서 '홈 화면에 추가'를 골라요",
+        "오른쪽 위 '추가'를 누르면 끝!",
+      ],
+      hint: "홈 화면의 띠니 아이콘으로 앱처럼 바로 열려요.",
+    };
+  }
+
+  if (android) {
+    if (inApp) {
+      return {
+        device: "안드로이드 · 앱 안 브라우저",
+        steps: [
+          "지금은 앱 안의 브라우저로 열려 있어요",
+          "오른쪽 위 메뉴에서 'Chrome으로 열기'를 눌러요",
+          "Chrome 오른쪽 위 ⋮ → '홈 화면에 추가' 또는 '앱 설치'",
+        ],
+        hint: "카카오톡·인스타그램 안에서는 설치가 막혀 있어요.",
+      };
+    }
+    return {
+      device: "안드로이드 (Chrome)",
+      steps: [
+        "오른쪽 위 ⋮ 메뉴를 눌러요",
+        "'앱 설치' 또는 '홈 화면에 추가'를 골라요",
+        "'설치'를 누르면 끝!",
+      ],
+      hint: "Chrome에서 주소창 오른쪽 설치 아이콘이 보이면 그걸 눌러도 돼요.",
+    };
+  }
+
+  if (mac) {
+    return {
+      device: "맥 (PC)",
+      steps: [
+        "Chrome·Edge는 주소창 오른쪽 설치 아이콘 → '설치'",
+        "Safari는 공유 → '즐겨찾기 추가' 또는 파일 → 'Dock에 추가'",
+        "설치하면 Dock에서 앱처럼 바로 열려요",
+      ],
+      hint: "단축키 ⌘D 로 즐겨찾기에 추가할 수도 있어요.",
+    };
+  }
+
+  return {
+    device: "PC (Chrome·Edge)",
+    steps: [
+      "주소창 오른쪽의 설치 아이콘을 눌러요",
+      "'설치'를 고르면 바탕화면에서 앱처럼 바로 열려요",
+      "아이콘이 없으면 Ctrl+D 로 북마크에 추가해요",
+    ],
+    hint: "북마크에 넣어 두면 클릭 한 번으로 열 수 있어요.",
+  };
+}
+
+function shortcutUrl() {
+  return location.origin + location.pathname;
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "-1000px";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+}
+
+function showInstallModal(guide) {
+  const modal = $("install-modal");
+  if (!modal) return;
+  const title = $("install-title");
+  const device = $("install-device");
+  const steps = $("install-steps");
+  const hint = $("install-hint");
+  const copied = $("install-copied");
+  if (title) title.textContent = guide.title || "홈 화면에 추가하기";
+  if (device) device.textContent = guide.device || "";
+  if (steps) {
+    steps.innerHTML = (guide.steps || [])
+      .map((s) => `<li>${escapeHtml(s)}</li>`)
+      .join("");
+  }
+  if (hint) {
+    hint.textContent = guide.hint || "";
+    hint.hidden = !guide.hint;
+  }
+  if (copied) {
+    copied.hidden = true;
+    copied.textContent = "주소를 복사했어요";
+  }
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  const closeBtn = $("install-close");
+  if (closeBtn) closeBtn.focus({ preventScroll: true });
+}
+
+function closeInstallModal() {
+  const modal = $("install-modal");
+  if (!modal || modal.hidden) return;
+  modal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
+async function onShortcutClick() {
+  if (isStandalone()) {
+    showInstallModal({
+      device: "",
+      steps: ["지금 이미 홈 화면 앱으로 열고 있어요", "아이콘을 길게 누르면 삭제할 수 있어요"],
+      hint: "주소창 없는 화면으로 열려 있으면 추가가 끝난 상태예요.",
+    });
+    return;
+  }
+  if (installPromptEvent) {
+    const ev = installPromptEvent;
+    installPromptEvent = null;
+    try {
+      ev.prompt();
+      const choice = await ev.userChoice;
+      if (choice && choice.outcome === "accepted") {
+        hideShortcutBanners();
+        return;
+      }
+      return;
+    } catch {
+      installPromptEvent = null;
+    }
+  }
+  showInstallModal(shortcutGuide());
+}
+
+function initShortcut() {
+  document.querySelectorAll("[data-shortcut]").forEach((btn) => {
+    btn.addEventListener("click", onShortcutClick);
+  });
+  if (isStandalone()) {
+    // 이미 홈 화면 앱으로 열고 있으면 배너는 숨기고 안내만 남깁니다.
+    hideShortcutBanners();
+  }
+  const modal = $("install-modal");
+  if (!modal) return;
+  const close = $("install-close");
+  const x = $("install-x");
+  if (close) close.addEventListener("click", closeInstallModal);
+  if (x) x.addEventListener("click", closeInstallModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeInstallModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeInstallModal();
+  });
+  const copy = $("install-copy");
+  if (copy) {
+    copy.addEventListener("click", async () => {
+      const url = shortcutUrl();
+      const ok = await copyText(url);
+      const copied = $("install-copied");
+      if (!copied) return;
+      copied.textContent = ok ? "주소를 복사했어요" : `직접 복사해 주세요: ${url}`;
+      copied.hidden = false;
+      setTimeout(() => {
+        copied.hidden = true;
+      }, 2400);
+    });
+  }
+}
+
 function paint() {
   syncUrl();
   renderTabs();
@@ -790,6 +1044,7 @@ async function loadCatalog() {
 
 async function init() {
   setLegalOffset();
+  initShortcut();
   window.addEventListener("resize", setLegalOffset);
   state.data = await loadCatalog();
   const q = new URLSearchParams(location.search);

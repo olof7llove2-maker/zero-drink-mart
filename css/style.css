@@ -19,7 +19,8 @@
   --slate-soft: #f0f1f3;
   --legal-bg: #2a2520;
   --legal-fg: #f4efe8;
-  --kakao: #fee500;
+  --toss: #0064ff;
+  --toss-d: #0050d8;
   --shadow: 0 1px 2px rgba(23, 20, 18, 0.04), 0 8px 24px rgba(23, 20, 18, 0.06);
   --radius: 16px;
   --max: 760px;
@@ -89,30 +90,89 @@ button { font: inherit; }
 }
 .word em { font-style: normal; font-size: 11px; color: var(--muted); font-weight: 600; }
 
-.kakao-wrap {
+.shortcut-wrap {
   max-width: var(--max);
   margin: 0 auto;
   padding: 0 var(--pad) 14px;
 }
-.kakao-wrap-foot { padding: 4px 0 16px; }
-.kakao-btn {
-  display: block;
-  background: var(--kakao); color: #191600;
-  text-decoration: none;
+.shortcut-wrap-foot { padding: 4px 0 16px; }
+.shortcut-btn {
+  display: block; width: 100%;
+  background: var(--sage); color: #fff;
+  border: 0; cursor: pointer;
   font-size: 14px; font-weight: 800;
   line-height: 1.45;
   text-align: center;
   padding: 12px 14px;
   border-radius: 14px;
   word-break: keep-all;
+  box-shadow: 0 2px 10px rgba(47, 107, 79, 0.18);
+  transition: background 0.15s ease, transform 0.1s ease;
 }
-.kakao-btn:focus-visible { outline: 3px solid #f0d000; outline-offset: 2px; }
-.kakao-sub {
+.shortcut-btn:hover { background: var(--sage-d); }
+.shortcut-btn:active { transform: scale(0.995); }
+.shortcut-btn:focus-visible { outline: 3px solid #b9d8c6; outline-offset: 2px; }
+.shortcut-btn-foot {
+  font-size: 13px; padding: 10px 12px;
+  background: var(--sage-soft); color: var(--sage-text);
+  box-shadow: none;
+}
+.shortcut-btn-foot:hover { background: #d8ece1; }
+.shortcut-sub {
   margin-top: 7px;
   text-align: center;
   font-size: 12px; font-weight: 650;
   color: var(--muted);
   word-break: keep-all;
+}
+
+body.modal-open { overflow: hidden; }
+.install-modal {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(23, 20, 18, 0.45);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+.install-modal[hidden] { display: none; }
+.install-card {
+  position: relative; width: 100%; max-width: 430px;
+  background: var(--bg-soft); border-radius: 18px;
+  padding: 22px 20px 18px;
+  box-shadow: 0 20px 50px rgba(23, 20, 18, 0.28);
+}
+.install-x {
+  position: absolute; right: 8px; top: 6px;
+  border: 0; background: transparent; cursor: pointer;
+  color: var(--muted); font-size: 16px; line-height: 1;
+  padding: 10px;
+}
+.install-card h2 {
+  font-size: 18px; font-weight: 800; letter-spacing: -0.03em;
+  padding-right: 28px;
+}
+.install-device { margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--sage-text); }
+.install-steps {
+  margin: 14px 0 0; padding-left: 18px;
+  display: flex; flex-direction: column; gap: 9px;
+  font-size: 14px; line-height: 1.55; color: var(--ink);
+}
+.install-steps li::marker { font-weight: 800; color: var(--sage); }
+.install-hint { margin-top: 12px; font-size: 12px; line-height: 1.5; color: var(--muted); }
+.install-actions { display: flex; gap: 8px; margin-top: 18px; }
+.install-actions button {
+  flex: 1; border: 0; cursor: pointer;
+  font-size: 14px; font-weight: 800;
+  padding: 12px 10px; border-radius: 12px;
+}
+.install-copy { background: var(--ink); color: #fff; }
+.install-copy:hover { background: #33302c; }
+.install-close { background: #efeae1; color: var(--ink); }
+.install-close:hover { background: #e6e0d6; }
+.install-copied { margin-top: 10px; text-align: center; font-size: 12px; font-weight: 700; color: var(--sage-text); }
+
+@media (min-width: 640px) {
+  .install-modal { align-items: center; }
 }
 
 main { max-width: var(--max); margin: 0 auto; padding: 4px var(--pad) 48px; }
@@ -304,6 +364,9 @@ main { max-width: var(--max); margin: 0 auto; padding: 4px var(--pad) 48px; }
 }
 .cta:hover { background: var(--sage-d); }
 .cta:focus-visible { outline: 3px solid #b9d8c6; outline-offset: 2px; }
+.cta-toss { background: var(--toss); color: #fff; }
+.cta-toss:hover { background: var(--toss-d); }
+.cta-toss:focus-visible { outline: 3px solid #99c2ff; outline-offset: 2px; }
 .pending-label {
   margin-top: auto;
   display: inline-block;
@@ -417,7 +480,6 @@ main { max-width: var(--max); margin: 0 auto; padding: 4px var(--pad) 48px; }
   color: var(--muted); font-size: 13px;
 }
 .legal-foot { line-height: 1.6; margin-bottom: 14px; }
-.kakao-text { color: var(--ink); font-weight: 700; text-underline-offset: 3px; }
 .copy { margin-top: 16px; font-size: 12px; color: #9a908a; }
 
 @media (min-width: 640px) {
