@@ -105,13 +105,6 @@ const CATEGORIES = [
     "part": "zero"
   },
   {
-    "id": "powder",
-    "label": "분말·티백",
-    "icon": "🥄",
-    "part": "zero",
-    "note": "가루와 티백은 100g당 가격으로 비교해요. 100ml당 비교에는 넣지 않아요."
-  },
-  {
     "id": "beef",
     "label": "소고기",
     "icon": "🥩",
@@ -181,8 +174,7 @@ const PARTS = [
           "ion",
           "energy",
           "icetea",
-          "tea",
-          "powder"
+          "tea"
         ]
       },
       {
@@ -256,15 +248,6 @@ const PARTS = [
         "note": "사과식초(애사비)를 넣은 탄산음료예요.",
         "cats": [
           "acv"
-        ]
-      },
-      {
-        "id": "powder",
-        "label": "분말·티백",
-        "icon": "🥄",
-        "note": "가루·티백은 100ml가 아니라 100g당 가격으로 비교해요.",
-        "cats": [
-          "powder"
         ]
       }
     ]
@@ -1427,36 +1410,6 @@ const PRODUCTS = [
     "affiliateUrl": "https://link.coupang.com/a/iIt8Nxhtym",
     "previousPrice": null,
     "lowest30d": 15550,
-    "priceHistoryDays": 1,
-    "part": "zero"
-  },
-  {
-    "id": "dahada-hobakpatcha-1-5g-40gaeip-1gae",
-    "group": "분말·티백",
-    "category": "powder",
-    "brand": "다하다",
-    "name": "다하다 호박팥차, 1.5g, 40개입, 1개",
-    "kind": "분말·티백 · 호박팥",
-    "flavor": "호박팥",
-    "price": 5900,
-    "priceCheckedAt": "2026-11-15 19:25",
-    "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
-    "url": "https://www.coupang.com/vp/products/7543886673?itemId=19837912068&vendorItemId=84204666927&q=%EB%AC%B4%EB%8B%B9%20%EC%B0%A8%EC%9D%8C%EB%A3%8C&searchId=471b8d62406670&sourceType=search&rank=2&itemsCount=36&searchRank=2",
-    "packCount": 40,
-    "listPrice": 6750,
-    "discountPct": 12,
-    "unitPriceOfficial": "10g당 983원",
-    "unitPrice": "100g당 9,830원",
-    "unitPriceRecomputedFrom": "10g당 983원",
-    "unitEach": "개당 약 148원",
-    "image": "images/dahada-hobakpatcha-1-5g-40gaeip-1gae.jpg",
-    "unitPricePer100g": 9830,
-    "container": "powder",
-    "caffeine": "none",
-    "aspartame": null,
-    "affiliateUrl": "https://link.coupang.com/a/iIuaOSBoGG",
-    "previousPrice": null,
-    "lowest30d": 5900,
     "priceHistoryDays": 1,
     "part": "zero"
   },
