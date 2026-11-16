@@ -84,7 +84,9 @@ function chartButton(p) {
   const hasHistory = entry && entry.status === "history" && (entry.series || []).length > 1;
   const sub = hasHistory
     ? `관측 최저 ${wonShort(entry.stats.min)}원`
-    : "추적 시작 · 정가 대비";
+    : p.listPrice
+    ? "추적 시작 · 정가 대비"
+    : "추적 시작 · 매일 기록";
   return `<button type="button" class="chart-btn" data-chart="${escapeHtml(p.id)}">
     📊 가격 추이·비교 <span class="chart-btn-sub">${escapeHtml(sub)}</span>
   </button>`;
@@ -217,9 +219,9 @@ function historyBlock(p, entry) {
       ${priceChartSVG(entry, price)}
       <div class="pm-legend">
         <span><i style="background:#2f6b4f"></i>판매가</span>
-        <span><i style="background:#2563eb"></i>평균가</span>
-        <span><i style="background:#d94b2b"></i>최저가</span>
-        <span><i style="background:#2f6b4f"></i>최고가</span>
+        <span><i style="background:#2563eb"></i>평균가(점선)</span>
+        <span><b class="pm-dot" style="background:#2f6b4f"></b>최고가</span>
+        <span><b class="pm-dot" style="background:#d94b2b"></b>최저가</span>
       </div>
     </div>
     <p class="pm-fine">${mdLabel(first)} ~ ${mdLabel(
@@ -232,10 +234,14 @@ function historyBlock(p, entry) {
 function trackingBlock(p, entry) {
   const list = p.listPrice;
   const now = p.price;
+  const series = (entry && entry.series) || [];
+  const startDate = series.length ? series[0].date : "2026-11-16";
   const pct = p.discountPct || (list && now ? Math.round(((list - now) / list) * 100) : null);
   const detail = entry && entry.statusDetail;
   const reason = !entry
       ? "과거 가격 기록을 아직 불러오지 못했어요."
+    : detail === "ok"
+      ? "아직 관측 기록이 하루치뿐이에요."
     : detail === "item-mismatch"
       ? "이 상품은 같은 상품 페이지의 다른 옵션 기록만 있어서, 그 기록은 쓰지 않았어요."
       : detail === "no-records"
@@ -262,14 +268,20 @@ function trackingBlock(p, entry) {
       : "";
   return `
     <div class="pm-track">
-      <p class="pm-track-start">2026-11-16 추적 시작 · 매일 자동 기록 중</p>
+      <p class="pm-track-start">${longDate(startDate)} 추적 시작 · 매일 자동 기록 중</p>
       <p class="pm-track-desc">${escapeHtml(reason)} 오늘 확인한 가격을 첫 점으로 저장했고, 내일부터 하루 단위로 쌓여요. 쌓이면 여기에 실제 꺾은선 그래프가 그려져요.</p>
       ${bars}
     </div>`;
 }
 
+function longDate(dateStr) {
+  if (!dateStr) return "";
+  const [y, m, d] = String(dateStr).slice(0, 10).split("-");
+  return `${y}년 ${Number(m)}월 ${Number(d)}일`;
+}
+
 function positionBlock(p, entry) {
-  const st = entry && entry.stats ? entry.stats : null;
+  const hist = entry && entry.status === "history" ? entry.stats : null;
   const rows = [];
   const price = p.price;
   if (price == null) {
@@ -278,12 +290,14 @@ function positionBlock(p, entry) {
   if (p.listPrice && p.listPrice > 0) {
     rows.push(`정가 ${won(p.listPrice)} 기준 ${signedPhrase(price, p.listPrice)}`);
   }
-  if (st && st.max != null) {
-    rows.push(`관측 최고가 ${won(st.max)} 대비 ${signedPhrase(price, st.max)}`);
-    rows.push(`관측 평균가 ${won(st.avg)} 대비 ${signedPhrase(price, st.avg)}`);
-    rows.push(`관측 최저가 ${won(st.min)} 대비 ${signedPhrase(price, st.min)}`);
+  if (hist && hist.max != null) {
+    rows.push(`관측 최고가 ${won(hist.max)} 대비 ${signedPhrase(price, hist.max)}`);
+    rows.push(`관측 평균가 ${won(hist.avg)} 대비 ${signedPhrase(price, hist.avg)}`);
+    rows.push(`관측 최저가 ${won(hist.min)} 대비 ${signedPhrase(price, hist.min)}`);
+  } else if (rows.length) {
+    rows.push("과거 관측 기록은 아직 없어요. 오늘 확인한 가격부터 하루 단위로 쌓고 있어요.");
   } else {
-    rows.push("과거 관측 기록이 아직 없어서, 정가 대비 위치만 볼 수 있어요.");
+    rows.push("정가와 과거 기록이 아직 없어 비교할 값이 없어요. 기록이 쌓이면 평균가·최저가와 비교해 드릴게요.");
   }
   return `<div class="pm-block">
     <h4>① 내 가격 위치</h4>
@@ -334,7 +348,7 @@ function categoryBlock(p) {
 
 function verdictBlock(p, entry) {
   const cmp = compareFor(p);
-  const st = entry && entry.stats ? entry.stats : null;
+  const st = entry && entry.status === "history" ? entry.stats : null;
   const volatile =
     entry && entry.couprice && entry.couprice.crosscheck && entry.couprice.crosscheck.sourceWarnsVolatile;
   const bits = [];
@@ -342,13 +356,16 @@ function verdictBlock(p, entry) {
     if (cmp.topPct <= 25) bits.push(`같은 분류 가성비 상위 ${cmp.topPct}%`);
     else if (cmp.diffPct >= 10) bits.push(`분류 평균보다 ${cmp.diffPct}% 저렴`);
     else if (cmp.diffPct <= -10) bits.push(`분류 평균보다 ${Math.abs(cmp.diffPct)}% 비싼 편`);
+    else bits.push("분류 평균 수준");
   }
   if (p.discountPct && p.discountPct >= 20) bits.push(`정가 대비 ${p.discountPct}% 할인 중`);
-  if (st && p.price != null) {
+  if (st && p.price != null && st.min) {
+    const toMin = Math.round((p.price / st.min - 1) * 100);
     if (p.price <= st.min) bits.push("관측 최저가와 같은 수준");
-    else if (p.price <= st.min * 1.05) bits.push("관측 최저가에 가까워요");
-    else if (!volatile && p.price >= st.avg) bits.push("관측 평균보다 비싸요 · 급하지 않으면 기다릴 만");
-    else if (!volatile) bits.push("관측 평균 아래");
+    else if (toMin <= 5) bits.push("관측 최저가에 가까워요");
+    else if (volatile) bits.push(`관측 최저가보다 ${toMin}% 높은 가격`);
+    else if (st.avg && p.price < st.avg) bits.push(`관측 평균보다 ${Math.round((1 - p.price / st.avg) * 100)}% 낮아요`);
+    else bits.push("관측 평균보다 높아요 · 급하지 않으면 기다릴 만");
   } else {
     bits.push("오늘부터 가격 기록 시작");
   }

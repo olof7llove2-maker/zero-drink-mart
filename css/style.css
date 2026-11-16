@@ -1040,3 +1040,11 @@ main { max-width: var(--max); margin: 0 auto; padding: 4px var(--pad) 48px; }
   .pm-card { max-height: 88vh; }
   .pm-scroll { padding: 24px 22px 26px; }
 }
+.pm-legend .pm-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
