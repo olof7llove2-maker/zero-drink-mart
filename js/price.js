@@ -268,8 +268,8 @@ function trackingBlock(p, entry) {
       : "";
   return `
     <div class="pm-track">
-      <p class="pm-track-start">${longDate(startDate)} 추적 시작 · 매일 자동 기록 중</p>
-      <p class="pm-track-desc">${escapeHtml(reason)} 오늘 확인한 가격을 첫 점으로 저장했고, 내일부터 하루 단위로 쌓여요. 쌓이면 여기에 실제 꺾은선 그래프가 그려져요.</p>
+      <p class="pm-track-start">${longDate(startDate)} 추적 시작 · 기록이 쌓이는 중</p>
+      <p class="pm-track-desc">${escapeHtml(reason)} 오늘 확인한 가격을 첫 점으로 저장했어요. 기록이 쌓이면 여기에 실제 꺾은선 그래프가 그려져요.</p>
       ${bars}
     </div>`;
 }
