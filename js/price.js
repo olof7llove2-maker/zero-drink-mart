@@ -3,35 +3,37 @@
    기록이 없는 상품은 "추적 시작" 상태로 정가 대비 비교만 보여 줍니다. */
 
 function unitPer(p) {
-  if (isPowder(p)) {
-    const g = p.unitPricePer100g;
-    return typeof g === "number" && Number.isFinite(g) ? g : null;
-  }
-  const ml = p.unitPricePer100ml;
-  return typeof ml === "number" && Number.isFinite(ml) ? ml : null;
+  return measureValue(p);
 }
 
 function unitName(p) {
-  return isPowder(p) ? "100g" : "100ml";
+  return measureLabel(p);
 }
 
 const compareCache = new Map();
 
-function categoryCompare(p) {
-  const cat = p.category;
-  if (compareCache.has(cat)) return compareCache.get(cat);
+function compareInfo(key, predicate) {
+  if (compareCache.has(key)) return compareCache.get(key);
   const rows = (state.data.products || [])
-    .filter((x) => x.category === cat)
+    .filter(predicate)
     .map((x) => ({ p: x, v: unitPer(x) }))
     .filter((x) => x.v != null);
   const avg = rows.length ? rows.reduce((s, x) => s + x.v, 0) / rows.length : null;
   const info = { rows, avg, count: rows.length };
-  compareCache.set(cat, info);
+  compareCache.set(key, info);
   return info;
 }
 
-function compareFor(p) {
-  const info = categoryCompare(p);
+function categoryCompare(p) {
+  return compareInfo(`cat:${p.category}`, (x) => x.category === p.category);
+}
+
+/* 고기 파트 전체(100g 기준)와 비교 — 조리기구는 중량이 없어 뺀다 */
+function meatCompare(p) {
+  return compareInfo("meat", (x) => isMeat(x) && !isGadget(x));
+}
+
+function compareIn(info, p) {
   const v = unitPer(p);
   if (v == null || !info.count) return null;
   const lower = info.rows.filter((x) => x.v < v).length;
@@ -48,6 +50,10 @@ function compareFor(p) {
     diffPct,
     diffWon: Math.round(info.avg - v),
   };
+}
+
+function compareFor(p) {
+  return compareIn(categoryCompare(p), p);
 }
 
 function wonShort(n) {
@@ -248,7 +254,9 @@ function trackingBlock(p, entry) {
       ? "아직 이 상품의 판매가 관측 기록이 없어요."
       : detail === "fetch-error"
       ? "과거 기록을 확인하지 못했어요. 다음 수집 때 다시 확인해요."
-      : "이 상품은 쿠팡이 아닌 곳에서 팔아 과거 관측 기록이 없어요.";
+      : p.platform === "toss"
+      ? "토스에서 파는 상품이라 쿠팡 과거 관측 기록이 없어요."
+      : "이 상품은 아직 과거 관측 기록이 없어요. 오늘 확인한 가격부터 쌓아요.";
   const max = list || now;
   const listPct = max ? Math.round((now / max) * 100) : 0;
   const bars =
@@ -335,6 +343,28 @@ function categoryBlock(p) {
     cmp.value
   )}원/${u}</b> → ${u}당 ${cheaper ? `<b class="minus">${wonShort(cmp.diffWon)}원 저렴</b>` : `<b class="plus">${wonShort(-cmp.diffWon)}원 비쌈</b>`}</li>`;
   const each = p.unitEach ? `<li>${escapeHtml(p.unitEach)}</li>` : "";
+  let meatLine = "";
+  if (isMeat(p) && !isGadget(p)) {
+    const mc = compareIn(meatCompare(p), p);
+    if (mc && mc.count >= 3) {
+      meatLine = `<li>식단 고기 <b>${mc.count}개 전체</b> 100g당 평균 <b>${wonShort(
+        Math.round(mc.avg)
+      )}원</b> · 이 상품 <b>${wonShort(mc.value)}원</b> → ${
+        mc.diffWon >= 0
+          ? `<b class="minus">100g당 ${wonShort(mc.diffWon)}원 저렴</b>`
+          : `<b class="plus">100g당 ${wonShort(-mc.diffWon)}원 비쌈</b>`
+      }</li>`;
+    }
+  }
+  const gadgetNote = isGadget(p)
+    ? `<li>조리기구는 중량이 없어 <b>개당 가격</b>으로만 비교했어요.</li>`
+    : "";
+  const ratingLine =
+    p.rating != null
+      ? `<li>쿠팡 평점 <b>★ ${Number(p.rating).toFixed(1)}</b>${
+          p.reviewCount != null ? ` · 리뷰 ${Number(p.reviewCount).toLocaleString("ko-KR")}개` : ""
+        }</li>`
+      : "";
   let perGram = "";
   if (p.category === "protein") {
     const g = proteinPerG(p);
@@ -351,7 +381,7 @@ function categoryBlock(p) {
   }
   return `<div class="pm-block">
     <h4>② 카테고리 내 가성비 비교</h4>
-    <ul class="pm-list">${head}${line}${perGram}${each}</ul>
+    <ul class="pm-list">${head}${line}${meatLine}${gadgetNote}${perGram}${ratingLine}${each}</ul>
   </div>`;
 }
 

@@ -1,17 +1,20 @@
 const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
 const $ = (id) => document.getElementById(id);
 const CONV_UNIT = 2000;
+const SHARE_BASE = "https://zero-drink-mart.vercel.app";
 
 const state = {
   data: null,
   priceHistory: null,
   priceMeta: null,
-  category: "all",
+  part: "all",
+  filter: "all",
   sort: "per100",
   container: "all",
   ingredient: "all",
   calcCount: 1,
   calcTarget: "all",
+  highlightId: null,
 };
 
 function escapeHtml(s) {
@@ -20,6 +23,92 @@ function escapeHtml(s) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+/* ── 분류 구조 (대분류 → 세부 분류) ───────────────────── */
+
+function allParts() {
+  return state.data.parts && state.data.parts.length
+    ? state.data.parts
+    : [{ id: "all", label: "전체" }];
+}
+
+function partById(id) {
+  return allParts().find((p) => p.id === id) || null;
+}
+
+function currentPart() {
+  return partById(state.part);
+}
+
+function partOf(p) {
+  if (p.part) return p.part;
+  if (p.category === "protein") return "protein";
+  const cat = (state.data.categories || []).find((c) => c.id === p.category);
+  return cat && cat.part ? cat.part : "zero";
+}
+
+function meatCats() {
+  return (state.data.categories || []).filter((c) => c.part === "meat").map((c) => c.id);
+}
+
+function isMeat(p) {
+  return partOf(p) === "meat";
+}
+
+function isGadget(p) {
+  return p.category === "gadget";
+}
+
+function partFilters(partId) {
+  const part = partById(partId == null ? state.part : partId);
+  if (!part || !part.filters || !part.filters.length) {
+    return [{ id: "all", label: "전체", cats: [] }];
+  }
+  return part.filters;
+}
+
+function filterCats(partId, filterId) {
+  const pid = partId == null ? state.part : partId;
+  const fid = filterId == null ? state.filter : filterId;
+  if (pid === "all") return [];
+  const f = partFilters(pid).find((x) => x.id === fid);
+  return f ? f.cats || [] : [];
+}
+
+/* ── 단가 계산 ───────────────────────────────────────── */
+
+const MEASURE_LABEL = { per100ml: "100ml", per100g: "100g", each: "개" };
+
+function isPowder(p) {
+  return p.category === "powder" || p.container === "powder";
+}
+
+function measureKind(p) {
+  if (isGadget(p)) return "each";
+  if (isPowder(p) || isMeat(p)) return "per100g";
+  return "per100ml";
+}
+
+function measureValue(p) {
+  const kind = measureKind(p);
+  if (kind === "per100g") {
+    if (typeof p.per100g === "number" && Number.isFinite(p.per100g)) return p.per100g;
+    if (typeof p.unitPricePer100g === "number" && Number.isFinite(p.unitPricePer100g)) {
+      return p.unitPricePer100g;
+    }
+    return null;
+  }
+  if (kind === "each") {
+    return typeof p.price === "number" && Number.isFinite(p.price) ? p.price : null;
+  }
+  return typeof p.unitPricePer100ml === "number" && Number.isFinite(p.unitPricePer100ml)
+    ? p.unitPricePer100ml
+    : null;
+}
+
+function measureLabel(p) {
+  return MEASURE_LABEL[measureKind(p)];
 }
 
 function proteinValue(p) {
@@ -38,14 +127,6 @@ function kcalLabel(p) {
   return n != null ? `${n}kcal` : null;
 }
 
-function isPowder(p) {
-  return p.category === "powder" || p.container === "powder";
-}
-
-function unitKey(p) {
-  return isPowder(p) ? "unitPricePer100g" : "unitPricePer100ml";
-}
-
 function unitEachPrice(p) {
   if (p.price == null || !p.packCount) return null;
   return p.price / p.packCount;
@@ -61,6 +142,15 @@ function proteinPerG(p) {
   return Math.round(each / g);
 }
 
+function reviewCountLabel(n) {
+  if (typeof n !== "number" || !Number.isFinite(n)) return "";
+  if (n >= 10000) return `${(n / 10000).toFixed(1)}만`;
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}천`;
+  return n.toLocaleString("ko-KR");
+}
+
+/* ── 목록 고르기 ─────────────────────────────────────── */
+
 function matchesIngredient(p, ingredient) {
   if (!ingredient || ingredient === "all") return true;
   if (ingredient === "caffeine-free") return p.caffeine === "none";
@@ -68,23 +158,50 @@ function matchesIngredient(p, ingredient) {
   return true;
 }
 
-function productsIn(cat, container, ingredient) {
+function productsIn(partId, filterId, container, ingredient) {
+  const pid = partId == null ? state.part : partId;
+  const cats = filterCats(pid, filterId);
   const pack = container == null ? state.container : container;
   const ing = ingredient == null ? state.ingredient : ingredient;
-  let all = state.data.products || [];
-  if (cat && cat !== "all") all = all.filter((p) => p.category === cat);
-  if (pack && pack !== "all") all = all.filter((p) => p.container === pack);
-  if (ing && ing !== "all") all = all.filter((p) => matchesIngredient(p, ing));
+  let all = (state.data.products || []).filter((p) => {
+    if (pid !== "all" && partOf(p) !== pid) return false;
+    if (cats.length && !cats.includes(p.category)) return false;
+    return true;
+  });
+  if (pack && pack !== "all") {
+    all = all.filter((p) => (isMeat(p) ? true : p.container === pack));
+  }
+  if (ing && ing !== "all") {
+    all = all.filter((p) => (isMeat(p) ? true : matchesIngredient(p, ing)));
+  }
   return all.slice();
+}
+
+function drinkProducts() {
+  return (state.data.products || []).filter((p) => !isMeat(p));
 }
 
 function categoryOrder() {
   const ids = (state.data.categories || []).filter((c) => c.id !== "all").map((c) => c.id);
   const protein = ids.filter((id) => id === "protein");
+  const zero = ids.filter((id) => {
+    const cat = state.data.categories.find((c) => c.id === id);
+    return cat && cat.part === "zero" && id !== "powder";
+  });
   const powder = ids.filter((id) => id === "powder");
-  const rest = ids.filter((id) => id !== "protein" && id !== "powder");
-  return protein.concat(rest, powder);
+  const meat = ids.filter((id) => meatCats().includes(id));
+  return protein.concat(zero, powder, meat);
 }
+
+function categoryIdsInPart(partId) {
+  const order = categoryOrder();
+  return order.filter((id) => {
+    const cat = state.data.categories.find((c) => c.id === id);
+    return cat && cat.part === partId;
+  });
+}
+
+/* ── 정렬 ────────────────────────────────────────────── */
 
 function sortByProtein(list) {
   return list
@@ -103,35 +220,29 @@ function sortByProtein(list) {
     .map((x) => x.p);
 }
 
+function sortValueFor(p, key) {
+  if (key === "per100g") return measureKind(p) === "per100g" ? measureValue(p) : null;
+  if (key === "per100") return measureKind(p) === "per100ml" ? measureValue(p) : null;
+  if (key === "proteinPerG") return proteinPerG(p);
+  if (key === "rating") return typeof p.rating === "number" ? p.rating : null;
+  if (key === "reviews") return typeof p.reviewCount === "number" ? p.reviewCount : null;
+  if (key === "price") return typeof p.price === "number" ? p.price : null;
+  if (key === "discount") return typeof p.discountPct === "number" ? p.discountPct : null;
+  return null;
+}
+
 function sortProducts(list, forceKey) {
   const key = forceKey || state.sort;
   if (key === "protein") return sortByProtein(list);
-  const arr = list.map((p, i) => ({ p, i }));
+  const desc = key === "discount" || key === "rating" || key === "reviews";
+  const arr = list.map((p, i) => ({ p, i, v: sortValueFor(p, key) }));
   arr.sort((a, b) => {
-    if (key === "discount") {
-      const d = (b.p.discountPct || 0) - (a.p.discountPct || 0);
-      return d !== 0 ? d : a.i - b.i;
-    }
-    if (key === "price") {
-      const d = (a.p.price || Infinity) - (b.p.price || Infinity);
-      return d !== 0 ? d : a.i - b.i;
-    }
-    if (key === "proteinPerG") {
-      const av = proteinPerG(a.p);
-      const bv = proteinPerG(b.p);
-      if (av == null && bv == null) return a.i - b.i;
-      if (av == null) return 1;
-      if (bv == null) return -1;
-      if (av !== bv) return av - bv;
-      return a.i - b.i;
-    }
-    const field = key === "per100g" ? "unitPricePer100g" : unitKey(a.p) === unitKey(b.p) ? unitKey(a.p) : "unitPricePer100ml";
-    const av = a.p[field];
-    const bv = b.p[field];
-    if (av == null && bv == null) return a.i - b.i;
-    if (av == null) return 1;
-    if (bv == null) return -1;
-    if (av !== bv) return av - bv;
+    const an = a.v == null;
+    const bn = b.v == null;
+    if (an && bn) return a.i - b.i;
+    if (an) return 1;
+    if (bn) return -1;
+    if (a.v !== b.v) return desc ? b.v - a.v : a.v - b.v;
     return a.i - b.i;
   });
   return arr.map((x) => x.p);
@@ -140,21 +251,22 @@ function sortProducts(list, forceKey) {
 function cheapestIds(list) {
   const by = {};
   list.forEach((p) => {
-    const v = p[unitKey(p)];
+    const v = measureValue(p);
     if (v == null) return;
     (by[p.category] || (by[p.category] = [])).push(p);
   });
   const ids = new Set();
   Object.values(by).forEach((arr) => {
-    const field = unitKey(arr[0]);
-    const m = Math.min(...arr.map((p) => p[field]));
-    arr.filter((p) => p[field] === m).forEach((p) => ids.add(p.id));
+    const m = Math.min(...arr.map((p) => measureValue(p)));
+    arr.filter((p) => measureValue(p) === m).forEach((p) => ids.add(p.id));
   });
   return ids;
 }
 
 function cheapLabel(p) {
-  return isPowder(p) ? "100g당 가장 저렴" : "100ml당 가장 저렴";
+  const kind = measureKind(p);
+  if (kind === "each") return "가장 저렴";
+  return `${MEASURE_LABEL[kind]}당 가장 저렴`;
 }
 
 function topProteinIds(list) {
@@ -166,36 +278,77 @@ function topProteinIds(list) {
   return ids;
 }
 
-function defaultSortFor(cat) {
-  if (cat === "protein") return "protein";
-  if (cat === "powder") return "per100g";
+function defaultSortFor(partId) {
+  const pid = partId == null ? state.part : partId;
+  if (pid === "protein") return "protein";
+  if (pid === "meat") return "per100g";
   return "per100";
 }
 
-function visibleSorts() {
-  const all = state.data.sorts || [];
-  if (state.category === "protein") {
-    return all.filter((s) => s.id !== "per100g");
-  }
-  if (state.category === "powder") {
-    return all.filter((s) => s.id !== "protein" && s.id !== "per100" && s.id !== "proteinPerG");
-  }
-  if (state.category === "all") {
-    return all.filter((s) => s.id !== "per100g");
-  }
-  return all.filter((s) => s.id !== "protein" && s.id !== "per100g" && s.id !== "proteinPerG");
+function isWeightMeat(catId) {
+  return meatCats().includes(catId) && catId !== "gadget";
 }
+
+function defaultSortForCategory(catId) {
+  if (catId === "protein") return "protein";
+  if (catId === "gadget") return "price";
+  if (catId === "powder" || isWeightMeat(catId)) return "per100g";
+  return "per100";
+}
+
+function sortApplies(key, catId) {
+  if (key === "protein" || key === "proteinPerG") return catId === "protein";
+  if (key === "per100g") return catId === "powder" || isWeightMeat(catId);
+  if (key === "per100") {
+    return catId !== "protein" && catId !== "powder" && !isWeightMeat(catId) && catId !== "gadget";
+  }
+  if (key === "rating" || key === "reviews") return meatCats().includes(catId);
+  return true;
+}
+
+function visibleSorts(listArg) {
+  const list = listArg || productsIn();
+  const sorts = state.data.sorts || [];
+  const kinds = new Set(list.map(measureKind));
+  const order = [];
+  if (kinds.has("per100ml")) order.push("per100");
+  if (kinds.has("per100g")) order.push("per100g");
+  if (list.some((p) => p.category === "protein")) order.push("protein", "proteinPerG");
+  order.push("discount", "price");
+  if (list.some((p) => p.rating != null)) order.push("rating");
+  if (list.some((p) => p.reviewCount != null)) order.push("reviews");
+  return order.map((id) => sorts.find((s) => s.id === id)).filter(Boolean);
+}
+
+/* ── URL ─────────────────────────────────────────────── */
+
+const LEGACY_CAT = {
+  cola: ["zero", "fizz"],
+  cider: ["zero", "fizz"],
+  sparkling: ["zero", "water"],
+  water: ["zero", "water"],
+  acv: ["zero", "boost"],
+  ion: ["zero", "boost"],
+  energy: ["zero", "boost"],
+  icetea: ["zero", "tea"],
+  tea: ["zero", "tea"],
+  powder: ["zero", "tea"],
+  protein: ["protein", "all"],
+};
 
 function syncUrl() {
   const url = new URL(location.href);
-  if (state.category === "all") url.searchParams.delete("cat");
-  else url.searchParams.set("cat", state.category);
-  if (state.sort === defaultSortFor(state.category)) url.searchParams.delete("sort");
-  else url.searchParams.set("sort", state.sort);
-  if (state.container === "all") url.searchParams.delete("pack");
-  else url.searchParams.set("pack", state.container);
-  if (state.ingredient === "all") url.searchParams.delete("ing");
-  else url.searchParams.set("ing", state.ingredient);
+  const put = (k, v) => {
+    if (v == null || v === "" || v === "all") url.searchParams.delete(k);
+    else url.searchParams.set(k, v);
+  };
+  put("part", state.part);
+  put("f", state.filter);
+  put("sort", state.sort === defaultSortFor() ? "" : state.sort);
+  put("pack", state.container);
+  put("ing", state.ingredient);
+  put("p", state.highlightId);
+  url.searchParams.delete("cat");
   history.replaceState({}, "", url);
 }
 
@@ -205,12 +358,15 @@ function setLegalOffset() {
   document.documentElement.style.setProperty("--legal-h", legal.offsetHeight + "px");
 }
 
-function tabClick(id) {
-  const prev = state.category;
-  state.category = id;
-  if (defaultSortFor(prev) === state.sort || !visibleSorts().some((s) => s.id === state.sort)) {
-    state.sort = defaultSortFor(id);
-  }
+/* ── 탭 · 필터 ───────────────────────────────────────── */
+
+function pickPart(id) {
+  if (!partById(id)) return;
+  state.part = id;
+  state.filter = "all";
+  state.highlightId = null;
+  const prev = state.sort;
+  if (!visibleSorts().some((s) => s.id === prev)) state.sort = defaultSortFor();
   paint();
   const wrap = $("tabs-wrap");
   if (wrap && wrap.getBoundingClientRect().top < 8) {
@@ -218,23 +374,48 @@ function tabClick(id) {
   }
 }
 
-function renderTabs() {
-  const nav = $("tabs");
+function pickFilter(id) {
+  state.filter = id;
+  state.highlightId = null;
+  if (!visibleSorts().some((s) => s.id === state.sort)) state.sort = defaultSortFor();
+  paint();
+}
+
+function renderParts() {
+  const nav = $("parts");
+  if (!nav) return;
   nav.innerHTML = "";
-  state.data.categories.forEach((c) => {
+  allParts().forEach((pt) => {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "tab" + (c.id === "protein" ? " is-protein" : "");
-    btn.textContent = c.label;
-    btn.setAttribute("aria-selected", String(c.id === state.category));
-    btn.addEventListener("click", () => tabClick(c.id));
+    btn.className = "part-tab";
+    btn.setAttribute("aria-selected", String(pt.id === state.part));
+    const icon = pt.icon ? `<span class="part-ico" aria-hidden="true">${escapeHtml(pt.icon)}</span>` : "";
+    btn.innerHTML = `${icon}<span class="part-label">${escapeHtml(pt.label)}</span>`;
+    btn.addEventListener("click", () => pickPart(pt.id));
     nav.appendChild(btn);
-    if (c.id === state.category) {
-      requestAnimationFrame(() => {
-        const mid = btn.offsetLeft - nav.clientWidth / 2 + btn.offsetWidth / 2;
-        nav.scrollTo({ left: Math.max(0, mid), behavior: "smooth" });
-      });
-    }
+  });
+}
+
+function renderPartFilters() {
+  const nav = $("part-filters");
+  if (!nav) return;
+  const items = partFilters();
+  if (state.part === "all" || items.length < 2) {
+    nav.innerHTML = "";
+    nav.hidden = true;
+    return;
+  }
+  nav.hidden = false;
+  nav.innerHTML = "";
+  items.forEach((f) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "filter";
+    btn.textContent = f.label;
+    btn.setAttribute("aria-selected", String(f.id === state.filter));
+    btn.addEventListener("click", () => pickFilter(f.id));
+    nav.appendChild(btn);
   });
 }
 
@@ -253,15 +434,31 @@ function renderChipNav(nav, items, current, onPick) {
 }
 
 function renderFilters() {
-  renderChipNav($("filters"), state.data.containers || [], state.container, (id) => {
-    state.container = id;
-    paint();
-  });
+  const nav = $("filters");
+  const note = document.querySelector(".ing-note");
+  const meatOnly = state.part === "meat";
+  if (nav) {
+    nav.hidden = meatOnly;
+    if (!meatOnly) {
+      renderChipNav(nav, state.data.containers || [], state.container, (id) => {
+        state.container = id;
+        state.highlightId = null;
+        paint();
+      });
+    }
+  }
+  if (note) note.hidden = meatOnly;
 }
 
 function renderIngredients() {
-  renderChipNav($("ingredients"), state.data.ingredientFilters || [], state.ingredient, (id) => {
+  const nav = $("ingredients");
+  if (!nav) return;
+  const meatOnly = state.part === "meat";
+  nav.hidden = meatOnly;
+  if (meatOnly) return;
+  renderChipNav(nav, state.data.ingredientFilters || [], state.ingredient, (id) => {
     state.ingredient = id;
+    state.highlightId = null;
     paint();
   });
 }
@@ -274,7 +471,9 @@ function renderSorts() {
   lab.className = "sorts-label";
   lab.textContent = "비교";
   nav.appendChild(lab);
-  visibleSorts().forEach((s) => {
+  const items = visibleSorts();
+  if (!items.some((s) => s.id === state.sort)) state.sort = items[0] ? items[0].id : "price";
+  items.forEach((s) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "sort-btn";
@@ -282,11 +481,14 @@ function renderSorts() {
     btn.setAttribute("aria-selected", String(s.id === state.sort));
     btn.addEventListener("click", () => {
       state.sort = s.id;
+      state.highlightId = null;
       paint();
     });
     nav.appendChild(btn);
   });
 }
+
+/* ── 특가 ────────────────────────────────────────────── */
 
 function dropVsPrevious(p) {
   if (p.previousPrice == null || p.price == null || p.price >= p.previousPrice) return null;
@@ -356,9 +558,7 @@ function renderDeals() {
   title.textContent = heading;
   row.innerHTML = items
     .map(({ p, label }) => {
-      const img = p.image
-        ? `<img src="${p.image}" alt="" decoding="async">`
-        : "";
+      const img = p.image ? `<img src="${p.image}" alt="" decoding="async">` : "";
       return `<button type="button" class="deal-card" data-id="${escapeHtml(p.id)}">
         <div class="deal-photo">${img}</div>
         <div class="deal-body">
@@ -372,11 +572,12 @@ function renderDeals() {
   row.querySelectorAll(".deal-card").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.getAttribute("data-id");
-      const el = document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      jumpToProduct(id);
     });
   });
 }
+
+/* ── 절약 계산기 (음료만) ────────────────────────────── */
 
 function cheapestUnitIn(list) {
   let best = null;
@@ -389,7 +590,7 @@ function cheapestUnitIn(list) {
 }
 
 function calcSelection() {
-  const all = state.data.products || [];
+  const all = drinkProducts();
   const val = state.calcTarget;
   if (val === "all") {
     const best = cheapestUnitIn(all);
@@ -443,8 +644,8 @@ function calcCopyText() {
 function fillCalcSelect() {
   const sel = $("calc-type");
   if (!sel || sel.dataset.ready === "1") return;
-  const cats = (state.data.categories || []).filter((c) => c.id !== "all");
-  const all = state.data.products || [];
+  const cats = (state.data.categories || []).filter((c) => c.id !== "all" && c.part !== "meat");
+  const all = drinkProducts();
   let html = `<option value="all">전체 (가장 싼 개당가)</option>`;
   html += `<optgroup label="분류 (가장 싼 개당가)">`;
   cats.forEach((c) => {
@@ -482,16 +683,7 @@ function bindCalc() {
     copyBtn.addEventListener("click", async () => {
       const text = calcCopyText();
       if (!text) return;
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-      }
+      await copyText(text);
       if (copied) {
         copied.hidden = false;
         setTimeout(() => {
@@ -501,6 +693,8 @@ function bindCalc() {
     });
   }
 }
+
+/* ── 상품 카드 ───────────────────────────────────────── */
 
 function priceBlock(p) {
   if (p.price == null) return "";
@@ -541,8 +735,26 @@ function cta(p) {
   return `<a class="${cls}" href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`;
 }
 
+function shareChip(p) {
+  return `<button type="button" class="share-mini" data-share-product="${escapeHtml(
+    p.id
+  )}" aria-label="${escapeHtml(p.name)} 공유하기">🔗 공유</button>`;
+}
+
+function cardActions(p) {
+  return `<div class="card-actions">${cta(p)}${shareChip(p)}</div>`;
+}
+
 function chips(p, isProteinCard) {
   const parts = [];
+  const meat = isMeat(p);
+  if (meat && p.cut) {
+    parts.push(`<span class="chip chip-cut">${escapeHtml(p.cut)}</span>`);
+  }
+  if (p.rating != null) {
+    const reviews = p.reviewCount != null ? ` · 리뷰 ${reviewCountLabel(p.reviewCount)}` : "";
+    parts.push(`<span class="chip chip-rating">★ ${Number(p.rating).toFixed(1)}${reviews}</span>`);
+  }
   if (!isProteinCard) {
     const kcalText = kcalLabel(p);
     if (kcalText) parts.push(`<span class="chip chip-kcal">${escapeHtml(kcalText)}</span>`);
@@ -573,15 +785,16 @@ function proteinHero(p) {
 
 function photoHTML(p, rankMark) {
   if (p.image) {
-    return `<div class="photo">${rankMark}<img src="${p.image}" alt="${escapeHtml(p.name)}" decoding="async"></div>`;
+    return `<div class="photo">${rankMark}<img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" decoding="async"></div>`;
   }
   return `<div class="photo is-blank">${rankMark}<span>사진 준비 중</span></div>`;
 }
 
 function card(p, cheap, topProt, rank) {
   const isProtein = p.category === "protein";
+  const meat = isMeat(p);
   const el = document.createElement("article");
-  el.className = "card" + (isProtein ? " card-protein" : "");
+  el.className = "card" + (isProtein ? " card-protein" : "") + (meat ? " card-meat" : "");
   el.dataset.id = p.id;
   const rankMark = isProtein && rank ? `<span class="rank">${rank}</span>` : "";
   const cheapBadge = cheap ? `<span class="cheap-badge">${cheapLabel(p)}</span>` : "";
@@ -598,17 +811,27 @@ function card(p, cheap, topProt, rank) {
       ${typeof cmpMini === "function" ? cmpMini(p) : ""}
       ${typeof chartButton === "function" ? chartButton(p) : ""}
       <p class="when">${escapeHtml(when)}</p>
-      ${cta(p)}
+      ${cardActions(p)}
     </div>
   `;
   return el;
+}
+
+/* ── 한눈에 비교표 ───────────────────────────────────── */
+
+function unitHeadFor(list) {
+  const kinds = new Set(list.map(measureKind));
+  if (kinds.size !== 1) return "단가";
+  const kind = [...kinds][0];
+  if (kind === "each") return "개당";
+  return `${MEASURE_LABEL[kind]}당`;
 }
 
 function renderCompare(list) {
   const sec = $("compare");
   const table = $("compare-table");
   if (!sec || !table) return;
-  if (state.category === "all" || list.length < 2) {
+  if (list.length < 2) {
     sec.hidden = true;
     table.innerHTML = "";
     return;
@@ -617,35 +840,44 @@ function renderCompare(list) {
   const showProtein = list.some((p) => proteinValue(p) != null);
   const showKcal = list.some((p) => kcalLabel(p));
   const showPerG = list.some((p) => proteinPerG(p) != null);
-  const powder = list.every(isPowder);
-  const unitHead = powder ? "100g당" : "100ml당";
+  const showRating = list.some((p) => p.rating != null);
+  const showCut = list.some((p) => p.cut);
+  const unitHead = unitHeadFor(list);
   const cheap = cheapestIds(list);
   const topProt = topProteinIds(list);
   const head = `<thead><tr>
     <th>상품</th>
-    <th>맛</th>
+    <th>${showCut ? "부위" : "맛"}</th>
     <th>${unitHead}</th>
     <th>할인</th>
+    ${showRating ? "<th>평점</th>" : ""}
     ${showKcal ? "<th>열량</th>" : ""}
     ${showProtein ? "<th>단백질</th>" : ""}
     ${showPerG ? "<th>1g당</th>" : ""}
   </tr></thead>`;
   const rows = list.map((p) => {
-    const per = p.unitPrice || "";
+    const v = measureValue(p);
+    const per = v != null ? won(v) : "";
     const disc = p.discountPct ? `${p.discountPct}%` : "";
     const marks = [
       cheap.has(p.id) ? `<span class="cheap-dot">${cheapLabel(p)}</span>` : "",
       topProt.has(p.id) ? `<span class="protein-dot">단백질 가장 많음</span>` : "",
     ].join("");
-    const thumb = p.image ? `<img src="${p.image}" alt="">` : "";
+    const thumb = p.image ? `<img src="${p.image}" alt="" loading="lazy">` : "";
     const kcalText = kcalLabel(p);
     const prot = proteinValue(p);
     const perg = proteinPerG(p);
+    const rating = p.rating != null
+      ? `★ ${Number(p.rating).toFixed(1)}${
+          p.reviewCount != null ? `<span class="cmp-reviews">${reviewCountLabel(p.reviewCount)}</span>` : ""
+        }`
+      : "";
     return `<tr>
       <td class="cmp-name">${thumb}<span>${escapeHtml(p.name)}${marks}</span></td>
-      <td>${escapeHtml(p.kind || p.flavor || "")}</td>
-      <td>${escapeHtml(per)}</td>
+      <td>${escapeHtml(p.cut || p.kind || p.flavor || "")}</td>
+      <td>${per}</td>
       <td>${disc}</td>
+      ${showRating ? `<td>${rating}</td>` : ""}
       ${showKcal ? `<td>${kcalText ? escapeHtml(kcalText) : ""}</td>` : ""}
       ${showProtein ? `<td>${prot != null ? `${prot}g` : ""}</td>` : ""}
       ${showPerG ? `<td>${perg != null ? won(perg) : ""}</td>` : ""}
@@ -653,6 +885,8 @@ function renderCompare(list) {
   }).join("");
   table.innerHTML = `${head}<tbody>${rows}</tbody>`;
 }
+
+/* ── 목록 그리기 ─────────────────────────────────────── */
 
 function proteinRanks(list) {
   const ranks = {};
@@ -666,13 +900,18 @@ function proteinRanks(list) {
 }
 
 function groupHint(catId) {
+  const chosen = sortApplies(state.sort, catId) ? state.sort : defaultSortForCategory(catId);
   if (catId === "protein") {
-    if (state.sort === "proteinPerG") return "단백질 1g당 가격 낮은 순";
-    if (state.sort === "discount") return "할인율 높은 순";
-    if (state.sort === "price") return "박스 가격 낮은 순";
+    if (chosen === "proteinPerG") return "단백질 1g당 가격 낮은 순";
+    if (chosen === "discount") return "할인율 높은 순";
+    if (chosen === "price") return "박스 가격 낮은 순";
     return "병당 단백질 높은 순";
   }
-  if (catId === "powder") return "100g당 가격 낮은 순";
+  if (chosen === "per100g") return "100g당 가격 낮은 순";
+  if (chosen === "discount") return "할인율 높은 순";
+  if (chosen === "price") return "가격 낮은 순";
+  if (chosen === "rating") return "평점 높은 순";
+  if (chosen === "reviews") return "리뷰 많은 순";
   return "100ml당 가격 낮은 순";
 }
 
@@ -681,14 +920,9 @@ function proteinUsesGOrder() {
 }
 
 function orderedForGroup(catId, list) {
-  if (catId === "protein") {
-    if (state.sort === "proteinPerG" || state.sort === "discount" || state.sort === "price") {
-      return sortProducts(list, state.sort);
-    }
-    return sortByProtein(list);
-  }
-  if (catId === "powder") return sortProducts(list, "per100g");
-  return sortProducts(list, state.category === "all" ? "per100" : state.sort);
+  const chosen = sortApplies(state.sort, catId) ? state.sort : defaultSortForCategory(catId);
+  if (chosen === "protein") return sortByProtein(list);
+  return sortProducts(list, chosen);
 }
 
 function renderGroup(parent, catId, list, cheap, topProt) {
@@ -716,18 +950,40 @@ function renderGroup(parent, catId, list, cheap, topProt) {
   parent.appendChild(sec);
 }
 
+function partHead(partId, count) {
+  const part = partById(partId);
+  const wrap = document.createElement("div");
+  wrap.className = "part-head";
+  wrap.innerHTML = `<span class="part-head-ico" aria-hidden="true">${escapeHtml(
+    (part && part.icon) || ""
+  )}</span><h2>${escapeHtml((part && part.label) || partId)}</h2><span class="part-head-count">${count}개</span>`;
+  return wrap;
+}
+
+function groupedIds(list) {
+  const ids = [];
+  categoryOrder().forEach((id) => {
+    if (list.some((p) => p.category === id)) ids.push(id);
+  });
+  return ids;
+}
+
 function renderProducts() {
   const grid = $("grid");
   const empty = $("empty");
   const note = $("cat-note");
-  const cat = state.data.categories.find((c) => c.id === state.category);
-  const list = productsIn(state.category, state.container, state.ingredient);
-  const cheap = cheapestIds(list.length ? list : productsIn("all", state.container, state.ingredient));
+  const part = currentPart();
+  const cat = (state.data.categories || []).find((c) => c.id === state.filter);
+  const list = productsIn();
+  const cheap = cheapestIds(list.length ? list : productsIn("all", "all", state.container, state.ingredient));
   const topProt = topProteinIds(state.data.products);
 
-  if (cat && cat.note) {
+  const noteText = [cat && cat.note ? cat.note : "", part && part.note ? part.note : ""]
+    .filter(Boolean)
+    .join(" ");
+  if (noteText) {
     note.hidden = false;
-    note.textContent = cat.note;
+    note.textContent = noteText;
   } else {
     note.hidden = true;
     note.textContent = "";
@@ -745,25 +1001,129 @@ function renderProducts() {
   empty.hidden = true;
   grid.hidden = false;
 
-  if (state.category === "all") {
+  const ids = groupedIds(list);
+  const groupMode = state.part === "all" || ids.length > 1;
+  const showPartHeads = state.part === "all";
+
+  if (groupMode) {
     grid.className = "groups";
-    categoryOrder().forEach((id) => {
-      const items = list.filter((p) => p.category === id);
-      if (items.length) renderGroup(grid, id, items, cheap, topProt);
-    });
+    if (showPartHeads) {
+      ["protein", "zero", "meat"].forEach((pid) => {
+        const items = list.filter((p) => partOf(p) === pid);
+        if (!items.length) return;
+        const section = document.createElement("section");
+        section.className = `part-section part-section-${pid}`;
+        section.appendChild(partHead(pid, items.length));
+        categoryIdsInPart(pid).forEach((cid) => {
+          const group = items.filter((p) => p.category === cid);
+          if (group.length) renderGroup(section, cid, group, cheap, topProt);
+        });
+        grid.appendChild(section);
+      });
+    } else {
+      ids.forEach((cid) => {
+        const group = list.filter((p) => p.category === cid);
+        if (group.length) renderGroup(grid, cid, group, cheap, topProt);
+      });
+    }
     renderCompare([]);
-  } else {
-    const isProtein = state.category === "protein";
-    const ordered = isProtein && state.sort === "protein"
-      ? sortByProtein(list)
-      : sortProducts(list);
-    const ranks = isProtein && state.sort === "protein" ? proteinRanks(ordered) : {};
-    ordered.forEach((p) => grid.appendChild(card(p, cheap.has(p.id), topProt.has(p.id), ranks[p.id])));
-    renderCompare(ordered);
+    return;
   }
+
+  const catId = ids[0];
+  const ordered = orderedForGroup(catId, list);
+  const ranks = catId === "protein" && proteinUsesGOrder() ? proteinRanks(ordered) : {};
+  ordered.forEach((p) => grid.appendChild(card(p, cheap.has(p.id), topProt.has(p.id), ranks[p.id])));
+  renderCompare(ordered);
 }
 
-/* ---- 홈 화면 바로가기 추가 ---- */
+function jumpToProduct(id) {
+  const p = (state.data.products || []).find((x) => x.id === id);
+  const el = document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.add("is-flash");
+    setTimeout(() => el.classList.remove("is-flash"), 2600);
+    return true;
+  }
+  if (!p) return false;
+  state.part = partOf(p);
+  state.filter = "all";
+  state.sort = defaultSortFor();
+  paint();
+  requestAnimationFrame(() => {
+    const target = document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("is-flash");
+      setTimeout(() => target.classList.remove("is-flash"), 2600);
+    }
+  });
+  return true;
+}
+
+/* ── 공유 ────────────────────────────────────────────── */
+
+let toastTimer = null;
+
+function showToast(message) {
+  const t = $("toast");
+  if (!t) return;
+  t.textContent = message;
+  t.hidden = false;
+  requestAnimationFrame(() => t.classList.add("is-on"));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    t.classList.remove("is-on");
+    t.hidden = true;
+  }, 2400);
+}
+
+function shareLinkFor(p) {
+  return p ? `${SHARE_BASE}/?p=${encodeURIComponent(p.id)}` : `${SHARE_BASE}/`;
+}
+
+function shareTextFor(p) {
+  if (!p) return "제로 음료·단백질 음료·식단 고기를 단가로 비교하는 띠니마트예요.";
+  const price = p.price != null ? `${won(p.price)} · ` : "";
+  const unit = p.unitPrice ? `${p.unitPrice}` : "";
+  return `띠니마트에서 본 상품: ${p.name} / ${price}${unit}`.trim();
+}
+
+async function shareMart(p) {
+  const url = shareLinkFor(p);
+  const title = p ? `띠니마트 · ${p.name}` : "띠니마트 · 단가 비교";
+  const text = shareTextFor(p);
+  if (typeof navigator.share === "function") {
+    try {
+      await navigator.share({ title, text, url });
+      return;
+    } catch (err) {
+      if (err && (err.name === "AbortError" || err.name === "NotAllowedError")) return;
+    }
+  }
+  const ok = await copyText(url);
+  showToast(ok ? "공유 링크가 복사됐어요!" : `직접 복사해 주세요: ${url}`);
+}
+
+function initShare() {
+  document.addEventListener("click", (e) => {
+    const productBtn = e.target.closest("[data-share-product]");
+    if (productBtn) {
+      const id = productBtn.getAttribute("data-share-product");
+      const p = (state.data.products || []).find((x) => x.id === id);
+      shareMart(p || null);
+      return;
+    }
+    const btn = e.target.closest("[data-share]");
+    if (btn) {
+      shareMart(null);
+    }
+  });
+}
+
+/* ── 홈 화면 바로가기 추가 ───────────────────────────── */
+
 let installPromptEvent = null;
 
 window.addEventListener("beforeinstallprompt", (e) => {
@@ -789,8 +1149,14 @@ function isStandalone() {
 }
 
 function hideShortcutBanners() {
-  document.querySelectorAll(".shortcut-wrap").forEach((el) => {
-    el.hidden = true;
+  document.querySelectorAll("[data-shortcut]").forEach((btn) => {
+    btn.hidden = true;
+  });
+  document.querySelectorAll(".shortcut-row").forEach((row) => {
+    row.classList.add("is-solo");
+  });
+  document.querySelectorAll(".shortcut-sub").forEach((sub) => {
+    sub.hidden = true;
   });
 }
 
@@ -840,7 +1206,7 @@ function shortcutGuide() {
         "목록에서 '홈 화면에 추가'를 골라요",
         "오른쪽 위 '추가'를 누르면 끝!",
       ],
-      hint: "홈 화면의 띠니 아이콘으로 앱처럼 바로 열려요.",
+      hint: "홈 화면에 '띠니마트' 아이콘으로 추가돼요.",
     };
   }
 
@@ -863,7 +1229,7 @@ function shortcutGuide() {
         "'앱 설치' 또는 '홈 화면에 추가'를 골라요",
         "'설치'를 누르면 끝!",
       ],
-      hint: "Chrome에서 주소창 오른쪽 설치 아이콘이 보이면 그걸 눌러도 돼요.",
+      hint: "설치하면 홈 화면에 '띠니마트'로 보여요.",
     };
   }
 
@@ -984,7 +1350,6 @@ function initShortcut() {
     btn.addEventListener("click", onShortcutClick);
   });
   if (isStandalone()) {
-    // 이미 홈 화면 앱으로 열고 있으면 배너는 숨기고 안내만 남깁니다.
     hideShortcutBanners();
   }
   const modal = $("install-modal");
@@ -1015,9 +1380,12 @@ function initShortcut() {
   }
 }
 
+/* ── 시작 ────────────────────────────────────────────── */
+
 function paint() {
   syncUrl();
-  renderTabs();
+  renderParts();
+  renderPartFilters();
   renderFilters();
   renderIngredients();
   renderSorts();
@@ -1031,6 +1399,7 @@ function catalogFromGlobals() {
   return {
     site: typeof SITE !== "undefined" ? SITE : {},
     categories: typeof CATEGORIES !== "undefined" ? CATEGORIES : [],
+    parts: typeof PARTS !== "undefined" ? PARTS : [],
     sorts: typeof SORTS !== "undefined" ? SORTS : [],
     containers: typeof CONTAINERS !== "undefined" ? CONTAINERS : [],
     ingredientFilters: typeof INGREDIENT_FILTERS !== "undefined" ? INGREDIENT_FILTERS : [],
@@ -1046,24 +1415,34 @@ async function loadCatalog() {
   return res.json();
 }
 
-async function init() {
-  setLegalOffset();
-  initShortcut();
-  window.addEventListener("resize", setLegalOffset);
-  state.data = await loadCatalog();
-  if (typeof loadPriceHistory === "function") await loadPriceHistory();
-  if (typeof initPriceModal === "function") initPriceModal();
+function applyUrlState() {
   const q = new URLSearchParams(location.search);
-  if (q.get("cat") && state.data.categories.some((c) => c.id === q.get("cat"))) {
-    state.category = q.get("cat");
-  }
-  state.sort = defaultSortFor(state.category);
+  const partIds = allParts().map((p) => p.id);
+  const legacy = q.get("cat") ? LEGACY_CAT[q.get("cat")] : null;
+  const wantedPart = q.get("part") || (legacy ? legacy[0] : "all");
+  if (partIds.includes(wantedPart)) state.part = wantedPart;
+  const filterId = q.get("f") || (legacy ? legacy[1] : "all");
+  if (partFilters(state.part).some((f) => f.id === filterId)) state.filter = filterId;
+  state.sort = defaultSortFor();
   const sorts = (state.data.sorts || []).map((s) => s.id);
   if (q.get("sort") && sorts.includes(q.get("sort"))) state.sort = q.get("sort");
   const packs = (state.data.containers || []).map((c) => c.id);
   if (q.get("pack") && packs.includes(q.get("pack"))) state.container = q.get("pack");
   const ings = (state.data.ingredientFilters || []).map((c) => c.id);
   if (q.get("ing") && ings.includes(q.get("ing"))) state.ingredient = q.get("ing");
+  const pid = q.get("p");
+  if (pid && (state.data.products || []).some((p) => p.id === pid)) state.highlightId = pid;
+}
+
+async function init() {
+  setLegalOffset();
+  initShortcut();
+  initShare();
+  window.addEventListener("resize", setLegalOffset);
+  state.data = await loadCatalog();
+  if (typeof loadPriceHistory === "function") await loadPriceHistory();
+  if (typeof initPriceModal === "function") initPriceModal();
+  applyUrlState();
   const when = $("source-when");
   if (when) {
     const src = state.data.site.sourceNote || "";
@@ -1073,6 +1452,10 @@ async function init() {
   fillCalcSelect();
   bindCalc();
   paint();
+  if (state.highlightId) {
+    const id = state.highlightId;
+    setTimeout(() => jumpToProduct(id), 60);
+  }
 }
 
 init().catch((err) => {

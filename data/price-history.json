@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-16T16:45:45+09:00",
+  "generatedAt": "2026-11-16T17:04:24+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -22,9 +22,9 @@
   ],
   "tally": {
    "history": 29,
-   "tracking-started": 0,
-   "not-tracked": 12,
-   "item-mismatch": 12,
+   "tracking-started": 75,
+   "not-tracked": 38,
+   "item-mismatch": 13,
    "no-records": 1,
    "error": 23
   }
@@ -11503,6 +11503,837 @@
     "maxDate": "2026-11-16",
     "avg": 8990,
     "latest": 8990,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-nonghyup-anximhanwoo-sukseongdeungsim-200g": {
+   "id": "meat-beef-nonghyup-anximhanwoo-sukseongdeungsim-200g",
+   "name": "농협안심한우 숙성등심 1등급 구이용 (냉장), 200g, 1개",
+   "platform": "coupang",
+   "cardPrice": 18680,
+   "cardPriceCheckedAt": "2026-11-16 16:10",
+   "cardListPrice": 31760,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 18680,
+     "ts": "2026-11-16T16:10:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 18680,
+    "minDate": "2026-11-16",
+    "max": 18680,
+    "maxDate": "2026-11-16",
+    "avg": 18680,
+    "latest": 18680,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-mokuchon-chaekkeut-300g": {
+   "id": "meat-beef-mokuchon-chaekkeut-300g",
+   "name": "목우촌 국내산 소고기 채끝 구이용 (냉장), 300g, 1개",
+   "platform": "coupang",
+   "cardPrice": 23880,
+   "cardPriceCheckedAt": "2026-11-16 16:12",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 23880,
+     "ts": "2026-11-16T16:12:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 23880,
+    "minDate": "2026-11-16",
+    "max": 23880,
+    "maxDate": "2026-11-16",
+    "avg": 23880,
+    "latest": 23880,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-us-choice-buchaesal-steak-1kg": {
+   "id": "meat-beef-us-choice-buchaesal-steak-1kg",
+   "name": "미국산 초이스 부채살 스테이크 (냉장), 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 38900,
+   "cardPriceCheckedAt": "2026-11-16 16:10",
+   "cardListPrice": 49900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 38900,
+     "ts": "2026-11-16T16:10:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 38900,
+    "minDate": "2026-11-16",
+    "max": 38900,
+    "maxDate": "2026-11-16",
+    "avg": 38900,
+    "latest": 38900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-au-salchisal-steak-400g": {
+   "id": "meat-beef-au-salchisal-steak-400g",
+   "name": "호주산 살치살 스테이크 (냉장), 400g, 1개",
+   "platform": "coupang",
+   "cardPrice": 24600,
+   "cardPriceCheckedAt": "2026-11-16 16:10",
+   "cardListPrice": 29900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 24600,
+     "ts": "2026-11-16T16:10:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 24600,
+    "minDate": "2026-11-16",
+    "max": 24600,
+    "maxDate": "2026-11-16",
+    "avg": 24600,
+    "latest": 24600,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-miteunjoy-galbi-400g": {
+   "id": "meat-beef-miteunjoy-galbi-400g",
+   "name": "미트엔조이 미국산 갈비살구이 (냉장), 400g, 1개",
+   "platform": "coupang",
+   "cardPrice": 19990,
+   "cardPriceCheckedAt": "2026-11-16 16:58",
+   "cardListPrice": 25900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 19990,
+     "ts": "2026-11-16T16:58:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 19990,
+    "minDate": "2026-11-16",
+    "max": 19990,
+    "maxDate": "2026-11-16",
+    "avg": 19990,
+    "latest": 19990,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-dodram-handon-samgyeopsal-1kg": {
+   "id": "meat-pork-dodram-handon-samgyeopsal-1kg",
+   "name": "도드람 한돈 1등급 삼겹살 구이용 (냉장), 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 24230,
+   "cardPriceCheckedAt": "2026-11-16 16:15",
+   "cardListPrice": 38000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 24230,
+     "ts": "2026-11-16T16:15:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 24230,
+    "minDate": "2026-11-16",
+    "max": 24230,
+    "maxDate": "2026-11-16",
+    "avg": 24230,
+    "latest": 24230,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-moamit-canada-samgyeopsal-1kg": {
+   "id": "meat-pork-moamit-canada-samgyeopsal-1kg",
+   "name": "모아미트 캐나다산 보리먹인 암퇘지 삼겹살 구이용 (냉장), 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 16730,
+   "cardPriceCheckedAt": "2026-11-16 16:15",
+   "cardListPrice": 23990,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 16730,
+     "ts": "2026-11-16T16:15:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 16730,
+    "minDate": "2026-11-16",
+    "max": 16730,
+    "maxDate": "2026-11-16",
+    "avg": 16730,
+    "latest": 16730,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-moamit-canada-moksal-1kg": {
+   "id": "meat-pork-moamit-canada-moksal-1kg",
+   "name": "모아미트 캐나다산 보리먹인 암퇘지 목살 구이용 (냉장), 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 14770,
+   "cardPriceCheckedAt": "2026-11-16 16:35",
+   "cardListPrice": 22660,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 14770,
+     "ts": "2026-11-16T16:35:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 14770,
+    "minDate": "2026-11-16",
+    "max": 14770,
+    "maxDate": "2026-11-16",
+    "avg": 14770,
+    "latest": 14770,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-handon-hindleg-2kg": {
+   "id": "meat-pork-handon-hindleg-2kg",
+   "name": "한돈 뒷다리살 개별포장 (지방제거), 10개, 200g",
+   "platform": "coupang",
+   "cardPrice": 29800,
+   "cardPriceCheckedAt": "2026-11-16 16:35",
+   "cardListPrice": 42600,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 29800,
+     "ts": "2026-11-16T16:35:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 29800,
+    "minDate": "2026-11-16",
+    "max": 29800,
+    "maxDate": "2026-11-16",
+    "avg": 29800,
+    "latest": 29800,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-saengsaengfork-gaelmaegi-300g": {
+   "id": "meat-pork-saengsaengfork-gaelmaegi-300g",
+   "name": "생생포크 한돈 갈매기살 구이용, 300g, 1개",
+   "platform": "coupang",
+   "cardPrice": 14480,
+   "cardPriceCheckedAt": "2026-11-16 16:58",
+   "cardListPrice": 15590,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 14480,
+     "ts": "2026-11-16T16:58:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 14480,
+    "minDate": "2026-11-16",
+    "max": 14480,
+    "maxDate": "2026-11-16",
+    "avg": 14480,
+    "latest": 14480,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-harim-jayeonsilrok-breast-400g": {
+   "id": "meat-chicken-harim-jayeonsilrok-breast-400g",
+   "name": "하림 자연실록 무항생제 인증 닭가슴살 (냉장), 400g, 1개",
+   "platform": "coupang",
+   "cardPrice": 6550,
+   "cardPriceCheckedAt": "2026-11-16 16:20",
+   "cardListPrice": 6900,
+   "sourceUrl": "https://www.couprice.co.kr/products/x-162464612",
+   "couprice": {
+    "ids": {
+     "productId": "162464612",
+     "itemId": "19225066005",
+     "vendorItemId": "86341721618"
+    },
+    "sameItem": false,
+    "crosscheck": {
+     "source60Min": 5500,
+     "source60Max": 12240,
+     "sourceRecords": 28,
+     "sourceCurrent": 6900,
+     "sourceWarnsVolatile": true
+    }
+   },
+   "coupang": {
+    "productId": "162464612",
+    "itemId": "466799169",
+    "vendorItemId": "4163973144"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "item-mismatch",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 6550,
+     "ts": "2026-11-16T16:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 6550,
+    "minDate": "2026-11-16",
+    "max": 6550,
+    "maxDate": "2026-11-16",
+    "avg": 6550,
+    "latest": 6550,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-harim-iff-breast-2kg": {
+   "id": "meat-chicken-harim-iff-breast-2kg",
+   "name": "하림 IFF 닭가슴살 (냉동), 2kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 22200,
+   "cardPriceCheckedAt": "2026-11-16 16:20",
+   "cardListPrice": 22900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 22200,
+     "ts": "2026-11-16T16:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 22200,
+    "minDate": "2026-11-16",
+    "max": 22200,
+    "maxDate": "2026-11-16",
+    "avg": 22200,
+    "latest": 22200,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-harim-tenderloin-350g": {
+   "id": "meat-chicken-harim-tenderloin-350g",
+   "name": "하림 자연실록 무항생제 인증 닭 안심 (냉장), 350g, 1개",
+   "platform": "coupang",
+   "cardPrice": 6150,
+   "cardPriceCheckedAt": "2026-11-16 16:30",
+   "cardListPrice": 8900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 6150,
+     "ts": "2026-11-16T16:30:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 6150,
+    "minDate": "2026-11-16",
+    "max": 6150,
+    "maxDate": "2026-11-16",
+    "avg": 6150,
+    "latest": 6150,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-hangang-iqf-tenderloin-2kg": {
+   "id": "meat-chicken-hangang-iqf-tenderloin-2kg",
+   "name": "한강 무항생제 인증 IQF 닭 안심 (냉동), 2kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 18400,
+   "cardPriceCheckedAt": "2026-11-16 16:30",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 18400,
+     "ts": "2026-11-16T16:30:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 18400,
+    "minDate": "2026-11-16",
+    "max": 18400,
+    "maxDate": "2026-11-16",
+    "avg": 18400,
+    "latest": 18400,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-pultorae-drumstick-2kg": {
+   "id": "meat-chicken-pultorae-drumstick-2kg",
+   "name": "풀토래 신선냉장 닭통다리살 정육 (국내산 순살), 2kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 26500,
+   "cardPriceCheckedAt": "2026-11-16 16:30",
+   "cardListPrice": 31000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 26500,
+     "ts": "2026-11-16T16:30:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 26500,
+    "minDate": "2026-11-16",
+    "max": 26500,
+    "maxDate": "2026-11-16",
+    "avg": 26500,
+    "latest": 26500,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-lamb-gome-shoulderrack-400g": {
+   "id": "meat-lamb-gome-shoulderrack-400g",
+   "name": "고메프리미엄 호주산 램 숄더랙 구이용 (냉동), 400g, 1개",
+   "platform": "coupang",
+   "cardPrice": 19500,
+   "cardPriceCheckedAt": "2026-11-16 16:25",
+   "cardListPrice": 22800,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 19500,
+     "ts": "2026-11-16T16:25:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 19500,
+    "minDate": "2026-11-16",
+    "max": 19500,
+    "maxDate": "2026-11-16",
+    "avg": 19500,
+    "latest": 19500,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-lamb-gome-frenchrack-300g": {
+   "id": "meat-lamb-gome-frenchrack-300g",
+   "name": "고메프리미엄 호주산 램 프랜치랙 구이용 (냉동), 300g, 1개",
+   "platform": "coupang",
+   "cardPrice": 23150,
+   "cardPriceCheckedAt": "2026-11-16 16:25",
+   "cardListPrice": 31200,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 23150,
+     "ts": "2026-11-16T16:25:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 23150,
+    "minDate": "2026-11-16",
+    "max": 23150,
+    "maxDate": "2026-11-16",
+    "avg": 23150,
+    "latest": 23150,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-duck-dahyang-hunje-600g": {
+   "id": "meat-duck-dahyang-hunje-600g",
+   "name": "다향 1등급 훈제 오리 슬라이스, 600g, 1개",
+   "platform": "coupang",
+   "cardPrice": 12670,
+   "cardPriceCheckedAt": "2026-11-16 16:45",
+   "cardListPrice": 16900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 12670,
+     "ts": "2026-11-16T16:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 12670,
+    "minDate": "2026-11-16",
+    "max": 12670,
+    "maxDate": "2026-11-16",
+    "avg": 12670,
+    "latest": 12670,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-duck-gomgom-hunje-600g": {
+   "id": "meat-duck-gomgom-hunje-600g",
+   "name": "곰곰 1등급 원료육을 사용한 훈제오리슬라이스 (냉장), 600g, 1개",
+   "platform": "coupang",
+   "cardPrice": 10140,
+   "cardPriceCheckedAt": "2026-11-16 16:45",
+   "cardListPrice": 15000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 10140,
+     "ts": "2026-11-16T16:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 10140,
+    "minDate": "2026-11-16",
+    "max": 10140,
+    "maxDate": "2026-11-16",
+    "avg": 10140,
+    "latest": 10140,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-duck-mokuchon-herbgarlic-6pack": {
+   "id": "meat-duck-mokuchon-herbgarlic-6pack",
+   "name": "목우촌 허브갈릭 훈제오리 슬라이스 210g 6팩, 6개",
+   "platform": "coupang",
+   "cardPrice": 22500,
+   "cardPriceCheckedAt": "2026-11-16 16:45",
+   "cardListPrice": 30900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 22500,
+     "ts": "2026-11-16T16:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 22500,
+    "minDate": "2026-11-16",
+    "max": 22500,
+    "maxDate": "2026-11-16",
+    "avg": 22500,
+    "latest": 22500,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-salmon-mowi-saeng-500g": {
+   "id": "meat-salmon-mowi-saeng-500g",
+   "name": "모위 프리미엄 생연어 횟감용 (냉장), 500g, 1개",
+   "platform": "coupang",
+   "cardPrice": 22480,
+   "cardPriceCheckedAt": "2026-11-16 16:47",
+   "cardListPrice": 28900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 22480,
+     "ts": "2026-11-16T16:47:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 22480,
+    "minDate": "2026-11-16",
+    "max": 22480,
+    "maxDate": "2026-11-16",
+    "avg": 22480,
+    "latest": 22480,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-salmon-gomgom-hunje-500g": {
+   "id": "meat-salmon-gomgom-hunje-500g",
+   "name": "곰곰 훈제 연어 슬라이스 (냉동), 500g, 1개",
+   "platform": "coupang",
+   "cardPrice": 17490,
+   "cardPriceCheckedAt": "2026-11-16 16:47",
+   "cardListPrice": 21000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 17490,
+     "ts": "2026-11-16T16:47:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 17490,
+    "minDate": "2026-11-16",
+    "max": 17490,
+    "maxDate": "2026-11-16",
+    "avg": 17490,
+    "latest": 17490,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-salmon-eunhasusan-steak-400g": {
+   "id": "meat-salmon-eunhasusan-steak-400g",
+   "name": "은하수산 노르웨이 연어 필렛 스테이크용, 400g, 1팩",
+   "platform": "coupang",
+   "cardPrice": 21490,
+   "cardPriceCheckedAt": "2026-11-16 16:47",
+   "cardListPrice": 24900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 21490,
+     "ts": "2026-11-16T16:47:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 21490,
+    "minDate": "2026-11-16",
+    "max": 21490,
+    "maxDate": "2026-11-16",
+    "avg": 21490,
+    "latest": 21490,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-gadget-homeplanet-airfryer-3-5l": {
+   "id": "meat-gadget-homeplanet-airfryer-3-5l",
+   "name": "홈플래닛 에어프라이어 3.5L, AF-611, 블랙",
+   "platform": "coupang",
+   "cardPrice": 36990,
+   "cardPriceCheckedAt": "2026-11-16 16:50",
+   "cardListPrice": 90000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 36990,
+     "ts": "2026-11-16T16:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 36990,
+    "minDate": "2026-11-16",
+    "max": 36990,
+    "maxDate": "2026-11-16",
+    "avg": 36990,
+    "latest": 36990,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-gadget-jaewon-budicook-airfryer-3-9l": {
+   "id": "meat-gadget-jaewon-budicook-airfryer-3-9l",
+   "name": "재원전자 버디쿡 에어프라이어 3.9L, BD8002S, 블랙",
+   "platform": "coupang",
+   "cardPrice": 43900,
+   "cardPriceCheckedAt": "2026-11-16 16:50",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 43900,
+     "ts": "2026-11-16T16:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 43900,
+    "minDate": "2026-11-16",
+    "max": 43900,
+    "maxDate": "2026-11-16",
+    "avg": 43900,
+    "latest": 43900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-gadget-homeplanet-electric-grill": {
+   "id": "meat-gadget-homeplanet-electric-grill",
+   "name": "홈플래닛 반반 멀티 전기그릴(개별 온도 조절), AD-SK18",
+   "platform": "coupang",
+   "cardPrice": 31180,
+   "cardPriceCheckedAt": "2026-11-16 16:52",
+   "cardListPrice": 39000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 31180,
+     "ts": "2026-11-16T16:52:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 31180,
+    "minDate": "2026-11-16",
+    "max": 31180,
+    "maxDate": "2026-11-16",
+    "avg": 31180,
+    "latest": 31180,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-gadget-billiebin-griddle-pan-39cm": {
+   "id": "meat-gadget-billiebin-griddle-pan-39cm",
+   "name": "빌리빈 무쇠 캠핑 그리들팬 + 전용가방 세트, 39cm, 1세트",
+   "platform": "coupang",
+   "cardPrice": 20740,
+   "cardPriceCheckedAt": "2026-11-16 16:52",
+   "cardListPrice": 39000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 20740,
+     "ts": "2026-11-16T16:52:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 20740,
+    "minDate": "2026-11-16",
+    "max": 20740,
+    "maxDate": "2026-11-16",
+    "avg": 20740,
+    "latest": 20740,
     "latestDate": "2026-11-16",
     "observations": 1,
     "days": 1

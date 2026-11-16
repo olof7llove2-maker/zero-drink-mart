@@ -3,28 +3,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>띠니 | 제로음료·단백질음료 100ml당 가격 비교</title>
-  <meta name="description" content="제로 음료와 단백질 음료를 100ml당 가격과 병당 단백질(g)로 비교해요. 확인한 시각 기준이며, 가격은 바뀔 수 있어요.">
-  <meta name="theme-color" content="#F6F3EC">
+  <title>띠니마트 | 제로음료·단백질음료·식단고기 단가 비교</title>
+  <meta name="description" content="제로 음료는 100ml당, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 확인한 시각 기준이며, 가격은 바뀔 수 있어요.">
+  <meta name="theme-color" content="#2FBE8C">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <link rel="apple-touch-icon" href="images/apple-touch.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="띠니 마트">
+  <meta name="apple-mobile-web-app-title" content="띠니마트">
+  <meta name="application-name" content="띠니마트">
   <meta name="mobile-web-app-capable" content="yes">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="띠니 | 제로음료·단백질음료 100ml당 가격 비교">
-  <meta property="og:description" content="제로 음료는 100ml당 가격 순으로, 단백질 음료는 병당 단백질(g) 순으로 비교해요. 가격은 바뀔 수 있어요.">
-  <meta property="og:image" content="https://zero-drink-mart.vercel.app/images/zero-100ml-rank.png">
-  <meta property="og:image:width" content="1080">
-  <meta property="og:image:height" content="1350">
-  <meta property="og:image:alt" content="제로음료 100ml당 가격 순위">
+  <meta property="og:site_name" content="띠니마트">
+  <meta property="og:title" content="띠니마트 | 제로음료·단백질음료·식단고기 단가 비교">
+  <meta property="og:description" content="제로 음료는 100ml당, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta property="og:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="띠니마트 아이콘">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="띠니 | 제로음료·단백질음료 100ml당 가격 비교">
-  <meta name="twitter:description" content="제로 음료는 100ml당 가격 순으로, 단백질 음료는 병당 단백질(g) 순으로 비교해요. 가격은 바뀔 수 있어요.">
-  <meta name="twitter:image" content="https://zero-drink-mart.vercel.app/images/zero-100ml-rank.png">
+  <meta name="twitter:title" content="띠니마트 | 제로음료·단백질음료·식단고기 단가 비교">
+  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta name="twitter:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="stylesheet" href="css/style.css">
@@ -38,33 +40,37 @@
 
   <header class="top">
     <div class="top-inner">
-      <a class="brand" href="#top" aria-label="띠니 홈">
-        <span class="mark" aria-hidden="true">띠</span>
+      <a class="brand" href="#top" aria-label="띠니마트 홈">
+        <img class="mark-img" src="images/icon-192.png" alt="" width="40" height="40" decoding="async">
         <span class="word">
-          <strong>띠니</strong>
-          <em>제로 음료 비교 마트</em>
+          <strong>띠니마트</strong>
+          <em>제로 음료 · 단백질 · 식단 고기 비교</em>
         </span>
       </a>
     </div>
     <div class="shortcut-wrap">
-      <button type="button" class="shortcut-btn" data-shortcut>📲 홈 화면 바로가기 추가</button>
-      <p class="shortcut-sub">한 번 추가하면 앱처럼 바로 열려요</p>
+      <div class="shortcut-row">
+        <button type="button" class="shortcut-btn" data-shortcut>📲 띠니 마트 바로가기 추가</button>
+        <button type="button" class="share-btn" data-share>🔗 마트 공유하기</button>
+      </div>
+      <p class="shortcut-sub">한 번 추가하면 홈 화면에서 '띠니마트'로 바로 열려요</p>
     </div>
   </header>
 
   <main id="top">
     <section class="hero">
-      <p class="eyebrow">단백질부터, 단가로 비교해요</p>
-      <h1>제로 음료 비교 마트</h1>
+      <p class="eyebrow">제로 음료부터 식단 고기까지, 단가로 비교해요</p>
+      <h1>띠니마트</h1>
       <p class="lead">
-        단백질 음료는 병당 단백질(g)이 높은 순으로, 제로 음료는 분류마다 100ml당 가격이 낮은 순으로 모아 두었어요.
-        분말·티백은 100g당 가격으로 따로 비교해요. 효능을 약속하지 않아요.
+        제로 음료는 100ml당 가격, 단백질 음료는 병당 단백질(g), 식단 고기는 100g당 가격으로 모았어요.
+        고기·조리기구는 맨 뒤에 두었어요. 효능을 약속하지 않아요.
       </p>
       <p class="when" id="source-when"></p>
     </section>
 
     <div class="tabs-wrap" id="tabs-wrap">
-      <nav class="tabs" id="tabs" aria-label="음료 분류"></nav>
+      <nav class="parts" id="parts" aria-label="대분류"></nav>
+      <nav class="filters part-filters" id="part-filters" aria-label="세부 분류" hidden></nav>
       <nav class="filters" id="filters" aria-label="용기"></nav>
       <nav class="filters ingredients" id="ingredients" aria-label="성분"></nav>
       <p class="ing-note">성분표 확인된 상품만 표시</p>
@@ -116,9 +122,12 @@
     <p class="legal-foot">이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격은 확인한 시각 기준이며, 바뀔 수 있어요. 건강·효능을 약속하지 않아요.</p>
     <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
     <div class="shortcut-wrap shortcut-wrap-foot">
-      <button type="button" class="shortcut-btn shortcut-btn-foot" data-shortcut>📲 홈 화면 바로가기 추가</button>
+      <div class="shortcut-row">
+        <button type="button" class="shortcut-btn shortcut-btn-foot" data-shortcut>📲 띠니 마트 바로가기 추가</button>
+        <button type="button" class="share-btn share-btn-foot" data-share>🔗 마트 공유하기</button>
+      </div>
     </div>
-    <p class="copy">띠니 · 제로 음료 비교 마트</p>
+    <p class="copy">띠니 · 띠니마트</p>
   </footer>
 
   <div class="install-modal" id="install-modal" hidden>
@@ -142,6 +151,8 @@
       <div class="pm-scroll" id="pm-body"></div>
     </div>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="js/price.js" defer></script>
   <script src="js/products.js" defer></script>

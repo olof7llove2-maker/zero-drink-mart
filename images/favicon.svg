@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
-  <rect width="160" height="160" rx="44" fill="#FF6B4A"/>
-  <text x="80" y="108" text-anchor="middle" font-family="Jua, Pretendard, sans-serif" font-size="86" fill="#FFF7F0">띠</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2FBE8C"/>
+      <stop offset="100%" stop-color="#18966F"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#mint)"/>
+  <g fill="#FFFFFF">
+    <rect x="16" y="18" width="7" height="28" rx="3.5"/>
+    <rect x="16" y="18" width="32" height="7" rx="3.5"/>
+    <rect x="16" y="39" width="32" height="7" rx="3.5"/>
+    <rect x="16" y="28.5" width="25" height="7" rx="3.5"/>
+  </g>
+  <circle cx="33" cy="26" r="2.6" fill="#0A7458"/>
+  <circle cx="41.5" cy="26" r="2.6" fill="#0A7458"/>
 </svg>

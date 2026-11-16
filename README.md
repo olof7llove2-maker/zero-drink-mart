@@ -4,8 +4,12 @@
 `index.html` 하나와 `css/`, `js/`, `images/`, `data/` 자산으로 이루어져 있고, 빌드 없이 그대로 열립니다.
 
 - 배포: GitHub Pages (main 브랜치 루트)
-- 상품 데이터: `js/products.js` (77개 상품). `data/products.json`은 같은 데이터의 JSON 사본입니다.
-- 구매 링크: 각 상품의 `affiliateUrl`만 사용합니다.
+- 상품 데이터: `js/products.js` (104개 상품). `data/products.json`은 같은 데이터의 JSON 사본입니다.
+- 대분류 3단: `PARTS`(전체 · 🥤 제로 음료 · 💪 단백질 음료 · 🥩 식단 고기) → `CATEGORIES`(세부 분류).
+  `전체`에서는 단백질·제로 음료가 먼저, 고기·조리기구가 맨 뒤에 옵니다.
+- 고기·조리기구 27종은 `data/meat-candidates.json` 원본을 `scripts/merge_meat_products.py`로 합칩니다.
+- 구매 링크: 각 상품의 `affiliateUrl`만 사용합니다. 공유 버튼은 제휴 링크가 아니라 마트 주소를 공유합니다.
+- 홈 화면 아이콘: `python3 scripts/make_icons.py` (민트 배경 + 흰 'ㅌ' 캐릭터).
 
 ## 가격 추이·비교 분석
 

@@ -1,14 +1,14 @@
 {
-  "name": "띠니 | 제로 음료 비교 마트",
-  "short_name": "띠니 마트",
-  "description": "제로 음료와 단백질 음료를 100ml당 가격과 병당 단백질(g)로 비교해요.",
+  "name": "띠니마트",
+  "short_name": "띠니마트",
+  "description": "제로 음료·단백질 음료·식단 고기를 100ml·100g당 가격으로 비교하는 띠니마트",
   "lang": "ko",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f6f3ec",
-  "theme_color": "#2f6b4f",
+  "theme_color": "#2FBE8C",
   "icons": [
     {
       "src": "images/icon-192.png",

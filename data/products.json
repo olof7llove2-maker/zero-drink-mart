@@ -4,7 +4,7 @@
     "tagline": "제로 음료 비교 마트",
     "disclosure": "이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
     "priceNote": "가격은 바뀔 수 있어요",
-    "sourceNote": "쿠팡 검색 판매량순 목록에서 2026-11-15 19:25(Asia/Seoul)에 확인한 값이에요. 토스 상품 가격은 2026-11-16 14:00(Asia/Seoul) 토스쇼핑 카테고리 판매 베스트에서 확인한 값이에요.",
+    "sourceNote": "쿠팡 검색 판매량순 목록에서 2026-11-15 19:25(Asia/Seoul)에 확인한 값이에요. 토스 상품 가격은 2026-11-16 14:00(Asia/Seoul) 토스쇼핑 카테고리 판매 베스트에서 확인한 값이에요. 고기·조리기구 가격은 2026-11-16 16:00~17:00(Asia/Seoul)에 쿠팡에서 확인한 값이에요.",
     "kakao": {
       "label": "카톡 핫딜방",
       "note": "무료, 알림만 와요",
@@ -15,53 +15,245 @@
   "categories": [
     {
       "id": "all",
-      "label": "전체"
+      "label": "전체",
+      "part": "all"
     },
     {
       "id": "protein",
       "label": "단백질 음료",
+      "part": "protein",
       "note": "병당 단백질(g)과 열량은 쿠팡 상품 페이지에서 2026-11-15 19:51(Asia/Seoul)에 확인한 값이에요. 병당 가격은 박스 가격을 개수로 나눈 값이에요. 정가와 할인율이 확인되지 않은 상품은 판매가만 적어요."
     },
     {
       "id": "cola",
-      "label": "제로 콜라"
+      "label": "제로 콜라",
+      "part": "zero"
     },
     {
       "id": "cider",
-      "label": "제로 사이다"
+      "label": "제로 사이다",
+      "part": "zero"
     },
     {
       "id": "sparkling",
-      "label": "탄산수"
+      "label": "탄산수",
+      "part": "zero"
     },
     {
       "id": "water",
-      "label": "생수"
+      "label": "생수",
+      "part": "zero"
     },
     {
       "id": "acv",
-      "label": "애사비"
+      "label": "애사비",
+      "part": "zero"
     },
     {
       "id": "ion",
-      "label": "제로 이온"
+      "label": "제로 이온",
+      "part": "zero"
     },
     {
       "id": "energy",
-      "label": "제로 에너지"
+      "label": "제로 에너지",
+      "part": "zero"
     },
     {
       "id": "icetea",
-      "label": "제로 아이스티"
+      "label": "제로 아이스티",
+      "part": "zero"
     },
     {
       "id": "tea",
-      "label": "무당 차음료"
+      "label": "무당 차음료",
+      "part": "zero"
     },
     {
       "id": "powder",
       "label": "분말·티백",
+      "part": "zero",
       "note": "가루와 티백은 100g당 가격으로 비교해요. 100ml당 비교에는 넣지 않아요."
+    },
+    {
+      "id": "beef",
+      "label": "소고기",
+      "part": "meat"
+    },
+    {
+      "id": "pork",
+      "label": "돼지고기",
+      "part": "meat"
+    },
+    {
+      "id": "chicken",
+      "label": "닭고기",
+      "part": "meat"
+    },
+    {
+      "id": "lamb",
+      "label": "양고기",
+      "part": "meat"
+    },
+    {
+      "id": "duck",
+      "label": "오리",
+      "part": "meat"
+    },
+    {
+      "id": "salmon",
+      "label": "연어",
+      "part": "meat"
+    },
+    {
+      "id": "gadget",
+      "label": "조리기구",
+      "part": "meat"
+    }
+  ],
+  "parts": [
+    {
+      "id": "all",
+      "label": "전체",
+      "icon": "",
+      "note": ""
+    },
+    {
+      "id": "zero",
+      "label": "제로 음료",
+      "icon": "🥤",
+      "note": "제로 음료는 분류마다 100ml당 가격이 낮은 순으로 모았어요. 분말·티백은 100g당 가격으로 따로 비교해요.",
+      "filters": [
+        {
+          "id": "all",
+          "label": "전체",
+          "cats": [
+            "cola",
+            "cider",
+            "sparkling",
+            "water",
+            "acv",
+            "ion",
+            "energy",
+            "icetea",
+            "tea",
+            "powder"
+          ]
+        },
+        {
+          "id": "fizz",
+          "label": "탄산(콜라/사이다)",
+          "cats": [
+            "cola",
+            "cider"
+          ]
+        },
+        {
+          "id": "water",
+          "label": "탄산수/생수",
+          "cats": [
+            "sparkling",
+            "water"
+          ]
+        },
+        {
+          "id": "tea",
+          "label": "차/아이스티",
+          "cats": [
+            "icetea",
+            "tea",
+            "powder"
+          ]
+        },
+        {
+          "id": "boost",
+          "label": "이온/에너지/애사비",
+          "cats": [
+            "ion",
+            "energy",
+            "acv"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "protein",
+      "label": "단백질 음료",
+      "icon": "💪",
+      "note": "병당 단백질(g)이 높은 순으로 보여 줘요. 카드마다 병당 단백질과 열량을 같이 적었어요.",
+      "filters": [
+        {
+          "id": "all",
+          "label": "전체",
+          "cats": [
+            "protein"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meat",
+      "label": "식단 고기",
+      "icon": "🥩",
+      "note": "고기는 100g당 가격과 부위 태그로 비교해요. 가격은 2026-11-16 16:00~17:00(Asia/Seoul)에 쿠팡에서 확인한 값이고, 평점 4.5 이상·리뷰 수백 건 이상 상품만 골랐어요. 조리기구는 중량 비교 대신 개당 가격으로 봐요.",
+      "filters": [
+        {
+          "id": "all",
+          "label": "전체",
+          "cats": [
+            "beef",
+            "pork",
+            "chicken",
+            "lamb",
+            "duck",
+            "salmon",
+            "gadget"
+          ]
+        },
+        {
+          "id": "beef",
+          "label": "소고기",
+          "cats": [
+            "beef"
+          ]
+        },
+        {
+          "id": "pork",
+          "label": "돼지고기",
+          "cats": [
+            "pork"
+          ]
+        },
+        {
+          "id": "chicken",
+          "label": "닭고기",
+          "cats": [
+            "chicken"
+          ]
+        },
+        {
+          "id": "lamb",
+          "label": "양고기",
+          "cats": [
+            "lamb"
+          ]
+        },
+        {
+          "id": "duck",
+          "label": "오리/연어",
+          "cats": [
+            "duck",
+            "salmon"
+          ]
+        },
+        {
+          "id": "gadget",
+          "label": "에어프라이어/조리기구",
+          "cats": [
+            "gadget"
+          ]
+        }
+      ]
     }
   ],
   "sorts": [
@@ -88,6 +280,14 @@
     {
       "id": "proteinPerG",
       "label": "단백질 1g당 가격"
+    },
+    {
+      "id": "rating",
+      "label": "평점"
+    },
+    {
+      "id": "reviews",
+      "label": "리뷰 많은 순"
     }
   ],
   "products": [
@@ -118,7 +318,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItMTJArLg",
       "previousPrice": null,
       "lowest30d": 15860,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "cola-zero",
@@ -147,7 +348,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItOndi2bA",
       "previousPrice": null,
       "lowest30d": 18700,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "kokakolra-jero-190ml-30gae",
@@ -176,7 +378,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItPagulY4",
       "previousPrice": null,
       "lowest30d": 15900,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "kokakolra-jerojero-190ml-30gae",
@@ -205,7 +408,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItPJ2tpJI",
       "previousPrice": null,
       "lowest30d": 14000,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "pepsi-jerosyugeo-raimhyang-1-5l-12gae",
@@ -233,7 +437,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItQpTuPu0",
       "previousPrice": null,
       "lowest30d": 19850,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "narangd-cider-zero",
@@ -262,7 +467,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItReSD3RI",
       "previousPrice": null,
       "lowest30d": 12770,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "narangdeusaida-jero-345ml-24gae",
@@ -291,7 +497,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItSnfKkdo",
       "previousPrice": null,
       "lowest30d": 11610,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "narangdeusaida-jero-500ml-24gae",
@@ -320,7 +527,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItSQobxZY",
       "previousPrice": null,
       "lowest30d": 15250,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "chilseongsaida-jero-210ml-30gae",
@@ -349,7 +557,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItTjzxDHw",
       "previousPrice": null,
       "lowest30d": 16280,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "narangdeusaida-jero-1-5l-12gae",
@@ -379,7 +588,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItTMuyPKK",
       "previousPrice": null,
       "lowest30d": 15870,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "teurebi-peulrein-190ml-30gae",
@@ -406,7 +616,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItUsXqMeG",
       "previousPrice": null,
       "lowest30d": 9900,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "teurebi-remon-eco-tansaneumryo-murabel-350ml-20gae",
@@ -433,7 +644,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItUXU6W7g",
       "previousPrice": null,
       "lowest30d": 11410,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "singha-sodawoteo-tansansu-325ml-24gae",
@@ -462,7 +674,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItVsHazsX",
       "previousPrice": null,
       "lowest30d": 19200,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "tamsaseupakeulring-peulrein-murabel-500ml-20gae",
@@ -492,7 +705,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItVZ95NE4",
       "previousPrice": null,
       "lowest30d": 8790,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "chojeongtansansu-190ml-30gae",
@@ -519,7 +733,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItWvikENg",
       "previousPrice": null,
       "lowest30d": 10900,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "keulrup-aesabisoda-orijineol-500ml-24gae",
@@ -549,7 +764,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItWWN0hoW",
       "previousPrice": null,
       "lowest30d": 26440,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "keulrup-aesabisoda-orijineol-jero-250ml-24gae",
@@ -578,7 +794,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItXpPVIZM",
       "previousPrice": null,
       "lowest30d": 17900,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae",
@@ -607,7 +824,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItXXWTVmK",
       "previousPrice": null,
       "lowest30d": 14000,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "keulrup-aesabisoda-jadu-jero-tansaneumryo-6gae-500ml",
@@ -636,7 +854,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItYnmOkTs",
       "previousPrice": null,
       "lowest30d": 8370,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "toreta-jero-ioneumryo-500ml-24gae",
@@ -665,7 +884,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iItZjIQ5e0",
       "previousPrice": null,
       "lowest30d": 17950,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "ringti-jero-boksungamat-24gae-500ml",
@@ -694,7 +914,8 @@
       "affiliateUrl": "https://www.coupang.com/vp/products/8635201145?itemId=21986831341&vendorItemId=88529545005&q=%EC%A0%9C%EB%A1%9C%20%EC%9D%B4%EC%98%A8%EC%9D%8C%EB%A3%8C&searchId=3bf68c0b12001360&sourceType=search&rank=1&itemsCount=36&searchRank=1",
       "previousPrice": null,
       "lowest30d": 21200,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "pawoeideu-jero-600ml-20gae",
@@ -723,7 +944,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt1zVxWM0",
       "previousPrice": null,
       "lowest30d": 19760,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "bita500-ionkik-jero-eumryo-1-5l-12gae",
@@ -753,7 +975,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt2uKsxVs",
       "previousPrice": null,
       "lowest30d": 17180,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "monster-ultra",
@@ -782,7 +1005,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt3EwD8LI",
       "previousPrice": null,
       "lowest30d": 30330,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "hatsikseu-deoking-jero-24gae-355ml",
@@ -809,7 +1033,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt4sCQA9I",
       "previousPrice": null,
       "lowest30d": 19400,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "bakkaseu-eolbaksa-jero-24gae-355ml",
@@ -837,7 +1062,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt5iNYs2e",
       "previousPrice": null,
       "lowest30d": 10750,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "ripton-jero-boksunga-aiseuti-355ml-24gae",
@@ -867,7 +1093,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt578w1pA",
       "previousPrice": null,
       "lowest30d": 12300,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "tamsa-jero-seuwit-boksunga-aiseuti-1gae-2-1l",
@@ -896,7 +1123,8 @@
       "affiliateUrl": "https://www.coupang.com/vp/products/8680257652?itemId=25198395932&vendorItemId=92195025635&q=%EC%A0%9C%EB%A1%9C%20%EC%95%84%EC%9D%B4%EC%8A%A4%ED%8B%B0&searchId=3696e00c10781597&sourceType=search&rank=2&itemsCount=36&searchRank=2",
       "previousPrice": null,
       "lowest30d": 3990,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "haneulbori-500ml-20gae",
@@ -925,7 +1153,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt7ZQUv0e",
       "previousPrice": null,
       "lowest30d": 14100,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "haneulbori-eko-murabel-1-5l-12gae",
@@ -953,7 +1182,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIt8Nxhtym",
       "previousPrice": null,
       "lowest30d": 15550,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "dahada-hobakpatcha-1-5g-40gaeip-1gae",
@@ -982,7 +1212,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIuaOSBoGG",
       "previousPrice": null,
       "lowest30d": 5900,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "maeilduyu-godanbaek-geomeunkong-190ml-24gae",
@@ -1019,7 +1250,8 @@
       "previousPrice": null,
       "lowest30d": 17890,
       "priceHistoryDays": 1,
-      "proteinPerG": 62
+      "proteinPerG": 62,
+      "part": "protein"
     },
     {
       "id": "maeilduyu-godanbaek-peulrein-duyu-190ml-24gae",
@@ -1057,7 +1289,8 @@
       "previousPrice": null,
       "lowest30d": 15990,
       "priceHistoryDays": 1,
-      "proteinPerG": 56
+      "proteinPerG": 56,
+      "part": "protein"
     },
     {
       "id": "deodanbaek-deuringkeu-choko-250ml-18gae",
@@ -1093,7 +1326,8 @@
       "previousPrice": null,
       "lowest30d": 23930,
       "priceHistoryDays": 1,
-      "proteinPerG": 66
+      "proteinPerG": 66,
+      "part": "protein"
     },
     {
       "id": "nyukeeo-olpeurotin-gosohanmat-245ml-24gae",
@@ -1131,7 +1365,8 @@
       "previousPrice": null,
       "lowest30d": 41320,
       "priceHistoryDays": 1,
-      "proteinPerG": 69
+      "proteinPerG": 69,
+      "part": "protein"
     },
     {
       "id": "maeilduyu-99-9-seoritae-24gae-190ml",
@@ -1168,7 +1403,8 @@
       "previousPrice": null,
       "lowest30d": 17430,
       "priceHistoryDays": 1,
-      "proteinPerG": 81
+      "proteinPerG": 81,
+      "part": "protein"
     },
     {
       "id": "amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae",
@@ -1205,7 +1441,8 @@
       "previousPrice": null,
       "lowest30d": 17490,
       "priceHistoryDays": 1,
-      "proteinPerG": 121
+      "proteinPerG": 121,
+      "part": "protein"
     },
     {
       "id": "deodanbaek-deuringkeu-ttalgi-250ml-18gae",
@@ -1241,7 +1478,8 @@
       "previousPrice": null,
       "lowest30d": 23290,
       "priceHistoryDays": 1,
-      "proteinPerG": 65
+      "proteinPerG": 65,
+      "part": "protein"
     },
     {
       "id": "deodanbaek-deuringkeu-keopi-a-250ml-18gae",
@@ -1277,7 +1515,8 @@
       "previousPrice": null,
       "lowest30d": 23780,
       "priceHistoryDays": 1,
-      "proteinPerG": 66
+      "proteinPerG": 66,
+      "part": "protein"
     },
     {
       "id": "teikeupit-maekseu-chokomat-peurotin-250ml-24gae",
@@ -1310,7 +1549,8 @@
       "previousPrice": null,
       "lowest30d": 32000,
       "priceHistoryDays": 1,
-      "proteinPerG": 56
+      "proteinPerG": 56,
+      "part": "protein"
     },
     {
       "id": "haimyun-peurotin-baelreonseu-aektibeu-orijineol-250ml-18gae",
@@ -1343,7 +1583,8 @@
       "previousPrice": null,
       "lowest30d": 28000,
       "priceHistoryDays": 1,
-      "proteinPerG": 78
+      "proteinPerG": 78,
+      "part": "protein"
     },
     {
       "id": "selrekseu-peuropit-moka-chokolrit-250ml-18gae",
@@ -1376,7 +1617,8 @@
       "previousPrice": null,
       "lowest30d": 24900,
       "priceHistoryDays": 1,
-      "proteinPerG": 69
+      "proteinPerG": 69,
+      "part": "protein"
     },
     {
       "id": "maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae",
@@ -1406,7 +1648,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIui1XAZkO",
       "previousPrice": null,
       "lowest30d": 30500,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "protein"
     },
     {
       "id": "dakteoyu-peuro-danbaekjil-40g-deuringkeu-choko-350ml-6gae",
@@ -1439,7 +1682,8 @@
       "previousPrice": null,
       "lowest30d": 16500,
       "priceHistoryDays": 1,
-      "proteinPerG": 69
+      "proteinPerG": 69,
+      "part": "protein"
     },
     {
       "id": "deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae",
@@ -1474,7 +1718,8 @@
       "previousPrice": null,
       "lowest30d": 53070,
       "priceHistoryDays": 1,
-      "proteinPerG": 66
+      "proteinPerG": 66,
+      "part": "protein"
     },
     {
       "id": "dakteoyu-danbaekjildeuringkeu-ttalgi-40g-350ml-6gae",
@@ -1507,7 +1752,8 @@
       "previousPrice": null,
       "lowest30d": 17070,
       "priceHistoryDays": 1,
-      "proteinPerG": 71
+      "proteinPerG": 71,
+      "part": "protein"
     },
     {
       "id": "deodanbaek-deuringkeu-dakeuchoko-330ml-12gae",
@@ -1543,7 +1789,8 @@
       "previousPrice": null,
       "lowest30d": 28140,
       "priceHistoryDays": 1,
-      "proteinPerG": 67
+      "proteinPerG": 67,
+      "part": "protein"
     },
     {
       "id": "seupakeul-seupakeulring-tansansu-peulrein-500ml-20byeong",
@@ -1573,7 +1820,8 @@
       "affiliateUrl": "https://toss.shopping/_m/fkCMZHV5",
       "previousPrice": null,
       "lowest30d": 8900,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "seupakeul-saengsu-murabel-500ml-40byeong",
@@ -1604,7 +1852,8 @@
       "affiliateUrl": "https://toss.shopping/_m/PZVZCR3g",
       "previousPrice": null,
       "lowest30d": 8870,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "haetaehtb-galbaesaida-jero-355ml-24gae",
@@ -1633,7 +1882,8 @@
       "lowest30d": 11900,
       "priceHistoryDays": 1,
       "listPrice": 19900,
-      "discountPct": 40
+      "discountPct": 40,
+      "part": "zero"
     },
     {
       "id": "seupeuraiteu-jero-saida-350ml-24gae",
@@ -1662,7 +1912,8 @@
       "lowest30d": 14460,
       "priceHistoryDays": 1,
       "listPrice": 23000,
-      "discountPct": 37
+      "discountPct": 37,
+      "part": "zero"
     },
     {
       "id": "welchiseu-jero-geureipeumat-355ml-24gae",
@@ -1689,7 +1940,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIum0P12Ki",
       "previousPrice": null,
       "lowest30d": 16400,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "chorokmaesil-seupakeulring-jero-kaen-350ml-24gae",
@@ -1718,7 +1970,8 @@
       "lowest30d": 13510,
       "priceHistoryDays": 1,
       "listPrice": 13900,
-      "discountPct": 2
+      "discountPct": 2,
+      "part": "zero"
     },
     {
       "id": "keulrup-jerosoda-podo-250ml-24gae",
@@ -1747,7 +2000,8 @@
       "lowest30d": 15920,
       "priceHistoryDays": 1,
       "listPrice": 18000,
-      "discountPct": 11
+      "discountPct": 11,
+      "part": "zero"
     },
     {
       "id": "getorei-jero-600ml-24gae",
@@ -1774,7 +2028,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIuo11bVDw",
       "previousPrice": null,
       "lowest30d": 19300,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "ipeuro-bujokhalttae-jero-boksunga-500ml-24gae",
@@ -1801,7 +2056,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIupDvE5NQ",
       "previousPrice": null,
       "lowest30d": 17120,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "boseonghongcha-aiseuti-jero-aepeul-syainmeoseukaet-500ml-24gae",
@@ -1830,7 +2086,8 @@
       "lowest30d": 16900,
       "priceHistoryDays": 1,
       "listPrice": 52800,
-      "discountPct": 67
+      "discountPct": 67,
+      "part": "zero"
     },
     {
       "id": "pepsi-jerosyugeo-pichihyang-355ml-24gae",
@@ -1857,7 +2114,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIuqJG1zxs",
       "previousPrice": null,
       "lowest30d": 15900,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "redeubul-syugapeuri-250ml-24gae",
@@ -1884,7 +2142,8 @@
       "affiliateUrl": "https://link.coupang.com/a/iIurhSbR2O",
       "previousPrice": null,
       "lowest30d": 55000,
-      "priceHistoryDays": 1
+      "priceHistoryDays": 1,
+      "part": "zero"
     },
     {
       "id": "matitneunduyugt-godanbaek-duyu-190ml-24gae",
@@ -1918,7 +2177,8 @@
       "nutritionCheckedLabel": "11/15 20:51 쿠팡 상품 페이지 기준",
       "protein_g_per_bottle": 13,
       "proteinStatus": "13g",
-      "proteinPerG": 43
+      "proteinPerG": 43,
+      "part": "protein"
     },
     {
       "id": "keeowel-baelreonseun-godanbaek-bananamat-200ml-60gae",
@@ -1955,7 +2215,8 @@
       "proteinStatus": "8g",
       "proteinPerG": 178,
       "kcal_per_bottle": 200,
-      "kcalStatus": "200kcal"
+      "kcalStatus": "200kcal",
+      "part": "protein"
     },
     {
       "id": "heoswi-chokolrit-deuringkeu-peurotin-235ml-24gae",
@@ -1989,7 +2250,8 @@
       "nutritionCheckedLabel": "11/15 20:51 쿠팡 상품 페이지 기준",
       "protein_g_per_bottle": 8,
       "proteinStatus": "8g",
-      "proteinPerG": 104
+      "proteinPerG": 104,
+      "part": "protein"
     },
     {
       "id": "yeonseduyu-godanbaek-geomeunkong-aen-gokalsyum-jeodang-190ml-32gae",
@@ -2023,7 +2285,8 @@
       "proteinStatus": "12.9g",
       "proteinPerG": 61,
       "kcal_per_bottle": 155,
-      "kcalStatus": "155kcal"
+      "kcalStatus": "155kcal",
+      "part": "protein"
     },
     {
       "id": "bejimil-godanbaekduyu-geomeunkong-190ml-32gae",
@@ -2055,7 +2318,8 @@
       "nutritionCheckedLabel": "11/15 20:51 쿠팡 상품 페이지 기준",
       "protein_g_per_bottle": 12,
       "proteinStatus": "12g",
-      "proteinPerG": 47
+      "proteinPerG": 47,
+      "part": "protein"
     },
     {
       "id": "yeonseduyu-godanbaek-pro-peulrein-240ml-32gae",
@@ -2091,7 +2355,8 @@
       "proteinStatus": "24g",
       "proteinPerG": 39,
       "kcal_per_bottle": 180,
-      "kcalStatus": "180kcal"
+      "kcalStatus": "180kcal",
+      "part": "protein"
     },
     {
       "id": "binggeure-yopeulre-peurotin-deuringkeu-ttalgibanana-210ml-12gae",
@@ -2123,7 +2388,8 @@
       "nutritionCheckedLabel": "11/15 20:51 쿠팡 상품 페이지 기준",
       "protein_g_per_bottle": 17,
       "proteinStatus": "17g",
-      "proteinPerG": 120
+      "proteinPerG": 120,
+      "part": "protein"
     },
     {
       "id": "maipeurotin-deuringkeu-sigeunicheo-chokolrit-340ml-24gae",
@@ -2160,7 +2426,8 @@
       "proteinStatus": "28g",
       "proteinPerG": 85,
       "kcal_per_bottle": 145,
-      "kcalStatus": "145kcal"
+      "kcalStatus": "145kcal",
+      "part": "protein"
     },
     {
       "platform": "toss",
@@ -2191,7 +2458,8 @@
       "unitPrice": "100ml당 175원",
       "url": "https://sharelink.toss.im/links/products/24493527",
       "affiliateUrl": "https://toss.shopping/_m/J3InQ13l",
-      "image": "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg"
+      "image": "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2222,7 +2490,8 @@
       "unitPrice": "100ml당 160원",
       "url": "https://sharelink.toss.im/links/products/1267220657",
       "affiliateUrl": "https://toss.shopping/_m/pLZ9Y3ex",
-      "image": "images/toss-pepsi-jero-kolra-eopsoyong-500ml-20gae.jpg"
+      "image": "images/toss-pepsi-jero-kolra-eopsoyong-500ml-20gae.jpg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2253,7 +2522,8 @@
       "unitPrice": "100ml당 172원",
       "url": "https://sharelink.toss.im/links/products/11253613",
       "affiliateUrl": "https://toss.shopping/_m/xE9OBSS1",
-      "image": "images/toss-bureureu-kolra-jero-250ml-30gae.jpg"
+      "image": "images/toss-bureureu-kolra-jero-250ml-30gae.jpg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2284,7 +2554,8 @@
       "unitPrice": "100ml당 212원",
       "url": "https://sharelink.toss.im/links/products/7882389",
       "affiliateUrl": "https://toss.shopping/_m/JvdzWP3b",
-      "image": "images/toss-maekkol-jero-250ml-30gae.jpeg"
+      "image": "images/toss-maekkol-jero-250ml-30gae.jpeg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2315,7 +2586,8 @@
       "unitPrice": "100ml당 151원",
       "url": "https://sharelink.toss.im/links/products/1184510077",
       "affiliateUrl": "https://toss.shopping/_m/ZBZVLQsc",
-      "image": "images/toss-narangdeu-saida-jero-geurinaepul-345ml-24gae.jpeg"
+      "image": "images/toss-narangdeu-saida-jero-geurinaepul-345ml-24gae.jpeg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2346,7 +2618,8 @@
       "unitPrice": "100ml당 95원",
       "url": "https://sharelink.toss.im/links/products/334588203",
       "affiliateUrl": "https://toss.shopping/_m/vVqeNIgn",
-      "image": "images/toss-deo-biktoria-cheongpodo-remon-500ml-40gae.jpeg"
+      "image": "images/toss-deo-biktoria-cheongpodo-remon-500ml-40gae.jpeg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2377,7 +2650,8 @@
       "unitPrice": "100ml당 114원",
       "url": "https://sharelink.toss.im/links/products/84326655",
       "affiliateUrl": "https://toss.shopping/_m/NXHUI451",
-      "image": "images/toss-deo-biktoria-yujac-500ml-20gae.jpeg"
+      "image": "images/toss-deo-biktoria-yujac-500ml-20gae.jpeg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2408,7 +2682,8 @@
       "unitPrice": "100ml당 65원",
       "url": "https://sharelink.toss.im/links/products/930077725",
       "affiliateUrl": "https://toss.shopping/_m/nWR5Uyd8",
-      "image": "images/toss-raineubassa-paesyeonhureucheu-cheri-500ml-40gae.png"
+      "image": "images/toss-raineubassa-paesyeonhureucheu-cheri-500ml-40gae.png",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2439,7 +2714,8 @@
       "unitPrice": "100ml당 32원",
       "url": "https://sharelink.toss.im/links/products/651526161",
       "affiliateUrl": "https://toss.shopping/_m/pOyp1U6A",
-      "image": "images/toss-seupakeul-saengsu-murabel-500ml-80gae.jpeg"
+      "image": "images/toss-seupakeul-saengsu-murabel-500ml-80gae.jpeg",
+      "part": "zero"
     },
     {
       "platform": "toss",
@@ -2470,7 +2746,767 @@
       "unitPrice": "100ml당 25원",
       "url": "https://sharelink.toss.im/links/products/12833307",
       "affiliateUrl": "https://toss.shopping/_m/VigB6sE5",
-      "image": "images/toss-ebeoriwoteo-murabel-2l-18gae.jpeg"
+      "image": "images/toss-ebeoriwoteo-murabel-2l-18gae.jpeg",
+      "part": "zero"
+    },
+    {
+      "id": "meat-beef-nonghyup-anximhanwoo-sukseongdeungsim-200g",
+      "part": "meat",
+      "category": "beef",
+      "categoryId": "beef",
+      "group": "소고기",
+      "meatType": "소고기",
+      "cut": "등심",
+      "cutGroup": "등심(스테이크용)",
+      "brand": "농협안심한우",
+      "name": "농협안심한우 숙성등심 1등급 구이용 (냉장), 200g, 1개",
+      "kind": "한우 등심 · 구이용",
+      "price": 18680,
+      "listPrice": 31760,
+      "discountPct": 41,
+      "priceCheckedAt": "2026-11-16 16:10",
+      "priceCheckedLabel": "11/16 16:10 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/7075134057?itemId=17582711116",
+      "affiliateUrl": "https://link.coupang.com/a/iIL2YpoEYS",
+      "image": "images/meat-beef-nonghyup-anximhanwoo-sukseongdeungsim-200g.jpg",
+      "rating": 4.5,
+      "reviewCount": 12122,
+      "weightG": 200,
+      "per100g": 9340,
+      "unitPrice": "100g당 9,340원",
+      "unitEach": "200g 1팩"
+    },
+    {
+      "id": "meat-beef-mokuchon-chaekkeut-300g",
+      "part": "meat",
+      "category": "beef",
+      "categoryId": "beef",
+      "group": "소고기",
+      "meatType": "소고기",
+      "cut": "채끝",
+      "cutGroup": "채끝(스테이크용)",
+      "brand": "목우촌",
+      "name": "목우촌 국내산 소고기 채끝 구이용 (냉장), 300g, 1개",
+      "kind": "국내산 채끝 · 구이용",
+      "price": 23880,
+      "listPrice": null,
+      "discountPct": null,
+      "priceCheckedAt": "2026-11-16 16:12",
+      "priceCheckedLabel": "11/16 16:12 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/1290671052?vendorItemId=70298644333",
+      "affiliateUrl": "https://link.coupang.com/a/iIL6zDcRWu",
+      "image": "images/meat-beef-mokuchon-chaekkeut-300g.jpg",
+      "rating": 4.5,
+      "reviewCount": 9707,
+      "note": "쿠팡 목록에 정가·할인율 표기가 없어 정가 미확인",
+      "weightG": 300,
+      "per100g": 7960,
+      "unitPrice": "100g당 7,960원",
+      "unitEach": "300g 1팩"
+    },
+    {
+      "id": "meat-beef-us-choice-buchaesal-steak-1kg",
+      "part": "meat",
+      "category": "beef",
+      "categoryId": "beef",
+      "group": "소고기",
+      "meatType": "소고기",
+      "cut": "부채살",
+      "cutGroup": "부채살(스테이크용)",
+      "name": "미국산 초이스 부채살 스테이크 (냉장), 1kg, 1개",
+      "kind": "미국산 부채살 · 스테이크",
+      "price": 38900,
+      "listPrice": 49900,
+      "discountPct": 22,
+      "priceCheckedAt": "2026-11-16 16:10",
+      "priceCheckedLabel": "11/16 16:10 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/7216851625?itemId=18278217109",
+      "affiliateUrl": "https://link.coupang.com/a/iIL49pzjW0",
+      "image": "images/meat-beef-us-choice-buchaesal-steak-1kg.jpg",
+      "rating": 4.5,
+      "reviewCount": 13707,
+      "brandNote": "상품명에 브랜드 표기 없음(로켓프레시 구성)",
+      "weightG": 1000,
+      "per100g": 3890,
+      "unitPrice": "100g당 3,890원",
+      "unitEach": "1kg 1팩"
+    },
+    {
+      "id": "meat-beef-au-salchisal-steak-400g",
+      "part": "meat",
+      "category": "beef",
+      "categoryId": "beef",
+      "group": "소고기",
+      "meatType": "소고기",
+      "cut": "살치살",
+      "cutGroup": "살치살(구이·특수부위)",
+      "name": "호주산 살치살 스테이크 (냉장), 400g, 1개",
+      "kind": "호주산 살치살 · 스테이크",
+      "price": 24600,
+      "listPrice": 29900,
+      "discountPct": 17,
+      "priceCheckedAt": "2026-11-16 16:10",
+      "priceCheckedLabel": "11/16 16:10 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/8032860067?itemId=11209122095",
+      "affiliateUrl": "https://link.coupang.com/a/iIL5SNOWya",
+      "image": "images/meat-beef-au-salchisal-steak-400g.jpg",
+      "rating": 4.5,
+      "reviewCount": 15683,
+      "brandNote": "상품명에 브랜드 표기 없음(로켓프레시 구성)",
+      "weightG": 400,
+      "per100g": 6150,
+      "unitPrice": "100g당 6,150원",
+      "unitEach": "400g 1팩"
+    },
+    {
+      "id": "meat-beef-miteunjoy-galbi-400g",
+      "part": "meat",
+      "category": "beef",
+      "categoryId": "beef",
+      "group": "소고기",
+      "meatType": "소고기",
+      "cut": "갈비살",
+      "cutGroup": "갈비살(구이)",
+      "brand": "미트엔조이",
+      "name": "미트엔조이 미국산 갈비살구이 (냉장), 400g, 1개",
+      "kind": "미국산 갈비살 · 구이용",
+      "price": 19990,
+      "listPrice": 25900,
+      "discountPct": 22,
+      "priceCheckedAt": "2026-11-16 16:58",
+      "priceCheckedLabel": "11/16 16:58 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/5848725821",
+      "affiliateUrl": "https://link.coupang.com/a/iIMZt5OYNw",
+      "image": "images/meat-beef-miteunjoy-galbi-400g.jpg",
+      "rating": 4.5,
+      "reviewCount": 52745,
+      "weightG": 400,
+      "per100g": 4998,
+      "unitPrice": "100g당 4,998원",
+      "unitEach": "400g 1팩"
+    },
+    {
+      "id": "meat-pork-dodram-handon-samgyeopsal-1kg",
+      "part": "meat",
+      "category": "pork",
+      "categoryId": "pork",
+      "group": "돼지고기",
+      "meatType": "돼지고기",
+      "cut": "삼겹살",
+      "cutGroup": "삼겹살",
+      "brand": "도드람한돈",
+      "name": "도드람 한돈 1등급 삼겹살 구이용 (냉장), 1kg, 1개",
+      "kind": "한돈 삼겹살 · 구이용",
+      "price": 24230,
+      "listPrice": 38000,
+      "discountPct": 36,
+      "priceCheckedAt": "2026-11-16 16:15",
+      "priceCheckedLabel": "11/16 16:15 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/188172341?itemId=537362338",
+      "affiliateUrl": "https://link.coupang.com/a/iIL7fA2EPk",
+      "image": "images/meat-pork-dodram-handon-samgyeopsal-1kg.jpg",
+      "rating": 4.5,
+      "reviewCount": 114437,
+      "weightG": 1000,
+      "per100g": 2423,
+      "unitPrice": "100g당 2,423원",
+      "unitEach": "1kg 1팩"
+    },
+    {
+      "id": "meat-pork-moamit-canada-samgyeopsal-1kg",
+      "part": "meat",
+      "category": "pork",
+      "categoryId": "pork",
+      "group": "돼지고기",
+      "meatType": "돼지고기",
+      "cut": "삼겹살",
+      "cutGroup": "삼겹살",
+      "brand": "모아미트",
+      "name": "모아미트 캐나다산 보리먹인 암퇘지 삼겹살 구이용 (냉장), 1kg, 1개",
+      "kind": "캐나다산 삼겹살 · 구이용",
+      "price": 16730,
+      "listPrice": 23990,
+      "discountPct": 30,
+      "priceCheckedAt": "2026-11-16 16:15",
+      "priceCheckedLabel": "11/16 16:15 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/213797578?itemId=649012177",
+      "affiliateUrl": "https://link.coupang.com/a/iIL7TYMTWC",
+      "image": "images/meat-pork-moamit-canada-samgyeopsal-1kg.jpg",
+      "rating": 4.5,
+      "reviewCount": 93012,
+      "weightG": 1000,
+      "per100g": 1673,
+      "unitPrice": "100g당 1,673원",
+      "unitEach": "1kg 1팩"
+    },
+    {
+      "id": "meat-pork-moamit-canada-moksal-1kg",
+      "part": "meat",
+      "category": "pork",
+      "categoryId": "pork",
+      "group": "돼지고기",
+      "meatType": "돼지고기",
+      "cut": "목살",
+      "cutGroup": "목살",
+      "brand": "모아미트",
+      "name": "모아미트 캐나다산 보리먹인 암퇘지 목살 구이용 (냉장), 1kg, 1개",
+      "kind": "캐나다산 목살 · 구이용",
+      "price": 14770,
+      "listPrice": 22660,
+      "discountPct": 34,
+      "priceCheckedAt": "2026-11-16 16:35",
+      "priceCheckedLabel": "11/16 16:35 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/213797604",
+      "affiliateUrl": "https://link.coupang.com/a/iIMDa5h5gq",
+      "image": "images/meat-pork-moamit-canada-moksal-1kg.jpg",
+      "rating": 5,
+      "reviewCount": 53365,
+      "weightG": 1000,
+      "per100g": 1477,
+      "unitPrice": "100g당 1,477원",
+      "unitEach": "1kg 1팩"
+    },
+    {
+      "id": "meat-pork-handon-hindleg-2kg",
+      "part": "meat",
+      "category": "pork",
+      "categoryId": "pork",
+      "group": "돼지고기",
+      "meatType": "돼지고기",
+      "cut": "뒷다리살",
+      "cutGroup": "저지방 식단용",
+      "brand": "한돈",
+      "name": "한돈 뒷다리살 개별포장 (지방제거), 10개, 200g",
+      "kind": "한돈 뒷다리살 · 지방제거 소분",
+      "price": 29800,
+      "listPrice": 42600,
+      "discountPct": 30,
+      "priceCheckedAt": "2026-11-16 16:35",
+      "priceCheckedLabel": "11/16 16:35 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/8405057260",
+      "affiliateUrl": "https://link.coupang.com/a/iIMDSaXb88",
+      "image": "images/meat-pork-handon-hindleg-2kg.jpg",
+      "rating": 4.5,
+      "reviewCount": 690,
+      "brandNote": "상품명에 브랜드 표기 없음",
+      "note": "200g×10팩 = 2kg",
+      "weightG": 2000,
+      "per100g": 1490,
+      "unitPrice": "100g당 1,490원",
+      "unitEach": "200g×10팩 = 2kg"
+    },
+    {
+      "id": "meat-pork-saengsaengfork-gaelmaegi-300g",
+      "part": "meat",
+      "category": "pork",
+      "categoryId": "pork",
+      "group": "돼지고기",
+      "meatType": "돼지고기",
+      "cut": "갈매기살",
+      "cutGroup": "특수부위",
+      "brand": "생생포크",
+      "name": "생생포크 한돈 갈매기살 구이용, 300g, 1개",
+      "kind": "한돈 갈매기살 · 구이용",
+      "price": 14480,
+      "listPrice": 15590,
+      "discountPct": 7,
+      "priceCheckedAt": "2026-11-16 16:58",
+      "priceCheckedLabel": "11/16 16:58 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/5374195525",
+      "affiliateUrl": "https://link.coupang.com/a/iIMZ9plJdc",
+      "image": "images/meat-pork-saengsaengfork-gaelmaegi-300g.jpg",
+      "rating": 4.5,
+      "reviewCount": 2285,
+      "weightG": 300,
+      "per100g": 4827,
+      "unitPrice": "100g당 4,827원",
+      "unitEach": "300g 1팩"
+    },
+    {
+      "id": "meat-chicken-harim-jayeonsilrok-breast-400g",
+      "part": "meat",
+      "category": "chicken",
+      "categoryId": "chicken",
+      "group": "닭고기",
+      "meatType": "닭고기",
+      "cut": "닭가슴살",
+      "cutGroup": "닭가슴살",
+      "brand": "하림",
+      "name": "하림 자연실록 무항생제 인증 닭가슴살 (냉장), 400g, 1개",
+      "kind": "냉장 닭가슴살 · 무항생제",
+      "price": 6550,
+      "listPrice": 6900,
+      "discountPct": 5,
+      "priceCheckedAt": "2026-11-16 16:20",
+      "priceCheckedLabel": "11/16 16:20 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/162464612?itemId=466799169&vendorItemId=4163973144",
+      "affiliateUrl": "https://link.coupang.com/a/iIMaKue6ge",
+      "image": "images/meat-chicken-harim-jayeonsilrok-breast-400g.jpg",
+      "rating": 5,
+      "reviewCount": 89925,
+      "note": "상품 페이지 필수표기 정보에서 개당 중량 400g 확인",
+      "weightG": 400,
+      "per100g": 1638,
+      "unitPrice": "100g당 1,638원",
+      "unitEach": "400g 1팩"
+    },
+    {
+      "id": "meat-chicken-harim-iff-breast-2kg",
+      "part": "meat",
+      "category": "chicken",
+      "categoryId": "chicken",
+      "group": "닭고기",
+      "meatType": "닭고기",
+      "cut": "닭가슴살",
+      "cutGroup": "닭가슴살",
+      "brand": "하림",
+      "name": "하림 IFF 닭가슴살 (냉동), 2kg, 1개",
+      "kind": "냉동 닭가슴살 · 대용량",
+      "price": 22200,
+      "listPrice": 22900,
+      "discountPct": 3,
+      "priceCheckedAt": "2026-11-16 16:20",
+      "priceCheckedLabel": "11/16 16:20 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/227331483?itemId=720227345",
+      "affiliateUrl": "https://link.coupang.com/a/iIMbrxlOYn",
+      "image": "images/meat-chicken-harim-iff-breast-2kg.jpg",
+      "rating": 5,
+      "reviewCount": 118656,
+      "weightG": 2000,
+      "per100g": 1110,
+      "unitPrice": "100g당 1,110원",
+      "unitEach": "2kg 1팩"
+    },
+    {
+      "id": "meat-chicken-harim-tenderloin-350g",
+      "part": "meat",
+      "category": "chicken",
+      "categoryId": "chicken",
+      "group": "닭고기",
+      "meatType": "닭고기",
+      "cut": "닭안심살",
+      "cutGroup": "닭안심살",
+      "brand": "하림",
+      "name": "하림 자연실록 무항생제 인증 닭 안심 (냉장), 350g, 1개",
+      "kind": "냉장 닭안심 · 무항생제",
+      "price": 6150,
+      "listPrice": 8900,
+      "discountPct": 30,
+      "priceCheckedAt": "2026-11-16 16:30",
+      "priceCheckedLabel": "11/16 16:30 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/162464625",
+      "affiliateUrl": "https://link.coupang.com/a/iIMBmHSG8i",
+      "image": "images/meat-chicken-harim-tenderloin-350g.jpg",
+      "rating": 5,
+      "reviewCount": 60677,
+      "weightG": 350,
+      "per100g": 1757,
+      "unitPrice": "100g당 1,757원",
+      "unitEach": "350g 1팩"
+    },
+    {
+      "id": "meat-chicken-hangang-iqf-tenderloin-2kg",
+      "part": "meat",
+      "category": "chicken",
+      "categoryId": "chicken",
+      "group": "닭고기",
+      "meatType": "닭고기",
+      "cut": "닭안심살",
+      "cutGroup": "닭안심살",
+      "brand": "한강식품",
+      "name": "한강 무항생제 인증 IQF 닭 안심 (냉동), 2kg, 1개",
+      "kind": "냉동 닭안심 · IQF 대용량",
+      "price": 18400,
+      "listPrice": null,
+      "discountPct": null,
+      "priceCheckedAt": "2026-11-16 16:30",
+      "priceCheckedLabel": "11/16 16:30 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/8006034529",
+      "affiliateUrl": "https://link.coupang.com/a/iIMBVE55eS",
+      "image": "images/meat-chicken-hangang-iqf-tenderloin-2kg.jpg",
+      "rating": 5,
+      "reviewCount": 20348,
+      "note": "쿠팡 목록에 정가 표기 없음",
+      "weightG": 2000,
+      "per100g": 920,
+      "unitPrice": "100g당 920원",
+      "unitEach": "2kg 1팩"
+    },
+    {
+      "id": "meat-chicken-pultorae-drumstick-2kg",
+      "part": "meat",
+      "category": "chicken",
+      "categoryId": "chicken",
+      "group": "닭고기",
+      "meatType": "닭고기",
+      "cut": "닭다리살",
+      "cutGroup": "닭다리살",
+      "brand": "풀토래",
+      "name": "풀토래 신선냉장 닭통다리살 정육 (국내산 순살), 2kg, 1개",
+      "kind": "국내산 닭다리살 · 순살",
+      "price": 26500,
+      "listPrice": 31000,
+      "discountPct": 14,
+      "priceCheckedAt": "2026-11-16 16:30",
+      "priceCheckedLabel": "11/16 16:30 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/1160567801",
+      "affiliateUrl": "https://link.coupang.com/a/iIMCAnmkk8",
+      "image": "images/meat-chicken-pultorae-drumstick-2kg.jpg",
+      "rating": 4.5,
+      "reviewCount": 2710,
+      "weightG": 2000,
+      "per100g": 1325,
+      "unitPrice": "100g당 1,325원",
+      "unitEach": "2kg 1팩"
+    },
+    {
+      "id": "meat-lamb-gome-shoulderrack-400g",
+      "part": "meat",
+      "category": "lamb",
+      "categoryId": "lamb",
+      "group": "양고기",
+      "meatType": "양고기",
+      "cut": "숄더랙",
+      "cutGroup": "숄더랙",
+      "brand": "고메프리미엄",
+      "name": "고메프리미엄 호주산 램 숄더랙 구이용 (냉동), 400g, 1개",
+      "kind": "양갈비 숄더랙 · 구이용",
+      "price": 19500,
+      "listPrice": 22800,
+      "discountPct": 14,
+      "priceCheckedAt": "2026-11-16 16:25",
+      "priceCheckedLabel": "11/16 16:25 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/4523044072?itemId=5455429236",
+      "affiliateUrl": "https://link.coupang.com/a/iIMdZzghzw",
+      "image": "images/meat-lamb-gome-shoulderrack-400g.jpg",
+      "rating": 5,
+      "reviewCount": 19546,
+      "weightG": 400,
+      "per100g": 4875,
+      "unitPrice": "100g당 4,875원",
+      "unitEach": "400g 1팩"
+    },
+    {
+      "id": "meat-lamb-gome-frenchrack-300g",
+      "part": "meat",
+      "category": "lamb",
+      "categoryId": "lamb",
+      "group": "양고기",
+      "meatType": "양고기",
+      "cut": "프렌치랙",
+      "cutGroup": "프렌치랙",
+      "brand": "고메프리미엄",
+      "name": "고메프리미엄 호주산 램 프랜치랙 구이용 (냉동), 300g, 1개",
+      "kind": "양갈비 프렌치랙 · 구이용",
+      "price": 23150,
+      "listPrice": 31200,
+      "discountPct": 25,
+      "priceCheckedAt": "2026-11-16 16:25",
+      "priceCheckedLabel": "11/16 16:25 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/4523044094?itemId=5455429282",
+      "affiliateUrl": "https://link.coupang.com/a/iIMfxsyEWO",
+      "image": "images/meat-lamb-gome-frenchrack-300g.jpg",
+      "rating": 4.5,
+      "reviewCount": 7387,
+      "weightG": 300,
+      "per100g": 7717,
+      "unitPrice": "100g당 7,717원",
+      "unitEach": "300g 1팩"
+    },
+    {
+      "id": "meat-duck-dahyang-hunje-600g",
+      "part": "meat",
+      "category": "duck",
+      "categoryId": "duck",
+      "group": "오리고기",
+      "meatType": "오리고기",
+      "cut": "훈제오리 슬라이스",
+      "cutGroup": "훈제오리",
+      "brand": "다향",
+      "name": "다향 1등급 훈제 오리 슬라이스, 600g, 1개",
+      "kind": "훈제 오리 슬라이스",
+      "price": 12670,
+      "listPrice": 16900,
+      "discountPct": 25,
+      "priceCheckedAt": "2026-11-16 16:45",
+      "priceCheckedLabel": "11/16 16:45 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/8830227246",
+      "affiliateUrl": "https://link.coupang.com/a/iIME7wE8wS",
+      "image": "images/meat-duck-dahyang-hunje-600g.jpg",
+      "rating": 5,
+      "reviewCount": 338042,
+      "weightG": 600,
+      "per100g": 2112,
+      "unitPrice": "100g당 2,112원",
+      "unitEach": "600g 1팩"
+    },
+    {
+      "id": "meat-duck-gomgom-hunje-600g",
+      "part": "meat",
+      "category": "duck",
+      "categoryId": "duck",
+      "group": "오리고기",
+      "meatType": "오리고기",
+      "cut": "훈제오리 슬라이스",
+      "cutGroup": "훈제오리",
+      "brand": "곰곰",
+      "name": "곰곰 1등급 원료육을 사용한 훈제오리슬라이스 (냉장), 600g, 1개",
+      "kind": "훈제 오리 슬라이스 · 가성비",
+      "price": 10140,
+      "listPrice": 15000,
+      "discountPct": 32,
+      "priceCheckedAt": "2026-11-16 16:45",
+      "priceCheckedLabel": "11/16 16:45 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/5222403198",
+      "affiliateUrl": "https://link.coupang.com/a/iIMFHEPq32",
+      "image": "images/meat-duck-gomgom-hunje-600g.jpg",
+      "rating": 5,
+      "reviewCount": 11836,
+      "weightG": 600,
+      "per100g": 1690,
+      "unitPrice": "100g당 1,690원",
+      "unitEach": "600g 1팩"
+    },
+    {
+      "id": "meat-duck-mokuchon-herbgarlic-6pack",
+      "part": "meat",
+      "category": "duck",
+      "categoryId": "duck",
+      "group": "오리고기",
+      "meatType": "오리고기",
+      "cut": "훈제오리 슬라이스(소분)",
+      "cutGroup": "훈제오리",
+      "brand": "목우촌",
+      "name": "목우촌 허브갈릭 훈제오리 슬라이스 210g 6팩, 6개",
+      "kind": "허브갈릭 훈제오리 · 소분 6팩",
+      "price": 22500,
+      "listPrice": 30900,
+      "discountPct": 27,
+      "priceCheckedAt": "2026-11-16 16:45",
+      "priceCheckedLabel": "11/16 16:45 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/9558166364",
+      "affiliateUrl": "https://link.coupang.com/a/iIMGipxEQK",
+      "image": "images/meat-duck-mokuchon-herbgarlic-6pack.jpg",
+      "rating": 4.5,
+      "reviewCount": 4143,
+      "note": "210g×6팩 = 1,260g",
+      "weightG": 1260,
+      "per100g": 1786,
+      "unitPrice": "100g당 1,786원",
+      "unitEach": "210g×6팩 = 1,260g"
+    },
+    {
+      "id": "meat-salmon-mowi-saeng-500g",
+      "part": "meat",
+      "category": "salmon",
+      "categoryId": "salmon",
+      "group": "연어",
+      "meatType": "연어",
+      "cut": "생연어(횟감)",
+      "cutGroup": "생연어",
+      "brand": "모위",
+      "name": "모위 프리미엄 생연어 횟감용 (냉장), 500g, 1개",
+      "kind": "생연어 · 횟감",
+      "price": 22480,
+      "listPrice": 28900,
+      "discountPct": 22,
+      "priceCheckedAt": "2026-11-16 16:47",
+      "priceCheckedLabel": "11/16 16:47 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/8674894406",
+      "affiliateUrl": "https://link.coupang.com/a/iIMGV1IHm0",
+      "image": "images/meat-salmon-mowi-saeng-500g.jpg",
+      "rating": 5,
+      "reviewCount": 31699,
+      "weightG": 500,
+      "per100g": 4496,
+      "unitPrice": "100g당 4,496원",
+      "unitEach": "500g 1팩"
+    },
+    {
+      "id": "meat-salmon-gomgom-hunje-500g",
+      "part": "meat",
+      "category": "salmon",
+      "categoryId": "salmon",
+      "group": "연어",
+      "meatType": "연어",
+      "cut": "훈제연어",
+      "cutGroup": "훈제연어",
+      "brand": "곰곰",
+      "name": "곰곰 훈제 연어 슬라이스 (냉동), 500g, 1개",
+      "kind": "훈제 연어 슬라이스 · 가성비",
+      "price": 17490,
+      "listPrice": 21000,
+      "discountPct": 16,
+      "priceCheckedAt": "2026-11-16 16:47",
+      "priceCheckedLabel": "11/16 16:47 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/7727956149",
+      "affiliateUrl": "https://link.coupang.com/a/iIMHBjMVuS",
+      "image": "images/meat-salmon-gomgom-hunje-500g.jpg",
+      "rating": 5,
+      "reviewCount": 14330,
+      "weightG": 500,
+      "per100g": 3498,
+      "unitPrice": "100g당 3,498원",
+      "unitEach": "500g 1팩"
+    },
+    {
+      "id": "meat-salmon-eunhasusan-steak-400g",
+      "part": "meat",
+      "category": "salmon",
+      "categoryId": "salmon",
+      "group": "연어",
+      "meatType": "연어",
+      "cut": "연어 스테이크(필렛)",
+      "cutGroup": "연어 스테이크",
+      "brand": "은하수산",
+      "name": "은하수산 노르웨이 연어 필렛 스테이크용, 400g, 1팩",
+      "kind": "연어 필렛 · 스테이크용",
+      "price": 21490,
+      "listPrice": 24900,
+      "discountPct": 13,
+      "priceCheckedAt": "2026-11-16 16:47",
+      "priceCheckedLabel": "11/16 16:47 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/6215271117",
+      "affiliateUrl": "https://link.coupang.com/a/iIMIfsEmB2",
+      "image": "images/meat-salmon-eunhasusan-steak-400g.jpg",
+      "rating": 4.5,
+      "reviewCount": 5371,
+      "weightG": 400,
+      "per100g": 5373,
+      "unitPrice": "100g당 5,373원",
+      "unitEach": "400g 1팩"
+    },
+    {
+      "id": "meat-gadget-homeplanet-airfryer-3-5l",
+      "part": "meat",
+      "category": "gadget",
+      "categoryId": "gadget",
+      "group": "조리기구",
+      "meatType": "조리기구",
+      "cut": "에어프라이어 3.5L",
+      "cutGroup": "에어프라이어",
+      "brand": "홈플래닛",
+      "name": "홈플래닛 에어프라이어 3.5L, AF-611, 블랙",
+      "kind": "에어프라이어 · 3.5L",
+      "price": 36990,
+      "listPrice": 90000,
+      "discountPct": 58,
+      "priceCheckedAt": "2026-11-16 16:50",
+      "priceCheckedLabel": "11/16 16:50 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/1459597335",
+      "affiliateUrl": "https://link.coupang.com/a/iIMIQxaCGG",
+      "image": "images/meat-gadget-homeplanet-airfryer-3-5l.jpg",
+      "rating": 5,
+      "reviewCount": 11754,
+      "spec": "3.5L",
+      "unitPrice": "1대 36,990원",
+      "unitEach": "3.5L"
+    },
+    {
+      "id": "meat-gadget-jaewon-budicook-airfryer-3-9l",
+      "part": "meat",
+      "category": "gadget",
+      "categoryId": "gadget",
+      "group": "조리기구",
+      "meatType": "조리기구",
+      "cut": "에어프라이어 3.9L",
+      "cutGroup": "에어프라이어",
+      "brand": "재원전자",
+      "name": "재원전자 버디쿡 에어프라이어 3.9L, BD8002S, 블랙",
+      "kind": "에어프라이어 · 3.9L",
+      "price": 43900,
+      "listPrice": null,
+      "discountPct": null,
+      "priceCheckedAt": "2026-11-16 16:50",
+      "priceCheckedLabel": "11/16 16:50 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/1387602348",
+      "affiliateUrl": "https://link.coupang.com/a/iIMJvdCBzw",
+      "image": "images/meat-gadget-jaewon-budicook-airfryer-3-9l.jpg",
+      "rating": 5,
+      "reviewCount": 13907,
+      "note": "쿠팡 목록에 정가 표기 없음(카드 할인가만 노출)",
+      "spec": "3.9L",
+      "unitPrice": "1대 43,900원",
+      "unitEach": "3.9L"
+    },
+    {
+      "id": "meat-gadget-homeplanet-electric-grill",
+      "part": "meat",
+      "category": "gadget",
+      "categoryId": "gadget",
+      "group": "조리기구",
+      "meatType": "조리기구",
+      "cut": "전기그릴(반반 멀티)",
+      "cutGroup": "전기그릴",
+      "brand": "홈플래닛",
+      "name": "홈플래닛 반반 멀티 전기그릴(개별 온도 조절), AD-SK18",
+      "kind": "가정용 전기그릴 · 반반 온도조절",
+      "price": 31180,
+      "listPrice": 39000,
+      "discountPct": 20,
+      "priceCheckedAt": "2026-11-16 16:52",
+      "priceCheckedLabel": "11/16 16:52 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/4315790067",
+      "affiliateUrl": "https://link.coupang.com/a/iIMJ6scese",
+      "image": "images/meat-gadget-homeplanet-electric-grill.jpg",
+      "rating": 4.5,
+      "reviewCount": 5685,
+      "spec": "AD-SK18",
+      "unitPrice": "1대 31,180원",
+      "unitEach": "AD-SK18"
+    },
+    {
+      "id": "meat-gadget-billiebin-griddle-pan-39cm",
+      "part": "meat",
+      "category": "gadget",
+      "categoryId": "gadget",
+      "group": "조리기구",
+      "meatType": "조리기구",
+      "cut": "무쇠 그리들팬 39cm",
+      "cutGroup": "그릴팬",
+      "brand": "빌리빈",
+      "name": "빌리빈 무쇠 캠핑 그리들팬 + 전용가방 세트, 39cm, 1세트",
+      "kind": "무쇠 그리들팬 · 캠핑/가정 겸용",
+      "price": 20740,
+      "listPrice": 39000,
+      "discountPct": 46,
+      "priceCheckedAt": "2026-11-16 16:52",
+      "priceCheckedLabel": "11/16 16:52 쿠팡 기준",
+      "platform": "coupang",
+      "url": "https://www.coupang.com/vp/products/7999741196",
+      "affiliateUrl": "https://link.coupang.com/a/iIMKE0iv3A",
+      "image": "images/meat-gadget-billiebin-griddle-pan-39cm.jpg",
+      "rating": 4.5,
+      "reviewCount": 4050,
+      "spec": "39cm",
+      "unitPrice": "1세트 20,740원",
+      "unitEach": "39cm"
     }
   ],
   "containers": [
