@@ -189,7 +189,7 @@ function historyBlock(p, entry) {
   const lastDate = series.length ? series[series.length - 1].date : "";
   const warn =
     entry.couprice && entry.couprice.crosscheck && entry.couprice.crosscheck.sourceWarnsVolatile
-      ? `<p class="pm-warn">쿠프라이스도 이 상품은 <b>옵션·묶음 구성이 바뀌며 수집 가격이 크게 오르내린다</b>고 표시해요. 최고가·평균가는 참고값으로만 봐 주세요.</p>`
+      ? `<p class="pm-warn">쿠프라이스도 이 상품은 <b>옵션·묶음 구성이 바뀌며 수집 가격이 크게 오르내린다</b>고 표시해요. 그래서 최고가·최저가는 참고로만 두고, 비교는 평균가와 카테고리 기준으로 했어요.</p>`
       : "";
   const mismatch =
     price != null && st.latest != null && Math.abs(price - st.latest) >= 1
