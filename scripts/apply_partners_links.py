@@ -25,6 +25,7 @@ WORKSPACE = ROOT.parent.parent                          # <-/workspace
 DATA = ROOT / "data" / "products.json"
 JS = ROOT / "js" / "products.js"
 MAP = ROOT / "partners-links.json"
+RESTRICTED = ROOT / "partners-restricted.json"
 LEDGER = WORKSPACE / "downloads" / "coupang_partners_links_father_20261115.md"
 
 SHORT_PREFIX = "https://link.coupang.com/"
@@ -37,7 +38,10 @@ def load_json(path):
 
 
 def coupang_products(products):
-    return [p for p in products if str(p.get("affiliateUrl", "")).startswith(COUPANG_PREFIX)]
+    return [
+        p for p in products
+        if str(p.get("affiliateUrl", "")).startswith((COUPANG_PREFIX, SHORT_PREFIX))
+    ]
 
 
 def main(argv):
@@ -53,6 +57,8 @@ def main(argv):
     unknown = [k for k in mapping if k not in {p["id"] for p in products}]
     if unknown:
         problems.append(f"알 수 없는 상품 id: {unknown[:5]}")
+
+    restricted = set(load_json(RESTRICTED)) if RESTRICTED.exists() else set()
 
     ready = {}
     for p in targets:
@@ -102,12 +108,12 @@ def main(argv):
     JS.write_text(js_text, encoding="utf-8")
     print(f"js/products.js: affiliateUrl {js_replaced}건 교체")
 
-    write_ledger(products, targets, ready)
+    write_ledger(products, targets, ready, restricted)
     print(f"대장 갱신: {LEDGER.relative_to(WORKSPACE)}")
     return 0
 
 
-def write_ledger(products, targets, ready):
+def write_ledger(products, targets, ready, restricted=frozenset()):
     done = sum(1 for p in targets if p["id"] in ready)
     lines = [
         "---",
@@ -115,14 +121,21 @@ def write_ledger(products, targets, ready):
         "---",
         "",
         f"아버님 쿠팡 파트너스 계정(`ssy7199@naver.com`)으로 변환한 내역입니다. "
-        f"쿠팡 상품 {len(targets)}건 중 **{done}건 변환 완료 / {len(targets) - done}건 남음**.",
+        f"쿠팡 상품 {len(targets)}건 중 **{done}건 변환 완료 / {len(targets) - done}건 남음**"
+        + (f" (그중 {len([p for p in targets if p['id'] in restricted])}건은 쿠팡 파트너스 링크 생성 제한 상품)" if restricted else "")
+        + ".",
         "",
         "| # | 상품 | 상품 id | 변환 상태 | 단축 링크 |",
         "| ---: | --- | --- | --- | --- |",
     ]
     for i, p in enumerate(targets, 1):
         short = ready.get(p["id"])
-        status = "✅ 완료" if short else "⏳ 대기"
+        if short:
+            status = "✅ 완료"
+        elif p["id"] in restricted:
+            status = "⛔ 링크 생성 제한"
+        else:
+            status = "⏳ 대기"
         lines.append(
             f"| {i} | {p['name']} | `{p['id']}` | {status} | {short or '-'} |"
         )
