@@ -795,10 +795,10 @@ function renderDeals() {
   const row = $("deals-row");
   const title = $("deals-title");
   if (!sec || !row || !title) return;
-  const pool =
-    state.part === "all"
-      ? state.data.products || []
-      : (state.data.products || []).filter((p) => partOf(p) === state.part);
+  const pool = (state.data.products || []).filter((p) => {
+    if (!matchesQuery(p)) return false;
+    return state.part === "all" ? true : partOf(p) === state.part;
+  });
   const { title: heading, items } = topDeals(pool);
   if (!items.length) {
     sec.hidden = true;
