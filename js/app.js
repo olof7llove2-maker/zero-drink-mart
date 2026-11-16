@@ -406,6 +406,56 @@ function setLegalOffset() {
   document.documentElement.style.setProperty("--legal-h", legal.offsetHeight + "px");
 }
 
+/* ── 마지막 업데이트 · 업데이트 주기 ─────────────────── */
+
+const WEEKDAY_KO = ["일", "월", "화", "수", "목", "금", "토"];
+
+function parseCheckedAt(value) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/.exec(String(value || ""));
+  if (!m) return null;
+  return {
+    date: `${m[1]}-${m[2]}-${m[3]}`,
+    y: Number(m[1]),
+    mo: Number(m[2]),
+    d: Number(m[3]),
+    time: m[4] ? `${m[4]}:${m[5]}` : "",
+  };
+}
+
+/* 상품 카드의 확인 시각(priceCheckedAt) 중 가장 늦은 날짜 = 마지막 업데이트 */
+function latestChecked() {
+  let best = null;
+  (state.data.products || []).forEach((p) => {
+    const c = parseCheckedAt(p.priceCheckedAt);
+    if (!c) return;
+    if (!best || c.date > best.date || (c.date === best.date && c.time > best.time)) best = c;
+  });
+  return best || parseCheckedAt(state.data.site && state.data.site.updatedAt);
+}
+
+function renderUpdateBand() {
+  const site = state.data.site || {};
+  const latest = latestChecked();
+  const dateEl = $("update-date-big");
+  const wdEl = $("update-weekday");
+  const fullEl = $("update-date-full");
+  const cycleEl = $("update-cycle-main");
+  const cycleNoteEl = $("update-cycle-note");
+  const band = $("update-band");
+  if (latest && dateEl) {
+    const wd = WEEKDAY_KO[new Date(latest.y, latest.mo - 1, latest.d).getDay()] || "";
+    dateEl.textContent = `${latest.mo}/${latest.d}`;
+    if (wdEl) wdEl.textContent = wd ? `(${wd})` : "";
+    if (fullEl) {
+      const ymd = `${latest.y}.${String(latest.mo).padStart(2, "0")}.${String(latest.d).padStart(2, "0")}`;
+      fullEl.textContent = latest.time ? `${ymd} ${latest.time} 확인` : ymd;
+    }
+  }
+  if (cycleEl) cycleEl.textContent = site.updateCycle || "매일 오전 9시 가격 자동 업데이트";
+  if (cycleNoteEl) cycleNoteEl.textContent = site.updateCycleNote || "쿠팡·토스 가격을 다시 확인해요";
+  if (band) band.hidden = false;
+}
+
 /* ── 탭 · 필터 ───────────────────────────────────────── */
 
 function pickPart(id) {
@@ -472,7 +522,10 @@ function renderPartFilters() {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "filter";
-    btn.innerHTML = `${escapeHtml(f.label)} <span class="chip-n">${n}</span>`;
+    const ico = f.icon
+      ? `<span class="chip-ico" aria-hidden="true">${escapeHtml(f.icon)}</span>`
+      : "";
+    btn.innerHTML = `${ico}<span class="chip-label">${escapeHtml(f.label)}</span> <span class="chip-n">${n}</span>`;
     btn.setAttribute("aria-selected", String(f.id === state.filter));
     btn.addEventListener("click", () => pickFilter(f.id));
     nav.appendChild(btn);
@@ -1003,7 +1056,10 @@ function renderGroup(parent, catId, list, cheap, topProt) {
   const head = document.createElement("div");
   head.className = "group-head";
   const title = document.createElement("h2");
-  title.textContent = cat ? cat.label : catId;
+  const catIco = cat && cat.icon
+    ? `<span class="cat-ico" aria-hidden="true">${escapeHtml(cat.icon)}</span>`
+    : "";
+  title.innerHTML = `${catIco}${escapeHtml(cat ? cat.label : catId)}`;
   const hint = document.createElement("span");
   hint.className = "group-hint";
   hint.textContent = groupHint(catId);
@@ -1517,6 +1573,7 @@ async function init() {
   if (typeof loadPriceHistory === "function") await loadPriceHistory();
   if (typeof initPriceModal === "function") initPriceModal();
   applyUrlState();
+  renderUpdateBand();
   const when = $("source-when");
   if (when) {
     const src = state.data.site.sourceNote || "";

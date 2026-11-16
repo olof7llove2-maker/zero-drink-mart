@@ -26,7 +26,10 @@ const SITE = {
     "note": "무료, 알림만 와요",
     "url": "https://open.kakao.com/o/goXz5qUi"
   },
-  "tossDisclosure": "이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다."
+  "tossDisclosure": "이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.",
+  "updatedAt": "2026-11-16",
+  "updateCycle": "매일 오전 9시 가격 자동 업데이트",
+  "updateCycleNote": "쿠팡·토스 가격을 다시 확인해요"
 };
 
 const CATEGORIES = [
@@ -38,93 +41,111 @@ const CATEGORIES = [
   {
     "id": "protein",
     "label": "단백질 음료",
+    "icon": "💪",
     "part": "protein",
     "note": "병당 단백질(g)과 열량은 쿠팡 상품 페이지에서 2026-11-15 19:51(Asia/Seoul)에 확인한 값이에요. 병당 가격은 박스 가격을 개수로 나눈 값이에요. 정가와 할인율이 확인되지 않은 상품은 판매가만 적어요."
   },
   {
     "id": "cola",
     "label": "제로 콜라",
+    "icon": "🥤",
     "part": "zero"
   },
   {
     "id": "cider",
     "label": "제로 사이다",
+    "icon": "🍋",
     "part": "zero"
   },
   {
     "id": "sparkling",
     "label": "탄산수",
+    "icon": "💧",
     "part": "zero"
   },
   {
     "id": "water",
     "label": "생수",
+    "icon": "🚰",
     "part": "zero"
   },
   {
     "id": "acv",
-    "label": "애사비",
+    "label": "애사비(사과식초)",
+    "icon": "🍎",
     "part": "zero"
   },
   {
     "id": "ion",
-    "label": "제로 이온",
+    "label": "제로 이온음료",
+    "icon": "⚡",
     "part": "zero"
   },
   {
     "id": "energy",
-    "label": "제로 에너지",
+    "label": "제로 에너지음료",
+    "icon": "🔋",
     "part": "zero"
   },
   {
     "id": "icetea",
     "label": "제로 아이스티",
+    "icon": "🧊",
     "part": "zero"
   },
   {
     "id": "tea",
     "label": "무당 차음료",
+    "icon": "🌾",
     "part": "zero"
   },
   {
     "id": "powder",
     "label": "분말·티백",
+    "icon": "🥄",
     "part": "zero",
     "note": "가루와 티백은 100g당 가격으로 비교해요. 100ml당 비교에는 넣지 않아요."
   },
   {
     "id": "beef",
     "label": "소고기",
+    "icon": "🥩",
     "part": "meat"
   },
   {
     "id": "pork",
     "label": "돼지고기",
+    "icon": "🐖",
     "part": "meat"
   },
   {
     "id": "chicken",
     "label": "닭고기",
+    "icon": "🍗",
     "part": "meat"
   },
   {
     "id": "lamb",
     "label": "양고기",
+    "icon": "🐑",
     "part": "meat"
   },
   {
     "id": "duck",
     "label": "오리",
+    "icon": "🦆",
     "part": "meat"
   },
   {
     "id": "salmon",
     "label": "연어",
+    "icon": "🐟",
     "part": "meat"
   },
   {
     "id": "gadget",
     "label": "조리기구",
+    "icon": "🍳",
     "part": "meat"
   }
 ];
@@ -162,6 +183,8 @@ const PARTS = [
       {
         "id": "cola",
         "label": "콜라",
+        "icon": "🥤",
+        "note": "콜라 계열 제로 탄산음료예요.",
         "cats": [
           "cola"
         ]
@@ -169,6 +192,8 @@ const PARTS = [
       {
         "id": "cider",
         "label": "사이다",
+        "icon": "🍋",
+        "note": "사이다 계열 제로 탄산음료예요.",
         "cats": [
           "cider"
         ]
@@ -176,6 +201,8 @@ const PARTS = [
       {
         "id": "sparkling",
         "label": "탄산수",
+        "icon": "💧",
+        "note": "플레인·과일향 탄산수예요.",
         "cats": [
           "sparkling"
         ]
@@ -183,6 +210,8 @@ const PARTS = [
       {
         "id": "water",
         "label": "생수",
+        "icon": "🚰",
+        "note": "무라벨 생수예요.",
         "cats": [
           "water"
         ]
@@ -190,6 +219,8 @@ const PARTS = [
       {
         "id": "tea",
         "label": "차·아이스티",
+        "icon": "🍵",
+        "note": "무당 차음료와 제로 아이스티를 함께 봐요.",
         "cats": [
           "icetea",
           "tea"
@@ -197,28 +228,36 @@ const PARTS = [
       },
       {
         "id": "ion",
-        "label": "이온",
+        "label": "이온음료",
+        "icon": "⚡",
+        "note": "이온음료·스포츠음료예요.",
         "cats": [
           "ion"
         ]
       },
       {
         "id": "energy",
-        "label": "에너지",
+        "label": "에너지음료",
+        "icon": "🔋",
+        "note": "에너지드링크예요.",
         "cats": [
           "energy"
         ]
       },
       {
         "id": "acv",
-        "label": "애사비",
+        "label": "애사비(사과식초)",
+        "icon": "🍎",
+        "note": "사과식초(애사비)를 넣은 탄산음료예요.",
         "cats": [
           "acv"
         ]
       },
       {
         "id": "powder",
-        "label": "분말",
+        "label": "분말·티백",
+        "icon": "🥄",
+        "note": "가루·티백은 100ml가 아니라 100g당 가격으로 비교해요.",
         "cats": [
           "powder"
         ]
@@ -229,7 +268,7 @@ const PARTS = [
     "id": "protein",
     "label": "단백질 음료",
     "icon": "💪",
-    "desc": "병당 단백질(g) 높은 순 · 병당 단백질·열량 함께 표시",
+    "desc": "병당 단백질(g) 높은 순 · 맛·타입으로 골라 보기",
     "note": "병당 단백질(g)이 높은 순으로 보여 줘요. 카드마다 병당 단백질과 열량을 같이 적었어요.",
     "filters": [
       {
@@ -241,7 +280,8 @@ const PARTS = [
       },
       {
         "id": "high",
-        "label": "고단백 20g+",
+        "label": "고단백(20g+)",
+        "icon": "💪",
         "cats": [
           "protein"
         ],
@@ -251,6 +291,7 @@ const PARTS = [
       {
         "id": "soy",
         "label": "두유·식물성",
+        "icon": "🌱",
         "cats": [
           "protein"
         ],
@@ -261,7 +302,8 @@ const PARTS = [
       },
       {
         "id": "choco",
-        "label": "초코·커피",
+        "label": "초코·커피맛",
+        "icon": "🍫",
         "cats": [
           "protein"
         ],
@@ -272,7 +314,8 @@ const PARTS = [
       },
       {
         "id": "fruit",
-        "label": "과일맛",
+        "label": "과일맛(딸기·바나나)",
+        "icon": "🍓",
         "cats": [
           "protein"
         ],
@@ -283,7 +326,8 @@ const PARTS = [
       },
       {
         "id": "plain",
-        "label": "플레인·고소한",
+        "label": "플레인·고소한맛",
+        "icon": "🥛",
         "cats": [
           "protein"
         ],
@@ -359,152 +403,6 @@ const PARTS = [
       {
         "id": "gadget",
         "label": "에어프라이어·조리기구",
-        "cats": [
-          "gadget"
-        ]
-      }
-    ]
-  }
-];
-
-const PARTS = [
-  {
-    "id": "all",
-    "label": "전체",
-    "icon": "",
-    "note": ""
-  },
-  {
-    "id": "zero",
-    "label": "제로 음료",
-    "icon": "🥤",
-    "note": "제로 음료는 분류마다 100ml당 가격이 낮은 순으로 모았어요. 분말·티백은 100g당 가격으로 따로 비교해요.",
-    "filters": [
-      {
-        "id": "all",
-        "label": "전체",
-        "cats": [
-          "cola",
-          "cider",
-          "sparkling",
-          "water",
-          "acv",
-          "ion",
-          "energy",
-          "icetea",
-          "tea",
-          "powder"
-        ]
-      },
-      {
-        "id": "fizz",
-        "label": "탄산(콜라/사이다)",
-        "cats": [
-          "cola",
-          "cider"
-        ]
-      },
-      {
-        "id": "water",
-        "label": "탄산수/생수",
-        "cats": [
-          "sparkling",
-          "water"
-        ]
-      },
-      {
-        "id": "tea",
-        "label": "차/아이스티",
-        "cats": [
-          "icetea",
-          "tea",
-          "powder"
-        ]
-      },
-      {
-        "id": "boost",
-        "label": "이온/에너지/애사비",
-        "cats": [
-          "ion",
-          "energy",
-          "acv"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "protein",
-    "label": "단백질 음료",
-    "icon": "💪",
-    "note": "병당 단백질(g)이 높은 순으로 보여 줘요. 카드마다 병당 단백질과 열량을 같이 적었어요.",
-    "filters": [
-      {
-        "id": "all",
-        "label": "전체",
-        "cats": [
-          "protein"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "meat",
-    "label": "식단 고기",
-    "icon": "🥩",
-    "note": "고기는 100g당 가격과 부위 태그로 비교해요. 가격은 2026-11-16 16:00~17:00(Asia/Seoul)에 쿠팡에서 확인한 값이고, 평점 4.5 이상·리뷰 수백 건 이상 상품만 골랐어요. 조리기구는 중량 비교 대신 개당 가격으로 봐요.",
-    "filters": [
-      {
-        "id": "all",
-        "label": "전체",
-        "cats": [
-          "beef",
-          "pork",
-          "chicken",
-          "lamb",
-          "duck",
-          "salmon",
-          "gadget"
-        ]
-      },
-      {
-        "id": "beef",
-        "label": "소고기",
-        "cats": [
-          "beef"
-        ]
-      },
-      {
-        "id": "pork",
-        "label": "돼지고기",
-        "cats": [
-          "pork"
-        ]
-      },
-      {
-        "id": "chicken",
-        "label": "닭고기",
-        "cats": [
-          "chicken"
-        ]
-      },
-      {
-        "id": "lamb",
-        "label": "양고기",
-        "cats": [
-          "lamb"
-        ]
-      },
-      {
-        "id": "duck",
-        "label": "오리/연어",
-        "cats": [
-          "duck",
-          "salmon"
-        ]
-      },
-      {
-        "id": "gadget",
-        "label": "에어프라이어/조리기구",
         "cats": [
           "gadget"
         ]
