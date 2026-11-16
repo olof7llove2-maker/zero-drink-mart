@@ -422,7 +422,7 @@ const LEGACY_CAT = {
   energy: ["zero", "energy"],
   icetea: ["zero", "tea"],
   tea: ["zero", "tea"],
-  powder: ["zero", "powder"],
+  powder: ["zero", "tea"],
   protein: ["protein", "all"],
 };
 
