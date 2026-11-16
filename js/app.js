@@ -359,10 +359,12 @@ function lowStats(p) {
   return { state: state_, pct, pctAvg, info };
 }
 
-function lowBadges(p, withAvg = true) {
+function lowBadges(p, withAvg = true, opts = {}) {
   const s = lowStats(p);
   if (s.state === "none") return "";
-  if (s.state === "tracking") return `<span class="bd bd-track" title="가격 기록을 오늘부터 쌓고 있어요">추적 시작</span>`;
+  if (s.state === "tracking") {
+    return opts.tracking === false ? "" : `<span class="bd bd-track" title="가격 기록을 오늘부터 쌓고 있어요">추적 시작</span>`;
+  }
   const volatile = s.info && s.info.volatile;
   const warn = volatile ? " · 묶음 구성이 바뀐 기록이 섞여 있어 참고용" : "";
   const lowIsMeaningful = s.pct <= 3 || !volatile;
@@ -575,11 +577,7 @@ function dealCardEl(p) {
   const toss = isToss(p);
   const off = p.discountPct ? `<span class="off">${p.discountPct}%</span>` : "";
   const was = p.listPrice && p.listPrice > p.price ? `<span class="was">${won(p.listPrice)}</span>` : "";
-  const low = lowStats(p);
-  const lowLine =
-    state.dealMode === "low"
-      ? lowBadges(p, true)
-      : [p.discountPct ? `<span class="bd bd-cheap">정가 대비 ${p.discountPct}% 할인</span>` : "", lowBadges(p, true)].join("");
+  const lowLine = lowBadges(p, true, { tracking: false });
   el.dataset.id = p.id;
   el.innerHTML = `
     <div class="dc-top">
@@ -596,7 +594,7 @@ function dealCardEl(p) {
       <div class="dc-row"><span class="dc-k">판매처</span><strong>${toss ? "토스" : "쿠팡"}</strong></div>
       <div class="dc-row"><span class="dc-k">가격</span><strong>${p.price != null ? won(p.price) : "-"}</strong>${off}${was}</div>
       ${buyHTML(p, "dc-go", "상품 확인")}
-      <div class="dc-deal">${lowLine}</div>
+      <div class="dc-deal"${lowLine ? "" : " hidden"}>${lowLine}</div>
     </div>
     <div class="dc-acts">
       <button type="button" class="btn-copy" data-copy="${escapeHtml(p.id)}">🔗 링크 복사</button>
@@ -1063,7 +1061,7 @@ function renderRankParts() {
     btn.addEventListener("click", () => {
       state.rankPart = btn.getAttribute("data-rankpart");
       const metrics = RANK_METRICS[state.rankPart];
-      if (!metrics.some((m) => m.id === state.rankMetric)) state.rankMetric = metrics[0].id;
+      state.rankMetric = metrics[0].id;
       paint();
     });
   });
