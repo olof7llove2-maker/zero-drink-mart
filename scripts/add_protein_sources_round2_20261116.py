@@ -53,6 +53,7 @@ SOURCES = {
         "sugarPerServing": 4,
         "proteinStatus": "12g",
         "protein_g_per_bottle": 12,
+        "proteinPerG": 66,
     },
     "bejimil-godanbaekduyu-geomeunkong-190ml-32gae": {
         "proteinSourceKey": "soy",
@@ -128,6 +129,7 @@ SOURCES = {
         "proteinSourceDetail": "ISP·WPI·MPC",
         "sugarPerServing": 0.7,
         "kcalStatus": "106kcal",
+        "kcal_per_bottle": 106,
     },
     # ── 동·식물성 복합 ─────────────────────────────────────
     "maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae": {
@@ -157,6 +159,7 @@ SOURCES = {
         "sugarPerServing": 3,
         "proteinStatus": "14g",
         "protein_g_per_bottle": 14,
+        "proteinPerG": 102,
     },
 }
 
