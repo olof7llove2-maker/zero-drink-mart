@@ -418,6 +418,30 @@ function verdictBlock(p, entry) {
   return `<div class="pm-verdict">${escapeHtml(bits.slice(0, 3).join(" · "))}</div>`;
 }
 
+/* 5단계 등급 — 이력 14일 이상 + 같은 용기·브랜드 시세가 있을 때만 */
+function gradeBlock(p) {
+  if (typeof gradeForProduct !== "function") return "";
+  if (p.category === "gadget") {
+    return `<div class="pm-block"><h4>지금 사도 될까?</h4><ul class="pm-list"><li>조리기구는 중량이 없어 개당 가격으로만 비교했어요.</li></ul></div>`;
+  }
+  const g = gradeForProduct(p);
+  if (g) {
+    return `<div class="pm-block"><h4>지금 사도 될까?</h4>
+      <div class="grade-line" style="margin:2px 0 8px"><span class="grade-badge ${g.band.cls}">${g.band.id}</span>
+        <span class="grade-note">${escapeHtml(g.market.label)} <b>${won(Math.round(g.market.value))}</b>원/${g.label} 대비 <b>${signedPct(g.pct)}</b></span></div>
+      <ul class="pm-list"><li>${escapeHtml(g.band.verdict)}</li>
+        <li>${escapeHtml(g.market.label)}는 같은 용기 안 같은 브랜드 상품 ${g.market.sample}개의 단가 중간값이고, 이 상품은 ${g.days}일 관측 기록이 있어요.</li></ul></div>`;
+  }
+  const days = historyDaysOf(p.id);
+  const market = marketForProduct(p);
+  const why = !days
+    ? `관측 기록이 ${GRADE_MIN_DAYS}일에 못 미쳐 아직 등급을 매기지 않았어요. 기록이 쌓이면 자동으로 붙어요.`
+    : !market
+    ? "같은 용기·같은 분류에 비교할 시세 표본이 적어 등급을 매기지 않았어요."
+    : "단가를 계산할 수 없어 등급을 매기지 않았어요.";
+  return `<div class="pm-block"><h4>지금 사도 될까?</h4><ul class="pm-list"><li>${why}</li></ul></div>`;
+}
+
 function priceModalHTML(p, entry) {
   const hasHistory = entry && entry.status === "history" && (entry.series || []).length > 1;
   const src = hasHistory
@@ -433,11 +457,13 @@ function priceModalHTML(p, entry) {
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
     <p class="pm-src">${src}${headline ? ` · ${headline}` : ""}</p>
     ${p.note ? `<p class="pm-fine">${escapeHtml(p.note)}</p>` : ""}
+    ${gradeBlock(p)}
     ${hasHistory ? historyBlock(p, entry) : trackingBlock(p, entry)}
     <h3 class="pm-h3">비교 분석</h3>
     ${positionBlock(p, entry)}
     ${categoryBlock(p)}
     ${verdictBlock(p, entry)}
+    ${typeof alertInlineHTML === "function" ? alertInlineHTML(p) : ""}
     <p class="pm-foot">
       ${
         hasHistory

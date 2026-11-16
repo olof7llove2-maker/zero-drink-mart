@@ -573,10 +573,12 @@ function cardEl(p, opts = {}) {
       ${unitLineHTML(p, opts.unit)}
       <p class="pc-sub">${escapeHtml(opts.showCategory ? `${categoryLabel(p.category)} · ${subLine(p)}` : subLine(p))}</p>
       ${airfryerTipHTML(p)}
+      ${typeof gradeLineHTML === "function" ? gradeLineHTML(p) : ""}
       ${priceRowHTML(p)}
       <div class="pc-deal">${lowBadges(p)}</div>
       ${rateHTML(p)}
       <div class="pc-acts">
+        ${typeof alertIconHTML === "function" ? alertIconHTML(p) : ""}
         <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 가격 추이</button>
         ${buyHTML(p, "btn-buy")}
       </div>
@@ -601,6 +603,7 @@ function dealCardEl(p) {
         <h3 class="pc-name">${escapeHtml(p.name)}</h3>
         ${unitLineHTML(p)}
         <p class="pc-sub">${escapeHtml(subLine(p))}</p>
+        ${typeof gradeLineHTML === "function" ? gradeLineHTML(p) : ""}
       </div>
     </div>
     <div class="dc-box">
@@ -1644,6 +1647,7 @@ function paint() {
   else if (state.tab === "category") renderCategory();
   else if (state.tab === "ranking") renderRanking();
   else renderHotdeal();
+  if (typeof refreshAlertButtons === "function") refreshAlertButtons();
 }
 
 function catalogFromGlobals() {
@@ -1718,6 +1722,10 @@ async function init() {
   if (typeof loadPriceHistory === "function") await loadPriceHistory();
   if (typeof initPriceModal === "function") initPriceModal();
   buildLowInfo();
+  if (typeof buildMarketIndex === "function") buildMarketIndex(state.data.products, state.data.categories);
+  if (typeof initCalc === "function") initCalc();
+  if (typeof initPushUI === "function") initPushUI();
+  if (typeof initPush === "function") initPush();
   applyUrlState();
   renderUpdateBand();
   renderNav();

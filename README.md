@@ -58,3 +58,33 @@
 - 갱신: `python3 scripts/update_prices.py` (내부적으로 `scripts/fetch_price_history.py` 실행)
   - 쿠팡 상품의 관측 이력을 다시 받아 병합하고, `data/products.json`의 확인 가격을 오늘 관측점으로 추가합니다.
   - 갱신 뒤 `git add data/price-history.json && git commit && git push` 하면 배포됩니다.
+
+## 단가 계산기 · 5단계 등급 (2026-11-17)
+
+- **단가 계산기**: 상단 🧮(헤더·홈 배너·푸터) → 모달. 딜 문구를 붙여넣고 `문구 읽기`를 누르면
+  가격·배송비·용량·수량을 읽어 `100ml당·100g당 + 개당 + 단백질 20g당`을 계산하고 등급을 판정합니다.
+  계산식은 `js/grade.js`(등급·시세·파싱) + `js/calc.js`(모달 UI)에 있고, 같은 계산을
+  `python3 scripts/verify_grade.py`가 파이썬으로 다시 계산해 대조합니다.
+- **5단계 등급**: `역대급` -20%↓ / `대박급` -12%↓ / `중박급` -5%↓ / `쏘쏘` ±3% / `비쌈` 3%↑.
+  비교 기준(평소 시세)은 **같은 용기(캔·소형 페트·대용량·분말·100g) 안에서 같은 브랜드 상품 단가의 중간값**입니다.
+  브랜드 표본이 2개 미만이면 같은 용기의 **분류 시세**(표본 3개 이상)를 씁니다.
+  - 왜 용기를 나누나: 펩시 1.5L 페트(110원/100ml)와 355ml 캔(186원)을 한 평균에 넣으면 캔이 전부 `비쌈`으로 오판됩니다.
+- **14일 규칙**: `data/price-history.json`의 실제 관측 기록이 **14일 이상**(관측 5회 이상) 쌓인 상품만 5단계 배지를 붙입니다.
+  그 미만은 기존처럼 `추적 시작` 등으로 두고, 가격 추이 모달에도 "기록이 쌓이면 자동으로 붙는다"고 적습니다.
+
+## 웹푸시 최저가 알림 (`api/`, `sw.js`)
+
+- 개인정보를 받지 않습니다. 저장하는 값은 브라우저가 만든 **구독 객체(endpoint·키)**, 관심 상품 ID, 목표가,
+  마지막 발송 시각뿐입니다(전화번호·이메일·이름 없음). 목표가는 이 브라우저(localStorage)에도 함께 둡니다.
+- 파일: `sw.js`(푸시 수신·클릭 시 `/?p={id}` 이동, 사이트 파일 캐시는 하지 않음), `js/push.js`(카드 🔔·모달 UI),
+  `api/push-vapid.js`(상태·공개키), `api/push-subscribe.js`(POST 구독 / DELETE 해제), `api/push-check.js`(목표가 도달 검사·발송).
+- 저장소: **Upstash Redis(Vercel Marketplace) REST**. 아래 환경변수가 자동으로 들어오면 그대로 씁니다.
+  - `KV_REST_API_URL` · `KV_REST_API_TOKEN` (또는 `UPSTASH_REDIS_REST_URL` · `UPSTASH_REDIS_REST_TOKEN`)
+- VAPID: 공개키는 `api/_lib.js`에 함께 있고, **개인키만 환경변수** `VAPID_PRIVATE_KEY`로 넣습니다.
+  `VAPID_SUBJECT`(기본값 `https://zero-drink-mart.vercel.app`)는 필요할 때만 바꿉니다.
+- 발송 주기: `vercel.json`의 cron `20 0 * * *`(UTC) = 매일 09:20 KST. 아침 9시 가격 갱신·배포 뒤에 돕니다.
+  수동 점검: `GET /api/push-check?dry=1` → 발송 없이 조건에 맞은 구독만 알려줍니다.
+  `CRON_SECRET`을 넣으면 `Authorization: Bearer <CRON_SECRET>` 없는 호출은 401로 막힙니다.
+- 저장소나 개인키가 없으면 `/api/push-vapid`가 `configured:false`를 돌려주고, 사이트의 🔔 버튼은
+  "알림 서버를 켜는 중" 안내를 보여줍니다(구독을 흉내 내지 않습니다).
+- 아이폰은 **홈 화면에 추가한 뒤**(iOS 16.4+)에만 웹푸시가 됩니다. 사이트는 그 경우 설치 안내로 안내합니다.

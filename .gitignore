@@ -1,3 +1,6 @@
 .scratch/
 __pycache__/
 *.pyc
+
+.vapid-private
+tmp-keys/
