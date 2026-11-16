@@ -463,11 +463,17 @@ function sortList(list, key) {
     .map((x) => x.p);
 }
 
-function groupHint() {
+function groupHint(list) {
+  const items = list || [];
   if (state.sort === "basis") {
-    if (state.basis === "protein20") return "단백질 20g당 가격 낮은 순";
-    if (state.basis === "per100ml") return "100ml당 가격 낮은 순";
-    if (state.basis === "per100g") return "100g당 가격 낮은 순";
+    if (state.basis === "protein20" && items.some((p) => protein20(p))) return "단백질 20g당 가격 낮은 순";
+    const kinds = new Set(items.map(measureKind));
+    if (kinds.size === 1) {
+      const kind = [...kinds][0];
+      if (kind === "per100ml") return "100ml당 가격 낮은 순";
+      if (kind === "per100g") return "100g당 가격 낮은 순";
+      if (kind === "each") return "가격 낮은 순";
+    }
     return "단가 낮은 순";
   }
   const map = {
@@ -631,7 +637,7 @@ function groupBlock(catId, list, hideHead) {
     head.className = "group-head";
     head.innerHTML = `<h2>${cat && cat.icon ? `<span class="cat-ico">${escapeHtml(cat.icon)}</span>` : ""}${escapeHtml(
       cat ? cat.label : catId
-    )}</h2><span class="group-hint">${escapeHtml(groupHint())}</span>`;
+    )}</h2><span class="group-hint">${escapeHtml(groupHint(list))}</span>`;
     sec.appendChild(head);
   }
   const grid = document.createElement("div");

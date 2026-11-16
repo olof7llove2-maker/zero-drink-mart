@@ -431,6 +431,7 @@ function priceModalHTML(p, entry) {
     <p class="pm-eyebrow">가격 추이 · 비교 분석</p>
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
     <p class="pm-src">${src}${headline ? ` · ${headline}` : ""}</p>
+    ${p.note ? `<p class="pm-fine">${escapeHtml(p.note)}</p>` : ""}
     ${hasHistory ? historyBlock(p, entry) : trackingBlock(p, entry)}
     <h3 class="pm-h3">비교 분석</h3>
     ${positionBlock(p, entry)}
