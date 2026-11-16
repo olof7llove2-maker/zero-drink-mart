@@ -410,11 +410,11 @@ function setLegalOffset() {
 
 function pickPart(id) {
   if (!partById(id)) return;
+  const changed = state.part !== id;
   state.part = id;
   state.filter = "all";
   state.highlightId = null;
-  const prev = state.sort;
-  if (!visibleSorts().some((s) => s.id === prev)) state.sort = defaultSortFor();
+  if (changed || !visibleSorts().some((s) => s.id === state.sort)) state.sort = defaultSortFor();
   paint();
   const wrap = $("tabs-wrap");
   if (wrap && wrap.getBoundingClientRect().top < 8) {
@@ -472,7 +472,7 @@ function renderPartFilters() {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "filter";
-    btn.innerHTML = `${escapeHtml(f.label)}<span class="chip-n">${n}</span>`;
+    btn.innerHTML = `${escapeHtml(f.label)} <span class="chip-n">${n}</span>`;
     btn.setAttribute("aria-selected", String(f.id === state.filter));
     btn.addEventListener("click", () => pickFilter(f.id));
     nav.appendChild(btn);
