@@ -4,6 +4,8 @@ const CONV_UNIT = 2000;
 
 const state = {
   data: null,
+  priceHistory: null,
+  priceMeta: null,
   category: "all",
   sort: "per100",
   container: "all",
@@ -593,6 +595,8 @@ function card(p, cheap, topProt, rank) {
       ${isProtein ? proteinHero(p) : ""}
       ${chips(p, isProtein)}
       ${priceBlock(p)}
+      ${typeof cmpMini === "function" ? cmpMini(p) : ""}
+      ${typeof chartButton === "function" ? chartButton(p) : ""}
       <p class="when">${escapeHtml(when)}</p>
       ${cta(p)}
     </div>
@@ -1047,6 +1051,8 @@ async function init() {
   initShortcut();
   window.addEventListener("resize", setLegalOffset);
   state.data = await loadCatalog();
+  if (typeof loadPriceHistory === "function") await loadPriceHistory();
+  if (typeof initPriceModal === "function") initPriceModal();
   const q = new URLSearchParams(location.search);
   if (q.get("cat") && state.data.categories.some((c) => c.id === q.get("cat"))) {
     state.category = q.get("cat");
