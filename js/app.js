@@ -422,15 +422,18 @@ function parseCheckedAt(value) {
   };
 }
 
-/* 상품 카드의 확인 시각(priceCheckedAt) 중 가장 늦은 날짜 = 마지막 업데이트 */
+/* 마지막 업데이트 = 상품 카드 확인 시각 · 가격 이력 생성 시각 중 가장 늦은 값
+   (매일 도는 가격 갱신이 price-history.json을 새로 만들면 날짜도 같이 따라온다) */
 function latestChecked() {
   let best = null;
-  (state.data.products || []).forEach((p) => {
-    const c = parseCheckedAt(p.priceCheckedAt);
+  const consider = (c) => {
     if (!c) return;
     if (!best || c.date > best.date || (c.date === best.date && c.time > best.time)) best = c;
-  });
-  return best || parseCheckedAt(state.data.site && state.data.site.updatedAt);
+  };
+  (state.data.products || []).forEach((p) => consider(parseCheckedAt(p.priceCheckedAt)));
+  consider(parseCheckedAt((state.priceMeta || {}).generatedAt));
+  consider(parseCheckedAt(state.data.site && state.data.site.updatedAt));
+  return best;
 }
 
 function renderUpdateBand() {
