@@ -3,7 +3,7 @@
 제로음료·단백질음료를 100ml당 가격, 병당 단백질(g)로 비교하는 정적 사이트입니다.
 `index.html` 하나와 `css/`, `js/`, `images/`, `data/` 자산으로 이루어져 있고, 빌드 없이 그대로 열립니다.
 
-- 배포: GitHub Pages (main 브랜치 루트)
+- 배포: https://zero-drink-mart.vercel.app (Vercel, main 브랜치 push 시 자동 배포)
 - 상품 데이터: `js/products.js` (104개 상품). `data/products.json`은 같은 데이터의 JSON 사본입니다.
 - 대분류 3단: `PARTS`(전체 · 🥤 제로 음료 · 💪 단백질 음료 · 🥩 식단 고기) → `CATEGORIES`(세부 분류).
   `전체`에서는 단백질·제로 음료가 먼저, 고기·조리기구가 맨 뒤에 옵니다.
