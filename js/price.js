@@ -7,7 +7,8 @@ function unitPer(p) {
 }
 
 function unitName(p) {
-  return measureLabel(p);
+  /* measureLabel은 "100g당"처럼 단위 뒤에 '당'이 붙어 있어요. 아래 문장에서 다시 '당'을 붙이므로 떼어 냅니다. */
+  return String(measureLabel(p) || "").replace(/당$/, "");
 }
 
 const compareCache = new Map();
