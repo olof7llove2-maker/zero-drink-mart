@@ -11,6 +11,10 @@ per100g·price 로 계산해 문구로만 담는다.
 사용
     python3 scripts/merge_meat_products.py            # 합치기(이미 있으면 갱신)
     python3 scripts/merge_meat_products.py --check    # 바뀔 내용만 확인
+
+주의: 이 스크립트의 PARTS 는 2026-11-16 세분화 이전 값이다. 다시 돌리면
+세부 분류가 뭉친 예전 구조로 되돌아가므로, 실행 후에는
+`python3 scripts/restructure_categories_20261116.py` 를 이어서 돌려야 한다.
 """
 from __future__ import annotations
 

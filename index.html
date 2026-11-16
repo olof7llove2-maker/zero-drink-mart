@@ -70,9 +70,18 @@
 
     <div class="tabs-wrap" id="tabs-wrap">
       <nav class="parts" id="parts" aria-label="대분류"></nav>
-      <nav class="filters part-filters" id="part-filters" aria-label="세부 분류" hidden></nav>
-      <nav class="filters" id="filters" aria-label="용기"></nav>
-      <nav class="filters ingredients" id="ingredients" aria-label="성분"></nav>
+      <div class="filter-row" id="row-part" hidden>
+        <span class="filter-lab" aria-hidden="true">종류</span>
+        <nav class="filters part-filters" id="part-filters" aria-label="종류별 세부 분류"></nav>
+      </div>
+      <div class="filter-row" id="row-container">
+        <span class="filter-lab" aria-hidden="true">용기</span>
+        <nav class="filters" id="filters" aria-label="용기"></nav>
+      </div>
+      <div class="filter-row" id="row-ingredient">
+        <span class="filter-lab" aria-hidden="true">성분</span>
+        <nav class="filters ingredients" id="ingredients" aria-label="성분"></nav>
+      </div>
       <p class="ing-note">성분표 확인된 상품만 표시</p>
     </div>
 

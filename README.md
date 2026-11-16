@@ -5,7 +5,14 @@
 
 - 배포: https://zero-drink-mart.vercel.app (Vercel, main 브랜치 push 시 자동 배포)
 - 상품 데이터: `js/products.js` (104개 상품). `data/products.json`은 같은 데이터의 JSON 사본입니다.
-- 대분류 3단: `PARTS`(전체 · 🥤 제로 음료 · 💪 단백질 음료 · 🥩 식단 고기) → `CATEGORIES`(세부 분류).
+- 대분류 4단: `PARTS`(전체 104 · 🥤 제로 음료 53 · 💪 단백질 음료 24 · 🥩 식단 고기·조리 27) → `CATEGORIES`(세부 분류).
+  탭에 상품 개수가 함께 표시되고, 세부 분류는 뭉치지 않고 하나씩 나뉩니다.
+  (제로: 콜라·사이다·탄산수·생수·차·아이스티·이온·에너지·애사비·분말 /
+   고기: 소고기·돼지고기·닭고기·양고기·오리고기·연어·에어프라이어·조리기구)
+- 단백질 음료 세부 필터는 상품별 `proteinType` 값으로 고릅니다
+  (`soy` 두유·식물성 · `choco` 초코·커피 · `fruit` 과일맛 · `plain` 플레인·고소한).
+  `고단백 20g+` 는 병당 단백질 20g 이상. 분류를 바꾸거나 추가할 때는
+  `python3 scripts/restructure_categories_20261116.py` 로 두 파일(PARTS·proteinType)을 함께 갱신합니다.
   `전체`에서는 단백질·제로 음료가 먼저, 고기·조리기구가 맨 뒤에 옵니다.
 - 고기·조리기구 27종은 `data/meat-candidates.json` 원본을 `scripts/merge_meat_products.py`로 합칩니다.
 - 구매 링크: 각 상품의 `affiliateUrl`만 사용합니다. 공유 버튼은 제휴 링크가 아니라 마트 주소를 공유합니다.

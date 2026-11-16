@@ -140,6 +140,7 @@ const PARTS = [
     "id": "zero",
     "label": "제로 음료",
     "icon": "🥤",
+    "desc": "100ml당 가격 낮은 순 · 분말·티백은 100g당",
     "note": "제로 음료는 분류마다 100ml당 가격이 낮은 순으로 모았어요. 분말·티백은 100g당 가격으로 따로 비교해요.",
     "filters": [
       {
@@ -159,37 +160,67 @@ const PARTS = [
         ]
       },
       {
-        "id": "fizz",
-        "label": "탄산(콜라/사이다)",
+        "id": "cola",
+        "label": "콜라",
         "cats": [
-          "cola",
+          "cola"
+        ]
+      },
+      {
+        "id": "cider",
+        "label": "사이다",
+        "cats": [
           "cider"
         ]
       },
       {
-        "id": "water",
-        "label": "탄산수/생수",
+        "id": "sparkling",
+        "label": "탄산수",
         "cats": [
-          "sparkling",
+          "sparkling"
+        ]
+      },
+      {
+        "id": "water",
+        "label": "생수",
+        "cats": [
           "water"
         ]
       },
       {
         "id": "tea",
-        "label": "차/아이스티",
+        "label": "차·아이스티",
         "cats": [
           "icetea",
-          "tea",
-          "powder"
+          "tea"
         ]
       },
       {
-        "id": "boost",
-        "label": "이온/에너지/애사비",
+        "id": "ion",
+        "label": "이온",
         "cats": [
-          "ion",
-          "energy",
+          "ion"
+        ]
+      },
+      {
+        "id": "energy",
+        "label": "에너지",
+        "cats": [
+          "energy"
+        ]
+      },
+      {
+        "id": "acv",
+        "label": "애사비",
+        "cats": [
           "acv"
+        ]
+      },
+      {
+        "id": "powder",
+        "label": "분말",
+        "cats": [
+          "powder"
         ]
       }
     ]
@@ -198,6 +229,7 @@ const PARTS = [
     "id": "protein",
     "label": "단백질 음료",
     "icon": "💪",
+    "desc": "병당 단백질(g) 높은 순 · 병당 단백질·열량 함께 표시",
     "note": "병당 단백질(g)이 높은 순으로 보여 줘요. 카드마다 병당 단백질과 열량을 같이 적었어요.",
     "filters": [
       {
@@ -206,13 +238,67 @@ const PARTS = [
         "cats": [
           "protein"
         ]
+      },
+      {
+        "id": "high",
+        "label": "고단백 20g+",
+        "cats": [
+          "protein"
+        ],
+        "proteinMin": 20,
+        "note": "병당 단백질 20g 이상 상품만 모았어요. 단백질(g)은 제품 표기 기준이에요."
+      },
+      {
+        "id": "soy",
+        "label": "두유·식물성",
+        "cats": [
+          "protein"
+        ],
+        "types": [
+          "soy"
+        ],
+        "note": "두유·아몬드 등 식물성 음료예요."
+      },
+      {
+        "id": "choco",
+        "label": "초코·커피",
+        "cats": [
+          "protein"
+        ],
+        "types": [
+          "choco"
+        ],
+        "note": "초코·초콜릿·커피·모카 맛이에요."
+      },
+      {
+        "id": "fruit",
+        "label": "과일맛",
+        "cats": [
+          "protein"
+        ],
+        "types": [
+          "fruit"
+        ],
+        "note": "딸기·바나나 등 과일 맛이에요."
+      },
+      {
+        "id": "plain",
+        "label": "플레인·고소한",
+        "cats": [
+          "protein"
+        ],
+        "types": [
+          "plain"
+        ],
+        "note": "플레인·고소한·오리지널 타입이에요."
       }
     ]
   },
   {
     "id": "meat",
-    "label": "식단 고기",
+    "label": "식단 고기·조리",
     "icon": "🥩",
+    "desc": "100g당 가격 낮은 순 · 부위 태그 · 조리기구는 개당 가격",
     "note": "고기는 100g당 가격과 부위 태그로 비교해요. 가격은 2026-11-16 16:00~17:00(Asia/Seoul)에 쿠팡에서 확인한 값이고, 평점 4.5 이상·리뷰 수백 건 이상 상품만 골랐어요. 조리기구는 중량 비교 대신 개당 가격으로 봐요.",
     "filters": [
       {
@@ -258,15 +344,21 @@ const PARTS = [
       },
       {
         "id": "duck",
-        "label": "오리/연어",
+        "label": "오리고기",
         "cats": [
-          "duck",
+          "duck"
+        ]
+      },
+      {
+        "id": "salmon",
+        "label": "연어",
+        "cats": [
           "salmon"
         ]
       },
       {
         "id": "gadget",
-        "label": "에어프라이어/조리기구",
+        "label": "에어프라이어·조리기구",
         "cats": [
           "gadget"
         ]
@@ -1423,6 +1515,7 @@ const PRODUCTS = [
     "name": "매일두유 고단백 검은콩, 190ml, 24개",
     "kind": "단백질 음료 · 검은콩",
     "flavor": "검은콩",
+    "proteinType": "soy",
     "price": 17890,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1461,6 +1554,7 @@ const PRODUCTS = [
     "name": "매일두유 고단백 플레인 두유, 190ml, 24개",
     "kind": "단백질 음료 · 플레인",
     "flavor": "플레인",
+    "proteinType": "soy",
     "price": 15990,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1500,6 +1594,7 @@ const PRODUCTS = [
     "name": "더단백 드링크 초코, 250ml, 18개",
     "kind": "단백질 음료 · 초코",
     "flavor": "초코",
+    "proteinType": "choco",
     "price": 23930,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1537,6 +1632,7 @@ const PRODUCTS = [
     "name": "뉴케어 올프로틴 고소한맛, 245ml, 24개",
     "kind": "단백질 음료 · 고소한",
     "flavor": "고소한",
+    "proteinType": "plain",
     "price": 41320,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1576,6 +1672,7 @@ const PRODUCTS = [
     "name": "매일두유 99.9 서리태, 24개, 190ml",
     "kind": "단백질 음료 · 서리태",
     "flavor": "서리태",
+    "proteinType": "soy",
     "price": 17430,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1614,6 +1711,7 @@ const PRODUCTS = [
     "name": "아몬드브리즈 뉴트리플러스 프로틴, 190ml, 24개",
     "kind": "단백질 음료",
     "flavor": "단백질",
+    "proteinType": "soy",
     "price": 17490,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1652,6 +1750,7 @@ const PRODUCTS = [
     "name": "더단백 드링크 딸기, 250ml, 18개",
     "kind": "단백질 음료 · 딸기",
     "flavor": "딸기",
+    "proteinType": "fruit",
     "price": 23290,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1689,6 +1788,7 @@ const PRODUCTS = [
     "name": "더단백 드링크 커피 A, 250ml, 18개",
     "kind": "단백질 음료 · 커피",
     "flavor": "커피",
+    "proteinType": "choco",
     "price": 23780,
     "priceCheckedAt": "2026-11-15 19:25",
     "priceCheckedLabel": "11/15 19:25 쿠팡 기준",
@@ -1726,6 +1826,7 @@ const PRODUCTS = [
     "name": "테이크핏 맥스 초코맛 프로틴, 250ml, 24개",
     "kind": "단백질 음료 · 초코",
     "flavor": "초코",
+    "proteinType": "choco",
     "price": 32000,
     "priceCheckedAt": "2026-11-15 19:51",
     "priceCheckedLabel": "11/15 19:51 쿠팡 기준",
@@ -1760,6 +1861,7 @@ const PRODUCTS = [
     "name": "하이뮨 프로틴 밸런스 액티브 오리지널, 250ml, 18개",
     "kind": "단백질 음료 · 오리지널",
     "flavor": "오리지널",
+    "proteinType": "plain",
     "price": 28000,
     "priceCheckedAt": "2026-11-15 19:51",
     "priceCheckedLabel": "11/15 19:51 쿠팡 기준",
@@ -1794,6 +1896,7 @@ const PRODUCTS = [
     "name": "셀렉스 프로핏 모카 초콜릿, 250ml, 18개",
     "kind": "단백질 음료 · 모카 초콜릿",
     "flavor": "모카 초콜릿",
+    "proteinType": "choco",
     "price": 24900,
     "priceCheckedAt": "2026-11-15 19:51",
     "priceCheckedLabel": "11/15 19:51 쿠팡 기준",
@@ -1828,6 +1931,7 @@ const PRODUCTS = [
     "name": "마이밀 뉴프로틴 드링크 오리지널, 190ml, 30개",
     "kind": "단백질 음료 · 오리지널",
     "flavor": "오리지널",
+    "proteinType": "plain",
     "price": 30500,
     "priceCheckedAt": "2026-11-15 19:51",
     "priceCheckedLabel": "11/15 19:51 쿠팡 기준",
@@ -1859,6 +1963,7 @@ const PRODUCTS = [
     "name": "닥터유 프로 단백질 40g 드링크 초코, 350ml, 6개",
     "kind": "단백질 음료 · 초코",
     "flavor": "초코",
+    "proteinType": "choco",
     "price": 16500,
     "priceCheckedAt": "2026-11-15 20:00",
     "priceCheckedLabel": "11/15 20:00 쿠팡 기준",
@@ -1893,6 +1998,7 @@ const PRODUCTS = [
     "name": "더단백 40g 고함량 드링크 더블초코, 350ml, 20개",
     "kind": "단백질 음료 · 더블초코",
     "flavor": "더블초코",
+    "proteinType": "choco",
     "price": 53070,
     "priceCheckedAt": "2026-11-15 20:00",
     "priceCheckedLabel": "11/15 20:00 쿠팡 기준",
@@ -1929,6 +2035,7 @@ const PRODUCTS = [
     "name": "닥터유 단백질드링크 딸기 40g, 350ml, 6개",
     "kind": "단백질 음료 · 딸기",
     "flavor": "딸기",
+    "proteinType": "fruit",
     "price": 17070,
     "priceCheckedAt": "2026-11-15 20:00",
     "priceCheckedLabel": "11/15 20:00 쿠팡 기준",
@@ -1963,6 +2070,7 @@ const PRODUCTS = [
     "name": "더단백 드링크 다크초코, 330ml, 12개",
     "kind": "단백질 음료 · 다크초코",
     "flavor": "다크초코",
+    "proteinType": "choco",
     "price": 28140,
     "priceCheckedAt": "2026-11-15 20:00",
     "priceCheckedLabel": "11/15 20:00 쿠팡 기준",
@@ -2353,6 +2461,7 @@ const PRODUCTS = [
     "name": "맛있는두유GT 고단백 두유, 190ml, 24개",
     "kind": "단백질 음료 · 두유",
     "flavor": "두유",
+    "proteinType": "soy",
     "price": 13350,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",
@@ -2388,6 +2497,7 @@ const PRODUCTS = [
     "name": "케어웰 밸런스N 고단백 바나나맛, 200ml, 60개",
     "kind": "단백질 음료 · 바나나",
     "flavor": "바나나",
+    "proteinType": "fruit",
     "price": 85530,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",
@@ -2426,6 +2536,7 @@ const PRODUCTS = [
     "name": "허쉬 초콜릿 드링크 프로틴, 235ml, 24개",
     "kind": "단백질 음료 · 초콜릿",
     "flavor": "초콜릿",
+    "proteinType": "choco",
     "price": 19900,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",
@@ -2461,6 +2572,7 @@ const PRODUCTS = [
     "name": "연세두유 고단백 검은콩 앤 고칼슘 저당, 190ml, 32개",
     "kind": "단백질 음료 · 검은콩",
     "flavor": "검은콩",
+    "proteinType": "soy",
     "price": 25200,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",
@@ -2496,6 +2608,7 @@ const PRODUCTS = [
     "name": "베지밀 고단백두유 검은콩, 190ml, 32개",
     "kind": "단백질 음료 · 검은콩",
     "flavor": "검은콩",
+    "proteinType": "soy",
     "price": 17890,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",
@@ -2529,6 +2642,7 @@ const PRODUCTS = [
     "name": "연세두유 고단백 Pro 플레인, 240ml, 32개",
     "kind": "단백질 음료 · 플레인",
     "flavor": "플레인",
+    "proteinType": "soy",
     "price": 29900,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",
@@ -2566,6 +2680,7 @@ const PRODUCTS = [
     "name": "빙그레 요플레 프로틴 드링크 딸기바나나 210ml, 12개",
     "kind": "단백질 음료 · 딸기바나나",
     "flavor": "딸기바나나",
+    "proteinType": "fruit",
     "price": 24500,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",
@@ -2599,6 +2714,7 @@ const PRODUCTS = [
     "name": "마이프로틴 드링크 시그니처 초콜릿, 340ml, 24개",
     "kind": "단백질 음료 · 초콜릿",
     "flavor": "초콜릿",
+    "proteinType": "choco",
     "price": 56950,
     "priceCheckedAt": "2026-11-15 20:51",
     "priceCheckedLabel": "11/15 20:51 쿠팡 기준",

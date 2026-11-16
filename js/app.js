@@ -76,6 +76,49 @@ function filterCats(partId, filterId) {
   return f ? f.cats || [] : [];
 }
 
+function currentFilter(partId, filterId) {
+  const pid = partId == null ? state.part : partId;
+  const fid = filterId == null ? state.filter : filterId;
+  return partFilters(pid).find((x) => x.id === fid) || null;
+}
+
+/* 단백질 음료 세부 타입: soy(두유·식물성) · choco(초코·커피) · fruit(과일맛) · plain(플레인·고소한) */
+function proteinType(p) {
+  return p.proteinType || "plain";
+}
+
+function matchesFilter(p, f) {
+  if (!f) return true;
+  const cats = f.cats || [];
+  const types = f.types || [];
+  if (cats.length && !cats.includes(p.category)) return false;
+  if (types.length && !types.includes(proteinType(p))) return false;
+  if (typeof f.proteinMin === "number") {
+    const g = proteinValue(p);
+    if (g == null || g < f.proteinMin) return false;
+  }
+  return true;
+}
+
+function partCount(partId) {
+  const list = state.data.products || [];
+  if (!partId || partId === "all") return list.length;
+  return list.filter((p) => partOf(p) === partId).length;
+}
+
+function filterCount(partId, f, ignorePack) {
+  const pid = partId == null ? state.part : partId;
+  const pack = ignorePack ? "all" : state.container;
+  const ing = ignorePack ? "all" : state.ingredient;
+  return (state.data.products || []).filter((p) => {
+    if (pid !== "all" && partOf(p) !== pid) return false;
+    if (!matchesFilter(p, f)) return false;
+    if (pack && pack !== "all" && !isMeat(p) && p.container !== pack) return false;
+    if (ing && ing !== "all" && !isMeat(p) && !matchesIngredient(p, ing)) return false;
+    return true;
+  }).length;
+}
+
 /* ── 단가 계산 ───────────────────────────────────────── */
 
 const MEASURE_LABEL = { per100ml: "100ml", per100g: "100g", each: "개" };
@@ -160,13 +203,12 @@ function matchesIngredient(p, ingredient) {
 
 function productsIn(partId, filterId, container, ingredient) {
   const pid = partId == null ? state.part : partId;
-  const cats = filterCats(pid, filterId);
+  const f = currentFilter(pid, filterId == null ? state.filter : filterId);
   const pack = container == null ? state.container : container;
   const ing = ingredient == null ? state.ingredient : ingredient;
   let all = (state.data.products || []).filter((p) => {
     if (pid !== "all" && partOf(p) !== pid) return false;
-    if (cats.length && !cats.includes(p.category)) return false;
-    return true;
+    return matchesFilter(p, f);
   });
   if (pack && pack !== "all") {
     all = all.filter((p) => (isMeat(p) ? true : p.container === pack));
@@ -326,18 +368,21 @@ function visibleSorts(listArg) {
 /* ── URL ─────────────────────────────────────────────── */
 
 const LEGACY_CAT = {
-  cola: ["zero", "fizz"],
-  cider: ["zero", "fizz"],
-  sparkling: ["zero", "water"],
+  cola: ["zero", "cola"],
+  cider: ["zero", "cider"],
+  sparkling: ["zero", "sparkling"],
   water: ["zero", "water"],
-  acv: ["zero", "boost"],
-  ion: ["zero", "boost"],
-  energy: ["zero", "boost"],
+  acv: ["zero", "acv"],
+  ion: ["zero", "ion"],
+  energy: ["zero", "energy"],
   icetea: ["zero", "tea"],
   tea: ["zero", "tea"],
-  powder: ["zero", "tea"],
+  powder: ["zero", "powder"],
   protein: ["protein", "all"],
 };
+
+/* 예전 링크의 뭉친 필터 id → 지금 세부 분류 id */
+const LEGACY_FILTER = { fizz: "cola", boost: "ion" };
 
 function syncUrl() {
   const url = new URL(location.href);
@@ -384,6 +429,13 @@ function pickFilter(id) {
   paint();
 }
 
+function setRowHidden(el, hidden) {
+  if (!el) return;
+  el.hidden = hidden;
+  const row = el.closest ? el.closest(".filter-row") : null;
+  if (row) row.hidden = hidden;
+}
+
 function renderParts() {
   const nav = $("parts");
   if (!nav) return;
@@ -394,7 +446,8 @@ function renderParts() {
     btn.className = "part-tab";
     btn.setAttribute("aria-selected", String(pt.id === state.part));
     const icon = pt.icon ? `<span class="part-ico" aria-hidden="true">${escapeHtml(pt.icon)}</span>` : "";
-    btn.innerHTML = `${icon}<span class="part-label">${escapeHtml(pt.label)}</span>`;
+    const count = partCount(pt.id);
+    btn.innerHTML = `${icon}<span class="part-label">${escapeHtml(pt.label)}</span><span class="part-count">(${count})</span>`;
     btn.addEventListener("click", () => pickPart(pt.id));
     nav.appendChild(btn);
   });
@@ -406,20 +459,25 @@ function renderPartFilters() {
   const items = partFilters();
   if (state.part === "all" || items.length < 2) {
     nav.innerHTML = "";
-    nav.hidden = true;
+    setRowHidden(nav, true);
     return;
   }
-  nav.hidden = false;
   nav.innerHTML = "";
+  let shown = 0;
   items.forEach((f) => {
+    const total = filterCount(state.part, f, true);
+    if (f.id !== "all" && total === 0) return;
+    shown += 1;
+    const n = filterCount(state.part, f);
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "filter";
-    btn.textContent = f.label;
+    btn.innerHTML = `${escapeHtml(f.label)}<span class="chip-n">${n}</span>`;
     btn.setAttribute("aria-selected", String(f.id === state.filter));
     btn.addEventListener("click", () => pickFilter(f.id));
     nav.appendChild(btn);
   });
+  setRowHidden(nav, shown < 2);
 }
 
 function renderChipNav(nav, items, current, onPick) {
@@ -441,7 +499,7 @@ function renderFilters() {
   const note = document.querySelector(".ing-note");
   const meatOnly = state.part === "meat";
   if (nav) {
-    nav.hidden = meatOnly;
+    setRowHidden(nav, meatOnly);
     if (!meatOnly) {
       renderChipNav(nav, state.data.containers || [], state.container, (id) => {
         state.container = id;
@@ -457,7 +515,7 @@ function renderIngredients() {
   const nav = $("ingredients");
   if (!nav) return;
   const meatOnly = state.part === "meat";
-  nav.hidden = meatOnly;
+  setRowHidden(nav, meatOnly);
   if (meatOnly) return;
   renderChipNav(nav, state.data.ingredientFilters || [], state.ingredient, (id) => {
     state.ingredient = id;
@@ -963,9 +1021,14 @@ function partHead(partId, count) {
   const part = partById(partId);
   const wrap = document.createElement("div");
   wrap.className = "part-head";
-  wrap.innerHTML = `<span class="part-head-ico" aria-hidden="true">${escapeHtml(
-    (part && part.icon) || ""
-  )}</span><h2>${escapeHtml((part && part.label) || partId)}</h2><span class="part-head-count">${count}개</span>`;
+  const icon = escapeHtml((part && part.icon) || "");
+  const label = escapeHtml((part && part.label) || partId);
+  const desc = part && part.desc ? `<p class="part-head-desc">${escapeHtml(part.desc)}</p>` : "";
+  wrap.innerHTML = `<span class="part-head-ico" aria-hidden="true">${icon}</span>
+    <div class="part-head-text">
+      <h2>${label} <span class="part-head-count">(${count})</span></h2>
+      ${desc}
+    </div>`;
   return wrap;
 }
 
@@ -983,11 +1046,13 @@ function renderProducts() {
   const note = $("cat-note");
   const part = currentPart();
   const cat = (state.data.categories || []).find((c) => c.id === state.filter);
+  const subFilter = currentFilter();
   const list = productsIn();
   const cheap = cheapestIds(list.length ? list : productsIn("all", "all", state.container, state.ingredient));
   const topProt = topProteinIds(state.data.products);
 
-  const noteText = [cat && cat.note ? cat.note : "", part && part.note ? part.note : ""]
+  const subNote = subFilter && subFilter.id !== "all" && subFilter.note ? subFilter.note : "";
+  const noteText = subNote || [cat && cat.note ? cat.note : "", part && part.note ? part.note : ""]
     .filter(Boolean)
     .join(" ");
   if (noteText) {
@@ -1430,7 +1495,7 @@ function applyUrlState() {
   const legacy = q.get("cat") ? LEGACY_CAT[q.get("cat")] : null;
   const wantedPart = q.get("part") || (legacy ? legacy[0] : "all");
   if (partIds.includes(wantedPart)) state.part = wantedPart;
-  const filterId = q.get("f") || (legacy ? legacy[1] : "all");
+  const filterId = q.get("f") ? LEGACY_FILTER[q.get("f")] || q.get("f") : legacy ? legacy[1] : "all";
   if (partFilters(state.part).some((f) => f.id === filterId)) state.filter = filterId;
   state.sort = defaultSortFor();
   const sorts = (state.data.sorts || []).map((s) => s.id);
