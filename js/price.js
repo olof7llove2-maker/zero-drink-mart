@@ -282,6 +282,8 @@ function longDate(dateStr) {
 
 function positionBlock(p, entry) {
   const hist = entry && entry.status === "history" ? entry.stats : null;
+  const volatile =
+    entry && entry.couprice && entry.couprice.crosscheck && entry.couprice.crosscheck.sourceWarnsVolatile;
   const rows = [];
   const price = p.price;
   if (price == null) {
@@ -291,9 +293,16 @@ function positionBlock(p, entry) {
     rows.push(`정가 ${won(p.listPrice)} 기준 ${signedPhrase(price, p.listPrice)}`);
   }
   if (hist && hist.max != null) {
-    rows.push(`관측 최고가 ${won(hist.max)} 대비 ${signedPhrase(price, hist.max)}`);
-    rows.push(`관측 평균가 ${won(hist.avg)} 대비 ${signedPhrase(price, hist.avg)}`);
-    rows.push(`관측 최저가 ${won(hist.min)} 대비 ${signedPhrase(price, hist.min)}`);
+    if (volatile) {
+      rows.push(`관측 평균가 ${won(hist.avg)} 대비 ${signedPhrase(price, hist.avg)}`);
+      rows.push(
+        `관측 가격대 ${won(hist.min)} ~ ${won(hist.max)} · 옵션·묶음 구성이 바뀐 값이 섞였을 수 있어 최저가·최고가 대비는 단정하지 않았어요.`
+      );
+    } else {
+      rows.push(`관측 최고가 ${won(hist.max)} 대비 ${signedPhrase(price, hist.max)}`);
+      rows.push(`관측 평균가 ${won(hist.avg)} 대비 ${signedPhrase(price, hist.avg)}`);
+      rows.push(`관측 최저가 ${won(hist.min)} 대비 ${signedPhrase(price, hist.min)}`);
+    }
   } else if (rows.length) {
     rows.push("과거 관측 기록은 아직 없어요. 오늘 확인한 가격부터 하루 단위로 쌓고 있어요.");
   } else {
@@ -363,9 +372,14 @@ function verdictBlock(p, entry) {
     const toMin = Math.round((p.price / st.min - 1) * 100);
     if (p.price <= st.min) bits.push("관측 최저가와 같은 수준");
     else if (toMin <= 5) bits.push("관측 최저가에 가까워요");
-    else if (volatile) bits.push(`관측 최저가보다 ${toMin}% 높은 가격`);
-    else if (st.avg && p.price < st.avg) bits.push(`관측 평균보다 ${Math.round((1 - p.price / st.avg) * 100)}% 낮아요`);
-    else bits.push("관측 평균보다 높아요 · 급하지 않으면 기다릴 만");
+    else if (volatile && st.avg) {
+      const vsAvg = Math.round((p.price / st.avg - 1) * 100);
+      bits.push(vsAvg <= 0 ? `관측 평균보다 ${Math.abs(vsAvg)}% 낮아요` : `관측 평균보다 ${vsAvg}% 높아요`);
+    } else if (!volatile && st.avg && p.price < st.avg) {
+      bits.push(`관측 평균보다 ${Math.round((1 - p.price / st.avg) * 100)}% 낮아요`);
+    } else {
+      bits.push("관측 평균보다 높아요 · 급하지 않으면 기다릴 만");
+    }
   } else {
     bits.push("오늘부터 가격 기록 시작");
   }
