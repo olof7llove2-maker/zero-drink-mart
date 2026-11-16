@@ -11,9 +11,22 @@
 </style>
 </head>
 <body>
-  <figure><figcaption>홈</figcaption><iframe src="/?tab=home&v=m1"></iframe></figure>
-  <figure><figcaption>카테고리</figcaption><iframe src="/?tab=category&part=protein&v=m1"></iframe></figure>
-  <figure><figcaption>랭킹</figcaption><iframe src="/?tab=ranking&v=m1"></iframe></figure>
-  <figure><figcaption>핫딜</figcaption><iframe src="/?tab=hotdeal&v=m1"></iframe></figure>
+<script>
+  const ALL = [
+    ["home", "홈", "/?tab=home&v=p1"],
+    ["category", "카테고리", "/?tab=category&part=protein&v=p1"],
+    ["ranking", "랭킹", "/?tab=ranking&v=p1"],
+    ["hotdeal", "핫딜", "/?tab=hotdeal&v=p1"],
+  ];
+  const want = (new URLSearchParams(location.search).get("f") || "home").split(",");
+  ALL.filter(([id]) => want.includes(id)).forEach(([id, label, src]) => {
+    const fig = document.createElement("figure");
+    fig.innerHTML = `<figcaption>${label}</figcaption>`;
+    const frame = document.createElement("iframe");
+    frame.src = src;
+    fig.appendChild(frame);
+    document.body.appendChild(fig);
+  });
+</script>
 </body>
 </html>
