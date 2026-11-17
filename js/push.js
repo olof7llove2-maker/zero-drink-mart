@@ -40,7 +40,7 @@ async function initPush() {
   loadAlerts();
   if ("serviceWorker" in navigator) {
     try {
-      await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+      await navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" });
     } catch (err) {
       /* 서비스 워커를 못 올리면 알림만 못 씁니다. 사이트는 그대로 동작해요. */
     }

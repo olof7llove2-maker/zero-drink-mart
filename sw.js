@@ -1,13 +1,31 @@
 /* 띠니마트 서비스 워커
    하는 일은 두 가지뿐입니다: 푸시 알림 받기, 알림을 누르면 그 상품으로 이동.
-   사이트 파일은 캐시하지 않아요(가격이 항상 새로 보이도록). */
+   사이트 파일은 캐시하지 않아요(가격이 항상 새로 보이도록).
+   예전 버전이 남긴 캐시가 있으면 켜질 때 전부 지웁니다. */
+
+const SW_BUILD = "20261117r2";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    (async () => {
+      /* 구버전 sw가 캐시해 둔 사이트 파일이 있으면 모두 삭제 → 새 CSS/JS가 바로 반영 */
+      try {
+        const keys = await caches.keys();
+        await Promise.all(
+          keys
+            .filter((k) => !String(k).endsWith(SW_BUILD))
+            .map((k) => caches.delete(k))
+        );
+      } catch (err) {
+        /* 캐시를 못 지워도 사이트 동작에는 영향 없음 */
+      }
+      await self.clients.claim();
+    })()
+  );
 });
 
 self.addEventListener("push", (event) => {

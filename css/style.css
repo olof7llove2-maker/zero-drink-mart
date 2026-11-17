@@ -1207,64 +1207,6 @@ body.modal-open { overflow: hidden; }
   .bgm-mini { bottom: 18px; right: 18px; }
 }
 
-/* ── 홈 임팩트: 오늘의 역대급 핫딜 스포트라이트 ─────────── */
-.spot { margin: 8px 0 2px; }
-.spot[hidden] { display: none; }
-.spot-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 0 2px 7px; }
-.spot-kicker { font-size: 15px; font-weight: 900; letter-spacing: -0.035em; }
-.spot-when { font-size: 10px; font-weight: 700; color: var(--muted-2); white-space: nowrap; }
-.spot-rail {
-  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
-  -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;
-  padding-bottom: 3px;
-}
-.spot-rail::-webkit-scrollbar { display: none; }
-.spot-card {
-  flex: 0 0 93%; scroll-snap-align: start; position: relative; overflow: hidden;
-  display: grid; grid-template-columns: 106px minmax(0, 1fr); gap: 11px;
-  padding: 11px; border-radius: 17px; text-decoration: none; color: #fff;
-  background: radial-gradient(130% 120% at 0% 0%, #3d2418 0%, #1e1713 52%, #100c0a 100%);
-  box-shadow: 0 6px 20px rgba(26, 18, 14, 0.22);
-}
-.spot-card::after {
-  content: ""; position: absolute; right: -46px; top: -56px; width: 150px; height: 150px;
-  border-radius: 50%; background: radial-gradient(circle, rgba(224, 35, 31, 0.42), rgba(224, 35, 31, 0) 68%);
-  pointer-events: none;
-}
-.spot-photo {
-  position: relative; display: block; border-radius: 12px; overflow: hidden;
-  background: #fff; min-height: 104px;
-}
-.spot-photo img { display: block; width: 100%; height: 100%; object-fit: contain; padding: 6px; }
-.spot-off {
-  position: absolute; left: 0; top: 0; padding: 2px 7px 3px;
-  background: #e0231f; color: #fff; font-size: 16px; font-weight: 900;
-  letter-spacing: -0.05em; line-height: 1.1; border-radius: 11px 0 11px 0;
-  box-shadow: 0 3px 10px rgba(224, 35, 31, 0.4);
-}
-.spot-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.spot-rank { font-size: 10px; font-weight: 900; color: #ffcf6b; letter-spacing: -0.01em; }
-.spot-name {
-  font-size: 13px; font-weight: 800; line-height: 1.32; letter-spacing: -0.03em; color: #fff;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-}
-.spot-price { display: flex; align-items: baseline; gap: 6px; margin-top: 1px; }
-.spot-price strong { font-size: 21px; font-weight: 900; letter-spacing: -0.05em; color: #fff; font-variant-numeric: tabular-nums; }
-.spot-price s { font-size: 10px; font-weight: 600; color: rgba(255, 255, 255, 0.45); }
-.spot-unit { font-size: 11px; font-weight: 800; color: #7fe6b6; letter-spacing: -0.02em; }
-.spot-foot { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: auto; padding-top: 5px; }
-.spot-meta {
-  font-size: 9.5px; font-weight: 700; color: rgba(255, 255, 255, 0.62);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.spot-cta {
-  flex: none; font-size: 10.5px; font-weight: 900; letter-spacing: -0.02em;
-  color: #fff; background: var(--coupang); border-radius: 999px; padding: 5px 9px;
-}
-.spot-cta.is-toss { background: #4d94ff; color: #fff; }
-.spot-cta.is-naver { background: #2fe07b; color: #05291a; }
-@media (min-width: 640px) { .spot-card { flex-basis: 58%; } }
-
 /* ── 모바일 2열 쇼핑몰 그리드 ─────────────────────────── */
 .list--grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .list--grid > .group-head { grid-column: 1 / -1; }
@@ -1310,11 +1252,12 @@ body.modal-open { overflow: hidden; }
   }
 }
 
-/* 2열 그리드용 짧은 버튼 라벨 */
-.buy-mini { display: none; }
+/* 구매 버튼 라벨 — 한 버튼은 플랫폼 이름만, 두 버튼은 플랫폼+가격 */
+.buy-lab {
+  font-size: 11.5px; font-weight: 900; letter-spacing: -0.03em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 @media (max-width: 859px) {
-  .list--grid > .pc .buy-full { display: none; }
-  .list--grid > .pc .buy-mini { display: inline; }
   .list--grid > .pc .ghost-lab { display: none; }
   .list--grid > .pc .pc-photo { aspect-ratio: 4 / 3; }
   .list--grid > .pc .spark-svg { height: 16px; }

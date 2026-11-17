@@ -488,12 +488,15 @@ function buyHTML(p) {
   const html = opts
     .map((o) => {
       const meta = PLATFORMS[o.key];
+      /* 라벨 통일: 한 버튼이면 "쿠팡/토스/네이버", 두 버튼이면 "네이버 24,580" */
       const label = multi
-        ? `<span class="bp-lab">${meta.mark} ${meta.label}</span><span class="bp-price">${won(o.price)}</span>`
-        : `<span class="buy-full">${meta.label}에서 사기</span><span class="buy-mini">${meta.label}</span>`;
+        ? `<span class="bp-lab">${meta.label}</span><span class="bp-price">${won(o.price)}</span>`
+        : `<span class="buy-lab">${meta.label}</span>`;
       return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}" href="${escapeHtml(
         o.url
-      )}" target="_blank" rel="noopener noreferrer" aria-label="${meta.label}에서 사기 ${won(o.price)}">${label}</a>`;
+      )}" target="_blank" rel="noopener noreferrer" aria-label="${meta.label}에서 사기 ${
+        won(o.price)
+      }">${label}</a>`;
     })
     .join("");
   return `<div class="pc-buys${multi ? " is-multi" : ""}">${html}</div>`;
@@ -658,80 +661,7 @@ function pinFirst(list, id) {
   return out;
 }
 
-/* 오늘의 역대급 핫딜 — 뉴욕웨이 프로틴이 1순위, 그다음은 할인율 최상위 */
-function spotlightPicks() {
-  const pool = (state.data.products || [])
-    .filter(matchesSource)
-    .filter((p) => p.image && p.affiliateUrl && typeof p.price === "number");
-  const picks = [];
-  const hero = pool.find((p) => p.id === HOME_PIN_ID);
-  if (hero) picks.push(hero);
-  pool
-    .filter((p) => p.id !== HOME_PIN_ID && typeof p.discountPct === "number" && p.discountPct >= 30)
-    .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
-    .slice(0, 2 - picks.length)
-    .forEach((p) => picks.push(p));
-  return picks;
-}
-
-function spotUnitLine(p) {
-  const v = measureValue(p);
-  if (v == null) return "";
-  const kind = measureLabel(p).replace("당", "");
-  const each = p.eachPrice && measureKind(p) !== "each" ? ` · 1${p.eachLabel || "개"}당 ${won(p.eachPrice)}` : "";
-  return `${won(Math.round(v))}/${kind}${each}`;
-}
-
-function renderSpot() {
-  const box = $("home-spot");
-  if (!box) return;
-  const picks = spotlightPicks();
-  if (!picks.length) {
-    box.hidden = true;
-    box.innerHTML = "";
-    return;
-  }
-  box.hidden = false;
-  const whenRaw = picks[0].priceCheckedAt || "";
-  const when = whenRaw ? String(whenRaw).slice(5, 16).replace("-", "/") : "";
-  const cards = picks
-    .map((p, i) => {
-      const toss = isToss(p);
-      const unit = spotUnitLine(p);
-      const was = p.listPrice && p.listPrice > p.price ? `<s>${won(p.listPrice)}</s>` : "";
-      const rate = p.rating != null ? `★ ${Number(p.rating).toFixed(1)}` : "";
-      const rv = p.reviewCount != null ? `리뷰 ${reviewLabel(p.reviewCount)}` : "";
-      const meta = rv || rate;
-      return `<a class="spot-card${i === 0 ? " is-hero" : ""}" href="${escapeHtml(
-        p.affiliateUrl
-      )}" target="_blank" rel="noopener noreferrer">
-        <span class="spot-photo">
-          <img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">
-          <span class="spot-off">-${p.discountPct}%</span>
-        </span>
-        <span class="spot-body">
-          <span class="spot-rank">${i === 0 ? "🏆 오늘의 1등" : "🔥 역대급 할인"}</span>
-          <span class="spot-name">${escapeHtml(p.name)}</span>
-          <span class="spot-price"><strong>${won(p.price)}</strong>${was}</span>
-          ${unit ? `<span class="spot-unit">${escapeHtml(unit)}</span>` : ""}
-          <span class="spot-foot">
-            ${meta ? `<span class="spot-meta">${escapeHtml(meta)}</span>` : "<span></span>"}
-            <span class="spot-cta${toss ? " is-toss" : ""}">${toss ? "토스에서 사기" : "쿠팡에서 사기"} →</span>
-          </span>
-        </span>
-      </a>`;
-    })
-    .join("");
-  box.innerHTML = `
-    <div class="spot-head">
-      <h2 class="spot-kicker">🔥 오늘의 역대급 핫딜</h2>
-      <span class="spot-when">${escapeHtml(when ? when + " 기준" : "오늘 확인")}</span>
-    </div>
-    <div class="spot-rail">${cards}</div>`;
-}
-
 function renderHome() {
-  renderSpot();
   let list = sortList(basePool(), state.sort);
   if (state.sort === "popular") list = pinFirst(list, HOME_PIN_ID);
   renderCardsInto($("home-list"), list, {
