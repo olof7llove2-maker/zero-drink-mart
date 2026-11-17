@@ -187,7 +187,7 @@ main { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad) 28px; }
   color: var(--muted);
 }
 .update-cycle-main::before {
-  content: "·"; margin-right: 4px; color: var(--line); font-weight: 800;
+  content: ""; margin-right: 0;
 }
 
 /* ── 검색 뷰 (하단 탭 가운데) ───────────────────────── */
