@@ -330,9 +330,12 @@ function basePool() {
 
 function sortValue(p, key) {
   if (key === "popular") return typeof p.popularScore === "number" ? p.popularScore : null;
-  if (key === "basis") return measureValue(p);
+  if (key === "basis") {
+    const v = cheapView(p).perValue;
+    return typeof v === "number" ? v : measureValue(p);
+  }
   if (key === "discount") return typeof p.discountPct === "number" ? p.discountPct : null;
-  if (key === "price") return typeof p.price === "number" ? p.price : null;
+  if (key === "price") return typeof cheapView(p).price === "number" ? cheapView(p).price : null;
   if (key === "low") {
     const s = lowStats(p);
     if (s.state === "low" || s.state === "near" || s.state === "above") return s.pct;
