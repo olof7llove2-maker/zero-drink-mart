@@ -92,11 +92,18 @@ function signalOf(p) {
     let score = 84 - pct * 3;
     if (numOrNull(p.discountPct) != null) score += Math.min(8, Math.max(0, p.discountPct - 20) * 0.25);
     score = clampNum(score, 4, 97);
-    const level = pct <= 3 ? "good" : pct <= 10 ? "mid" : "wait";
-    const why =
+    let level = pct <= 3 ? "good" : pct <= 10 ? "mid" : "wait";
+    /* 5단계 등급(같은 용기·브랜드 시세)이 있으면 그 판정을 존중해 엇갈리지 않게 맞춥니다 */
+    const g = typeof gradeForProduct === "function" ? gradeForProduct(p) : null;
+    if (g) {
+      if (g.band.cls === "is-best" || g.band.cls === "is-great") level = "good";
+      else if ((g.band.cls === "is-mid" || g.band.cls === "is-soso") && level === "wait") level = "mid";
+    }
+    let why =
       pct <= 0
         ? `60일 관측 최저가${min != null ? ` ${won(Math.round(min))}` : ""}와 같은 수준이에요.`
         : `60일 최저가${min != null ? ` ${won(Math.round(min))}` : ""}보다 ${pct}% 높은 가격이에요.`;
+    if (g) why += ` 같은 용기 시세 대비 ${signedPct(g.pct)}(${g.band.id}).`;
     return { level, score, why };
   }
 
@@ -227,7 +234,10 @@ function goalFit(p, goal) {
 
 function goalKey(p, goal) {
   const disc = numOrNull(p.discountPct) || 0;
-  const per = numOrNull(measureValue(p));
+  /* 화면에 보이는 값(카드 대표가 = 제일 싼 판매처)과 순서를 맞춥니다 */
+  const cv = typeof cheapView === "function" ? cheapView(p) : null;
+  let per = numOrNull(measureValue(p));
+  if (cv && numOrNull(cv.perValue) != null) per = numOrNull(cv.perValue);
   if (goal === "protein") {
     const v = numOrNull(p.protein20);
     return [v, per, -disc];
@@ -292,8 +302,19 @@ function goalWhy(p, goal) {
   else if (/제로/.test(`${p.name || ""}${p.kind || ""}`)) bits.push("제로");
   if (kcal != null) bits.push(`${kcal}kcal`);
   if (p.caffeine === "contains") bits.push("카페인 있음");
+  else if (p.aspartame === "none") bits.push("아스파탐 없이");
   if (numOrNull(measureValue(p)) != null) bits.push(`${measureLabel(p)} ${won(Math.round(measureValue(p)))}`);
   return bits.slice(0, 3).join(" · ");
+}
+
+/* 결론 카드·추천 카드에 쓰는 이유 한 줄 — 근거가 한 마디뿐이면 꿀팁을 붙여 문장을 만듭니다 */
+function reasonLine(p, goal) {
+  const main = goalWhy(p, goal) || "";
+  const segs = main.split(" · ").filter(Boolean);
+  if (segs.length >= 2) return main;
+  const tip = (tipOf(p) || "").split(" · ").filter(Boolean)[0];
+  if (!tip) return main;
+  return main ? `${main} · ${tip}` : tip;
 }
 
 /* 목적별 결론 카드 — "지금은 이거예요" */
@@ -321,7 +342,7 @@ function goalVerdictHTML(goal) {
       <span class="gv-photo">${photo}</span>
       <div class="gv-txt">
         <p class="gv-name">${escapeHtml(p.name)}</p>
-        <p class="gv-why">💬 ${escapeHtml(goalWhy(p, goal) || tipOf(p))}</p>
+        <p class="gv-why">💬 ${escapeHtml(reasonLine(p, goal) || tipOf(p))}</p>
       </div>
     </div>
     <div class="gv-foot">
@@ -403,17 +424,17 @@ function recPickHTML(p, i, goal) {
   const s = signalOf(p);
   const meta = TL_LEVELS[s.level] || TL_LEVELS.none;
   const unit = numOrNull(measureValue(p)) != null ? `${measureLabel(p)} ${won(Math.round(measureValue(p)))}` : "";
-  const why = goalWhy(p, goal) || tipOf(p);
+  const why = reasonLine(p, goal) || tipOf(p);
   const tag = i === 0 ? `<span class="rec-best">가장 먼저</span>` : "";
   return `<article class="rec-pick">
     <div class="rec-pick-head">
       <span class="rec-rank">${i + 1}</span>
       <span class="rec-photo">${p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">` : ""}</span>
       <div class="rec-txt">
+        ${tag}
         <p class="rec-name">${escapeHtml(p.name)}</p>
         <p class="rec-why">💬 ${escapeHtml(why)}</p>
       </div>
-      ${tag}
     </div>
     <div class="rec-foot">
       <span class="rec-price"><strong>${won(view.price)}</strong>${unit ? `<em>${escapeHtml(unit)}</em>` : ""}</span>

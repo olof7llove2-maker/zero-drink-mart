@@ -1673,7 +1673,7 @@ body.modal-open { overflow: hidden; }
   line-height: 1.35;
 }
 .rec-best {
-  position: absolute; right: 0; top: 0;
+  display: inline-block; margin-bottom: 2px;
   font-size: 9px; font-weight: 900; letter-spacing: -0.02em;
   color: #6b3d00; background: linear-gradient(180deg, #ffe08a, #ffc74d);
   border-radius: 999px; padding: 2px 6px;
@@ -1770,3 +1770,10 @@ body.modal-open { overflow: hidden; }
   box-shadow: 0 1px 0 #f7e6bf;
 }
 .alert-inline.is-on { border-color: #e0a73a; background: #ffefc9; }
+
+/* 게이지 비활성 칸은 더 흐리게 — 0.5초에 어느 칸이 켜졌는지 보이게 */
+.tl-bar i { opacity: 0.5; }
+.tl-good .tl-bar i:nth-child(1),
+.tl-mid .tl-bar i:nth-child(2),
+.tl-wait .tl-bar i:nth-child(3),
+.tl-none .tl-bar i:nth-child(3) { opacity: 1; }
