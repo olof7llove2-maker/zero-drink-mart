@@ -4,7 +4,7 @@
   "tagline": "제로 음료·단백질·식단 고기·간편식 단가 비교",
   "disclosure": "이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
   "priceNote": "가격은 바뀔 수 있어요",
-  "sourceNote": "쿠팡·토스쇼핑 판매가를 2026-11-15~17에 직접 확인한 값이에요. 네이버 최저가는 배송비 포함 실구매가로 견줘 더 싼 것만 '네이버' 버튼으로 같이 걸었어요.",
+  "sourceNote": "쿠팡·토스쇼핑 판매가는 직접 확인한 값이고, 네이버는 쇼핑커넥트로 발급받은 가격이에요. 구성(수량)이 다른 상품은 몇 개입인지 함께 적었어요.",
   "kakao": {
    "label": "카톡 핫딜방",
    "note": "무료, 알림만 와요",
@@ -1083,11 +1083,13 @@
    "popularScore": 90.2,
    "altPrice": {
     "source": "naver",
-    "price": 122500,
-    "url": "https://search.shopping.naver.com/catalog/55499106094",
-    "save": 11770,
-    "savePct": 8.8,
-    "note": "네이버 2.27kg 112,600원 + 배송비 9,900원 = 122,500원(배송비 포함)"
+    "price": 174970,
+    "url": "https://naver.me/5t72Qmvi",
+    "connect": true,
+    "checkedAt": "2026-11-18",
+    "save": 0,
+    "savePct": 0,
+    "note": "네이버 쇼핑커넥트(2.29kg 1개) 174,970원 · 아비트라3호점 — 쿠팡 134,270원보다 40,700원 비싸요."
    }
   },
   {
@@ -1171,11 +1173,13 @@
    "proteinSourceKey": "blend",
    "altPrice": {
     "source": "naver",
-    "price": 27300,
-    "url": "https://search.shopping.naver.com/catalog/54508208390",
-    "save": 2600,
-    "savePct": 8.7,
-    "note": "네이버 최저가(배송비 포함) 기준"
+    "price": 28900,
+    "url": "https://naver.me/FXnbqU1B",
+    "connect": true,
+    "checkedAt": "2026-11-18",
+    "save": 1000,
+    "savePct": 3.3,
+    "note": "네이버 쇼핑커넥트(560g 1개) 28,900원 · 밀잇 공식 — 쿠팡 29,900원보다 1,000원(3.3%) 싸요."
    },
    "measure": "per100g",
    "weightG": 560,
@@ -1359,7 +1363,7 @@
    "reviewCount": 112462,
    "measure": "per100g",
    "unitEach": "1개당 830원",
-   "note": "66% 할인 29,900원(100g당 639원) — 네이버는 26,690원(100g당 617원)이라 3,210원 싸요.",
+   "note": "66% 할인 29,900원(100g당 639원) — 36개입 상품이고, 네이버 쇼핑커넥트는 24개입 30,300원으로 구성이 달라요.",
    "previousPrice": null,
    "lowest30d": 29900,
    "priceHistoryDays": 0,
@@ -1371,11 +1375,15 @@
    "eachLabel": "개",
    "altPrice": {
     "source": "naver",
-    "price": 26690,
-    "url": "https://search.shopping.naver.com/catalog/51929185882",
-    "save": 3210,
-    "savePct": 10.7,
-    "note": "네이버 최저(롯데ON) 26,690원 — 무료배송, 100g당 570원"
+    "price": 30300,
+    "url": "https://naver.me/FYri12Lj",
+    "connect": true,
+    "checkedAt": "2026-11-18",
+    "packCount": 24,
+    "packLabel": "24개",
+    "save": 0,
+    "savePct": 0,
+    "note": "네이버 쇼핑커넥트(24개입) 30,300원 · 코어링크스토어 — 36개입 상품이 없어 24개입으로 발급됐어요. 1개당 1,263원이라 쿠팡 36개입(1개당 831원)보다 비싸요."
    },
    "popularScore": 85.22
   },
@@ -5331,11 +5339,13 @@
    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)",
    "altPrice": {
     "source": "naver",
-    "price": 19900,
-    "url": "https://search.shopping.naver.com/catalog/91207381646",
-    "save": 4330,
-    "savePct": 17.9,
-    "note": "네이버 최저가(배송비 포함) 기준"
+    "price": 32000,
+    "url": "https://naver.me/FXnbqUxN",
+    "connect": true,
+    "checkedAt": "2026-11-18",
+    "save": 0,
+    "savePct": 0,
+    "note": "네이버 쇼핑커넥트(1kg 냉장) 32,000원 · 도드람한돈 — 쿠팡 24,230원보다 7,770원 비싸요."
    },
    "measure": "per100g",
    "perValue": 2423.0,
@@ -5827,11 +5837,15 @@
    "platform": "coupang",
    "altPrice": {
     "source": "naver",
-    "price": 15680,
-    "url": "https://search.shopping.naver.com/catalog/61449561892",
-    "save": 600,
-    "savePct": 3.7,
-    "note": "네이버 최저가(배송비 포함) 기준"
+    "price": 34300,
+    "url": "https://naver.me/5hovQMto",
+    "connect": true,
+    "checkedAt": "2026-11-18",
+    "packCount": 60,
+    "packLabel": "60캔",
+    "save": 0,
+    "savePct": 0,
+    "note": "네이버 쇼핑커넥트(60캔입) 34,300원 · 코어링크스토어 — 30캔 상품이 없어 60캔입으로 발급됐어요. 1캔당 572원이라 쿠팡 30캔(1캔당 543원)보다 비싸요."
    },
    "measure": "per100ml",
    "weightG": null,

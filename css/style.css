@@ -1455,6 +1455,7 @@ body.modal-open { overflow: hidden; }
 .spot-buy.is-toss { background: var(--toss); }
 .spot-buy.is-naver { background: var(--naver); }
 .spot-buy.is-pending { background: rgba(255, 255, 255, 0.16); color: rgba(255, 255, 255, 0.72); }
+.spot-buy.is-price { min-width: 0; padding: 4px 7px; font-size: 10px; letter-spacing: -0.05em; }
 
 @media (min-width: 640px) {
   .spot-card { flex-basis: 320px; }

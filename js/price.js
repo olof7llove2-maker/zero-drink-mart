@@ -442,6 +442,33 @@ function gradeBlock(p) {
   return `<div class="pm-block"><h4>지금 사도 될까?</h4><ul class="pm-list"><li>${why}</li></ul></div>`;
 }
 
+/* 다른 판매처(네이버 쇼핑커넥트) — 구성이 다르면 수량을 같이 적는다 */
+function altShopBlock(p) {
+  const nv = p.altPrice;
+  if (!nv || nv.source !== "naver" || typeof nv.price !== "number" || !nv.url) return "";
+  const mine = Number(p.price);
+  const diff = mine - Number(nv.price);
+  const samePack = !nv.packCount || !p.packCount || Number(nv.packCount) === Number(p.packCount);
+  const mineLabel = p.packCount ? `${p.packCount}${p.eachLabel || "개"}` : "";
+  const nvLabel = nv.packLabel || (nv.packCount ? `${nv.packCount}개` : "");
+  let cmp;
+  if (!samePack) {
+    cmp = `구성이 달라요 — 이 상품 ${mineLabel}, 네이버 ${nvLabel}`;
+  } else if (diff > 0) {
+    cmp = `이 상품이 ${won(diff)} 싸요`;
+  } else if (diff < 0) {
+    cmp = `네이버가 ${won(-diff)} 비싸요`;
+  } else {
+    cmp = "같은 가격이에요";
+  }
+  return `<div class="pm-block"><h4>다른 판매처</h4><ul class="pm-list">
+      <li>💚 <a href="${escapeHtml(nv.url)}" target="_blank" rel="noopener noreferrer">네이버 쇼핑에서 보기</a> — <b>${won(
+    nv.price
+  )}</b>${nvLabel ? ` (${escapeHtml(nvLabel)})` : ""} · ${escapeHtml(cmp)}</li>
+      ${nv.note ? `<li>${escapeHtml(nv.note)}</li>` : ""}
+    </ul></div>`;
+}
+
 function priceModalHTML(p, entry) {
   const hasHistory = entry && entry.status === "history" && (entry.series || []).length > 1;
   const src = hasHistory
@@ -457,6 +484,7 @@ function priceModalHTML(p, entry) {
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
     <p class="pm-src">${src}${headline ? ` · ${headline}` : ""}</p>
     ${p.note ? `<p class="pm-fine">${escapeHtml(p.note)}</p>` : ""}
+    ${altShopBlock(p)}
     ${gradeBlock(p)}
     ${hasHistory ? historyBlock(p, entry) : trackingBlock(p, entry)}
     <h3 class="pm-h3">비교 분석</h3>

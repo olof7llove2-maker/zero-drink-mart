@@ -277,6 +277,14 @@ function naverAlt(p) {
   const a = p.altPrice;
   return a && a.source === "naver" && typeof a.price === "number" && a.url ? a : null;
 }
+/* 네이버 가격이 같은 구성(수량)인지 — 수량이 다르면 대표가·절약 비교에는 쓰지 않는다 */
+function samePack(p, nv) {
+  if (!nv || !nv.packCount || !p.packCount) return true;
+  return Number(nv.packCount) === Number(p.packCount);
+}
+function nvPackLabel(nv) {
+  return nv.packLabel || `${nv.packCount}개`;
+}
 /* 카드에 노출할 구매 버튼 — 같은 상품이면 플랫폼별 버튼을 싼 순서로 나란히 */
 function buyOptions(p) {
   const out = [];
@@ -288,7 +296,7 @@ function buyOptions(p) {
 /* 카드 대표 가격 = 지금 제일 싼 플랫폼 가격 */
 function cheapView(p) {
   const nv = naverAlt(p);
-  if (nv && nv.price < p.price) {
+  if (nv && samePack(p, nv) && nv.price < p.price) {
     const ratio = p.price ? nv.price / p.price : 1;
     return {
       price: nv.price,
@@ -463,7 +471,11 @@ function dealBadges(p) {
   if (since) out.push(`<span class="bd bd-since">${since.date}부터 할인 · ${since.days}일째</span>`);
   if (p.shipNote) out.push(`<span class="bd bd-track">${escapeHtml(p.shipNote)}</span>`);
   const nv = naverAlt(p);
-  if (nv && nv.price < p.price) out.push(`<span class="bd bd-naver">💚 네이버가 ${won(p.price - nv.price)} 싸요</span>`);
+  if (nv && samePack(p, nv) && nv.price < p.price) {
+    out.push(`<span class="bd bd-naver">💚 네이버가 ${won(p.price - nv.price)} 싸요</span>`);
+  } else if (nv && !samePack(p, nv)) {
+    out.push(`<span class="bd bd-naver">💚 네이버는 ${escapeHtml(nvPackLabel(nv))} ${won(nv.price)}</span>`);
+  }
   return out.join("");
 }
 
@@ -708,13 +720,20 @@ function spotCardHTML(p) {
       : "";
   const unit = spotUnitText(p);
   const buys = buyOptions(p);
+  const multiBuy = buys.length > 1;
   const buyHTML = buys.length
     ? buys
         .map((o) => {
           const m = PLATFORMS[o.key];
-          return `<a class="spot-buy ${m.cls}" href="${escapeHtml(o.url)}" target="_blank" rel="noopener noreferrer" aria-label="${
-            m.label
-          }에서 사기 ${won(o.price)}">${m.label}</a>`;
+          /* 두 군데 이상이면 가격을 같이 적어 어느 쪽이 얼마인지 보이게 */
+          const label = multiBuy
+            ? `${m.label} ${Number(o.price).toLocaleString("ko-KR")}`
+            : m.label;
+          return `<a class="spot-buy ${m.cls}${multiBuy ? " is-price" : ""}" href="${escapeHtml(
+            o.url
+          )}" target="_blank" rel="noopener noreferrer" aria-label="${m.label}에서 사기 ${won(
+            o.price
+          )}">${label}</a>`;
         })
         .join("")
     : `<span class="spot-buy is-pending">준비 중</span>`;
