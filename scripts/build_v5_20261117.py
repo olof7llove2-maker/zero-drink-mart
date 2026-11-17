@@ -344,6 +344,7 @@ def main():
                 "reviewCount": 2659,
                 "rating": None,
                 "note": "쿠팡 판매가 22,400원 · 배송비 10,000원 별도(장바구니 기준). 배송비 포함 32,400원이면 100ml당 381원이에요.",
+                "shipNote": "배송비 10,000원 별도",
                 "cheapestPer100": False,
             })
             p.pop("cheapestPer100", None)

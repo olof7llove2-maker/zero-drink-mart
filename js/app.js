@@ -400,6 +400,7 @@ function dealBadges(p) {
   else if (s.state === "above" && s.pct <= 12) out.push(`<span class="bd bd-up">저점 +${s.pct}%</span>`);
   const since = discountSince(p);
   if (since) out.push(`<span class="bd bd-since">${since.date}부터 할인 · ${since.days}일째</span>`);
+  if (p.shipNote) out.push(`<span class="bd bd-track">${escapeHtml(p.shipNote)}</span>`);
   return out.join("");
 }
 
