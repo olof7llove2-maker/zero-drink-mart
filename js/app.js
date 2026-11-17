@@ -1705,6 +1705,11 @@ function renderUpdateBand() {
     const wd = WEEKDAY_KO[new Date(latest.y, latest.mo - 1, latest.d).getDay()] || "";
     $("update-date-big").textContent = `${latest.mo}/${latest.d}`;
     if ($("update-weekday")) $("update-weekday").textContent = wd ? `(${wd})` : "";
+    if ($("update-time")) {
+      // 실제 확인 시각(예: 09:09)을 날짜 옆에 작게 표시
+      $("update-time").textContent = latest.time || "";
+      $("update-time").hidden = !latest.time;
+    }
   }
   if ($("update-cycle-main")) {
     // '오전 9시'가 줄 끝에서 '오전'/'9시'로 갈라지지 않게 시각 앞 공백만 붙여 둡니다.
