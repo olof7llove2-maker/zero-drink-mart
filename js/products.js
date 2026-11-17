@@ -109,12 +109,6 @@ const CATEGORIES = [
     "part": "meat"
   },
   {
-    "id": "jeyuk",
-    "label": "제육·양념육",
-    "icon": "🍲",
-    "part": "meat"
-  },
-  {
     "id": "chicken",
     "label": "닭고기",
     "icon": "🍗",
@@ -166,6 +160,18 @@ const CATEGORIES = [
     "id": "meal",
     "label": "간편식·면·국",
     "icon": "🍜",
+    "part": "cheat"
+  },
+  {
+    "id": "ready",
+    "label": "간편 닭가슴살",
+    "icon": "🍗",
+    "part": "cheat"
+  },
+  {
+    "id": "jeyuk",
+    "label": "제육·양념육",
+    "icon": "🍲",
     "part": "cheat"
   },
   {
@@ -344,7 +350,7 @@ const PARTS = [
     "label": "식단 고기",
     "icon": "🥩",
     "desc": "100g당 가격 낮은 순",
-    "note": "식단용 고기·계란·양념육·조리기구를 모았어요.",
+    "note": "소·돼지·닭·양·오리·연어 생고기와 계란·조리기구를 모았어요.",
     "filters": [
       {
         "id": "all",
@@ -352,7 +358,6 @@ const PARTS = [
         "cats": [
           "beef",
           "pork",
-          "jeyuk",
           "chicken",
           "egg",
           "lamb",
@@ -375,14 +380,6 @@ const PARTS = [
         "icon": "🐖",
         "cats": [
           "pork"
-        ]
-      },
-      {
-        "id": "jeyuk",
-        "label": "제육·양념육",
-        "icon": "🍲",
-        "cats": [
-          "jeyuk"
         ]
       },
       {
@@ -440,7 +437,7 @@ const PARTS = [
     "label": "치팅·간편식",
     "icon": "🍕",
     "desc": "100g당 가격 낮은 순",
-    "note": "즉석밥·캔·간편식·소스·베이글까지.",
+    "note": "즉석밥·캔·간편식·간편 닭가슴살·양념육·소스·베이글까지.",
     "filters": [
       {
         "id": "all",
@@ -449,6 +446,8 @@ const PARTS = [
           "rice",
           "can",
           "meal",
+          "ready",
+          "jeyuk",
           "sauce",
           "snack",
           "bakery"
@@ -476,6 +475,22 @@ const PARTS = [
         "icon": "🍜",
         "cats": [
           "meal"
+        ]
+      },
+      {
+        "id": "ready",
+        "label": "간편 닭가슴살",
+        "icon": "🍗",
+        "cats": [
+          "ready"
+        ]
+      },
+      {
+        "id": "jeyuk",
+        "label": "제육·양념육",
+        "icon": "🍲",
+        "cats": [
+          "jeyuk"
         ]
       },
       {
@@ -1702,7 +1717,7 @@ const PRODUCTS = [
     "name": "셰프초이스 제육 불고기, 2kg, 1개",
     "kind": "제육불고기 · 양념육",
     "category": "jeyuk",
-    "part": "meat",
+    "part": "cheat",
     "price": 14600,
     "discountPct": 45,
     "weightG": 2000,
@@ -5679,10 +5694,10 @@ const PRODUCTS = [
   },
   {
     "id": "meat-chicken-deohadak-steak-original-30x90g",
-    "part": "meat",
-    "category": "chicken",
-    "categoryId": "chicken",
-    "group": "닭고기",
+    "part": "cheat",
+    "category": "ready",
+    "categoryId": "ready",
+    "group": "간편 닭가슴살",
     "meatType": "닭고기",
     "cut": "닭가슴살 스테이크",
     "cutGroup": "닭가슴살 스테이크(가공)",
@@ -7687,5 +7702,47 @@ const PRODUCTS = [
     "reviewCount": null,
     "rating": null,
     "popularScore": 22
+  },
+  {
+    "id": "retort-ready-gubne-hunje-breast-12pack",
+    "group": "간편 닭가슴살",
+    "category": "ready",
+    "categoryId": "ready",
+    "part": "cheat",
+    "brand": "굽네",
+    "name": "굽네 훈제 닭가슴살 슬라이스 오리지널 8팩 + 스파이시 4팩 세트 (냉동), 100g, 12개",
+    "kind": "훈제 닭가슴살 슬라이스 · 그대로 먹는 즉석육",
+    "price": 12820,
+    "listPrice": 14250,
+    "discountPct": 10,
+    "priceCheckedAt": "2026-11-17 12:47",
+    "priceCheckedLabel": "11/17 12:47 쿠팡 기준",
+    "platform": "coupang",
+    "url": "https://www.coupang.com/vp/products/5711358485?itemId=9523123413&vendorItemId=76807854065",
+    "affiliateUrl": "https://www.coupang.com/vp/products/5711358485?itemId=9523123413&vendorItemId=76807854065",
+    "image": "images/retort-ready-gubne-hunje-breast-12pack.jpg",
+    "rating": 4.6,
+    "reviewCount": 1145,
+    "packCount": 12,
+    "weightG": 1200,
+    "per100g": 1068,
+    "unitPrice": "100g당 1,068원",
+    "eachPrice": null,
+    "eachLabel": "팩",
+    "unitEach": "100g × 12팩",
+    "proteinPer100g": 24.0,
+    "fatPer100g": 1.3,
+    "nutritionBasis": "제품 영양성분표",
+    "nutritionNote": "오리지널 100g당 단백질 24g·지방 1.3g(115kcal), 스파이시 100g당 25g·1.4g(120kcal). 낮은 쪽(오리지널) 기준으로 적었어요",
+    "nutritionLabel": "100g당 단백질 24~25g · 지방 1.3~1.4g (제품 표기)",
+    "nutritionCheckedAt": "2026-11-17 12:47",
+    "nutritionCheckedLabel": "제품 영양성분표(11/17 확인)",
+    "measure": "per100g",
+    "perValue": 1068.3,
+    "protein20": 890,
+    "pricePer20gProtein": 890,
+    "note": "100g×12팩(오리지널 8 + 스파이시 4) = 1.2kg. 쿠팡판매가 14,250원에 쿠폰 1,430원(10%) 적용가 12,820원. 11/17 12:47 기준 일시품절 — 재입고·가격 변동 가능",
+    "shipNote": "일시품절 · 15,000원 이상 무료배송(로켓프레시)",
+    "popularScore": 38.4
   }
 ];
