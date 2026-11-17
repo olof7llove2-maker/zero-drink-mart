@@ -1055,8 +1055,9 @@ body.modal-open { overflow: hidden; }
 .tile-name { font-size: 13px; font-weight: 900; letter-spacing: -0.03em; }
 .tile-sub { font-size: 10.5px; font-weight: 700; color: var(--muted-2); }
 .tile-n { position: absolute; right: 8px; top: 8px; font-size: 10px; font-weight: 900; color: var(--sage-text); background: var(--sage-soft); border-radius: 999px; padding: 2px 7px; }
-.cattiles .tile:first-child { grid-column: 1 / -1; }
-.cattiles .tile:first-child .tile-photo { aspect-ratio: 16 / 7; }
+.cattiles .tile:last-child { grid-column: 1 / -1; flex-direction: row; align-items: center; }
+.cattiles .tile:last-child .tile-photo { width: 132px; flex: none; aspect-ratio: auto; align-self: stretch; }
+.cattiles .tile:last-child .tile-body { padding: 10px 12px; }
 
 .back-btn {
   cursor: pointer; margin: 8px 0 2px; border: 1px solid var(--line);
@@ -1109,7 +1110,8 @@ body.modal-open { overflow: hidden; }
 
 @media (min-width: 640px) {
   .cattiles { grid-template-columns: repeat(3, 1fr); }
-  .cattiles .tile:first-child { grid-column: span 3; }
+  .cattiles .tile:last-child { grid-column: auto; flex-direction: column; }
+  .cattiles .tile:last-child .tile-photo { width: auto; aspect-ratio: 16 / 10; }
   .wall-card { flex-basis: 30%; }
 }
 @media (min-width: 860px) {
