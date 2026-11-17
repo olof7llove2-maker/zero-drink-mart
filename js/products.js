@@ -7914,6 +7914,40 @@ const PRODUCTS = [
     "popularScore": 36.02
   },
   {
+    "id": "toss-tteutdak-roast-chicken-1kg-2",
+    "group": "간편 닭가슴살",
+    "category": "ready",
+    "categoryId": "ready",
+    "part": "cheat",
+    "brand": "떴닭",
+    "name": "떴닭 로스트 치킨, 1kg, 2개",
+    "kind": "로스트 치킨 · 양념구이 통닭",
+    "price": 12920,
+    "listPrice": null,
+    "discountPct": null,
+    "priceCheckedAt": "2026-11-17 15:21",
+    "priceCheckedLabel": "11/17 15:21 토스 기준",
+    "platform": "toss",
+    "url": "https://toss.shopping/_m/JfmTbWb8",
+    "affiliateUrl": "https://toss.shopping/_m/JfmTbWb8",
+    "image": "images/toss-tteutdak-roast-chicken-1kg-2.jpg",
+    "rating": 4.5,
+    "reviewCount": 3674,
+    "packCount": 2,
+    "weightG": 2000,
+    "per100g": 646,
+    "unitPrice": "100g당 646원",
+    "unitEach": "1kg 1개당 6,460원",
+    "eachPrice": 6460,
+    "eachLabel": "개",
+    "measure": "per100g",
+    "perValue": 646.0,
+    "protein20": null,
+    "note": "1kg×2개 = 2kg. 아버님 토스 쉐어링크, 12,920원(100g당 646원). 토스쇼핑은 모바일 웹에 가격·정가를 안 띄우고 앱 QR만 안내해서 정가·할인율은 표기하지 않았어요(앱에서 확인한 값은 재영 님 제공). 양념·가공육이라 단백질·지방은 적지 않았어요",
+    "shipNote": "내일 출발 · 모레 도착 예정 · (주)예찬F&S",
+    "popularScore": 34.96
+  },
+  {
     "id": "meat-lamb-gome-shoulderrack-400g",
     "part": "meat",
     "category": "lamb",
@@ -8672,4 +8706,3 @@ const PRODUCTS = [
     "popularScore": 22
   }
 ];
-
