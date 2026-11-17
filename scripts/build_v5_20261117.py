@@ -360,6 +360,25 @@ def main():
             p["url"] = "https://www.coupang.com/vp/products/8244032757?vendorItemId=91255258320"
             p["affiliateUrl"] = p["url"]
 
+    # 1-1) 12:30 타임세일 실시간 조회에서 확인된 가격 변동 (재영 님 전달) ----------
+    PRICE_UPDATES = {
+        "meat-beef-au-buchaesal-steak-600g": {"price": 24900, "listPrice": None, "discountPct": None},
+        "meat-chicken-harim-jayeonsilrok-breast-400g": {"price": 5840},
+        "deodanbaek-deuringkeu-choko-250ml-18gae": {"price": 24380},
+    }
+    for p in kept:
+        upd = PRICE_UPDATES.get(p["id"])
+        if not upd:
+            continue
+        p.update(upd)
+        if "discountPct" not in upd:
+            p["discountPct"] = None  # 정가 대비 할인율을 새 가격으로 다시 계산
+        p["priceCheckedAt"] = "2026-11-17 12:30"
+        p["priceCheckedLabel"] = "11/17 12:30 쿠팡 기준"
+        if "listPrice" in upd and upd["listPrice"] is None:
+            p["listPrice"] = None
+            p["discountPct"] = None
+
     # 2) 쉐이크 10종 ---------------------------------------------------
     shake = json.loads((DATA / "shake-candidates-20261117.json").read_text(encoding="utf-8"))
     for s in shake["products"]:
