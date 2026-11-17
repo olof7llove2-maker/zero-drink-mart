@@ -1290,3 +1290,16 @@ body.modal-open { overflow: hidden; }
   .list--grid > .pc .btn-buy { font-size: 11px; letter-spacing: -0.03em; }
   .list--grid > .pc .pc-name { font-size: 12px; }
 }
+
+/* 2열 그리드 카드 마감 */
+@media (max-width: 859px) {
+  .list--grid > .pc .pc-photo { aspect-ratio: 3 / 2; }
+  .list--grid > .pc .btn-ghost { flex: 0 0 28px; width: 28px; padding: 6px 0; }
+  .list--grid > .pc .btn-buy { flex: 1 1 auto; }
+  .list--grid > .pc .pc-acts { align-items: stretch; }
+  .list--grid > .pc .spark.is-none {
+    border: 0; background: var(--line-2); min-height: 16px; padding: 1px 3px;
+    border-radius: 6px;
+  }
+  .list--grid > .pc .spark.is-none span { font-size: 8px; color: var(--muted-2); }
+}
