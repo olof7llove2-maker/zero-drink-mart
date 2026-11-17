@@ -1709,7 +1709,9 @@ function renderUpdateBand() {
   if ($("update-cycle-main")) {
     // '오전 9시'가 줄 끝에서 '오전'/'9시'로 갈라지지 않게 시각 앞 공백만 붙여 둡니다.
     const cycle = site.updateCycle || "매일 오전 9시·오후 9시 가격 자동 업데이트";
-    $("update-cycle-main").textContent = cycle.replace(/(오전|오후) /g, "$1\u00a0");
+    $("update-cycle-main").textContent = cycle
+      .replace(/(오전|오후) /g, "$1\u00a0")
+      .replace(/가격 자동 업데이트/g, "가격\u00a0자동\u00a0업데이트");
   }
   if ($("update-cycle-note")) $("update-cycle-note").textContent = site.updateCycleNote || "쿠팡·토스 가격을 다시 확인해요";
 }
