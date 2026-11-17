@@ -5,6 +5,7 @@ const SHARE_BASE = "https://zero-drink-mart.vercel.app";
 const TABS = [
   { id: "home", label: "홈", icon: "🏠" },
   { id: "category", label: "카테고리", icon: "🎛️" },
+  { id: "search", label: "검색", icon: "🔍" },
   { id: "ranking", label: "랭킹", icon: "🏆" },
   { id: "hotdeal", label: "핫딜", icon: "🔥" },
 ];
@@ -214,8 +215,14 @@ function matchesSource(p) {
   return isToss(p) ? state.sources.toss : state.sources.coupang;
 }
 
+/* 검색어는 검색 탭에서만 상품을 걸러 낸다 (다른 탭은 늘 전체 상품) */
+function searchPool() {
+  return (state.data.products || []).filter((p) => matchesSource(p) && matchesQuery(p));
+}
+
 function basePool() {
-  return (state.data.products || []).filter((p) => matchesQuery(p) && matchesSource(p));
+  if (state.tab === "search") return searchPool();
+  return (state.data.products || []).filter((p) => matchesSource(p));
 }
 
 /* ── 단가 · 영양 ─────────────────────────────────────── */
@@ -817,7 +824,7 @@ function renderCompare(list) {
 
 function navLinks(className) {
   return TABS.map(
-    (t) => `<a href="?tab=${t.id}" data-goto="${t.id}" class="${className}">
+    (t) => `<a href="?tab=${t.id}" data-goto="${t.id}" class="${className} tab-${t.id}">
       ${className === "tab" ? `<span class="ico" aria-hidden="true">${t.icon}</span>` : ""}
       <span>${t.label}</span></a>`
   ).join("");
@@ -827,16 +834,29 @@ function renderNav() {
   const top = $("topnav");
   if (top) {
     top.innerHTML = TABS.map(
-      (t) => `<a href="?tab=${t.id}" data-goto="${t.id}"${state.tab === t.id ? ' aria-current="page"' : ""}>${t.label}</a>`
+      (t) => `<a href="?tab=${t.id}" data-goto="${t.id}" class="tab-${t.id}"${state.tab === t.id ? ' aria-current="page"' : ""}>${t.label}</a>`
     ).join("");
   }
   const bar = $("tabbar");
   if (bar) {
     bar.innerHTML = TABS.map(
-      (t) => `<a href="?tab=${t.id}" data-goto="${t.id}"${state.tab === t.id ? ' aria-current="page"' : ""}>
+      (t) => `<a href="?tab=${t.id}" data-goto="${t.id}" class="tab-${t.id}"${state.tab === t.id ? ' aria-current="page"' : ""}>
         <span class="ico" aria-hidden="true">${t.icon}</span><span>${t.label}</span></a>`
     ).join("");
   }
+}
+
+/* 검색 탭을 열면 바로 입력할 수 있게 포커스 (모바일 키보드는 사용자가 탭했을 때만) */
+function focusSearchInput() {
+  const input = $("search-input");
+  if (!input) return;
+  requestAnimationFrame(() => {
+    try {
+      input.focus({ preventScroll: true });
+    } catch {
+      input.focus();
+    }
+  });
 }
 
 function setTab(id, scroll = true) {
@@ -857,6 +877,32 @@ function setTab(id, scroll = true) {
   renderNav();
   paint();
   if (scroll) window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+/* ── 뷰: 검색 ────────────────────────────────────────── */
+
+function renderSearchView() {
+  const q = String(state.query || "").trim();
+  const chips = $("search-chips");
+  const lead = $("search-lead");
+  const head = $("search-head");
+  const panel = $("search-controls");
+  const list = $("search-list");
+  if (chips) chips.hidden = !!q;
+  if (lead) lead.hidden = !!q;
+  if (head) head.hidden = !q;
+  if (panel) panel.hidden = !q;
+  if (!list) return;
+  if (!q) {
+    list.innerHTML = "";
+    const count = $("search-count");
+    if (count) count.textContent = "";
+    return;
+  }
+  const items = searchPool();
+  const count = $("search-count");
+  if (count) count.textContent = `(${items.length})`;
+  renderListInto(list, items);
 }
 
 /* ── 컨트롤(필터 패널) ───────────────────────────────── */
@@ -900,7 +946,7 @@ function dealModeSelect() {
 function renderControls() {
   document.querySelectorAll("[data-controls]").forEach((box) => {
     const kind = box.dataset.controls;
-    const withBasis = kind === "home" || kind === "category";
+    const withBasis = kind === "home" || kind === "category" || kind === "search";
     box.innerHTML = `<div class="ctl">
       <div class="ctl-grp"><span class="ctl-lab">출처</span>${sourceChecks()}</div>
       ${withBasis ? `<div class="ctl-grp"><span class="ctl-lab">가격 기준</span>${basisSelect()}</div>` : ""}
@@ -1186,7 +1232,7 @@ function renderSearchStatus() {
     status.innerHTML = "";
     return;
   }
-  const n = basePool().length;
+  const n = searchPool().length;
   status.hidden = false;
   status.innerHTML = n
     ? `🔍 ‘${escapeHtml(q)}’ 검색 결과 <strong>${n}개</strong> <button type="button" class="search-reset" id="search-reset">초기화</button>`
@@ -1243,6 +1289,14 @@ function initSearch() {
   document.addEventListener("click", (e) => {
     if (e.target && e.target.id === "empty-clear") resetSearch();
     if (e.target && e.target.id === "empty-reset") resetAllFilters();
+    const chip = e.target.closest("[data-keyword]");
+    if (chip) {
+      state.query = chip.getAttribute("data-keyword");
+      state.highlightId = null;
+      const el = $("search-input");
+      if (el) el.value = state.query;
+      paint();
+    }
   });
 }
 
@@ -1363,7 +1417,9 @@ function initShare() {
     const go = e.target.closest("[data-goto]");
     if (go) {
       e.preventDefault();
-      setTab(go.getAttribute("data-goto"));
+      const target = go.getAttribute("data-goto");
+      setTab(target);
+      if (target === "search") focusSearchInput();
       return;
     }
     const btn = e.target.closest("[data-share]");
@@ -1631,6 +1687,7 @@ function applyUrlState() {
     state.query = query;
     const input = $("search-input");
     if (input) input.value = query;
+    if (!tab) state.tab = "search";
   }
 
   if (!tab && (q.get("part") || q.get("f") || q.get("pack") || q.get("ing"))) state.tab = "category";
@@ -1645,6 +1702,7 @@ function paint() {
   renderControls();
   if (state.tab === "home") renderHome();
   else if (state.tab === "category") renderCategory();
+  else if (state.tab === "search") renderSearchView();
   else if (state.tab === "ranking") renderRanking();
   else renderHotdeal();
   if (typeof refreshAlertButtons === "function") refreshAlertButtons();
@@ -1712,11 +1770,8 @@ function renderUpdateBand() {
     }
   }
   if ($("update-cycle-main")) {
-    // '오전 9시'가 줄 끝에서 '오전'/'9시'로 갈라지지 않게 시각 앞 공백만 붙여 둡니다.
-    const cycle = site.updateCycle || "매일 오전 9시·오후 9시 가격 자동 업데이트";
-    $("update-cycle-main").textContent = cycle
-      .replace(/(오전|오후) /g, "$1\u00a0")
-      .replace(/가격 자동 업데이트/g, "가격\u00a0자동\u00a0업데이트");
+    // 한 줄짜리 업데이트 바 — 날짜·시각 옆에 모니터링 범위를 짧게
+    $("update-cycle-main").textContent = "오전·오후 9시 할인·인기 베스트 상품 지속 모니터";
   }
   if ($("update-cycle-note")) $("update-cycle-note").textContent = site.updateCycleNote || "쿠팡·토스 가격을 다시 확인해요";
 }
@@ -1734,7 +1789,6 @@ async function init() {
   if (typeof initPriceModal === "function") initPriceModal();
   buildLowInfo();
   if (typeof buildMarketIndex === "function") buildMarketIndex(state.data.products, state.data.categories);
-  if (typeof initCalc === "function") initCalc();
   if (typeof initPushUI === "function") initPushUI();
   if (typeof initPush === "function") initPush();
   applyUrlState();

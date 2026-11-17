@@ -51,48 +51,25 @@
       <button type="button" class="hdr-bgm" id="bgm-toggle" aria-pressed="false" aria-label="배경음악 켜기" title="배경음악">
         <span class="bgm-ico" aria-hidden="true">🎧</span><span class="bgm-lab" aria-hidden="true">BGM</span>
       </button>
-      <button type="button" class="hdr-share" data-calc aria-label="단가 계산기" title="단가 계산기">🧮</button>
       <button type="button" class="hdr-share" data-share aria-label="띠니마트 공유하기">🔗</button>
     </div>
   </header>
 
   <main id="main">
     <section class="hero" id="hero" aria-label="띠니마트 소개">
-      <p class="eyebrow">제로음료 · 단백질(WPI·WPC·ISP) · 식단 고기</p>
-      <h1>띠니마트</h1>
+      <div class="hero-in">
+        <h1>띠니마트</h1>
+        <p class="eyebrow">제로음료 · 단백질 · 식단 고기</p>
+      </div>
       <div class="update-band" id="update-band" aria-label="가격 업데이트 안내">
-        <div class="update-when">
-          <span class="update-lab">마지막 업데이트</span>
-          <p class="update-date"><strong id="update-date-big">11/16</strong><span class="update-weekday" id="update-weekday">(월)</span><span class="update-time" id="update-time"></span></p>
-        </div>
-        <div class="update-cycle">
-          <span class="update-cycle-main"><span class="update-ico" aria-hidden="true">🔄</span><span id="update-cycle-main">매일 오전 9시·오후 9시 가격 자동 업데이트</span></span>
-          <span class="update-cycle-note" id="update-cycle-note">쿠팡·토스 가격을 다시 확인해요</span>
-        </div>
+        <span class="update-ico" aria-hidden="true">🔄</span>
+        <p class="update-date"><strong id="update-date-big">11/17</strong><span class="update-weekday" id="update-weekday">(화)</span><span class="update-time" id="update-time">09:09</span></p>
+        <span class="update-cycle-main" id="update-cycle-main">오전·오후 9시 할인·인기 베스트 상품 지속 모니터</span>
       </div>
-      <p class="lead">찾아보기 귀찮아서 내가 사려고 만든 마트 —<br>제로·단백질·고기까지 같은 돈으로 제일 남는 걸 골라 보세요.</p>
     </section>
-
-    <div class="toolbar" id="toolbar">
-      <div class="search-box">
-        <span class="search-ico" aria-hidden="true">🔍</span>
-        <input class="search-input" id="search-input" type="search" inputmode="search" autocomplete="off"
-               placeholder="상품명·브랜드·부위 검색 (펩시, 셀렉스, 닭가슴살)" aria-label="상품 검색">
-        <button type="button" class="search-clear" id="search-clear" aria-label="검색어 지우기" hidden>✕</button>
-      </div>
-      <p class="search-status" id="search-status" hidden></p>
-    </div>
 
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
-      <button type="button" class="calc-cta" data-calc>
-        <span class="calc-cta-ico" aria-hidden="true">🧮</span>
-        <span class="calc-cta-txt">
-          <b>이 가격이면 사도 될까?</b>
-          <em>카톡방 딜 문구를 붙여넣으면 100ml당 가격과 등급을 바로</em>
-        </span>
-        <span class="calc-cta-arrow" aria-hidden="true">→</span>
-      </button>
       <div class="quick-row">
         <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
         <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
@@ -113,6 +90,37 @@
         <span class="sec-sub" id="home-sub">분류별로 단가가 낮은 순</span>
       </div>
       <div class="shelf" id="home-list"></div>
+    </section>
+
+    <!-- ── 검색 ───────────────────────────────────────── -->
+    <section class="view view-search" id="view-search" data-view="search" hidden>
+      <div class="toolbar" id="toolbar">
+        <div class="search-box">
+          <span class="search-ico" aria-hidden="true">🔍</span>
+          <input class="search-input" id="search-input" type="search" inputmode="search" autocomplete="off"
+                 placeholder="상품명·브랜드·부위 검색 (펩시, 셀렉스, 닭가슴살)" aria-label="상품 검색">
+          <button type="button" class="search-clear" id="search-clear" aria-label="검색어 지우기" hidden>✕</button>
+        </div>
+      </div>
+      <p class="search-lead" id="search-lead">찾고 싶은 상품·브랜드·부위를 넣어 보세요. 바로 아래에 단가 낮은 순으로 모아 드려요.</p>
+      <div class="search-chips" id="search-chips" aria-label="많이 찾는 검색어">
+        <button type="button" class="chip-key" data-keyword="펩시">펩시</button>
+        <button type="button" class="chip-key" data-keyword="코카콜라">코카콜라</button>
+        <button type="button" class="chip-key" data-keyword="나랑드">나랑드</button>
+        <button type="button" class="chip-key" data-keyword="더단백">더단백</button>
+        <button type="button" class="chip-key" data-keyword="클룹">클룹</button>
+        <button type="button" class="chip-key" data-keyword="닭가슴살">닭가슴살</button>
+        <button type="button" class="chip-key" data-keyword="삼겹살">삼겹살</button>
+        <button type="button" class="chip-key" data-keyword="부채살">부채살</button>
+        <button type="button" class="chip-key" data-keyword="연어">연어</button>
+        <button type="button" class="chip-key" data-keyword="에어프라이어">에어프라이어</button>
+      </div>
+      <div class="sec-head" id="search-head" hidden>
+        <h2>검색 결과 <span class="sec-count" id="search-count"></span></h2>
+        <span class="sec-sub" id="search-sub">단가 낮은 순</span>
+      </div>
+      <div class="panel" id="search-controls" data-controls="search" hidden></div>
+      <div class="shelf" id="search-list"></div>
     </section>
 
     <!-- ── 카테고리 ───────────────────────────────────── -->
@@ -176,7 +184,6 @@
       <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
       <div class="quick-row quick-row-foot">
         <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
-        <button type="button" class="qbtn" data-calc>🧮 단가 계산기</button>
         <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
       </div>
       <p class="copy">띠니 · 띠니마트</p>
@@ -209,44 +216,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <!-- ── 단가 계산기 ─────────────────────────────────── -->
-  <div class="calc-modal" id="calc-modal" hidden>
-    <div class="calc-card" role="dialog" aria-modal="true" aria-labelledby="calc-title">
-      <button type="button" class="calc-x" id="calc-x" aria-label="닫기">✕</button>
-      <div class="calc-scroll">
-        <p class="calc-eyebrow">이 가격이면 사도 될까?</p>
-        <h2 class="calc-title" id="calc-title">🧮 단가 계산기</h2>
-        <p class="calc-lead">딜 문구를 붙여넣으면 100ml·100g당 단가와 5단계 등급을 바로 판정해요. 배송비까지 넣어 계산합니다.</p>
-
-        <div class="calc-paste">
-          <input id="calc-raw" type="text" placeholder="예) 펩시 제로 355ml 48캔 (25,760원/무료)" autocomplete="off" aria-label="딜 문구">
-          <button type="button" class="calc-read" id="calc-read">문구 읽기</button>
-        </div>
-
-        <div class="calc-row">
-          <label class="calc-field"><span>분류</span><select id="calc-cat"></select></label>
-          <label class="calc-field"><span>브랜드</span><select id="calc-brand"></select></label>
-        </div>
-        <div class="calc-row">
-          <label class="calc-field"><span>상품가(원)</span><input id="calc-price" type="number" inputmode="numeric" placeholder="25760"></label>
-          <label class="calc-field"><span>배송비(원)</span><input id="calc-ship" type="number" inputmode="numeric" placeholder="0" value="0"></label>
-        </div>
-        <div class="calc-row">
-          <label class="calc-field"><span>용량(ml·g)</span><input id="calc-vol" type="number" inputmode="decimal" placeholder="355"></label>
-          <label class="calc-field"><span>수량(개)</span><input id="calc-qty" type="number" inputmode="numeric" placeholder="48"></label>
-          <label class="calc-field"><span>병당 단백질(g)</span><input id="calc-protein" type="number" inputmode="decimal" placeholder="선택"></label>
-        </div>
-        <div class="calc-actions">
-          <button type="button" class="calc-go" id="calc-go">판정하기</button>
-          <button type="button" class="calc-sample" id="calc-sample">예시 넣기</button>
-        </div>
-        <div class="calc-result" id="calc-result" hidden></div>
-        <p class="calc-legend">등급은 <b>같은 용기</b>(캔·소형 페트·대용량) 안에서 <b>같은 브랜드</b>의 평소 시세(단가 중간값)와 비교해요. 브랜드 표본이 적으면 같은 용기의 분류 시세를 씁니다.<br>
-          🟢 역대급 20%↓ · 🟢 대박급 12%↓ · ⚪ 중박급 5%↓ · ⚫ 쏘쏘 ±3% · 🔴 비쌈 3%↑</p>
-      </div>
-    </div>
-  </div>
-
   <!-- ── 최저가 알림 ─────────────────────────────────── -->
   <div class="alert-modal" id="alert-modal" hidden>
     <div class="alert-card" role="dialog" aria-modal="true" aria-labelledby="alert-title">
@@ -264,7 +233,6 @@
   <script src="js/products.js" defer></script>
   <script src="js/grade.js" defer></script>
   <script src="js/app.js" defer></script>
-  <script src="js/calc.js" defer></script>
   <script src="js/push.js" defer></script>
   <script src="js/bgm.js" defer></script>
 </body>
