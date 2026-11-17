@@ -131,6 +131,12 @@ b, strong { font-weight: 800; }
   50% { transform: translateY(-1.5px); }
 }
 .hdr-bgm + .hdr-share { margin-left: 0; }
+/* 유튜브 임베드는 화면 밖에 두고 소리만 쓴다 */
+.bgm-yt-wrap {
+  position: fixed; left: -10000px; top: 0;
+  width: 200px; height: 112px;
+  overflow: hidden; pointer-events: none;
+}
 @media (max-width: 359px) {
   .hdr-bgm .bgm-lab { display: none; }
   .hdr-bgm { width: 34px; padding: 0; justify-content: center; }

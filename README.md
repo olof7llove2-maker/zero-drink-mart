@@ -30,9 +30,11 @@
   카드의 단백질·지방 줄 아래에 작은 한 줄로 보이고, 마우스를 올리면 `airfryerTipNote`(레스팅·주의사항까지 담은 원문)가 툴팁으로 나옵니다.
 - 구매 링크: 각 상품의 `affiliateUrl`만 사용합니다. 공유 버튼은 제휴 링크가 아니라 마트 주소를 공유합니다.
 - 홈 화면 아이콘: `python3 scripts/make_icons.py` (민트 배경 + 흰 'ㅌ' 캐릭터).
-- 배경음악(BGM): 헤더 우측 `🎧 BGM` 버튼(`js/bgm.js`)으로 `audio/lofi-bgm.mp3`(105초 루프)를 켜고 끕니다.
-  기본 OFF·볼륨 0.25·무한 루프이고, 클릭할 때만 재생합니다(자동재생 없음). iOS처럼 `audio.volume`이 듣지 않는
-  브라우저는 WebAudio 게인으로 볼륨을 맞춥니다. 음원 출처·라이선스는 `audio/README.md`에 있습니다.
+- 배경음악(BGM): 헤더 우측 `🎧 BGM` 버튼(`js/bgm.js`)으로 켜고 끕니다. 1순위는 공식 유튜브 임베드
+  (JINBO, Hersh, PoPoMo 「All That You Wanted」, POCLANOS 공식 오디오 `0-DwYWZC870`)를 화면 밖 숨김 플레이어로
+  재생하고, 임베드 제한·오류·로딩 지연 시 `audio/lofi-bgm.mp3`(105초 루프)로 자동 폴백합니다.
+  기본 OFF·볼륨 0.25·무한 반복이고, 클릭할 때만 재생합니다(자동재생 없음). iOS처럼 `audio.volume`이 듣지 않는
+  브라우저는 WebAudio 게인으로 볼륨을 맞춥니다. 폴백 음원 출처·라이선스는 `audio/README.md`에 있습니다.
 
 ## 화면 구조 (v3 · 2026-11-16 개편)
 
