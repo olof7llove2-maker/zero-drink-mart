@@ -162,6 +162,8 @@ def each_label(p, cat_id):
         return "구"
     if cat_id == "bakery":
         return "개"
+    if cat_id in ("pork", "beef", "chicken", "lamb", "duck", "salmon", "jeyuk") and p.get("packCount"):
+        return "팩"
     if cat_id in ("rice", "meal", "jeyuk"):
         return "개" if cat_id == "rice" else "팩"
     if cat_id in ("can", "sauce", "snack"):

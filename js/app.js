@@ -355,9 +355,11 @@ function offBadge(p) {
 function unitLine(p) {
   const v = measureValue(p);
   if (v == null) return "";
-  const each = p.eachPrice
-    ? `<span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(p.eachPrice)}</b>`
-    : "";
+  const kind = measureKind(p);
+  const each =
+    kind !== "each" && p.eachPrice
+      ? `<span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(p.eachPrice)}</b>`
+      : "";
   return `<p class="pc-unit"><b>${won(Math.round(v))}</b><span class="per">/${measureLabel(p).replace("당", "")}</span>${each}</p>`;
 }
 
@@ -718,8 +720,10 @@ function renderHotdeal() {
   const pool = collapseVariants(basePool());
   const wall = pool
     .filter((p) => p.price != null)
-    .sort((a, b) => (b.popularScore || 0) - (a.popularScore || 0))
-    .slice(0, 12);
+    .map((p) => ({ p, has: dailySeries(p).length > 1 }))
+    .sort((a, b) => (b.has - a.has) || (b.p.popularScore || 0) - (a.p.popularScore || 0))
+    .slice(0, 12)
+    .map((x) => x.p);
   const wallBox = $("chartwall");
   if (wallBox) {
     wallBox.innerHTML = wall

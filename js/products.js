@@ -4264,8 +4264,8 @@ const PRODUCTS = [
     "per100g": 890,
     "unitPrice": "100g당 890원",
     "eachPrice": 4450,
-    "eachLabel": "개",
-    "unitEach": "1개당 4,450원",
+    "eachLabel": "팩",
+    "unitEach": "1팩당 4,450원",
     "protein20": null,
     "listPrice": 38696,
     "popularScore": 66
