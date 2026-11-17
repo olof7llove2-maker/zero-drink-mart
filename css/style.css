@@ -18,6 +18,16 @@
   --cocoa-soft: #f7ecdd;
   --blue: #2357c7;
   --blue-soft: #eaf0fd;
+  /* 플랫폼 3색 */
+  --coupang: #e52528;
+  --coupang-d: #c01f22;
+  --coupang-soft: #fdecec;
+  --toss: #0064ff;
+  --toss-d: #0050d6;
+  --toss-soft: #e9f1ff;
+  --naver: #03c75a;
+  --naver-d: #02a94b;
+  --naver-soft: #e7f9ee;
   --legal-bg: #26221d;
   --legal-fg: #f3eee6;
   --shadow: 0 1px 2px rgba(22, 19, 15, 0.04);
@@ -443,8 +453,9 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
   font-size: 10px; font-weight: 800; letter-spacing: 0.01em;
   border-radius: 4px; padding: 1px 4px;
 }
-.src-coupang { color: #7a4a1d; background: #f5e9da; }
-.src-toss { color: var(--blue); background: var(--blue-soft); }
+.src-coupang { color: #b31217; background: var(--coupang-soft); }
+.src-toss { color: var(--toss); background: var(--toss-soft); }
+.src-naver { color: #01934a; background: var(--naver-soft); }
 
 .pc-name {
   font-size: 13.5px; font-weight: 750; letter-spacing: -0.025em; line-height: 1.35;
@@ -499,9 +510,32 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
   flex: 1; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink);
 }
 .btn-ghost:hover { background: #f3f0e9; }
-.btn-buy { flex: 1.15; background: var(--sage); color: #fff; border: 1px solid var(--sage); }
-.btn-buy:hover { background: var(--sage-d); }
-.btn-buy.is-toss { background: var(--blue); border-color: var(--blue); }
+.btn-buy { flex: 1.15; background: var(--coupang); color: #fff; border: 1px solid var(--coupang); }
+.btn-buy:hover { background: var(--coupang-d); }
+.btn-buy.is-toss { background: var(--toss); border-color: var(--toss); }
+.btn-buy.is-toss:hover { background: var(--toss-d); }
+.btn-buy.is-naver { background: var(--naver); border-color: var(--naver); }
+.btn-buy.is-naver:hover { background: var(--naver-d); }
+
+/* 한 카드 안 플랫폼 버튼 나란히 */
+.pc-buys { display: flex; gap: 5px; flex: 1.15; min-width: 0; }
+.pc-buys .btn-buy { flex: 1 1 0; min-width: 0; }
+.btn-buy.is-pair {
+  flex-direction: column; gap: 0; line-height: 1.15;
+  padding: 4px 6px; letter-spacing: -0.02em; overflow: hidden;
+}
+.btn-buy.is-pair .bp-lab { font-size: 9.5px; font-weight: 800; opacity: 0.95; white-space: nowrap; }
+.btn-buy.is-pair .bp-price {
+  font-size: 11.5px; font-weight: 900; letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+/* 카드 대표가가 네이버일 때 */
+.pc-nvtag {
+  font-size: 9.5px; font-weight: 900; letter-spacing: -0.02em;
+  color: #01934a; background: var(--naver-soft); border: 1px solid #b9ecd0;
+  border-radius: 5px; padding: 1px 5px;
+}
+.bd-naver { color: #01934a; background: var(--naver-soft); border: 1px solid #b9ecd0; }
 .pending-label {
   flex: 1; display: inline-block; text-align: center;
   background: var(--line-2); color: var(--muted);
@@ -1225,9 +1259,10 @@ body.modal-open { overflow: hidden; }
 }
 .spot-cta {
   flex: none; font-size: 10.5px; font-weight: 900; letter-spacing: -0.02em;
-  color: #06231a; background: #46d39c; border-radius: 999px; padding: 5px 9px;
+  color: #fff; background: var(--coupang); border-radius: 999px; padding: 5px 9px;
 }
-.spot-cta.is-toss { background: #6ea8ff; color: #08152e; }
+.spot-cta.is-toss { background: #4d94ff; color: #fff; }
+.spot-cta.is-naver { background: #2fe07b; color: #05291a; }
 @media (min-width: 640px) { .spot-card { flex-basis: 58%; } }
 
 /* ── 모바일 2열 쇼핑몰 그리드 ─────────────────────────── */
@@ -1314,4 +1349,17 @@ body.modal-open { overflow: hidden; }
 /* 2열 카드에서도 40% 이상 핫딜 배지는 조금 더 크게 */
 @media (max-width: 859px) {
   .list--grid > .pc .pc-off.is-hot { font-size: 16px; padding: 3px 7px; }
+}
+
+/* 2열 카드: 쿠팡·네이버 버튼 두 개 — 버튼 줄을 따로 한 줄 잡아 안 깨지게 */
+.pc-acts.is-pair .btn-ghost { flex: 0 0 auto; }
+@media (max-width: 859px) {
+  .list--grid > .pc .pc-acts.is-pair { flex-wrap: wrap; gap: 4px; }
+  .list--grid > .pc .pc-acts.is-pair .pc-buys.is-multi { flex: 1 1 100%; order: -1; gap: 4px; }
+  .list--grid > .pc .pc-buys.is-multi .btn-buy { flex: 1 1 0; padding: 4px 2px; border-radius: 8px; }
+  .list--grid > .pc .pc-buys.is-multi .bp-lab { font-size: 9px; }
+  .list--grid > .pc .pc-buys.is-multi .bp-price { font-size: 10.5px; }
+  .list--grid > .pc .pc-acts.is-pair .btn-icon { flex: none; width: 24px; }
+  .list--grid > .pc .pc-acts.is-pair .btn-ghost { flex: 1 1 auto; }
+  .list--grid > .pc .pc-nvtag { font-size: 9px; padding: 0 4px; }
 }

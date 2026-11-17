@@ -258,11 +258,52 @@ function discountSince(p) {
 
 /* ── 목록 · 정렬 ──────────────────────────────────────── */
 
+/* 플랫폼 3색: 쿠팡=레드 · 토스=파랑 · 네이버=초록 */
+const PLATFORMS = {
+  coupang: { label: "쿠팡", mark: "❤️", cls: "is-coupang" },
+  toss: { label: "토스", mark: "💙", cls: "is-toss" },
+  naver: { label: "네이버", mark: "💚", cls: "is-naver" },
+};
+function platformOf(p) {
+  if (p.platform === "toss") return "toss";
+  if (p.platform === "naver") return "naver";
+  return "coupang";
+}
 function isToss(p) {
   return p.platform === "toss";
 }
+/* 네이버 최저가(배송비 포함)가 붙은 카드만 초록 버튼을 같이 띄운다 */
+function naverAlt(p) {
+  const a = p.altPrice;
+  return a && a.source === "naver" && typeof a.price === "number" && a.url ? a : null;
+}
+/* 카드에 노출할 구매 버튼 — 같은 상품이면 플랫폼별 버튼을 싼 순서로 나란히 */
+function buyOptions(p) {
+  const out = [];
+  if (p.affiliateUrl) out.push({ key: platformOf(p), price: p.price, url: p.affiliateUrl });
+  const nv = naverAlt(p);
+  if (nv) out.push({ key: "naver", price: nv.price, url: nv.url });
+  return out.sort((a, b) => a.price - b.price || (a.key === "naver" ? 1 : -1));
+}
+/* 카드 대표 가격 = 지금 제일 싼 플랫폼 가격 */
+function cheapView(p) {
+  const nv = naverAlt(p);
+  if (nv && nv.price < p.price) {
+    const ratio = p.price ? nv.price / p.price : 1;
+    return {
+      price: nv.price,
+      platform: "naver",
+      perValue: typeof p.perValue === "number" ? p.perValue * ratio : null,
+      eachPrice: typeof p.eachPrice === "number" ? p.eachPrice * ratio : null,
+    };
+  }
+  return { price: p.price, platform: platformOf(p), perValue: p.perValue, eachPrice: p.eachPrice };
+}
 function matchesSource(p) {
-  return isToss(p) ? state.sources.toss : state.sources.coupang;
+  const k = platformOf(p);
+  if (k === "toss") return state.sources.toss;
+  if (k === "naver") return true;
+  return state.sources.coupang;
 }
 function normText(s) {
   return String(s == null ? "" : s).toLowerCase().replace(/[\s()\[\]{},·\-–—/]+/g, "");
@@ -367,13 +408,14 @@ function offBadge(p) {
   return `<span class="pc-off${hot}">-${p.discountPct}%</span>`;
 }
 
-function unitLine(p) {
-  const v = measureValue(p);
+function unitLine(p, view) {
+  const v = view && typeof view.perValue === "number" ? view.perValue : measureValue(p);
   if (v == null) return "";
   const kind = measureKind(p);
+  const eachVal = view && typeof view.eachPrice === "number" ? view.eachPrice : p.eachPrice;
   const each =
-    kind !== "each" && p.eachPrice
-      ? `<span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(p.eachPrice)}</b>`
+    kind !== "each" && eachVal
+      ? `<span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(Math.round(eachVal))}</b>`
       : "";
   return `<p class="pc-unit"><b>${won(Math.round(v))}</b><span class="per">/${measureLabel(p).replace("당", "")}</span>${each}</p>`;
 }
@@ -416,6 +458,8 @@ function dealBadges(p) {
   const since = discountSince(p);
   if (since) out.push(`<span class="bd bd-since">${since.date}부터 할인 · ${since.days}일째</span>`);
   if (p.shipNote) out.push(`<span class="bd bd-track">${escapeHtml(p.shipNote)}</span>`);
+  const nv = naverAlt(p);
+  if (nv && nv.price < p.price) out.push(`<span class="bd bd-naver">💚 네이버가 ${won(p.price - nv.price)} 싸요</span>`);
   return out.join("");
 }
 
@@ -432,19 +476,23 @@ function optionRow(p) {
     .join("")}</div>`;
 }
 
-function altLine(p) {
-  if (!p.altPrice) return "";
-  return `<p class="pc-alt">네이버 최저 <b>${won(p.altPrice.price)}</b> · ${p.altPrice.savePct}% 더 싸요 <a href="${escapeHtml(
-    p.altPrice.url
-  )}" target="_blank" rel="noopener noreferrer">보기</a></p>`;
-}
-
-function buyHTML(p, cls) {
-  if (!p.affiliateUrl) return `<span class="pending-label">링크 준비 중</span>`;
-  const toss = isToss(p);
-  return `<a class="${cls}${toss ? " is-toss" : ""}" href="${escapeHtml(p.affiliateUrl)}" target="_blank" rel="noopener noreferrer">${
-    toss ? `<span class="buy-full">토스에서 사기</span><span class="buy-mini">토스</span>` : `<span class="buy-full">쿠팡에서 사기</span><span class="buy-mini">쿠팡</span>`
-  }</a>`;
+/* 구매 버튼: 한 카드에 플랫폼별 버튼을 나란히 (쿠팡 레드 · 토스 파랑 · 네이버 초록) */
+function buyHTML(p) {
+  const opts = buyOptions(p);
+  if (!opts.length) return `<span class="pending-label">링크 준비 중</span>`;
+  const multi = opts.length > 1;
+  const html = opts
+    .map((o) => {
+      const meta = PLATFORMS[o.key];
+      const label = multi
+        ? `<span class="bp-lab">${meta.mark} ${meta.label}</span><span class="bp-price">${won(o.price)}</span>`
+        : `<span class="buy-full">${meta.label}에서 사기</span><span class="buy-mini">${meta.label}</span>`;
+      return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}" href="${escapeHtml(
+        o.url
+      )}" target="_blank" rel="noopener noreferrer" aria-label="${meta.label}에서 사기 ${won(o.price)}">${label}</a>`;
+    })
+    .join("");
+  return `<div class="pc-buys${multi ? " is-multi" : ""}">${html}</div>`;
 }
 
 function cardEl(p, opts = {}) {
@@ -452,7 +500,10 @@ function cardEl(p, opts = {}) {
   el.className = "pc";
   el.dataset.id = p.id;
   el.__opts = opts;
-  const toss = isToss(p);
+  const view = cheapView(p);
+  const buys = buyOptions(p);
+  const multiBuy = buys.length > 1;
+  const srcKey = platformOf(p);
   const rank = opts.rank
     ? `<span class="pc-rank${opts.rank <= 3 ? " is-top" : ""}">${opts.rank}</span>`
     : "";
@@ -468,21 +519,22 @@ function cardEl(p, opts = {}) {
     </div>
     <div class="pc-body">
       <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>
-        <span class="src ${toss ? "src-toss" : "src-coupang"}">${toss ? "토스" : "쿠팡"}</span>
+        <span class="src src-${srcKey}">${PLATFORMS[srcKey].label}</span>
         ${opts.showPart ? `<span class="pc-parttag">${escapeHtml((partById(partOf(p)) || {}).label || "")}</span>` : ""}
         ${rateLine(p)}</p>
       <h3 class="pc-name">${escapeHtml(p.name)}</h3>
       ${optionRow(p)}
-      <div class="pc-price"><strong>${won(p.price)}</strong>${was}</div>
-      ${unitLine(p)}
+      <div class="pc-price"><strong>${won(view.price)}</strong>${
+        view.platform === "naver" ? `<span class="pc-nvtag">네이버 최저</span>` : ""
+      }${was}</div>
+      ${unitLine(p, view)}
       <p class="pc-sub">${escapeHtml(subLine(p))}</p>
       ${typeof gradeLineHTML === "function" ? gradeLineHTML(p) : ""}
-      ${altLine(p)}
       <div class="pc-deal">${dealBadges(p)}</div>
-      <div class="pc-acts">
+      <div class="pc-acts${multiBuy ? " is-pair" : ""}">
         ${typeof alertIconHTML === "function" ? alertIconHTML(p) : ""}
         <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 <span class="ghost-lab">추이</span></button>
-        ${buyHTML(p, "btn-buy")}
+        ${buyHTML(p)}
       </div>
     </div>`;
   return el;
