@@ -490,7 +490,9 @@ function buyHTML(p) {
       const meta = PLATFORMS[o.key];
       /* 라벨 통일: 한 버튼이면 "쿠팡/토스/네이버", 두 버튼이면 "네이버 24,580" */
       const label = multi
-        ? `<span class="bp-lab">${meta.label}</span><span class="bp-price">${won(o.price)}</span>`
+        ? `<span class="bp-lab">${meta.label}</span><span class="bp-price">${Number(o.price).toLocaleString(
+            "ko-KR"
+          )}</span>`
         : `<span class="buy-lab">${meta.label}</span>`;
       return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}" href="${escapeHtml(
         o.url
