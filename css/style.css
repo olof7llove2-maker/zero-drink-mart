@@ -1310,3 +1310,8 @@ body.modal-open { overflow: hidden; }
   .list--grid > .pc .pc-acts { margin-top: auto; }
   .list--grid > .pc .pc-name { min-height: 2.6em; }
 }
+
+/* 2열 카드에서도 40% 이상 핫딜 배지는 조금 더 크게 */
+@media (max-width: 859px) {
+  .list--grid > .pc .pc-off.is-hot { font-size: 16px; padding: 3px 7px; }
+}
