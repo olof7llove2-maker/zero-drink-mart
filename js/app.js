@@ -112,6 +112,7 @@ function measureValue(p) {
   return typeof p.unitPricePer100ml === "number" ? p.unitPricePer100ml : null;
 }
 function measureLabel(p) {
+  if (measureKind(p) === "each") return `1${p.eachLabel || "개"}당`;
   return MEASURE_LABEL[measureKind(p)] || "단가";
 }
 function proteinValue(p) {
@@ -397,7 +398,6 @@ function dealBadges(p) {
   else if (s.state === "above" && s.pct <= 12) out.push(`<span class="bd bd-up">저점 +${s.pct}%</span>`);
   const since = discountSince(p);
   if (since) out.push(`<span class="bd bd-since">${since.date}부터 할인 · ${since.days}일째</span>`);
-  if (!out.length && p.discountPct) out.push(`<span class="bd bd-track">수시 변동</span>`);
   return out.join("");
 }
 

@@ -192,7 +192,9 @@ def compute(p):
     per_kind = p["measure"]
     per_val = None
     if price:
-        if per_kind == "per100ml" and vol:
+        if per_kind == "each":
+            per_val = (price / cnt) if cnt else price
+        elif per_kind == "per100ml" and vol:
             ml = vol * (cnt if part in ("zero", "protein") and cnt else 1)
             per_val = price / ml * 100 if ml else None
         elif per_kind == "per100g" and w:
@@ -202,8 +204,6 @@ def compute(p):
                 per_val = price / total * 100 if total else None
             else:
                 per_val = price / w * 100 if w else None
-        elif per_kind == "each":
-            per_val = price
     p["perValue"] = round(per_val, 1) if per_val else None
     if per_kind == "per100ml":
         p["unitPricePer100ml"] = round(per_val) if per_val else p.get("unitPricePer100ml")
@@ -212,7 +212,7 @@ def compute(p):
         p["per100g"] = round(per_val) if per_val else p.get("per100g")
         p["unitPrice"] = f"100g당 {round(per_val):,}원" if per_val else p.get("unitPrice")
     else:
-        p["unitPrice"] = f"개당 {round(per_val):,}원" if per_val else p.get("unitPrice")
+        p["unitPrice"] = f"1{ (cnt and '개') or '개'}당 {round(per_val):,}원" if per_val else p.get("unitPrice")
 
     # 개당(캔·병·팩·구) 가격
     each = None
@@ -519,6 +519,7 @@ def main():
                 continue
             v["id"] = f"{base_id}#{cnt}"
             v["packCount"] = cnt
+            v["name"] = re.sub(r"\d+\s*개", f"{cnt}개", v.get("name", ""))
             if spec.get("unit_g"):
                 v["weightG"] = spec["unit_g"] * cnt
             v["price"] = price
