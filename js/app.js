@@ -285,18 +285,22 @@ function samePack(p, nv) {
 function nvPackLabel(nv) {
   return nv.packLabel || `${nv.packCount}개`;
 }
+/* 네이버 실구매가 = 상품가 + 배송비(있으면) */
+function nvCost(nv) {
+  return Number(nv.price) + (Number(nv.shippingExtra) || 0);
+}
 /* 카드에 노출할 구매 버튼 — 같은 상품이면 플랫폼별 버튼을 싼 순서로 나란히 */
 function buyOptions(p) {
   const out = [];
   if (p.affiliateUrl) out.push({ key: platformOf(p), price: p.price, url: p.affiliateUrl });
   const nv = naverAlt(p);
-  if (nv) out.push({ key: "naver", price: nv.price, url: nv.url });
-  return out.sort((a, b) => a.price - b.price || (a.key === "naver" ? 1 : -1));
+  if (nv) out.push({ key: "naver", price: nv.price, url: nv.url, cost: nvCost(nv) });
+  return out.sort((a, b) => (a.cost || a.price) - (b.cost || b.price) || (a.key === "naver" ? 1 : -1));
 }
 /* 카드 대표 가격 = 지금 제일 싼 플랫폼 가격 */
 function cheapView(p) {
   const nv = naverAlt(p);
-  if (nv && samePack(p, nv) && nv.price < p.price) {
+  if (nv && samePack(p, nv) && nvCost(nv) < p.price) {
     const ratio = p.price ? nv.price / p.price : 1;
     return {
       price: nv.price,
@@ -471,10 +475,12 @@ function dealBadges(p) {
   if (since) out.push(`<span class="bd bd-since">${since.date}부터 할인 · ${since.days}일째</span>`);
   if (p.shipNote) out.push(`<span class="bd bd-track">${escapeHtml(p.shipNote)}</span>`);
   const nv = naverAlt(p);
-  if (nv && samePack(p, nv) && nv.price < p.price) {
-    out.push(`<span class="bd bd-naver">💚 네이버가 ${won(p.price - nv.price)} 싸요</span>`);
+  if (nv && samePack(p, nv) && nvCost(nv) < p.price) {
+    out.push(`<span class="bd bd-naver">💚 네이버가 ${won(p.price - nvCost(nv))} 싸요</span>`);
   } else if (nv && !samePack(p, nv)) {
     out.push(`<span class="bd bd-naver">💚 네이버는 ${escapeHtml(nvPackLabel(nv))} ${won(nv.price)}</span>`);
+  } else if (nv && nv.shippingExtra) {
+    out.push(`<span class="bd bd-naver">💚 네이버 ${won(nv.price)} + 배송 ${won(nv.shippingExtra)}</span>`);
   }
   return out.join("");
 }

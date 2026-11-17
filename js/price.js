@@ -447,7 +447,8 @@ function altShopBlock(p) {
   const nv = p.altPrice;
   if (!nv || nv.source !== "naver" || typeof nv.price !== "number" || !nv.url) return "";
   const mine = Number(p.price);
-  const diff = mine - Number(nv.price);
+  const ship = Number(nv.shippingExtra) || 0;
+  const diff = mine - (Number(nv.price) + ship);
   const samePack = !nv.packCount || !p.packCount || Number(nv.packCount) === Number(p.packCount);
   const mineLabel = p.packCount ? `${p.packCount}${p.eachLabel || "개"}` : "";
   const nvLabel = nv.packLabel || (nv.packCount ? `${nv.packCount}개` : "");
@@ -464,7 +465,9 @@ function altShopBlock(p) {
   return `<div class="pm-block"><h4>다른 판매처</h4><ul class="pm-list">
       <li>💚 <a href="${escapeHtml(nv.url)}" target="_blank" rel="noopener noreferrer">네이버 쇼핑에서 보기</a> — <b>${won(
     nv.price
-  )}</b>${nvLabel ? ` (${escapeHtml(nvLabel)})` : ""} · ${escapeHtml(cmp)}</li>
+  )}</b>${nvLabel ? ` (${escapeHtml(nvLabel)})` : ""}${
+    ship ? ` + 배송 ${won(ship)}` : ""
+  } · ${escapeHtml(cmp)}</li>
       ${nv.note ? `<li>${escapeHtml(nv.note)}</li>` : ""}
     </ul></div>`;
 }
