@@ -106,6 +106,36 @@ b, strong { font-weight: 800; }
 .hdr-share:active { transform: scale(0.97); }
 .hdr-share + .hdr-share { margin-left: 0; }
 
+/* BGM 토글 (헤더 우측, 계산기·공유 옆) */
+.hdr-bgm {
+  margin-left: auto; flex: none;
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 34px; padding: 0 10px 0 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface);
+  color: var(--muted); cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.hdr-bgm .bgm-ico { font-size: 14px; line-height: 1; }
+.hdr-bgm .bgm-lab { font-size: 10.5px; font-weight: 800; letter-spacing: -0.01em; }
+.hdr-bgm:hover { border-color: var(--sage); }
+.hdr-bgm:active { transform: scale(0.97); }
+.hdr-bgm.is-on {
+  color: var(--sage-text); background: var(--sage-soft); border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(47, 107, 79, 0.08);
+}
+.hdr-bgm.is-on .bgm-ico { animation: bgm-bob 2.6s ease-in-out infinite; }
+@keyframes bgm-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+.hdr-bgm + .hdr-share { margin-left: 0; }
+@media (max-width: 379px) {
+  .hdr-bgm .bgm-lab { display: none; }
+  .hdr-bgm { width: 34px; padding: 0; justify-content: center; }
+}
+
 /* ── 본문 ────────────────────────────────────────────── */
 main { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad) 28px; }
 
@@ -780,6 +810,7 @@ body.modal-open { overflow: hidden; }
   .tabbar { display: none; }
   .topnav { display: flex; }
   .hdr-share { margin-left: 10px; }
+  .hdr-bgm { margin-left: 10px; }
   .list, .grid, .ranking-list, .deal-list { grid-template-columns: 1fr 1fr; }
   .group-block .list, .group-block .grid { grid-template-columns: 1fr 1fr; }
   .hero h1 { font-size: 36px; }
@@ -793,6 +824,7 @@ body.modal-open { overflow: hidden; }
   html { scroll-behavior: auto; }
   .pc.is-flash { animation: none; box-shadow: 0 0 0 2px var(--sage); }
   .toast { transition: none; }
+  .hdr-bgm.is-on .bgm-ico { animation: none; }
 }
 
 /* ── 단가 계산기 입구 ────────────────────────────────── */

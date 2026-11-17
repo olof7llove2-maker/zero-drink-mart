@@ -1706,7 +1706,7 @@ function renderUpdateBand() {
     $("update-date-big").textContent = `${latest.mo}/${latest.d}`;
     if ($("update-weekday")) $("update-weekday").textContent = wd ? `(${wd})` : "";
   }
-  if ($("update-cycle-main")) $("update-cycle-main").textContent = site.updateCycle || "매일 오전 9시 가격 자동 업데이트";
+  if ($("update-cycle-main")) $("update-cycle-main").textContent = site.updateCycle || "매일 오전 9시·오후 9시 가격 자동 업데이트";
   if ($("update-cycle-note")) $("update-cycle-note").textContent = site.updateCycleNote || "쿠팡·토스 가격을 다시 확인해요";
 }
 
