@@ -15,7 +15,7 @@ const TABS = [
 /* 카테고리 탭 대표 사진 — 재영 님이 고른 대표 상품 */
 const PART_TILES = [
   { part: "zero", label: "제로 음료", emoji: "🥤", sub: "펩시·나랑드·몬스터", image: "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg" },
-  { part: "protein", label: "단백질 음료", emoji: "💪", sub: "더단백·셀렉스·테이크핏", image: "images/deodanbaek-deuringkeu-choco-250ml-18gae.jpg" },
+  { part: "protein", label: "단백질 음료", emoji: "💪", sub: "더단백·셀렉스·테이크핏", image: "images/deodanbaek-deuringkeu-choko-250ml-18gae.jpg" },
   { part: "shake", label: "단백질 쉐이크", emoji: "🥛", sub: "신타6·옵티멈·마이프로틴", image: "images/shake-bsn-syntha6-chocolate-milkshake-2-27kg.jpg" },
   { part: "meat", label: "식단 고기", emoji: "🥩", sub: "스테이크·닭가슴살·제육", image: "images/toss-chefchoice-jeyuk-2kg.jpg" },
   { part: "cheat", label: "치팅·간편식", emoji: "🍕", sub: "햇반·스팸·베이글", image: "images/retort-can-spam-classic-340g-6.jpg" },

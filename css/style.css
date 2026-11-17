@@ -1006,8 +1006,8 @@ body.modal-open { overflow: hidden; }
 }
 .spark-svg { display: block; width: 100%; height: 22px; }
 .spark-cap { display: block; font-size: 8.5px; font-weight: 800; color: var(--muted-2); letter-spacing: -0.02em; text-align: center; }
-.spark.is-none { display: grid; place-items: center; min-height: 34px; border-style: dashed; }
-.spark.is-none span { font-size: 9.5px; font-weight: 800; color: var(--muted-2); }
+.spark.is-none { display: grid; place-items: center; min-height: 22px; padding: 2px 4px; border-style: dashed; background: transparent; }
+.spark.is-none span { font-size: 9px; font-weight: 800; color: var(--muted-2); letter-spacing: -0.02em; }
 
 .pc-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .pc-top { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; font-size: 10.5px; font-weight: 750; color: var(--muted-2); }
