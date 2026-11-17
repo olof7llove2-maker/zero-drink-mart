@@ -191,6 +191,12 @@ const CATEGORIES = [
     "label": "빵·베이글",
     "icon": "🥯",
     "part": "cheat"
+  },
+  {
+    "id": "premium",
+    "label": "프리미엄",
+    "icon": "👑",
+    "part": "meat"
   }
 ];
 
@@ -350,7 +356,7 @@ const PARTS = [
     "label": "식단 고기",
     "icon": "🥩",
     "desc": "100g당 가격 낮은 순",
-    "note": "소·돼지·닭·양·오리·연어 생고기와 계란·조리기구를 모았어요.",
+    "note": "초특가·가성비 고기를 100g당 가격으로 비교해요. 100g당 5,000원이 넘는 고급육은 👑 프리미엄으로 묶어 목록 맨 아래에 뒀어요.",
     "filters": [
       {
         "id": "all",
@@ -363,7 +369,8 @@ const PARTS = [
           "lamb",
           "duck",
           "salmon",
-          "gadget"
+          "gadget",
+          "premium"
         ]
       },
       {
@@ -428,6 +435,14 @@ const PARTS = [
         "icon": "🍳",
         "cats": [
           "gadget"
+        ]
+      },
+      {
+        "id": "premium",
+        "label": "프리미엄",
+        "icon": "👑",
+        "cats": [
+          "premium"
         ]
       }
     ]
@@ -900,12 +915,12 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 3486,
     "pricePer20gProtein": 3486,
-    "popularScore": 99.2
+    "popularScore": 55.61
   },
   {
     "id": "meat-beef-nonghyup-anximhanwoo-sukseongdeungsim-200g",
     "part": "meat",
-    "category": "beef",
+    "category": "premium",
     "categoryId": "beef",
     "group": "소고기",
     "meatType": "소고기",
@@ -939,7 +954,10 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 9387,
     "pricePer20gProtein": 9387,
-    "popularScore": 98.59
+    "popularScore": 30.0,
+    "premiumFrom": "beef",
+    "premium": true,
+    "premiumNote": "100g당 9,340원 — 프리미엄 고급육"
   },
   {
     "id": "meat-chicken-harim-tenderloin-350g",
@@ -978,7 +996,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1528,
     "pricePer20gProtein": 1528,
-    "popularScore": 97.0
+    "popularScore": 60.82
   },
   {
     "id": "meat-duck-gomgom-hunje-600g",
@@ -1017,7 +1035,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1878,
     "pricePer20gProtein": 1878,
-    "popularScore": 96.91
+    "popularScore": 62.35
   },
   {
     "id": "retort-meal-mitri-chicken-friedrice-5jong-200g-20",
@@ -1139,7 +1157,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 2346,
     "pricePer20gProtein": 2346,
-    "popularScore": 93.5
+    "popularScore": 55.08
   },
   {
     "id": "shake-bsn-syntha6-isolate-chocolate-1-82kg",
@@ -1263,7 +1281,7 @@ const PRODUCTS = [
     "eachLabel": "구",
     "unitEach": "1구당 496원",
     "protein20": null,
-    "popularScore": 91.5
+    "popularScore": 46.0
   },
   {
     "id": "meat-beef-gomgom-au-chimasal-gui-600g",
@@ -1304,7 +1322,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 5548,
     "pricePer20gProtein": 5548,
-    "popularScore": 90.8
+    "popularScore": 37.85
   },
   {
     "id": "retort-rice-gomgom-urissal-210g-36",
@@ -1461,7 +1479,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1984,
     "pricePer20gProtein": 1984,
-    "popularScore": 88.22
+    "popularScore": 59.47
   },
   {
     "part": "shake",
@@ -1615,7 +1633,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1270,
     "pricePer20gProtein": 1270,
-    "popularScore": 86.5
+    "popularScore": 60.05
   },
   {
     "id": "meat-salmon-gomgom-hunje-500g",
@@ -1654,7 +1672,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 3180,
     "pricePer20gProtein": 3180,
-    "popularScore": 86.29
+    "popularScore": 40.86
   },
   {
     "part": "shake",
@@ -1855,7 +1873,7 @@ const PRODUCTS = [
     "perValue": 36990,
     "eachPrice": null,
     "protein20": null,
-    "popularScore": 82.49
+    "popularScore": 40.0
   },
   {
     "id": "meat-pork-moamit-canada-moksal-1kg",
@@ -1894,7 +1912,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1717,
     "pricePer20gProtein": 1717,
-    "popularScore": 81.8
+    "popularScore": 66.01
   },
   {
     "id": "shake-myprotein-impact-whey-chocolate-2-5kg",
@@ -1986,12 +2004,12 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1426,
     "pricePer20gProtein": 1426,
-    "popularScore": 80.88
+    "popularScore": 64.5
   },
   {
     "id": "meat-salmon-eunhasusan-steak-400g",
     "part": "meat",
-    "category": "salmon",
+    "category": "premium",
     "categoryId": "salmon",
     "group": "연어",
     "meatType": "연어",
@@ -2025,7 +2043,10 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 5372,
     "pricePer20gProtein": 5372,
-    "popularScore": 79.21
+    "popularScore": 30.0,
+    "premiumFrom": "salmon",
+    "premium": true,
+    "premiumNote": "100g당 5,372원 — 프리미엄 고급육"
   },
   {
     "part": "meat",
@@ -2064,7 +2085,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 3678,
     "pricePer20gProtein": 3678,
-    "popularScore": 78.2
+    "popularScore": 36.02
   },
   {
     "id": "meat-chicken-harim-iff-breast-2kg",
@@ -2111,7 +2132,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 965,
     "pricePer20gProtein": 965,
-    "popularScore": 78.1
+    "popularScore": 62.24
   },
   {
     "id": "meat-pork-moamit-canada-samgyeopsal-1kg",
@@ -2150,7 +2171,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 2407,
     "pricePer20gProtein": 2407,
-    "popularScore": 77.0
+    "popularScore": 61.92
   },
   {
     "id": "retort-rice-haetban-baekmi-210g-24#36",
@@ -2326,7 +2347,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 800,
     "pricePer20gProtein": 800,
-    "popularScore": 76
+    "popularScore": 65.45
   },
   {
     "id": "retort-can-spam-classic-340g-6#20",
@@ -2612,7 +2633,7 @@ const PRODUCTS = [
     "eachLabel": "구",
     "unitEach": "1구당 366원",
     "protein20": null,
-    "popularScore": 74
+    "popularScore": 46.0
   },
   {
     "id": "kokakolra-jero-190ml-30gae#10",
@@ -2792,7 +2813,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 4496,
     "pricePer20gProtein": 4496,
-    "popularScore": 73.4
+    "popularScore": 37.22
   },
   {
     "id": "meat-chicken-hangang-iqf-cube-1kg",
@@ -2834,7 +2855,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 921,
     "pricePer20gProtein": 921,
-    "popularScore": 72.24
+    "popularScore": 62.31
   },
   {
     "id": "haetaehtb-galbaesaida-jero-355ml-24gae",
@@ -3088,7 +3109,7 @@ const PRODUCTS = [
   {
     "id": "meat-beef-mokuchon-chaekkeut-300g",
     "part": "meat",
-    "category": "beef",
+    "category": "premium",
     "categoryId": "beef",
     "group": "소고기",
     "meatType": "소고기",
@@ -3123,7 +3144,10 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 8994,
     "pricePer20gProtein": 8994,
-    "popularScore": 71.91
+    "popularScore": 30.0,
+    "premiumFrom": "beef",
+    "premium": true,
+    "premiumNote": "100g당 7,960원 — 프리미엄 고급육"
   },
   {
     "part": "protein",
@@ -3213,7 +3237,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 5432,
     "pricePer20gProtein": 5432,
-    "popularScore": 71.4
+    "popularScore": 37.2
   },
   {
     "id": "meat-chicken-maniker-wing-bong-1kg",
@@ -3255,7 +3279,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1878,
     "pricePer20gProtein": 1878,
-    "popularScore": 71.07
+    "popularScore": 51.87
   },
   {
     "id": "shake-bsn-syntha6-strawberry-milkshake-2-27kg",
@@ -3311,7 +3335,7 @@ const PRODUCTS = [
   {
     "id": "meat-lamb-gome-frenchrack-300g",
     "part": "meat",
-    "category": "lamb",
+    "category": "premium",
     "categoryId": "lamb",
     "group": "양고기",
     "meatType": "양고기",
@@ -3345,7 +3369,10 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 8819,
     "pricePer20gProtein": 8819,
-    "popularScore": 70.58
+    "popularScore": 30.0,
+    "premiumFrom": "lamb",
+    "premium": true,
+    "premiumNote": "100g당 7,717원 — 프리미엄 고급육"
   },
   {
     "id": "meat-gadget-kruger-glass-airfryer-3-5l",
@@ -3379,7 +3406,7 @@ const PRODUCTS = [
     "perValue": 69000,
     "eachPrice": null,
     "protein20": null,
-    "popularScore": 70.56
+    "popularScore": 40.0
   },
   {
     "id": "kokakolra-jerojero-190ml-30gae",
@@ -3883,7 +3910,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 5571,
     "pricePer20gProtein": 5571,
-    "popularScore": 67.8
+    "popularScore": 34.58
   },
   {
     "id": "deodanbaek-deuringkeu-keopi-a-250ml-18gae",
@@ -4065,7 +4092,7 @@ const PRODUCTS = [
     "perValue": 31180,
     "eachPrice": null,
     "protein20": null,
-    "popularScore": 66.28
+    "popularScore": 40.0
   },
   {
     "id": "meat-gadget-kubix-glass-airfryer-5-5l",
@@ -4099,7 +4126,7 @@ const PRODUCTS = [
     "perValue": 69000,
     "eachPrice": null,
     "protein20": null,
-    "popularScore": 66.11
+    "popularScore": 40.0
   },
   {
     "platform": "toss",
@@ -4297,7 +4324,7 @@ const PRODUCTS = [
     "unitEach": "1팩당 4,450원",
     "protein20": null,
     "listPrice": 38696,
-    "popularScore": 66
+    "popularScore": 83.87
   },
   {
     "id": "toss-naldam-nemo-baguette-90g-10",
@@ -4598,7 +4625,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 3314,
     "pricePer20gProtein": 3314,
-    "popularScore": 64.36
+    "popularScore": 49.76
   },
   {
     "id": "toreta-jero-ioneumryo-500ml-24gae",
@@ -4681,7 +4708,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1111,
     "pricePer20gProtein": 1111,
-    "popularScore": 62.73
+    "popularScore": 68.29
   },
   {
     "id": "toss-naldam-baekkop-bagel-10",
@@ -4810,7 +4837,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1744,
     "pricePer20gProtein": 1744,
-    "popularScore": 61.49
+    "popularScore": 59.76
   },
   {
     "id": "shake-musclepharm-combat-ultra-whey-banana-2-25kg",
@@ -4957,7 +4984,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 2926,
     "pricePer20gProtein": 2926,
-    "popularScore": 60.61
+    "popularScore": 43.23
   },
   {
     "part": "shake",
@@ -5233,7 +5260,7 @@ const PRODUCTS = [
     "perValue": 43900,
     "eachPrice": null,
     "protein20": null,
-    "popularScore": 57.0
+    "popularScore": 40.0
   },
   {
     "id": "shake-kkobakkkobab-plus-double-choco-7p",
@@ -5405,7 +5432,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 5393,
     "pricePer20gProtein": 5393,
-    "popularScore": 54.41
+    "popularScore": 32.29
   },
   {
     "id": "meat-beef-us-choice-buchaesal-steak-1kg",
@@ -5444,7 +5471,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 3814,
     "pricePer20gProtein": 3814,
-    "popularScore": 54.36
+    "popularScore": 40.45
   },
   {
     "id": "keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae",
@@ -5529,7 +5556,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1002,
     "pricePer20gProtein": 1002,
-    "popularScore": 53.59
+    "popularScore": 65.89
   },
   {
     "id": "narangdeusaida-jero-500ml-24gae",
@@ -5616,7 +5643,7 @@ const PRODUCTS = [
   {
     "id": "meat-beef-au-salchisal-steak-400g",
     "part": "meat",
-    "category": "beef",
+    "category": "premium",
     "categoryId": "beef",
     "group": "소고기",
     "meatType": "소고기",
@@ -5650,7 +5677,10 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 6833,
     "pricePer20gProtein": 6833,
-    "popularScore": 51.27
+    "popularScore": 30.0,
+    "premiumFrom": "beef",
+    "premium": true,
+    "premiumNote": "100g당 6,150원 — 프리미엄 고급육"
   },
   {
     "id": "narangdeusaida-jero-1-5l-12gae",
@@ -6080,7 +6110,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1318,
     "pricePer20gProtein": 1318,
-    "popularScore": 47.65
+    "popularScore": 68.73
   },
   {
     "id": "chorokmaesil-seupakeulring-jero-kaen-350ml-24gae",
@@ -6219,7 +6249,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1617,
     "pricePer20gProtein": 1617,
-    "popularScore": 46.25
+    "popularScore": 60.25
   },
   {
     "id": "haneulbori-eko-murabel-1-5l-12gae",
@@ -6543,7 +6573,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1432,
     "pricePer20gProtein": 1432,
-    "popularScore": 43.83
+    "popularScore": 61.89
   },
   {
     "id": "narangdeusaida-jero-345ml-24gae",
@@ -7203,7 +7233,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 4069,
     "pricePer20gProtein": 4069,
-    "popularScore": 40
+    "popularScore": 31.81
   },
   {
     "id": "singha-sodawoteo-tansansu-325ml-24gae",
@@ -7286,7 +7316,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 1858,
     "pricePer20gProtein": 1858,
-    "popularScore": 32.55
+    "popularScore": 49.76
   },
   {
     "platform": "toss",
@@ -7397,7 +7427,7 @@ const PRODUCTS = [
     "unitEach": null,
     "protein20": null,
     "listPrice": 42955,
-    "popularScore": 32
+    "popularScore": 82.85
   },
   {
     "id": "matitneunduyugt-godanbaek-duyu-190ml-24gae",
@@ -7530,7 +7560,7 @@ const PRODUCTS = [
     "eachPrice": null,
     "protein20": 2914,
     "pricePer20gProtein": 2914,
-    "popularScore": 29.49
+    "popularScore": 41.23
   },
   {
     "platform": "toss",
@@ -7860,5 +7890,418 @@ const PRODUCTS = [
     "reviewCount": 14863,
     "popularScore": 58,
     "note": "11/17 14:00 어드민 '카테고리 인기 상품 > 식품' 4위, 판매자 스파클 공식·국산생수 3위. 13,900원(100ml당 23원)으로 사이트 생수 중 가장 싸요(에브리워터 2L 18개 100ml당 25원). 토스 웹 상세는 가격을 QR로만 보여 줘서 어드민 카드 가격 기준이에요."
+  },
+  {
+    "id": "meat-beef-gomgom-daepae-woosamgyup-1kg",
+    "group": "소고기",
+    "category": "beef",
+    "part": "meat",
+    "brand": "곰곰",
+    "name": "곰곰 대패 우삼겹 (냉동), 1kg, 1개",
+    "kind": "미국산 우삼겹 · 대패구이",
+    "price": 16190,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/8336308869?itemId=24564131696",
+    "affiliateUrl": "https://www.coupang.com/vp/products/8336308869?itemId=24564131696",
+    "image": "images/meat-beef-gomgom-daepae-woosamgyup-1kg.jpg",
+    "packCount": 1,
+    "weightG": 1000,
+    "rating": 5.0,
+    "reviewCount": 82876,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "로켓프레시. 19,490원 → 16,190원(100g당 1,619원). 리뷰 8.2만건·평점 5.0. 구이·샤브 겸용 대패 우삼겹 100g당 1,600원대. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 19490,
+    "discountPct": 16,
+    "per100g": 1619,
+    "perValue": 1619.0,
+    "unitPrice": "100g당 1,619원",
+    "protein20": null,
+    "popularScore": 58.07
+  },
+  {
+    "id": "meat-beef-ouratown-woosamgyup-1kg",
+    "group": "소고기",
+    "category": "beef",
+    "part": "meat",
+    "brand": "우리아파트정육점",
+    "name": "우리아파트정육점 돌돌말이 우삼겹 대패 1kg (냉동), 1개",
+    "kind": "미국산 우삼겹 · 2mm 대패",
+    "price": 14600,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/9555147033?itemId=28511311199",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9555147033?itemId=28511311199",
+    "image": "images/meat-beef-ouratown-woosamgyup-1kg.jpg",
+    "packCount": 1,
+    "weightG": 1000,
+    "rating": 4.5,
+    "reviewCount": 147,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "18,100원 → 14,600원(100g당 1,460원). 무료배송·오늘출발. 1kg 1,460원대로 이번 조사에서 가장 싼 우삼겹 중 하나. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 18100,
+    "discountPct": 19,
+    "per100g": 1460,
+    "perValue": 1460.0,
+    "unitPrice": "100g당 1,460원",
+    "protein20": null,
+    "popularScore": 61.36
+  },
+  {
+    "id": "meat-beef-dongwon-5cho-woosamgyup-2kg",
+    "group": "소고기",
+    "category": "beef",
+    "part": "meat",
+    "brand": "동원",
+    "name": "동원 5초 구이 미국산 우삼겹 (냉동), 2kg, 1개",
+    "kind": "미국산 우삼겹 · 구이용",
+    "price": 34900,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/7045700926?itemId=17435874571",
+    "affiliateUrl": "https://www.coupang.com/vp/products/7045700926?itemId=17435874571",
+    "image": "images/meat-beef-dongwon-5cho-woosamgyup-2kg.jpg",
+    "packCount": 1,
+    "weightG": 2000,
+    "rating": 4.5,
+    "reviewCount": 4221,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "45,900원 → 34,900원(100g당 1,745원). 대기업 브랜드 2kg 대용량, 새벽도착. 100g당 1,700원대. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 45900,
+    "discountPct": 23,
+    "per100g": 1745,
+    "perValue": 1745.0,
+    "unitPrice": "100g당 1,745원",
+    "protein20": null,
+    "popularScore": 58.68
+  },
+  {
+    "id": "meat-beef-deoyeppeunhanwoo-buchaesal-1kg",
+    "group": "소고기",
+    "category": "beef",
+    "part": "meat",
+    "brand": "더예쁜한우",
+    "name": "수입 부채살 구이용 1kg (500g×2ea) 냉동, 1개",
+    "kind": "수입산 부채살 · 500g 소분 2팩",
+    "price": 26900,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/9452841425?itemId=21518412172",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9452841425?itemId=21518412172",
+    "image": "images/meat-beef-deoyeppeunhanwoo-buchaesal-1kg.jpg",
+    "packCount": 2,
+    "weightG": 1000,
+    "rating": 4.0,
+    "reviewCount": 81,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "48,400원 → 26,900원(100g당 2,690원) 44% 할인. 무료배송·오늘출발. 평점 4.0·리뷰 81건이라 후기는 적어요. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 48400,
+    "discountPct": 44,
+    "per100g": 2690,
+    "perValue": 2690.0,
+    "unitPrice": "100g당 2,690원",
+    "eachPrice": 13450,
+    "eachLabel": "팩",
+    "unitEach": "1팩당 13,450원",
+    "protein20": null,
+    "popularScore": 55.89
+  },
+  {
+    "id": "meat-beef-au-buchaesal-cube-1kg",
+    "group": "소고기",
+    "category": "beef",
+    "part": "meat",
+    "brand": "프리미엄 호주산",
+    "name": "프리미엄 호주산 부채살 큐브 1kg, 구이·챱스테이크·국거리용",
+    "kind": "호주산 부채살 큐브 · 식단용",
+    "price": 27630,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/9443025250?itemId=28087034212",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9443025250?itemId=28087034212",
+    "image": "images/meat-beef-au-buchaesal-cube-1kg.jpg",
+    "packCount": 1,
+    "weightG": 1000,
+    "rating": 4.5,
+    "reviewCount": 29,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "34,540원 → 27,630원(100g당 2,763원). 무료배송·무료반품. 큐브라 식단용으로 쓰기 좋아요(리뷰 29건). 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 34540,
+    "discountPct": 20,
+    "per100g": 2763,
+    "perValue": 2763.0,
+    "unitPrice": "100g당 2,763원",
+    "protein20": null,
+    "popularScore": 47.44
+  },
+  {
+    "id": "meat-beef-luckymeat-bolsal-1kg",
+    "group": "소고기",
+    "category": "beef",
+    "part": "meat",
+    "brand": "럭키미트",
+    "name": "럭키미트 수입산 소고기 우볼살 1kg (냉동), 1개",
+    "kind": "수입산 우볼살 · 수육·곰탕용",
+    "price": 23500,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/9709202175?itemId=29048863478",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9709202175?itemId=29048863478",
+    "image": "images/meat-beef-luckymeat-bolsal-1kg.jpg",
+    "packCount": 1,
+    "weightG": 1000,
+    "rating": 5.0,
+    "reviewCount": 17,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "40,000원 → 23,500원(100g당 2,350원) 41% 할인. 무료배송·오늘출발. 수육·곰탕용 특수부위(리뷰 17건). 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 40000,
+    "discountPct": 41,
+    "per100g": 2350,
+    "perValue": 2350.0,
+    "unitPrice": "100g당 2,350원",
+    "protein20": null,
+    "popularScore": 57.93
+  },
+  {
+    "id": "meat-pork-spain-daepae-samgyeop-2kg",
+    "group": "돼지고기",
+    "category": "pork",
+    "part": "meat",
+    "brand": "스페인산",
+    "name": "스페인산 무연골 대패 삼겹살 (냉동), 2kg, 1개",
+    "kind": "스페인산 삼겹살 · 무연골 대패",
+    "price": 19420,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/5498833210?itemId=8536364182",
+    "affiliateUrl": "https://www.coupang.com/vp/products/5498833210?itemId=8536364182",
+    "image": "images/meat-pork-spain-daepae-samgyeop-2kg.jpg",
+    "packCount": 1,
+    "weightG": 2000,
+    "rating": 4.5,
+    "reviewCount": 30758,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "26,900원 → 19,420원(100g당 971원) 27% 할인. 로켓프레시·무연골. 2kg 1만원대, 100g당 1,000원 아래. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 26900,
+    "discountPct": 27,
+    "per100g": 971,
+    "perValue": 971.0,
+    "unitPrice": "100g당 971원",
+    "protein20": null,
+    "popularScore": 73.09
+  },
+  {
+    "id": "meat-pork-gomgom-muyeongol-daepae-1-5kg",
+    "group": "돼지고기",
+    "category": "pork",
+    "part": "meat",
+    "brand": "곰곰",
+    "name": "곰곰 돌돌말이 무연골 대패 삼겹살 (냉동), 1.5kg, 1개",
+    "kind": "무연골 대패삼겹 · 냉동",
+    "price": 16390,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/9069279280?itemId=22296908426",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9069279280?itemId=22296908426",
+    "image": "images/meat-pork-gomgom-muyeongol-daepae-1-5kg.jpg",
+    "packCount": 1,
+    "weightG": 1500,
+    "rating": 4.5,
+    "reviewCount": 206240,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "20,990원 → 16,390원(100g당 1,093원). 리뷰 20.6만건·평점 4.5. 1.5kg 낱개 포장. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 20990,
+    "discountPct": 21,
+    "per100g": 1093,
+    "perValue": 1092.7,
+    "unitPrice": "100g당 1,093원",
+    "protein20": null,
+    "popularScore": 68.48
+  },
+  {
+    "id": "meat-pork-gomgom-daepae-samgyeop-1kg-2",
+    "group": "돼지고기",
+    "category": "pork",
+    "part": "meat",
+    "brand": "곰곰",
+    "name": "곰곰 돌돌말이 대패삼겹살 (냉동), 1kg, 2개",
+    "kind": "대패삼겹 · 냉동 1kg×2",
+    "price": 20370,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/343900909?itemId=19223541715",
+    "affiliateUrl": "https://www.coupang.com/vp/products/343900909?itemId=19223541715",
+    "image": "images/meat-pork-gomgom-daepae-samgyeop-1kg-2.jpg",
+    "packCount": 2,
+    "weightG": 2000,
+    "rating": 4.5,
+    "reviewCount": 99354,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "33,980원 → 20,370원(100g당 1,019원) 40% 할인. 리뷰 9.9만건. 1kg 2팩이라 소분해 두고 먹기 좋아요. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 33980,
+    "discountPct": 40,
+    "per100g": 1018,
+    "perValue": 1018.5,
+    "unitPrice": "100g당 1,018원",
+    "eachPrice": 10185,
+    "eachLabel": "팩",
+    "unitEach": "1팩당 10,185원",
+    "protein20": null,
+    "popularScore": 76.28
+  },
+  {
+    "id": "meat-pork-daepaeking-jeongsamgyeop-2kg",
+    "group": "돼지고기",
+    "category": "pork",
+    "part": "meat",
+    "brand": "대패킹",
+    "name": "대패킹 진짜 정삼겹 대패삼겹살 (냉동), 2kg, 1개",
+    "kind": "미국산 정삼겹 · 대패",
+    "price": 20420,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/6305684520?itemId=13061642503",
+    "affiliateUrl": "https://www.coupang.com/vp/products/6305684520?itemId=13061642503",
+    "image": "images/meat-pork-daepaeking-jeongsamgyeop-2kg.jpg",
+    "packCount": 1,
+    "weightG": 2000,
+    "rating": 4.5,
+    "reviewCount": 10838,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "31,870원 → 20,420원(100g당 1,021원) 35% 할인. 로켓프레시. 대패삼겹 대표 브랜드 2kg. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 31870,
+    "discountPct": 35,
+    "per100g": 1021,
+    "perValue": 1021.0,
+    "unitPrice": "100g당 1,021원",
+    "protein20": null,
+    "popularScore": 74.58
+  },
+  {
+    "id": "meat-chicken-pultorae-fresh-breast-2kg",
+    "group": "닭고기",
+    "category": "chicken",
+    "part": "meat",
+    "brand": "풀토래",
+    "name": "풀토래 신선냉장 닭가슴살 국내산, 2kg, 1개",
+    "kind": "국내산 닭가슴살 · 냉장",
+    "price": 15500,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/1144178958?itemId=2201227236",
+    "affiliateUrl": "https://www.coupang.com/vp/products/1144178958?itemId=2201227236",
+    "image": "images/meat-chicken-pultorae-fresh-breast-2kg.jpg",
+    "packCount": 1,
+    "weightG": 2000,
+    "rating": 5.0,
+    "reviewCount": 20928,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "19,100원 → 15,500원(100g당 775원). 국내산 냉장 2kg, 리뷰 2만건·평점 5.0. 100g당 700원대. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 19100,
+    "discountPct": 18,
+    "per100g": 775,
+    "perValue": 775.0,
+    "unitPrice": "100g당 775원",
+    "protein20": null,
+    "popularScore": 75.18
+  },
+  {
+    "id": "meat-chicken-deobareundak-breast-2kg",
+    "group": "닭고기",
+    "category": "chicken",
+    "part": "meat",
+    "brand": "더바른닭",
+    "name": "더바른닭 국내산 냉장 촉촉 닭가슴살, 2kg, 1개",
+    "kind": "국내산 닭가슴살 · 냉장",
+    "price": 15000,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/8518771827?itemId=24687496366",
+    "affiliateUrl": "https://www.coupang.com/vp/products/8518771827?itemId=24687496366",
+    "image": "images/meat-chicken-deobareundak-breast-2kg.jpg",
+    "packCount": 1,
+    "weightG": 2000,
+    "rating": 5.0,
+    "reviewCount": 3498,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "18,000원 → 15,000원(100g당 750원). 국내산 냉장 2kg, 평점 5.0. 100g당 750원. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 18000,
+    "discountPct": 16,
+    "per100g": 750,
+    "perValue": 750.0,
+    "unitPrice": "100g당 750원",
+    "protein20": null,
+    "popularScore": 75.25
+  },
+  {
+    "id": "meat-chicken-sajowon-tenderloin-1kg-2",
+    "group": "닭고기",
+    "category": "chicken",
+    "part": "meat",
+    "brand": "사조원",
+    "name": "사조원 닭안심 (냉장), 1kg, 2개",
+    "kind": "닭안심 · 냉장 1kg×2",
+    "price": 13550,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/9178751443?itemId=27135692570",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9178751443?itemId=27135692570",
+    "image": "images/meat-chicken-sajowon-tenderloin-1kg-2.jpg",
+    "packCount": 2,
+    "weightG": 2000,
+    "rating": 5.0,
+    "reviewCount": 3836,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "13,550원(100g당 678원). 로켓프레시, 1kg 2팩. 정가 표기가 없어 할인율은 비워 뒀어요. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "per100g": 678,
+    "perValue": 677.5,
+    "unitPrice": "100g당 678원",
+    "eachPrice": 6775,
+    "eachLabel": "팩",
+    "unitEach": "1팩당 6,775원",
+    "protein20": null,
+    "popularScore": 72.27
+  },
+  {
+    "id": "meat-chicken-pultorae-tenderloin-2kg",
+    "group": "닭고기",
+    "category": "chicken",
+    "part": "meat",
+    "brand": "풀토래",
+    "name": "풀토래 냉장 닭안심 국내산, 2kg, 1개",
+    "kind": "국내산 닭안심 · 냉장",
+    "price": 14900,
+    "priceCheckedAt": "2026-11-17 14:20",
+    "priceCheckedLabel": "11/17 14:20 쿠팡 검색 기준",
+    "url": "https://www.coupang.com/vp/products/4759044905?itemId=2854973249",
+    "affiliateUrl": "https://www.coupang.com/vp/products/4759044905?itemId=2854973249",
+    "image": "images/meat-chicken-pultorae-tenderloin-2kg.jpg",
+    "packCount": 1,
+    "weightG": 2000,
+    "rating": 4.5,
+    "reviewCount": 6194,
+    "platform": "coupang",
+    "measure": "per100g",
+    "note": "18,500원 → 14,900원(100g당 745원). 국내산 냉장 2kg, 리뷰 6,194건. 100g당 700원대. 아버님 파트너스 단축 링크는 다음 일괄 발급 때 붙일 예정이라 지금은 쿠팡 일반 상품 링크예요.",
+    "listPrice": 18500,
+    "discountPct": 19,
+    "per100g": 745,
+    "perValue": 745.0,
+    "unitPrice": "100g당 745원",
+    "protein20": null,
+    "popularScore": 76.38
   }
 ];

@@ -316,6 +316,18 @@ function sortList(list, key) {
     .map((x) => x.p);
 }
 
+/* 프리미엄(100g당 5,000원 이상)은 정렬 결과에서 항상 맨 아래로 */
+function isPremium(p) {
+  return p.category === "premium" || p.premium === true;
+}
+function withPremiumLast(list) {
+  if (!list.some(isPremium)) return list;
+  const normal = [];
+  const premium = [];
+  list.forEach((p) => (isPremium(p) ? premium : normal).push(p));
+  return normal.concat(premium);
+}
+
 /* 옵션 묶음: 대표 1개만 목록에 보이고, 나머지는 카드 안 옵션 버튼으로 */
 function buildVariantIndex() {
   state.vgroups = {};
@@ -712,6 +724,7 @@ function renderCategoryList() {
   const f = currentFilter();
   let items = basePool().filter((p) => partOf(p) === state.part && matchesFilter(p, f));
   items = sortList(items, state.sort);
+  if (state.part === "meat") items = withPremiumLast(items);
   const part = partById(state.part);
   const head = $("cat-head");
   if (head) {
