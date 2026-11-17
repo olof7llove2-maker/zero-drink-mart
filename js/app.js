@@ -430,7 +430,9 @@ function altLine(p) {
 function buyHTML(p, cls) {
   if (!p.affiliateUrl) return `<span class="pending-label">링크 준비 중</span>`;
   const toss = isToss(p);
-  return `<a class="${cls}${toss ? " is-toss" : ""}" href="${escapeHtml(p.affiliateUrl)}" target="_blank" rel="noopener noreferrer">${toss ? "토스에서 사기" : "쿠팡에서 사기"}</a>`;
+  return `<a class="${cls}${toss ? " is-toss" : ""}" href="${escapeHtml(p.affiliateUrl)}" target="_blank" rel="noopener noreferrer">${
+    toss ? `<span class="buy-full">토스에서 사기</span><span class="buy-mini">토스</span>` : `<span class="buy-full">쿠팡에서 사기</span><span class="buy-mini">쿠팡</span>`
+  }</a>`;
 }
 
 function cardEl(p, opts = {}) {
@@ -467,7 +469,7 @@ function cardEl(p, opts = {}) {
       <div class="pc-deal">${dealBadges(p)}</div>
       <div class="pc-acts">
         ${typeof alertIconHTML === "function" ? alertIconHTML(p) : ""}
-        <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 추이</button>
+        <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 <span class="ghost-lab">추이</span></button>
         ${buyHTML(p, "btn-buy")}
       </div>
     </div>`;
@@ -608,7 +610,7 @@ function spotUnitLine(p) {
   const v = measureValue(p);
   if (v == null) return "";
   const kind = measureLabel(p).replace("당", "");
-  const each = p.eachPrice ? ` · 1${p.eachLabel || "개"}당 ${won(p.eachPrice)}` : "";
+  const each = p.eachPrice && measureKind(p) !== "each" ? ` · 1${p.eachLabel || "개"}당 ${won(p.eachPrice)}` : "";
   return `${won(Math.round(v))}/${kind}${each}`;
 }
 
@@ -631,7 +633,7 @@ function renderSpot() {
       const was = p.listPrice && p.listPrice > p.price ? `<s>${won(p.listPrice)}</s>` : "";
       const rate = p.rating != null ? `★ ${Number(p.rating).toFixed(1)}` : "";
       const rv = p.reviewCount != null ? `리뷰 ${reviewLabel(p.reviewCount)}` : "";
-      const meta = [rate, rv].filter(Boolean).join(" · ");
+      const meta = rv || rate;
       return `<a class="spot-card${i === 0 ? " is-hero" : ""}" href="${escapeHtml(
         p.affiliateUrl
       )}" target="_blank" rel="noopener noreferrer">
