@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-16T17:04:24+09:00",
+  "generatedAt": "2026-11-17T09:09:54+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -22,11 +22,11 @@
   ],
   "tally": {
    "history": 29,
-   "tracking-started": 75,
-   "not-tracked": 38,
+   "tracking-started": 0,
+   "not-tracked": 58,
    "item-mismatch": 13,
    "no-records": 1,
-   "error": 23
+   "error": 24
   }
  },
  "products": {
@@ -34,8 +34,8 @@
    "id": "pepsi-zero-lime-355",
    "name": "펩시 콜라 제로슈가 라임향, 355ml, 24개",
    "platform": "coupang",
-   "cardPrice": 15860,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPrice": 15060,
+   "cardPriceCheckedAt": "2026-11-17 07:30",
    "cardListPrice": 16900,
    "sourceUrl": "https://www.couprice.co.kr/products/x-8323333308",
    "couprice": {
@@ -49,7 +49,7 @@
      "source60Min": 10320,
      "source60Max": 32900,
      "sourceRecords": 89,
-     "sourceCurrent": 16050,
+     "sourceCurrent": 15060,
      "sourceWarnsVolatile": true
     }
    },
@@ -62,12 +62,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-17",
-     "price": 15980,
-     "ts": "2026-09-17T12:03:55.437008+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-18",
      "price": 15820,
@@ -595,19 +589,31 @@
      "price": 16050,
      "ts": "2026-11-16T06:04:40.6431+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-16",
+     "price": 15060,
+     "ts": "2026-11-16T08:09:53.840936+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 15060,
+     "ts": "2026-11-17T07:30:00+09:00",
+     "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-17T12:03:55.437008+00:00",
-   "lastObservedAt": "2026-11-16T06:04:40.6431+00:00",
+   "firstObservedAt": "2026-09-18T10:02:47.996187+00:00",
+   "lastObservedAt": "2026-11-16T08:09:53.840936+00:00",
    "stats": {
     "min": 10320,
     "minDate": "2026-10-10",
     "max": 32900,
     "maxDate": "2026-10-03",
-    "avg": 18276,
-    "latest": 16050,
-    "latestDate": "2026-11-16",
-    "observations": 89,
+    "avg": 18230,
+    "latest": 15060,
+    "latestDate": "2026-11-17",
+    "observations": 90,
     "days": 41
    }
   },
@@ -616,7 +622,7 @@
    "name": "코카콜라 제로, 350ml, 24개",
    "platform": "coupang",
    "cardPrice": 18700,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPriceCheckedAt": "2026-11-17 07:30",
    "cardListPrice": 25700,
    "sourceUrl": "https://www.couprice.co.kr/products/x-8174473713",
    "couprice": {
@@ -1686,6 +1692,12 @@
      "price": 13390,
      "ts": "2026-11-16T07:10:32.175231+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 18700,
+     "ts": "2026-11-17T07:30:00+09:00",
+     "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-18T10:02:47.991805+00:00",
@@ -1696,10 +1708,10 @@
     "max": 47480,
     "maxDate": "2026-10-16",
     "avg": 18761,
-    "latest": 13390,
-    "latestDate": "2026-11-16",
-    "observations": 174,
-    "days": 45
+    "latest": 18700,
+    "latestDate": "2026-11-17",
+    "observations": 175,
+    "days": 46
    }
   },
   "kokakolra-jero-190ml-30gae": {
@@ -2033,8 +2045,8 @@
    "id": "narangd-cider-zero",
    "name": "나랑드사이다 제로, 245ml, 30개",
    "platform": "coupang",
-   "cardPrice": 12770,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPrice": 12900,
+   "cardPriceCheckedAt": "2026-11-17 07:30",
    "cardListPrice": 15000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7447842898",
    "couprice": {
@@ -2354,6 +2366,12 @@
      "price": 12770,
      "ts": "2026-11-15T19:25:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 12900,
+     "ts": "2026-11-17T07:30:00+09:00",
+     "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-18T16:02:28.287404+00:00",
@@ -2363,11 +2381,11 @@
     "minDate": "2026-09-27",
     "max": 25950,
     "maxDate": "2026-09-28",
-    "avg": 12364,
-    "latest": 12770,
-    "latestDate": "2026-11-15",
-    "observations": 49,
-    "days": 30
+    "avg": 12375,
+    "latest": 12900,
+    "latestDate": "2026-11-17",
+    "observations": 50,
+    "days": 31
    }
   },
   "narangdeusaida-jero-345ml-24gae": {
@@ -2734,7 +2752,7 @@
     "crosscheck": {
      "source60Min": 9000,
      "source60Max": 19560,
-     "sourceRecords": 21,
+     "sourceRecords": 19,
      "sourceCurrent": 19180,
      "sourceWarnsVolatile": true
     }
@@ -2748,18 +2766,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-15",
-     "price": 9660,
-     "ts": "2026-09-15T03:54:04.490373+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-16",
-     "price": 10000,
-     "ts": "2026-09-15T20:49:52.828003+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-19",
      "price": 9950,
@@ -2881,18 +2887,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-15T03:54:04.490373+00:00",
+   "firstObservedAt": "2026-09-18T17:40:40.918814+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 9000,
     "minDate": "2026-10-22",
     "max": 19560,
     "maxDate": "2026-11-03",
-    "avg": 13188,
+    "avg": 13524,
     "latest": 9900,
     "latestDate": "2026-11-15",
-    "observations": 22,
-    "days": 17
+    "observations": 20,
+    "days": 15
    }
   },
   "teurebi-remon-eco-tansaneumryo-murabel-350ml-20gae": {
@@ -3158,7 +3164,7 @@
     "crosscheck": {
      "source60Min": 10800,
      "source60Max": 30900,
-     "sourceRecords": 45,
+     "sourceRecords": 42,
      "sourceCurrent": 21800,
      "sourceWarnsVolatile": true
     }
@@ -3172,24 +3178,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-16",
-     "price": 27790,
-     "ts": "2026-09-15T22:48:31.001609+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-16",
-     "price": 13900,
-     "ts": "2026-09-15T23:48:25.458483+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-17",
-     "price": 10800,
-     "ts": "2026-09-17T04:03:18.63073+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-18",
      "price": 13900,
@@ -3449,18 +3437,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-15T22:48:31.001609+00:00",
+   "firstObservedAt": "2026-09-17T23:48:19.806695+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 10800,
-    "minDate": "2026-09-17",
+    "minDate": "2026-09-18",
     "max": 30900,
     "maxDate": "2026-09-26",
-    "avg": 18056,
+    "avg": 18095,
     "latest": 10900,
     "latestDate": "2026-11-15",
-    "observations": 46,
-    "days": 31
+    "observations": 43,
+    "days": 29
    }
   },
   "keulrup-aesabisoda-orijineol-500ml-24gae": {
@@ -4620,7 +4608,7 @@
     "crosscheck": {
      "source60Min": 10370,
      "source60Max": 59780,
-     "sourceRecords": 86,
+     "sourceRecords": 84,
      "sourceCurrent": 30330,
      "sourceWarnsVolatile": true
     }
@@ -4634,18 +4622,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-17",
-     "price": 31280,
-     "ts": "2026-09-16T20:50:31.653139+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-17",
-     "price": 30780,
-     "ts": "2026-09-16T22:02:31.188458+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-18",
      "price": 31280,
@@ -5157,18 +5133,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-16T20:50:31.653139+00:00",
+   "firstObservedAt": "2026-09-17T22:48:15.793476+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 10370,
     "minDate": "2026-10-07",
     "max": 59780,
     "maxDate": "2026-11-07",
-    "avg": 32016,
+    "avg": 32039,
     "latest": 30330,
     "latestDate": "2026-11-15",
-    "observations": 87,
-    "days": 35
+    "observations": 85,
+    "days": 34
    }
   },
   "hatsikseu-deoking-jero-24gae-355ml": {
@@ -5313,7 +5289,7 @@
     "crosscheck": {
      "source60Min": 12900,
      "source60Max": 18400,
-     "sourceRecords": 37,
+     "sourceRecords": 36,
      "sourceCurrent": 14100,
      "sourceWarnsVolatile": false
     }
@@ -5327,12 +5303,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-17",
-     "price": 14310,
-     "ts": "2026-09-17T02:04:34.948321+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-21",
      "price": 14310,
@@ -5556,18 +5526,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-17T02:04:34.948321+00:00",
+   "firstObservedAt": "2026-09-21T00:06:28.207639+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 12900,
     "minDate": "2026-10-27",
     "max": 18400,
     "maxDate": "2026-10-18",
-    "avg": 14323,
+    "avg": 14324,
     "latest": 14100,
     "latestDate": "2026-11-15",
-    "observations": 38,
-    "days": 24
+    "observations": 37,
+    "days": 23
    }
   },
   "haneulbori-eko-murabel-1-5l-12gae": {
@@ -5588,7 +5558,7 @@
     "crosscheck": {
      "source60Min": 11440,
      "source60Max": 36800,
-     "sourceRecords": 62,
+     "sourceRecords": 60,
      "sourceCurrent": 18400,
      "sourceWarnsVolatile": true
     }
@@ -5602,18 +5572,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-15",
-     "price": 29800,
-     "ts": "2026-09-15T14:51:29.604237+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-17",
-     "price": 18400,
-     "ts": "2026-09-16T23:48:27.030233+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-20",
      "price": 15700,
@@ -5981,50 +5939,19 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-15T14:51:29.604237+00:00",
+   "firstObservedAt": "2026-09-19T19:43:05.203379+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 11440,
     "minDate": "2026-11-05",
     "max": 36800,
     "maxDate": "2026-10-16",
-    "avg": 16339,
+    "avg": 16085,
     "latest": 15550,
     "latestDate": "2026-11-15",
-    "observations": 63,
-    "days": 27
+    "observations": 61,
+    "days": 25
    }
-  },
-  "dahada-hobakpatcha-1-5g-40gaeip-1gae": {
-   "id": "dahada-hobakpatcha-1-5g-40gaeip-1gae",
-   "name": "다하다 호박팥차, 1.5g, 40개입, 1개",
-   "platform": "coupang",
-   "cardPrice": 5900,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
-   "cardListPrice": 6750,
-   "source": "mart",
-   "status": "tracking-started",
-   "statusDetail": "fetch-error",
-   "series": [
-    {
-     "date": "2026-11-15",
-     "price": 5900,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
-    }
-   ],
-   "stats": {
-    "min": 5900,
-    "minDate": "2026-11-15",
-    "max": 5900,
-    "maxDate": "2026-11-15",
-    "avg": 5900,
-    "latest": 5900,
-    "latestDate": "2026-11-15",
-    "observations": 1,
-    "days": 1
-   },
-   "sourceUrl": "https://www.couprice.co.kr/products/x-7543886673"
   },
   "maeilduyu-godanbaek-geomeunkong-190ml-24gae": {
    "id": "maeilduyu-godanbaek-geomeunkong-190ml-24gae",
@@ -6339,7 +6266,7 @@
    "name": "더단백 드링크 초코, 250ml, 18개",
    "platform": "coupang",
    "cardPrice": 23930,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPriceCheckedAt": "2026-11-17 07:30",
    "cardListPrice": 34800,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7411095382",
    "couprice": {
@@ -6352,7 +6279,7 @@
     "crosscheck": {
      "source60Min": 23070,
      "source60Max": 47200,
-     "sourceRecords": 52,
+     "sourceRecords": 51,
      "sourceCurrent": 23930,
      "sourceWarnsVolatile": true
     }
@@ -6366,24 +6293,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-17",
-     "price": 24240,
-     "ts": "2026-09-16T16:03:08.651179+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-17",
-     "price": 24220,
-     "ts": "2026-09-17T12:03:53.901903+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-17",
-     "price": 24250,
-     "ts": "2026-09-17T14:03:05.384496+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-18",
      "price": 30900,
@@ -6679,23 +6588,35 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
+     "date": "2026-11-16",
+     "price": 24110,
+     "ts": "2026-11-16T12:02:55.391365+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-16",
      "price": 23930,
-     "ts": "2026-11-15T19:25:00+09:00",
+     "ts": "2026-11-16T14:10:51.525349+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 23930,
+     "ts": "2026-11-17T07:30:00+09:00",
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-16T16:03:08.651179+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "firstObservedAt": "2026-09-18T06:03:47.15286+00:00",
+   "lastObservedAt": "2026-11-16T14:10:51.525349+00:00",
    "stats": {
     "min": 23070,
     "minDate": "2026-11-06",
     "max": 47200,
     "maxDate": "2026-11-11",
-    "avg": 25574,
+    "avg": 25591,
     "latest": 23930,
-    "latestDate": "2026-11-15",
-    "observations": 53,
+    "latestDate": "2026-11-17",
+    "observations": 52,
     "days": 28
    }
   },
@@ -6717,7 +6638,7 @@
     "crosscheck": {
      "source60Min": 35120,
      "source60Max": 114920,
-     "sourceRecords": 83,
+     "sourceRecords": 84,
      "sourceCurrent": 41320,
      "sourceWarnsVolatile": true
     }
@@ -6731,12 +6652,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-16",
-     "price": 41320,
-     "ts": "2026-09-16T08:49:05.717818+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-19",
      "price": 63240,
@@ -7230,22 +7145,28 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
+     "date": "2026-11-16",
+     "price": 40410,
+     "ts": "2026-11-16T10:02:43.691819+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-17",
      "price": 41320,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
+     "ts": "2026-11-16T20:02:32.06547+00:00",
+     "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-16T08:49:05.717818+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "firstObservedAt": "2026-09-19T04:46:01.93879+00:00",
+   "lastObservedAt": "2026-11-16T20:02:32.06547+00:00",
    "stats": {
     "min": 35120,
     "minDate": "2026-09-21",
     "max": 114920,
     "maxDate": "2026-10-10",
-    "avg": 41690,
+    "avg": 41679,
     "latest": 41320,
-    "latestDate": "2026-11-15",
+    "latestDate": "2026-11-17",
     "observations": 84,
     "days": 28
    }
@@ -7411,7 +7332,7 @@
     "crosscheck": {
      "source60Min": 16450,
      "source60Max": 32720,
-     "sourceRecords": 14,
+     "sourceRecords": 13,
      "sourceCurrent": 29420,
      "sourceWarnsVolatile": true
     }
@@ -7425,12 +7346,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-15",
-     "price": 32240,
-     "ts": "2026-09-15T14:47:45.462424+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-18",
      "price": 32690,
@@ -7516,18 +7431,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-15T14:47:45.462424+00:00",
+   "firstObservedAt": "2026-09-18T10:48:35.87126+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 16450,
     "minDate": "2026-10-09",
     "max": 32720,
     "maxDate": "2026-10-13",
-    "avg": 27087,
+    "avg": 26719,
     "latest": 17490,
     "latestDate": "2026-11-15",
-    "observations": 15,
-    "days": 15
+    "observations": 14,
+    "days": 14
    }
   },
   "deodanbaek-deuringkeu-ttalgi-250ml-18gae": {
@@ -7549,7 +7464,7 @@
      "source60Min": 13890,
      "source60Max": 31900,
      "sourceRecords": 20,
-     "sourceCurrent": 13890,
+     "sourceCurrent": 23290,
      "sourceWarnsVolatile": true
     }
    },
@@ -7562,12 +7477,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-15",
-     "price": 23210,
-     "ts": "2026-09-15T05:47:49.27205+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-18",
      "price": 23200,
@@ -7683,24 +7592,24 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
+     "date": "2026-11-16",
      "price": 23290,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
+     "ts": "2026-11-16T07:10:33.422914+00:00",
+     "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-15T05:47:49.27205+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "firstObservedAt": "2026-09-18T01:58:33.730802+00:00",
+   "lastObservedAt": "2026-11-16T07:10:33.422914+00:00",
    "stats": {
     "min": 13890,
     "minDate": "2026-11-13",
     "max": 31900,
     "maxDate": "2026-10-14",
-    "avg": 22787,
+    "avg": 22766,
     "latest": 23290,
-    "latestDate": "2026-11-15",
-    "observations": 21,
-    "days": 21
+    "latestDate": "2026-11-16",
+    "observations": 20,
+    "days": 20
    }
   },
   "deodanbaek-deuringkeu-keopi-a-250ml-18gae": {
@@ -7721,8 +7630,8 @@
     "crosscheck": {
      "source60Min": 21560,
      "source60Max": 46160,
-     "sourceRecords": 70,
-     "sourceCurrent": 23730,
+     "sourceRecords": 71,
+     "sourceCurrent": 23980,
      "sourceWarnsVolatile": false
     }
    },
@@ -8154,19 +8063,25 @@
      "price": 23730,
      "ts": "2026-11-15T22:02:36.592853+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-16",
+     "price": 23980,
+     "ts": "2026-11-16T04:03:06.610383+00:00",
+     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-10-15T10:03:15.041685+00:00",
-   "lastObservedAt": "2026-11-15T22:02:36.592853+00:00",
+   "lastObservedAt": "2026-11-16T04:03:06.610383+00:00",
    "stats": {
     "min": 21560,
     "minDate": "2026-10-23",
     "max": 46160,
     "maxDate": "2026-11-05",
-    "avg": 23828,
-    "latest": 23730,
+    "avg": 23830,
+    "latest": 23980,
     "latestDate": "2026-11-16",
-    "observations": 70,
+    "observations": 71,
     "days": 25
    }
   },
@@ -9257,7 +9172,7 @@
     },
     "sameItem": true,
     "crosscheck": {
-     "source60Min": 28770,
+     "source60Min": 25400,
      "source60Max": 66400,
      "sourceRecords": 75,
      "sourceCurrent": 30500,
@@ -9273,30 +9188,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-16",
-     "price": 34900,
-     "ts": "2026-09-15T22:02:44.007651+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-16",
-     "price": 34560,
-     "ts": "2026-09-16T12:03:58.978417+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-17",
-     "price": 33640,
-     "ts": "2026-09-16T18:02:40.062313+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-17",
-     "price": 30830,
-     "ts": "2026-09-17T02:04:32.438628+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-18",
      "price": 63400,
@@ -9724,24 +9615,42 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
+     "date": "2026-11-16",
+     "price": 25400,
+     "ts": "2026-11-16T04:03:06.666023+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-16",
      "price": 30500,
-     "ts": "2026-11-15T19:51:00+09:00",
-     "src": "mart"
+     "ts": "2026-11-16T06:04:44.388882+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-16",
+     "price": 61000,
+     "ts": "2026-11-16T09:02:41.305212+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-16",
+     "price": 30500,
+     "ts": "2026-11-16T10:02:43.287089+00:00",
+     "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-15T22:02:44.007651+00:00",
-   "lastObservedAt": "2026-11-15T19:51:00+09:00",
+   "firstObservedAt": "2026-09-18T02:03:42.909143+00:00",
+   "lastObservedAt": "2026-11-16T10:02:43.287089+00:00",
    "stats": {
-    "min": 28770,
-    "minDate": "2026-10-25",
+    "min": 25400,
+    "minDate": "2026-11-16",
     "max": 66400,
     "maxDate": "2026-10-05",
-    "avg": 43038,
+    "avg": 43385,
     "latest": 30500,
-    "latestDate": "2026-11-15",
-    "observations": 76,
-    "days": 35
+    "latestDate": "2026-11-16",
+    "observations": 75,
+    "days": 33
    }
   },
   "dakteoyu-peuro-danbaekjil-40g-deuringkeu-choko-350ml-6gae": {
@@ -10486,7 +10395,7 @@
     "crosscheck": {
      "source60Min": 7900,
      "source60Max": 32180,
-     "sourceRecords": 10,
+     "sourceRecords": 9,
      "sourceCurrent": 3810,
      "sourceWarnsVolatile": true
     }
@@ -10537,7 +10446,7 @@
     "crosscheck": {
      "source60Min": 5480,
      "source60Max": 25110,
-     "sourceRecords": 17,
+     "sourceRecords": 16,
      "sourceCurrent": 13900,
      "sourceWarnsVolatile": true
     }
@@ -10551,12 +10460,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-16",
-     "price": 12900,
-     "ts": "2026-09-16T11:43:23.943662+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-19",
      "price": 13900,
@@ -10660,18 +10563,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-16T11:43:23.943662+00:00",
+   "firstObservedAt": "2026-09-19T01:15:21.579633+00:00",
    "lastObservedAt": "2026-11-15T20:51:00+09:00",
    "stats": {
     "min": 5480,
     "minDate": "2026-10-03",
     "max": 25110,
     "maxDate": "2026-09-19",
-    "avg": 14058,
+    "avg": 14126,
     "latest": 13510,
     "latestDate": "2026-11-15",
-    "observations": 18,
-    "days": 14
+    "observations": 17,
+    "days": 13
    }
   },
   "keulrup-jerosoda-podo-250ml-24gae": {
@@ -10774,7 +10677,7 @@
     "crosscheck": {
      "source60Min": 12000,
      "source60Max": 49620,
-     "sourceRecords": 60,
+     "sourceRecords": 56,
      "sourceCurrent": 17120,
      "sourceWarnsVolatile": true
     }
@@ -11813,7 +11716,7 @@
    "name": "하림 자연실록 무항생제 인증 닭가슴살 (냉장), 400g, 1개",
    "platform": "coupang",
    "cardPrice": 6550,
-   "cardPriceCheckedAt": "2026-11-16 16:20",
+   "cardPriceCheckedAt": "2026-11-17 07:30",
    "cardListPrice": 6900,
    "sourceUrl": "https://www.couprice.co.kr/products/x-162464612",
    "couprice": {
@@ -11826,7 +11729,7 @@
     "crosscheck": {
      "source60Min": 5500,
      "source60Max": 12240,
-     "sourceRecords": 28,
+     "sourceRecords": 27,
      "sourceCurrent": 6900,
      "sourceWarnsVolatile": true
     }
@@ -11845,6 +11748,12 @@
      "price": 6550,
      "ts": "2026-11-16T16:20:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 6550,
+     "ts": "2026-11-17T07:30:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -11854,9 +11763,9 @@
     "maxDate": "2026-11-16",
     "avg": 6550,
     "latest": 6550,
-    "latestDate": "2026-11-16",
-    "observations": 1,
-    "days": 1
+    "latestDate": "2026-11-17",
+    "observations": 2,
+    "days": 2
    }
   },
   "meat-chicken-harim-iff-breast-2kg": {
@@ -11864,7 +11773,7 @@
    "name": "하림 IFF 닭가슴살 (냉동), 2kg, 1개",
    "platform": "coupang",
    "cardPrice": 22200,
-   "cardPriceCheckedAt": "2026-11-16 16:20",
+   "cardPriceCheckedAt": "2026-11-17 07:30",
    "cardListPrice": 22900,
    "source": "mart",
    "status": "tracking-started",
@@ -11875,6 +11784,12 @@
      "price": 22200,
      "ts": "2026-11-16T16:20:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 22200,
+     "ts": "2026-11-17T07:30:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -11884,9 +11799,9 @@
     "maxDate": "2026-11-16",
     "avg": 22200,
     "latest": 22200,
-    "latestDate": "2026-11-16",
-    "observations": 1,
-    "days": 1
+    "latestDate": "2026-11-17",
+    "observations": 2,
+    "days": 2
    }
   },
   "meat-chicken-harim-tenderloin-350g": {
@@ -12309,31 +12224,711 @@
     "days": 1
    }
   },
-  "meat-gadget-billiebin-griddle-pan-39cm": {
-   "id": "meat-gadget-billiebin-griddle-pan-39cm",
-   "name": "빌리빈 무쇠 캠핑 그리들팬 + 전용가방 세트, 39cm, 1세트",
+  "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg": {
+   "id": "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg",
+   "name": "칼로바이 퍼펙트 파워쉐이크 블렌드 단백질쉐이크 초코맛, 1.8kg, 1개",
    "platform": "coupang",
-   "cardPrice": 20740,
-   "cardPriceCheckedAt": "2026-11-16 16:52",
-   "cardListPrice": 39000,
+   "cardPrice": 41900,
+   "cardPriceCheckedAt": "2026-11-17 07:30",
+   "cardListPrice": 79200,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
      "date": "2026-11-16",
-     "price": 20740,
-     "ts": "2026-11-16T16:52:00+09:00",
+     "price": 41900,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 41900,
+     "ts": "2026-11-17T07:30:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
-    "min": 20740,
+    "min": 41900,
     "minDate": "2026-11-16",
-    "max": 20740,
+    "max": 41900,
     "maxDate": "2026-11-16",
-    "avg": 20740,
-    "latest": 20740,
+    "avg": 41900,
+    "latest": 41900,
+    "latestDate": "2026-11-17",
+    "observations": 2,
+    "days": 2
+   }
+  },
+  "kalobai-peopekteu-pawosweikeu-soi-peurotin-1-8kg": {
+   "id": "kalobai-peopekteu-pawosweikeu-soi-peurotin-1-8kg",
+   "name": "칼로바이 퍼펙트 파워쉐이크 소이 프로틴 EAA 초코맛, 1.8kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 27900,
+   "cardPriceCheckedAt": "2026-11-16 22:55",
+   "cardListPrice": 30900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 27900,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 27900,
+    "minDate": "2026-11-16",
+    "max": 27900,
+    "maxDate": "2026-11-16",
+    "avg": 27900,
+    "latest": 27900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "peulraimil-rieolchoko-630g": {
+   "id": "peulraimil-rieolchoko-630g",
+   "name": "플라이밀 리얼초코 고단백 단백질 쉐이크, 630g, 1개",
+   "platform": "coupang",
+   "cardPrice": 26800,
+   "cardPriceCheckedAt": "2026-11-16 22:55",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 26800,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 26800,
+    "minDate": "2026-11-16",
+    "max": 26800,
+    "maxDate": "2026-11-16",
+    "avg": 26800,
+    "latest": 26800,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "peulraimil-beuraun-630g": {
+   "id": "peulraimil-beuraun-630g",
+   "name": "플라이밀 브라운 17곡미숫가루 고단백 단백질 쉐이크, 630g, 1개",
+   "platform": "coupang",
+   "cardPrice": 26800,
+   "cardPriceCheckedAt": "2026-11-16 22:55",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 26800,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 26800,
+    "minDate": "2026-11-16",
+    "max": 26800,
+    "maxDate": "2026-11-16",
+    "avg": 26800,
+    "latest": 26800,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "mirit-danbaekjil-sweikeu-piseutacio-560g": {
+   "id": "mirit-danbaekjil-sweikeu-piseutacio-560g",
+   "name": "밀잇 단백질 쉐이크 피스타치오맛, 560g, 1개",
+   "platform": "coupang",
+   "cardPrice": 29900,
+   "cardPriceCheckedAt": "2026-11-16 22:55",
+   "cardListPrice": 50000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 29900,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 29900,
+    "minDate": "2026-11-16",
+    "max": 29900,
+    "maxDate": "2026-11-16",
+    "avg": 29900,
+    "latest": 29900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "kalobai-peopekteu-pawosweikeu-choko-250ml-24gae": {
+   "id": "kalobai-peopekteu-pawosweikeu-choko-250ml-24gae",
+   "name": "칼로바이 퍼펙트 파워쉐이크 초코맛 20g, 250ml, 24개",
+   "platform": "coupang",
+   "cardPrice": 38900,
+   "cardPriceCheckedAt": "2026-11-16 22:55",
+   "cardListPrice": 40540,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 38900,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 38900,
+    "minDate": "2026-11-16",
+    "max": 38900,
+    "maxDate": "2026-11-16",
+    "avg": 38900,
+    "latest": 38900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-au-buchaesal-steak-600g": {
+   "id": "meat-beef-au-buchaesal-steak-600g",
+   "name": "호주산 부채살 스테이크용 (냉장), 600g, 1개",
+   "platform": "coupang",
+   "cardPrice": 19920,
+   "cardPriceCheckedAt": "2026-11-17 09:07",
+   "cardListPrice": 29590,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 19520,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 19920,
+     "ts": "2026-11-17T09:07:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 19520,
+    "minDate": "2026-11-16",
+    "max": 19920,
+    "maxDate": "2026-11-17",
+    "avg": 19720,
+    "latest": 19920,
+    "latestDate": "2026-11-17",
+    "observations": 2,
+    "days": 2
+   }
+  },
+  "meat-beef-gomgom-au-buchaesal-gui-600g": {
+   "id": "meat-beef-gomgom-au-buchaesal-gui-600g",
+   "name": "곰곰 호주산 부채살 구이용 (냉장), 600g, 1팩",
+   "platform": "coupang",
+   "cardPrice": 22510,
+   "cardPriceCheckedAt": "2026-11-17 09:08",
+   "cardListPrice": 23990,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 21590,
+     "ts": "2026-11-16T22:55:00+09:00",
+     "src": "mart"
+    },
+    {
+     "date": "2026-11-17",
+     "price": 22510,
+     "ts": "2026-11-17T09:08:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 21590,
+    "minDate": "2026-11-16",
+    "max": 22510,
+    "maxDate": "2026-11-17",
+    "avg": 22050,
+    "latest": 22510,
+    "latestDate": "2026-11-17",
+    "observations": 2,
+    "days": 2
+   }
+  },
+  "meat-gadget-kubix-glass-airfryer-5-5l": {
+   "id": "meat-gadget-kubix-glass-airfryer-5-5l",
+   "name": "쿠비녹스 글라스 에어프라이어 5.5L 대용량 유리 바스켓, CX-252AF, 화이트",
+   "platform": "coupang",
+   "cardPrice": 69000,
+   "cardPriceCheckedAt": "2026-11-16 23:55",
+   "cardListPrice": 129000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "fetch-error",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 69000,
+     "ts": "2026-11-16T23:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 69000,
+    "minDate": "2026-11-16",
+    "max": 69000,
+    "maxDate": "2026-11-16",
+    "avg": 69000,
+    "latest": 69000,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   },
+   "sourceUrl": "https://www.couprice.co.kr/products/x-8721863237"
+  },
+  "meat-gadget-kruger-glass-airfryer-3-5l": {
+   "id": "meat-gadget-kruger-glass-airfryer-3-5l",
+   "name": "크루거 글라스 에어프라이어 3.5L, 아이보리, 유리 바스켓",
+   "platform": "coupang",
+   "cardPrice": 69000,
+   "cardPriceCheckedAt": "2026-11-16 23:55",
+   "cardListPrice": 149000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "fetch-error",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 69000,
+     "ts": "2026-11-16T23:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 69000,
+    "minDate": "2026-11-16",
+    "max": 69000,
+    "maxDate": "2026-11-16",
+    "avg": 69000,
+    "latest": 69000,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   },
+   "sourceUrl": "https://www.couprice.co.kr/products/x-7844879767"
+  },
+  "meat-beef-us-prime-chuckeye-steak-1kg": {
+   "id": "meat-beef-us-prime-chuckeye-steak-1kg",
+   "name": "미국산 프라임 척아이롤 구이용 (냉장), 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 31480,
+   "cardPriceCheckedAt": "2026-11-16 23:20",
+   "cardListPrice": 49900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 31480,
+     "ts": "2026-11-16T23:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 31480,
+    "minDate": "2026-11-16",
+    "max": 31480,
+    "maxDate": "2026-11-16",
+    "avg": 31480,
+    "latest": 31480,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-muscleggo-udunsal-steak-10x150g": {
+   "id": "meat-beef-muscleggo-udunsal-steak-10x150g",
+   "name": "근육꼬기 우둔살 스테이크 칼집 (냉동), 10개, 150g",
+   "platform": "coupang",
+   "cardPrice": 45900,
+   "cardPriceCheckedAt": "2026-11-16 23:35",
+   "cardListPrice": 49900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 45900,
+     "ts": "2026-11-16T23:35:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 45900,
+    "minDate": "2026-11-16",
+    "max": 45900,
+    "maxDate": "2026-11-16",
+    "avg": 45900,
+    "latest": 45900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-beef-gomgom-au-chimasal-gui-600g": {
+   "id": "meat-beef-gomgom-au-chimasal-gui-600g",
+   "name": "곰곰 호주산 치마살 구이용 (냉장), 600g, 1개",
+   "platform": "coupang",
+   "cardPrice": 29960,
+   "cardPriceCheckedAt": "2026-11-16 23:35",
+   "cardListPrice": 39900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 29960,
+     "ts": "2026-11-16T23:35:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 29960,
+    "minDate": "2026-11-16",
+    "max": 29960,
+    "maxDate": "2026-11-16",
+    "avg": 29960,
+    "latest": 29960,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-dongwon-hangjeongsal-800g": {
+   "id": "meat-pork-dongwon-hangjeongsal-800g",
+   "name": "동원 항정살 구이용 (냉동), 800g, 1개",
+   "platform": "coupang",
+   "cardPrice": 19900,
+   "cardPriceCheckedAt": "2026-11-16 23:15",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 19900,
+     "ts": "2026-11-16T23:15:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 19900,
+    "minDate": "2026-11-16",
+    "max": 19900,
+    "maxDate": "2026-11-16",
+    "avg": 19900,
+    "latest": 19900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-tongsamgyeop-camping-2kg": {
+   "id": "meat-pork-tongsamgyeop-camping-2kg",
+   "name": "통삼겹살 캠핑용 바베큐 구이용 보쌈용 2kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 27900,
+   "cardPriceCheckedAt": "2026-11-16 23:40",
+   "cardListPrice": 31500,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 27900,
+     "ts": "2026-11-16T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 27900,
+    "minDate": "2026-11-16",
+    "max": 27900,
+    "maxDate": "2026-11-16",
+    "avg": 27900,
+    "latest": 27900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-mokuchon-profork-apdari-500g": {
+   "id": "meat-pork-mokuchon-profork-apdari-500g",
+   "name": "목우촌 프로포크 한돈 앞다리살 구이용 (냉장), 500g, 1개",
+   "platform": "coupang",
+   "cardPrice": 9290,
+   "cardPriceCheckedAt": "2026-11-16 23:30",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 9290,
+     "ts": "2026-11-16T23:30:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 9290,
+    "minDate": "2026-11-16",
+    "max": 9290,
+    "maxDate": "2026-11-16",
+    "avg": 9290,
+    "latest": 9290,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-deungsim-slice-diet-10x200g": {
+   "id": "meat-pork-deungsim-slice-diet-10x200g",
+   "name": "돼지등심 슬라이스 (한돈 1+등급) 식단&헬스 개별소포장 (지방제거), 10개, 200g",
+   "platform": "coupang",
+   "cardPrice": 31630,
+   "cardPriceCheckedAt": "2026-11-16 23:28",
+   "cardListPrice": 59800,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 31630,
+     "ts": "2026-11-16T23:28:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 31630,
+    "minDate": "2026-11-16",
+    "max": 31630,
+    "maxDate": "2026-11-16",
+    "avg": 31630,
+    "latest": 31630,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-pork-ansim-gui-diet-10x200g": {
+   "id": "meat-pork-ansim-gui-diet-10x200g",
+   "name": "국내산 1등급 돼지 안심 구이용 (초신선 냉장), 10개, 200g",
+   "platform": "coupang",
+   "cardPrice": 38800,
+   "cardPriceCheckedAt": "2026-11-16 23:28",
+   "cardListPrice": 59800,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 38800,
+     "ts": "2026-11-16T23:28:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 38800,
+    "minDate": "2026-11-16",
+    "max": 38800,
+    "maxDate": "2026-11-16",
+    "avg": 38800,
+    "latest": 38800,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-k1-sai-jeongyuk-1kg": {
+   "id": "meat-chicken-k1-sai-jeongyuk-1kg",
+   "name": "케이원푸드 국내산 냉장 순살 사이 정육 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 10550,
+   "cardPriceCheckedAt": "2026-11-16 23:45",
+   "cardListPrice": 12900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 10550,
+     "ts": "2026-11-16T23:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 10550,
+    "minDate": "2026-11-16",
+    "max": 10550,
+    "maxDate": "2026-11-16",
+    "avg": 10550,
+    "latest": 10550,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-k1-bukchae-drumstick-1kg": {
+   "id": "meat-chicken-k1-bukchae-drumstick-1kg",
+   "name": "[케이원푸드] 국내산 냉장 닭북채 닭다리 1Kg, 1세트",
+   "platform": "coupang",
+   "cardPrice": 9020,
+   "cardPriceCheckedAt": "2026-11-16 23:45",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 9020,
+     "ts": "2026-11-16T23:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 9020,
+    "minDate": "2026-11-16",
+    "max": 9020,
+    "maxDate": "2026-11-16",
+    "avg": 9020,
+    "latest": 9020,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-maniker-wing-bong-1kg": {
+   "id": "meat-chicken-maniker-wing-bong-1kg",
+   "name": "마니커 무항생제 인증 닭터의자연 닭윙 닭봉 (냉장), 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 16900,
+   "cardPriceCheckedAt": "2026-11-16 23:45",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 16900,
+     "ts": "2026-11-16T23:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 16900,
+    "minDate": "2026-11-16",
+    "max": 16900,
+    "maxDate": "2026-11-16",
+    "avg": 16900,
+    "latest": 16900,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-deohadak-steak-original-30x90g": {
+   "id": "meat-chicken-deohadak-steak-original-30x90g",
+   "name": "더하닭 닭가슴살 스테이크 오리지널, 30개, 90g",
+   "platform": "coupang",
+   "cardPrice": 33570,
+   "cardPriceCheckedAt": "2026-11-16 23:25",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 33570,
+     "ts": "2026-11-16T23:25:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 33570,
+    "minDate": "2026-11-16",
+    "max": 33570,
+    "maxDate": "2026-11-16",
+    "avg": 33570,
+    "latest": 33570,
+    "latestDate": "2026-11-16",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-hangang-iqf-cube-1kg": {
+   "id": "meat-chicken-hangang-iqf-cube-1kg",
+   "name": "한강식품 IQF 큐브 닭가슴살 (냉동), 1개, 1kg",
+   "platform": "coupang",
+   "cardPrice": 10590,
+   "cardPriceCheckedAt": "2026-11-16 23:25",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-16",
+     "price": 10590,
+     "ts": "2026-11-16T23:25:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 10590,
+    "minDate": "2026-11-16",
+    "max": 10590,
+    "maxDate": "2026-11-16",
+    "avg": 10590,
+    "latest": 10590,
     "latestDate": "2026-11-16",
     "observations": 1,
     "days": 1
