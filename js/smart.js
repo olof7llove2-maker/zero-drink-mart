@@ -76,9 +76,19 @@ function signalOf(p) {
     return { level: "none", score: 50, why: "가격을 아직 확인하지 못했어요." };
   }
   const st = typeof lowStats === "function" ? lowStats(p) : null;
+  const info = (st && st.info) || null;
   if (st && (st.state === "low" || st.state === "near" || st.state === "above")) {
+    /* 옵션·묶음이 바뀌며 최저가가 크게 흔들린 기록은 최저가 대신 평균가와 비교합니다 */
+    if (info && info.volatile && numOrNull(info.avg) != null) {
+      const avg = info.avg;
+      const rel = (p.price / avg - 1) * 100;
+      const score = clampNum(70 - rel * 1.6, 6, 95);
+      const level = rel <= -8 ? "good" : rel <= 6 ? "mid" : "wait";
+      const why = `관측 평균가 ${won(Math.round(avg))}보다 ${Math.abs(Math.round(rel))}% ${rel <= 0 ? "낮아요" : "높아요"}.`;
+      return { level, score, why };
+    }
     const pct = st.pct;
-    const min = st.info && st.info.min != null ? st.info.min : null;
+    const min = info && info.min != null ? info.min : null;
     let score = 84 - pct * 3;
     if (numOrNull(p.discountPct) != null) score += Math.min(8, Math.max(0, p.discountPct - 20) * 0.25);
     score = clampNum(score, 4, 97);
@@ -91,7 +101,8 @@ function signalOf(p) {
   }
 
   const disc = numOrNull(p.discountPct);
-  const l30 = numOrNull(p.lowest30d);
+  /* 묶음 수량(#) 상품은 30일 최저가가 다른 구성의 값이라 쓰지 않습니다 */
+  const l30 = p.id && String(p.id).includes("#") ? null : numOrNull(p.lowest30d);
   if (disc == null && l30 == null) {
     return { level: "none", score: 50, why: "60일 가격 기록과 정가 할인 정보가 아직 없어요." };
   }
@@ -158,7 +169,7 @@ function tipOf(p) {
     else if (numOrNull(p.discountPct) != null && p.discountPct >= 40) bits.push(`-${p.discountPct}% 할인 중`);
     else if (numOrNull(p.lowest30d) != null && p.price <= p.lowest30d * 1.001) bits.push("30일 최저가");
   }
-  return bits.filter(Boolean).slice(0, 2).join(" · ");
+  return bits.filter(Boolean).join(" · ").split(" · ").slice(0, 2).join(" · ");
 }
 
 function tipLineHTML(p) {
