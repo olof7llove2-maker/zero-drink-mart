@@ -1299,9 +1299,9 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 859px) {
   .list--grid > .pc .pc-acts.is-pair { flex-wrap: wrap; gap: 4px; }
   .list--grid > .pc .pc-acts.is-pair .pc-buys.is-multi { flex: 1 1 100%; order: -1; gap: 4px; }
-  .list--grid > .pc .pc-buys.is-multi .btn-buy { flex: 1 1 0; padding: 6px 3px; border-radius: 8px; gap: 2px; }
+  .list--grid > .pc .pc-buys.is-multi .btn-buy { flex: 1 1 0; padding: 6px 2px; border-radius: 8px; gap: 2px; }
   .list--grid > .pc .pc-buys.is-multi .bp-lab { font-size: 9px; letter-spacing: -0.03em; }
-  .list--grid > .pc .pc-buys.is-multi .bp-price { font-size: 10px; letter-spacing: -0.05em; }
+  .list--grid > .pc .pc-buys.is-multi .bp-price { font-size: 10px; letter-spacing: -0.06em; }
   .list--grid > .pc .pc-acts.is-pair .btn-icon { flex: none; width: 24px; }
   .list--grid > .pc .pc-acts.is-pair .btn-ghost { flex: 1 1 auto; }
   .list--grid > .pc .pc-nvtag { font-size: 9px; padding: 0 4px; }
