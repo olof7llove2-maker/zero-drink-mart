@@ -469,7 +469,7 @@ def main():
     # 실구매가(배송비 포함) 기준으로만 붙인다. 배송비가 붙는 건 쿠팡보다 비싸져서 제외.
     NAVER_ALT = [
         ("klup-aesabi-orijineol", "keulrup-aesabisoda-orijineol-500ml-24gae"),
-        ("dodram-samgyeop", "meat-pork-dodram-handon-samgyeop-1kg"),
+        ("dodram-samgyeop", "meat-pork-dodram-handon-samgyeopsal-1kg"),
         ("pultorae-drumstick", "meat-chicken-pultorae-drumstick-2kg"),
         ("harim-iff", "meat-chicken-harim-iff-breast-2kg"),
         ("chilseong-210", "chilseongsaida-jero-210ml-30gae"),
@@ -478,7 +478,7 @@ def main():
     ]
     naver_source = {
         "keulrup-aesabisoda-orijineol-500ml-24gae": "keulrup-aesabisoda-orijineol-500ml-24gae",
-        "meat-pork-dodram-handon-samgyeop-1kg": "meat-pork-dodram-handon-samgyeop-1kg",
+        "meat-pork-dodram-handon-samgyeopsal-1kg": "meat-pork-dodram-handon-samgyeopsal-1kg",
         "meat-chicken-pultorae-drumstick-2kg": "meat-chicken-pultorae-drumstick-2kg",
         "meat-chicken-harim-iff-breast-2kg": "meat-chicken-harim-iff-breast-2kg",
         "chilseongsaida-jero-210ml-30gae": "chilseongsaida-jero-210ml-30gae",

@@ -826,6 +826,14 @@
    "nutritionBasis": "부위 기준 참고치",
    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)",
+   "altPrice": {
+    "source": "naver",
+    "price": 19900,
+    "url": "https://search.shopping.naver.com/catalog/91207381646",
+    "save": 4330,
+    "savePct": 17.9,
+    "note": "네이버 최저가(배송비 포함) 기준"
+   },
    "measure": "per100g",
    "perValue": 2423.0,
    "eachPrice": null,
