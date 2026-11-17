@@ -665,20 +665,32 @@ function pinFirst(list, id) {
 
 /* ── 🔥 오늘의 역대급 할인 (가로 스와이프) ─────────────── */
 
-/* 할인율 높은 순 Top 5 — 사진·구매링크가 있는 상품만 */
+/* 스포트라이트 제외 브랜드 — 재영 님: "링티는 빼줘" */
+function isSpotlightOut(p) {
+  return (
+    /링티/.test(String(p.brand || "")) ||
+    /링티/.test(String(p.name || "")) ||
+    String(p.id || "").startsWith("ringti-")
+  );
+}
+
+/* 할인율 높은 순 Top 5 — 사진·구매링크가 있는 상품만, 링티 제외
+   쿠팡이 켜져 있으면 뉴욕웨이를 1번 카드로 고정(토스만 켠 경우엔 할인 순 그대로) */
 function spotlightPicks(n) {
-  const pool = collapseVariants((state.data.products || []).filter(matchesSource));
-  return pool
-    .filter(
-      (p) =>
-        p.image &&
-        p.affiliateUrl &&
-        typeof p.price === "number" &&
-        typeof p.discountPct === "number" &&
-        p.discountPct > 0
-    )
-    .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
-    .slice(0, n || 5);
+  const limit = n || 5;
+  const pool = collapseVariants((state.data.products || []).filter(matchesSource)).filter(
+    (p) =>
+      !isSpotlightOut(p) &&
+      p.image &&
+      p.affiliateUrl &&
+      typeof p.price === "number" &&
+      typeof p.discountPct === "number" &&
+      p.discountPct > 0
+  );
+  pool.sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0));
+  const pinned = state.sources.coupang ? pool.find((p) => p.id === HOME_PIN_ID) : null;
+  if (pinned) return [pinned].concat(pool.filter((p) => p.id !== pinned.id)).slice(0, limit);
+  return pool.slice(0, limit);
 }
 
 function spotUnitText(p) {
