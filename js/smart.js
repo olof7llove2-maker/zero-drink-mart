@@ -78,32 +78,38 @@ function signalOf(p) {
   const st = typeof lowStats === "function" ? lowStats(p) : null;
   const info = (st && st.info) || null;
   if (st && (st.state === "low" || st.state === "near" || st.state === "above")) {
+    const g = typeof gradeForProduct === "function" ? gradeForProduct(p) : null;
+    let level = "mid";
+    let score = 50;
+    let why = "";
     /* 옵션·묶음이 바뀌며 최저가가 크게 흔들린 기록은 최저가 대신 평균가와 비교합니다 */
     if (info && info.volatile && numOrNull(info.avg) != null) {
       const avg = info.avg;
       const rel = (p.price / avg - 1) * 100;
-      const score = clampNum(70 - rel * 1.6, 6, 95);
-      const level = rel <= -8 ? "good" : rel <= 6 ? "mid" : "wait";
-      const why = `관측 평균가 ${won(Math.round(avg))}보다 ${Math.abs(Math.round(rel))}% ${rel <= 0 ? "낮아요" : "높아요"}.`;
-      return { level, score, why };
+      score = clampNum(70 - rel * 1.6, 6, 95);
+      level = rel <= -8 ? "good" : rel <= 6 ? "mid" : "wait";
+      why = `관측 평균가 ${won(Math.round(avg))}보다 ${Math.abs(Math.round(rel))}% ${rel <= 0 ? "낮아요" : "높아요"}.`;
+    } else {
+      const pct = st.pct;
+      const min = info && info.min != null ? info.min : null;
+      score = 84 - pct * 3;
+      if (numOrNull(p.discountPct) != null) score += Math.min(8, Math.max(0, p.discountPct - 20) * 0.25);
+      score = clampNum(score, 4, 97);
+      level = pct <= 3 ? "good" : pct <= 10 ? "mid" : "wait";
+      why =
+        pct <= 0
+          ? `60일 관측 최저가${min != null ? ` ${won(Math.round(min))}` : ""}와 같은 수준이에요.`
+          : `60일 최저가${min != null ? ` ${won(Math.round(min))}` : ""}보다 ${pct}% 높은 가격이에요.`;
     }
-    const pct = st.pct;
-    const min = info && info.min != null ? info.min : null;
-    let score = 84 - pct * 3;
-    if (numOrNull(p.discountPct) != null) score += Math.min(8, Math.max(0, p.discountPct - 20) * 0.25);
-    score = clampNum(score, 4, 97);
-    let level = pct <= 3 ? "good" : pct <= 10 ? "mid" : "wait";
-    /* 5단계 등급(같은 용기·브랜드 시세)이 있으면 그 판정을 존중해 엇갈리지 않게 맞춥니다 */
-    const g = typeof gradeForProduct === "function" ? gradeForProduct(p) : null;
+    /* 5단계 등급(같은 용기·브랜드 시세)과 엇갈리지 않게 맞춥니다 */
     if (g) {
       if (g.band.cls === "is-best" || g.band.cls === "is-great") level = "good";
       else if ((g.band.cls === "is-mid" || g.band.cls === "is-soso") && level === "wait") level = "mid";
+      why += ` 같은 용기 시세 대비 ${signedPct(g.pct)}(${g.band.id}).`;
+      if (level === "good") score = Math.max(score, 74);
+      else if (level === "mid") score = clampNum(score, 42, 66);
+      else score = Math.min(score, 36);
     }
-    let why =
-      pct <= 0
-        ? `60일 관측 최저가${min != null ? ` ${won(Math.round(min))}` : ""}와 같은 수준이에요.`
-        : `60일 최저가${min != null ? ` ${won(Math.round(min))}` : ""}보다 ${pct}% 높은 가격이에요.`;
-    if (g) why += ` 같은 용기 시세 대비 ${signedPct(g.pct)}(${g.band.id}).`;
     return { level, score, why };
   }
 
