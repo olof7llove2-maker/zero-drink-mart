@@ -87,6 +87,7 @@ b, strong { font-weight: 800; }
 .word { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; }
 .word strong { font-size: 16.5px; font-weight: 800; letter-spacing: -0.035em; }
 .word em { font-style: normal; font-size: 10.5px; font-weight: 650; color: var(--muted-2); }
+.word strong, .word em { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .topnav { display: none; margin-left: auto; gap: 2px; }
 .topnav a {
