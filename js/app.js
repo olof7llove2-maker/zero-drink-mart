@@ -46,7 +46,7 @@ const state = {
   sort: "popular",
   query: "",
   highlightId: null,
-  limit: { home: 24, category: 30 },
+  limit: { home: 24, category: 30, hotdeal: 30 },
 };
 
 function escapeHtml(s) {
@@ -921,12 +921,14 @@ function renderHotdeal() {
   list.sort((a, b) =>
     state.dealLow ? lowPct(a) - lowPct(b) : b.discountPct - a.discountPct
   );
-  renderCardsInto($("deal-list"), list, { limit: 30, moreKey: "hotdeal", showPart: true });
+  const dealLimit = state.limit.hotdeal || 30;
+  renderCardsInto($("deal-list"), list, { limit: dealLimit, moreKey: "hotdeal", showPart: true });
   const note = $("deal-note");
   if (note) {
+    const shownN = Math.min(dealLimit, list.length);
     note.textContent = state.dealLow
-      ? "60일 최저가에 붙은 상품만 모았어요."
-      : `할인율 높은 순 · ${list.length}개 중 상위 ${Math.min(30, list.length)}개.`;
+      ? `60일 최저가에 붙은 상품만 · ${list.length}개 중 ${shownN}개.`
+      : `할인율 높은 순 · ${list.length}개 중 ${shownN}개.`;
   }
 }
 
@@ -969,7 +971,7 @@ function resetAllFilters() {
   state.sort = "popular";
   state.sources = { coupang: true, toss: true };
   state.highlightId = null;
-  state.limit = { home: 24, category: 30 };
+  state.limit = { home: 24, category: 30, hotdeal: 30 };
   const input = $("search-input");
   if (input) input.value = "";
   paint();
@@ -1400,6 +1402,7 @@ function initControls() {
     const dealLow = e.target.closest("[data-deallow]");
     if (dealLow) {
       state.dealLow = !state.dealLow;
+      state.limit.hotdeal = 30;
       paint();
       return;
     }
@@ -1438,6 +1441,7 @@ function initControls() {
       const key = more.getAttribute("data-more");
       if (key === "home") state.limit.home += 24;
       else if (key === "category") state.limit.category += 30;
+      else if (key === "hotdeal") state.limit.hotdeal = (state.limit.hotdeal || 30) + 30;
       paint();
       return;
     }
