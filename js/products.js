@@ -1421,7 +1421,7 @@ const PRODUCTS = [
       "url": "https://search.shopping.naver.com/catalog/51929185882",
       "save": 3210,
       "savePct": 10.7,
-      "note": "네이버 최저 26,690원(무료배송, 100g당 617원)"
+      "note": "네이버 최저(롯데ON) 26,690원 — 무료배송, 100g당 570원"
     },
     "popularScore": 85.22
   },
