@@ -44,6 +44,7 @@ const state = {
   filter: "all",
   sources: { coupang: true, toss: true },
   sort: "popular",
+  goal: "all",
   query: "",
   highlightId: null,
   limit: { home: 24, category: 30, hotdeal: 30 },
@@ -226,7 +227,13 @@ function sparkSVG(p) {
 function sparkBlock(p) {
   const svg = sparkSVG(p);
   if (!svg) {
-    return `<div class="spark is-none" title="60일 가격 기록을 모으는 중이에요"><span>조사 중</span></div>`;
+    /* 기록이 없으면 배지를 띄우지 않고, 2~13일 쌓인 상품만 '기록 N일'로 작게 알려 줍니다 */
+    const info = historyOf(p);
+    const days = info && info.days ? Number(info.days) : 0;
+    if (days >= 2 && days < 14) {
+      return `<div class="spark is-none" title="가격 기록 ${days}일째 쌓는 중이에요"><span>기록 ${days}일</span></div>`;
+    }
+    return "";
   }
   const info = historyOf(p);
   return `<div class="spark">${svg}<span class="spark-cap">60일 최저 ${won(info.min)}</span></div>`;
@@ -552,10 +559,12 @@ function cardEl(p, opts = {}) {
       <h3 class="pc-name">${escapeHtml(p.name)}</h3>
       ${optionRow(p)}
       <div class="pc-price"><strong>${won(view.price)}</strong>${
-        view.platform === "naver" ? `<span class="pc-nvtag">네이버 최저</span>` : ""
+        view.platform === "naver" ? `<span class="pc-nvtag">네이버 비교가</span>` : ""
       }${was}</div>
       ${unitLine(p, view)}
       <p class="pc-sub">${escapeHtml(subLine(p))}</p>
+      ${typeof tipLineHTML === "function" ? tipLineHTML(p) : ""}
+      ${typeof signalBarHTML === "function" ? signalBarHTML(p) : ""}
       ${typeof gradeLineHTML === "function" ? gradeLineHTML(p) : ""}
       <div class="pc-deal">${dealBadges(p)}</div>
       <div class="pc-acts${multiBuy ? " is-pair" : ""}">
@@ -653,9 +662,10 @@ function sortHint() {
 /* ── 컨트롤 (한 줄 칩) ────────────────────────────────── */
 
 function ctlBarHTML(extra = "") {
+  const goalOn = state.tab === "home" && state.goal && state.goal !== "all";
   const chips = SORT_OPTIONS.map(
     (o) =>
-      `<button type="button" class="cchip${state.sort === o.id ? " is-on" : ""}" data-sort="${o.id}">${o.label}</button>`
+      `<button type="button" class="cchip${!goalOn && state.sort === o.id ? " is-on" : ""}" data-sort="${o.id}">${o.label}</button>`
   ).join("");
   const srcs =
     `<button type="button" class="cchip is-src${state.sources.coupang ? " is-on" : ""}" data-src="coupang">쿠팡</button>` +
@@ -783,8 +793,15 @@ function renderSpotlight() {
 
 function renderHome() {
   renderSpotlight();
-  let list = sortList(basePool(), state.sort);
-  if (state.sort === "popular") list = pinFirst(list, HOME_PIN_ID);
+  const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
+  let list;
+  if (goalOn) {
+    /* 목적을 고르면 그 목적에 맞는 것만, 목적 기준 순서로 */
+    list = goalList(state.goal);
+  } else {
+    list = sortList(basePool(), state.sort);
+    if (state.sort === "popular") list = pinFirst(list, HOME_PIN_ID);
+  }
   renderCardsInto($("home-list"), list, {
     limit: state.limit.home,
     moreKey: "home",
@@ -792,9 +809,13 @@ function renderHome() {
     twoCol: true,
   });
   const first = $("home-list") && $("home-list").querySelector(".pc");
-  if (first && first.dataset.id === HOME_PIN_ID) first.classList.add("is-first");
+  if (first && !goalOn && first.dataset.id === HOME_PIN_ID) first.classList.add("is-first");
   const count = $("home-count");
-  if (count) count.textContent = `${collapseVariants(list).length}개`;
+  if (count) {
+    count.textContent = goalOn
+      ? `${goalLabelOf(state.goal)} ${collapseVariants(list).length}개`
+      : `${collapseVariants(list).length}개`;
+  }
 }
 
 /* ── 카테고리 ────────────────────────────────────────── */
@@ -933,6 +954,7 @@ function renderHotdeal() {
   const wall = pool
     .filter((p) => p.price != null)
     .map((p) => ({ p, has: dailySeries(p).length > 1 }))
+    .filter((x) => x.has)
     .sort((a, b) => (b.has - a.has) || (b.p.popularScore || 0) - (a.p.popularScore || 0))
     .slice(0, 12)
     .map((x) => x.p);
@@ -950,7 +972,7 @@ function renderHotdeal() {
             : "";
         return `<button type="button" class="wall-card" data-chart="${escapeHtml(p.id)}">
           <span class="wall-head"><b>${escapeHtml(p.name)}</b>${tag}</span>
-          <span class="wall-body">${svg || `<span class="wall-none">조사 중</span>`}</span>
+          <span class="wall-body">${svg || `<span class="wall-none">그래프 준비 중</span>`}</span>
           <span class="wall-foot">${won(p.price)}<em>${escapeHtml(measureLabel(p))} ${won(
           Math.round(measureValue(p) || 0)
         )}</em></span>
@@ -1020,6 +1042,7 @@ function resetAllFilters() {
   state.part = "all";
   state.filter = "all";
   state.sort = "popular";
+  state.goal = "all";
   state.sources = { coupang: true, toss: true };
   state.highlightId = null;
   state.limit = { home: 24, category: 30, hotdeal: 30 };
@@ -1092,6 +1115,7 @@ function jumpToProduct(id) {
   }
   state.part = "all";
   state.filter = "all";
+  state.goal = "all";
   state.sources = { coupang: true, toss: true };
   state.highlightId = p.variantGroup ? (state.vgroups[p.variantGroup].find((x) => DEFAULTS.has(x.id)) || p).id : id;
   if (state.tab !== "home") setTab("home", false);
@@ -1382,6 +1406,7 @@ function syncUrl() {
   put("part", state.part);
   put("f", state.filter);
   put("sort", state.sort === "popular" ? "" : state.sort);
+  put("goal", state.goal);
   const srcOn =
     state.sources.coupang && state.sources.toss
       ? ""
@@ -1414,6 +1439,8 @@ function applyUrlState() {
     const mapped = LEGACY_SORT[sort] || sort;
     if (SORT_IDS.has(mapped)) state.sort = mapped;
   }
+  const goalParam = q.get("goal");
+  if (goalParam && typeof GOAL_DEFS !== "undefined" && GOAL_DEFS.some((g) => g.id === goalParam)) state.goal = goalParam;
   const pid = q.get("p");
   if (pid && (state.data.products || []).some((p) => p.id === pid)) state.highlightId = pid;
   const query = q.get("q");
@@ -1434,6 +1461,7 @@ function initControls() {
     const sortBtn = e.target.closest("[data-sort]");
     if (sortBtn) {
       state.sort = sortBtn.getAttribute("data-sort");
+      state.goal = "all";
       state.limit.home = 24;
       state.limit.category = 30;
       paint();
@@ -1555,7 +1583,10 @@ function paint() {
   syncUrl();
   renderSearchStatus();
   renderControls();
-  if (state.tab === "home") renderHome();
+  if (state.tab === "home") {
+    if (typeof renderGoalBar === "function") renderGoalBar();
+    renderHome();
+  }
   else if (state.tab === "category") {
     renderTiles();
     renderCategoryList();
@@ -1629,6 +1660,7 @@ async function init() {
   initShare();
   initSearch();
   initControls();
+  if (typeof initSmart === "function") initSmart();
   window.addEventListener("resize", setLegalOffset);
 
   state.data = await loadCatalog();

@@ -69,7 +69,7 @@ function alertIconHTML(p) {
 function alertInlineHTML(p) {
   const on = alertOn(p.id);
   return `<button type="button" class="alert-inline${on ? " is-on" : ""}" data-alert="${escapeHtml(p.id)}">
-    🔔 ${on ? "최저가 알림 켜짐 · 목표가 바꾸기" : "이 상품 최저가 알림 받기"}
+    🔔 ${on ? "알림 켜짐 · 목표가 바꾸기" : "가격 내리면 알림 받기"}
   </button>`;
 }
 
@@ -81,7 +81,7 @@ function refreshAlertButtons() {
     if (btn.classList.contains("btn-icon")) {
       btn.title = on ? "알림 켜짐 · 눌러서 바꾸기" : "최저가 알림 켜기";
     } else {
-      btn.textContent = `🔔 ${on ? "최저가 알림 켜짐 · 목표가 바꾸기" : "이 상품 최저가 알림 받기"}`;
+      btn.textContent = `🔔 ${on ? "알림 켜짐 · 목표가 바꾸기" : "가격 내리면 알림 받기"}`;
     }
   });
 }
@@ -180,7 +180,7 @@ function closeAlert() {
   const modal = $("alert-modal");
   if (!modal || modal.hidden) return;
   modal.hidden = true;
-  if (!document.querySelector(".pm-modal:not([hidden]), .install-modal:not([hidden])")) {
+  if (!document.querySelector(".pm-modal:not([hidden]), .install-modal:not([hidden]), .rec-modal:not([hidden]), .hub-modal:not([hidden])")) {
     document.body.classList.remove("modal-open");
   }
 }
