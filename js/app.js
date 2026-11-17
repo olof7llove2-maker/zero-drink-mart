@@ -30,6 +30,9 @@ const SORT_OPTIONS = [
 ];
 const SORT_IDS = new Set(SORT_OPTIONS.map((s) => s.id));
 
+/* 홈 1등 고정 상품 — 재영 님: "뉴욕웨이 프로틴을 제일 위에 두자" */
+const HOME_PIN_ID = "shake-newyorkwhey-light-2kg";
+
 const state = {
   data: null,
   priceHistory: null,
@@ -515,7 +518,7 @@ function renderCardsInto(target, list, opts = {}) {
   const limit = opts.limit || 0;
   const shown = limit ? items.slice(0, limit) : items;
   const grid = document.createElement("div");
-  grid.className = "list";
+  grid.className = opts.twoCol ? "list list--grid" : "list";
   const push = (arr, groupOpts) => arr.forEach((p) => grid.appendChild(cardEl(p, { ...opts, ...groupOpts })));
 
   if (opts.grouped) {
@@ -576,13 +579,99 @@ function renderControls() {
 
 /* ── 홈 ──────────────────────────────────────────────── */
 
+/* 한 상품을 목록 맨 앞으로 (홈 1등 고정) */
+function pinFirst(list, id) {
+  const i = list.findIndex((p) => p.id === id);
+  if (i <= 0) return list;
+  const out = list.slice();
+  out.unshift(out.splice(i, 1)[0]);
+  return out;
+}
+
+/* 오늘의 역대급 핫딜 — 뉴욕웨이 프로틴이 1순위, 그다음은 할인율 최상위 */
+function spotlightPicks() {
+  const pool = (state.data.products || [])
+    .filter(matchesSource)
+    .filter((p) => p.image && p.affiliateUrl && typeof p.price === "number");
+  const picks = [];
+  const hero = pool.find((p) => p.id === HOME_PIN_ID);
+  if (hero) picks.push(hero);
+  pool
+    .filter((p) => p.id !== HOME_PIN_ID && typeof p.discountPct === "number" && p.discountPct >= 30)
+    .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
+    .slice(0, 2 - picks.length)
+    .forEach((p) => picks.push(p));
+  return picks;
+}
+
+function spotUnitLine(p) {
+  const v = measureValue(p);
+  if (v == null) return "";
+  const kind = measureLabel(p).replace("당", "");
+  const each = p.eachPrice ? ` · 1${p.eachLabel || "개"}당 ${won(p.eachPrice)}` : "";
+  return `${won(Math.round(v))}/${kind}${each}`;
+}
+
+function renderSpot() {
+  const box = $("home-spot");
+  if (!box) return;
+  const picks = spotlightPicks();
+  if (!picks.length) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
+  }
+  box.hidden = false;
+  const whenRaw = picks[0].priceCheckedAt || "";
+  const when = whenRaw ? String(whenRaw).slice(5, 16).replace("-", "/") : "";
+  const cards = picks
+    .map((p, i) => {
+      const toss = isToss(p);
+      const unit = spotUnitLine(p);
+      const was = p.listPrice && p.listPrice > p.price ? `<s>${won(p.listPrice)}</s>` : "";
+      const rate = p.rating != null ? `★ ${Number(p.rating).toFixed(1)}` : "";
+      const rv = p.reviewCount != null ? `리뷰 ${reviewLabel(p.reviewCount)}` : "";
+      const meta = [rate, rv].filter(Boolean).join(" · ");
+      return `<a class="spot-card${i === 0 ? " is-hero" : ""}" href="${escapeHtml(
+        p.affiliateUrl
+      )}" target="_blank" rel="noopener noreferrer">
+        <span class="spot-photo">
+          <img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">
+          <span class="spot-off">-${p.discountPct}%</span>
+        </span>
+        <span class="spot-body">
+          <span class="spot-rank">${i === 0 ? "🏆 오늘의 1등" : "🔥 역대급 할인"}</span>
+          <span class="spot-name">${escapeHtml(p.name)}</span>
+          <span class="spot-price"><strong>${won(p.price)}</strong>${was}</span>
+          ${unit ? `<span class="spot-unit">${escapeHtml(unit)}</span>` : ""}
+          <span class="spot-foot">
+            ${meta ? `<span class="spot-meta">${escapeHtml(meta)}</span>` : "<span></span>"}
+            <span class="spot-cta${toss ? " is-toss" : ""}">${toss ? "토스에서 사기" : "쿠팡에서 사기"} →</span>
+          </span>
+        </span>
+      </a>`;
+    })
+    .join("");
+  box.innerHTML = `
+    <div class="spot-head">
+      <h2 class="spot-kicker">🔥 오늘의 역대급 핫딜</h2>
+      <span class="spot-when">${escapeHtml(when ? when + " 기준" : "오늘 확인")}</span>
+    </div>
+    <div class="spot-rail">${cards}</div>`;
+}
+
 function renderHome() {
-  const list = sortList(basePool(), state.sort);
+  renderSpot();
+  let list = sortList(basePool(), state.sort);
+  if (state.sort === "popular") list = pinFirst(list, HOME_PIN_ID);
   renderCardsInto($("home-list"), list, {
     limit: state.limit.home,
     moreKey: "home",
     showPart: true,
+    twoCol: true,
   });
+  const first = $("home-list") && $("home-list").querySelector(".pc");
+  if (first && first.dataset.id === HOME_PIN_ID) first.classList.add("is-first");
   const count = $("home-count");
   if (count) count.textContent = `${collapseVariants(list).length}개`;
 }
@@ -629,7 +718,7 @@ function renderCategoryList() {
     )}</span>`;
   }
   renderFilters();
-  renderCardsInto(list, items, { limit: state.limit.category, moreKey: "category", grouped: state.filter === "all" });
+  renderCardsInto(list, items, { limit: state.limit.category, moreKey: "category", grouped: state.filter === "all", twoCol: true });
 }
 
 function renderFilters() {
@@ -791,7 +880,7 @@ function renderSearchView() {
   }
   const items = sortList(basePool(), state.sort);
   if ($("search-count")) $("search-count").textContent = `(${collapseVariants(items).length})`;
-  renderCardsInto(list, items, {});
+  renderCardsInto(list, items, { twoCol: true });
 }
 
 function resetSearch() {

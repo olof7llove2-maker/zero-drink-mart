@@ -61,11 +61,13 @@
         <span class="update-ico" aria-hidden="true">🔄</span>
         <p class="update-date"><strong id="update-date-big">11/17</strong><span class="update-weekday" id="update-weekday">(화)</span><span class="update-time" id="update-time">09:09</span></p>
         <span class="update-cycle-main" id="update-cycle-main">오전·오후 9시 할인·인기 베스트 상품 지속 모니터</span>
+        <span class="view-stat" id="view-stat" hidden aria-label="사이트 조회수">👀 오늘 <b id="view-today">–</b> · 누적 <b id="view-total">–</b></span>
       </div>
     </section>
 
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
+      <section class="spot" id="home-spot" aria-label="오늘의 역대급 핫딜"></section>
       <div class="quick-row">
         <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
         <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
@@ -189,11 +191,20 @@
     </div>
   </div>
 
-  <div class="bgm-yt-wrap" aria-hidden="true"><div id="bgm-yt"></div></div>
+  <!-- BGM 미니 유튜브 플레이어 (ON일 때 화면 하단에 보임) -->
+  <div class="bgm-mini" id="bgm-mini">
+    <div class="bgm-mini-frame">
+      <div id="bgm-yt"></div>
+      <button type="button" class="bgm-mini-x" id="bgm-mini-x" aria-label="배경음악 끄기" title="배경음악 끄기">✕</button>
+      <button type="button" class="bgm-mini-play" id="bgm-mini-play" aria-label="음악 재생" hidden>▶</button>
+    </div>
+    <p class="bgm-mini-cap">🎧 All That You Wanted</p>
+  </div>
   <audio id="bgm-audio" src="audio/lofi-bgm.mp3" loop preload="none" playsinline aria-hidden="true"></audio>
 
   <script src="js/price.js" defer></script>
   <script src="js/products.js" defer></script>
+  <script src="js/views.js" defer></script>
   <script src="js/grade.js" defer></script>
   <script src="js/app.js" defer></script>
   <script src="js/push.js" defer></script>

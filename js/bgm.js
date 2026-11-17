@@ -1,14 +1,21 @@
-/* 띠니마트 — 잔잔한 BGM 토글
+/* 띠니마트 — 잔잔한 BGM 토글 + 화면에 보이는 미니 유튜브 플레이어
    1순위: 공식 유튜브 임베드 — JINBO, Hersh, PoPoMo 「All That You Wanted」
-          (POCLANOS 공식 오디오, videoId 0-DwYWZC870)를 숨김 플레이어로 재생
-   2순위: 로컬 로파이 루프(audio/lofi-bgm.mp3) — 임베드 제한·오류·로딩 지연 시 자동 폴백
-   헤더의 🎧 BGM 버튼 하나로 켜고 끕니다. 브라우저 정책상 자동재생은 하지 않습니다(기본 OFF). */
+          (POCLANOS 공식 오디오, videoId 0-DwYWZC870)
+   2순위: 로컬 로파이 루프(audio/lofi-bgm.mp3) — 임베드 제한·오류·차단 시 자동 폴백
+
+   아이폰(사파리·크롬 모두 WebKit)에서는 화면 밖에 숨긴 iframe의 재생이 막히므로
+   BGM을 켜면 하단에 160×90 미니 플레이어를 실제로 띄우고, 그 안에서 재생을 겁니다.
+   그래도 막히면 미니 플레이어 위에 ▶ 버튼을 띄워 한 번 눌러 재생하게 합니다.
+   헤더의 🎧 BGM 버튼 하나로 켜고 끕니다(기본 OFF). */
 
 (function () {
   "use strict";
 
   var btn = document.getElementById("bgm-toggle");
   var audio = document.getElementById("bgm-audio");
+  var mini = document.getElementById("bgm-mini");
+  var closeBtn = document.getElementById("bgm-mini-x");
+  var tapBtn = document.getElementById("bgm-mini-play");
   if (!btn || !audio) return;
 
   var YT_VIDEO_ID = "0-DwYWZC870";
@@ -16,6 +23,7 @@
   var YT_VOLUME = 25; // 유튜브 볼륨(0~100) = 0.25
   var FADE_IN = 700;
   var FADE_OUT = 500;
+  var YT_START_TIMEOUT = 2600;
 
   var on = false;
   var vol = 0;
@@ -23,8 +31,9 @@
   var ctx = null;
   var gain = null;
   var ytTimer = 0;
+  var tapTimer = 0;
 
-  var yt = { ready: false, failed: false, playing: false, player: null, loading: false, ramp: 0 };
+  var yt = { ready: false, failed: false, playing: false, player: null, loading: false, ramp: 0, warmed: false };
   var ytCbs = [];
 
   /* ── 로컬 음원(폴백) ─────────────────────────────── */
@@ -103,7 +112,7 @@
     });
   }
 
-  /* ── 유튜브 임베드 ───────────────────────────────── */
+  /* ── 유튜브 임베드 (미니 플레이어) ─────────────────── */
 
   function loadApi(cb) {
     if (window.YT && window.YT.Player) {
@@ -140,8 +149,8 @@
       try {
         yt.player = new window.YT.Player(host, {
           videoId: YT_VIDEO_ID,
-          width: 200,
-          height: 112,
+          width: 160,
+          height: 90,
           playerVars: {
             autoplay: 0,
             controls: 0,
@@ -151,10 +160,14 @@
             playsinline: 1,
             loop: 1,
             playlist: YT_VIDEO_ID,
+            origin: window.location.origin,
           },
           events: {
             onReady: function () {
               yt.ready = true;
+              try {
+                yt.player.setVolume(YT_VOLUME);
+              } catch (err) {}
               if (on) startYT();
             },
             onStateChange: function (e) {
@@ -165,6 +178,7 @@
               yt.failed = true;
               yt.playing = false;
               setSource("local");
+              hideTapHint();
               if (on) playLocal();
             },
           },
@@ -175,10 +189,21 @@
     });
   }
 
+  /* 미니 플레이어에 ▶ 안내 버튼 */
+  function showTapHint() {
+    if (!tapBtn || !on) return;
+    tapBtn.hidden = false;
+  }
+  function hideTapHint() {
+    clearTimeout(tapTimer);
+    if (tapBtn) tapBtn.hidden = true;
+  }
+
   function startYT() {
     if (!yt.player || !yt.ready || yt.failed) return;
+    hideTapHint();
     try {
-      yt.player.setVolume(0);
+      yt.player.setVolume(YT_VOLUME);
       yt.player.playVideo();
     } catch (err) {
       yt.failed = true;
@@ -186,8 +211,12 @@
     }
     clearTimeout(ytTimer);
     ytTimer = setTimeout(function () {
-      if (!yt.playing) setSource("local");
-    }, 3000);
+      if (on && !yt.playing) {
+        setSource("local");
+        if (audio.paused) playLocal();
+        showTapHint(); // 한 번 더 눌러야 재생되는 기기(아이폰)용
+      }
+    }, YT_START_TIMEOUT);
   }
 
   function rampYT(to, ms) {
@@ -209,6 +238,7 @@
       yt.playing = true;
       yt.failed = false;
       clearTimeout(ytTimer);
+      hideTapHint();
       if (!on) {
         try {
           yt.player.pauseVideo();
@@ -244,26 +274,71 @@
     btn.classList.toggle("is-on", isOn);
     btn.setAttribute("aria-pressed", isOn ? "true" : "false");
     btn.setAttribute("aria-label", isOn ? "배경음악 끄기" : "배경음악 켜기");
+    if (mini) mini.classList.toggle("is-on", isOn);
+    if (!isOn) hideTapHint();
   }
 
-  btn.addEventListener("click", function () {
-    if (on) {
-      mark(false);
-      if (yt.player && yt.ready) {
-        try {
-          yt.player.pauseVideo();
-        } catch (err) {}
-      }
-      yt.playing = false;
-      pauseLocal();
-      return;
-    }
+  function turnOn() {
     mark(true);
     setSource("local");
     playLocal(); // 임베드가 준비되기 전에도 바로 소리가 나도록
     ensurePlayer();
     if (yt.ready) startYT();
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(function () {
+      if (on && !yt.playing) showTapHint();
+    }, YT_START_TIMEOUT + 400);
+  }
+
+  function turnOff() {
+    mark(false);
+    if (yt.player && yt.ready) {
+      try {
+        yt.player.pauseVideo();
+      } catch (err) {}
+    }
+    yt.playing = false;
+    pauseLocal();
+  }
+
+  btn.addEventListener("click", function () {
+    if (on) turnOff();
+    else turnOn();
   });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      turnOff();
+    });
+  }
+
+  if (tapBtn) {
+    tapBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      hideTapHint();
+      if (!on) return;
+      if (!yt.player) ensurePlayer();
+      startYT();
+      setTimeout(function () {
+        if (on && !yt.playing) {
+          showTapHint();
+          if (audio.paused) playLocal();
+        }
+      }, YT_START_TIMEOUT);
+    });
+  }
+
+  /* 플레이어를 미리 만들어 두면 첫 BGM 클릭에서 바로 재생을 걸 수 있다 */
+  function warm() {
+    if (yt.warmed) return;
+    yt.warmed = true;
+    ensurePlayer();
+  }
+  document.addEventListener("pointerdown", warm, { once: true, passive: true });
+  document.addEventListener("keydown", warm, { once: true });
 
   audio.addEventListener("error", function () {
     if (on && !yt.playing) applyLocal(0);
