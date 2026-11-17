@@ -32,7 +32,8 @@ const CONTAINER_NAME = { can: "캔", "pet-small": "소형 페트", "pet-large": 
 function containerClass(p) {
   if (!p) return null;
   if (p.category === "gadget") return null;
-  if (p.part === "meat") return "raw";
+  if (p.category === "egg" || p.category === "bakery") return null;
+  if (p.part === "meat" || p.part === "cheat") return "raw";
   if (p.container === "powder" || p.category === "powder") return "powder";
   if (p.container) return p.container;
   return containerFromVolume(p.volumeMl);
@@ -52,6 +53,7 @@ function containerLabel(c) {
 }
 
 function unitKindOf(p) {
+  if (p.measure) return p.measure;
   if (p.category === "gadget") return "each";
   if (p.part === "meat") return "per100g";
   if (p.category === "shake" || p.category === "powder" || p.container === "powder") return "per100g";

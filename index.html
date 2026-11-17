@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교</title>
-  <meta name="description" content="제로 음료는 100ml당, 단백질 음료·쉐이크와 식단 고기는 단백질 20g당·100g당 가격으로 비교해요. 60일 최저가 대비까지 한눈에. 가격은 바뀔 수 있어요.">
+  <title>띠니마트 | 제로음료·단백질·고기·간편식 단가 비교</title>
+  <meta name="description" content="제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교해요. 할인율과 60일 가격 그래프까지 한눈에. 가격은 바뀔 수 있어요.">
   <meta name="theme-color" content="#2FBE8C">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -17,15 +17,15 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="띠니마트">
-  <meta property="og:title" content="띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교">
-  <meta property="og:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크와 식단 고기는 단백질 20g당·100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta property="og:title" content="띠니마트 | 제로음료·단백질·고기·간편식 단가 비교">
+  <meta property="og:description" content="제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
   <meta property="og:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
   <meta property="og:image:alt" content="띠니마트 아이콘">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교">
-  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질 음료·쉐이크와 식단 고기는 단백질 20g당·100g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta name="twitter:title" content="띠니마트 | 제로음료·단백질·고기·간편식 단가 비교">
+  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
   <meta name="twitter:image" content="https://zero-drink-mart.vercel.app/images/icon-512.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -57,10 +57,6 @@
 
   <main id="main">
     <section class="hero" id="hero" aria-label="띠니마트 소개">
-      <div class="hero-in">
-        <h1>띠니마트</h1>
-        <p class="eyebrow">제로음료 · 단백질 · 식단 고기</p>
-      </div>
       <div class="update-band" id="update-band" aria-label="가격 업데이트 안내">
         <span class="update-ico" aria-hidden="true">🔄</span>
         <p class="update-date"><strong id="update-date-big">11/17</strong><span class="update-weekday" id="update-weekday">(화)</span><span class="update-time" id="update-time">09:09</span></p>
@@ -74,22 +70,9 @@
         <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
         <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
       </div>
-
-      <section class="deals" id="deals" hidden aria-label="오늘의 특가">
-        <div class="sec-head">
-          <h2 id="deals-title">오늘 특가 TOP 3</h2>
-          <button type="button" class="sec-more" data-goto="hotdeal">핫딜 전체 →</button>
-        </div>
-        <div class="deals-row" id="deals-row"></div>
-      </section>
-
       <div class="panel" data-controls="home"></div>
-
-      <div class="sec-head">
-        <h2>전체 상품 <span class="sec-count" id="home-count"></span></h2>
-        <span class="sec-sub" id="home-sub">분류별로 단가가 낮은 순</span>
-      </div>
       <div class="shelf" id="home-list"></div>
+      <h2 class="visually-hidden">전체 상품 <span id="home-count"></span></h2>
     </section>
 
     <!-- ── 검색 ───────────────────────────────────────── -->
@@ -98,26 +81,25 @@
         <div class="search-box">
           <span class="search-ico" aria-hidden="true">🔍</span>
           <input class="search-input" id="search-input" type="search" inputmode="search" autocomplete="off"
-                 placeholder="상품명·브랜드·부위 검색 (펩시, 셀렉스, 닭가슴살)" aria-label="상품 검색">
+                 placeholder="상품명·브랜드 검색 (펩시, 셀렉스, 햇반)" aria-label="상품 검색">
           <button type="button" class="search-clear" id="search-clear" aria-label="검색어 지우기" hidden>✕</button>
         </div>
       </div>
-      <p class="search-lead" id="search-lead">찾고 싶은 상품·브랜드·부위를 넣어 보세요. 바로 아래에 단가 낮은 순으로 모아 드려요.</p>
+      <p class="search-lead" id="search-lead">찾고 싶은 상품·브랜드를 넣어 보세요. 단가 낮은 순으로 모아 드려요.</p>
       <div class="search-chips" id="search-chips" aria-label="많이 찾는 검색어">
         <button type="button" class="chip-key" data-keyword="펩시">펩시</button>
         <button type="button" class="chip-key" data-keyword="코카콜라">코카콜라</button>
         <button type="button" class="chip-key" data-keyword="나랑드">나랑드</button>
         <button type="button" class="chip-key" data-keyword="더단백">더단백</button>
-        <button type="button" class="chip-key" data-keyword="클룹">클룹</button>
+        <button type="button" class="chip-key" data-keyword="신타">신타</button>
+        <button type="button" class="chip-key" data-keyword="햇반">햇반</button>
+        <button type="button" class="chip-key" data-keyword="스팸">스팸</button>
         <button type="button" class="chip-key" data-keyword="닭가슴살">닭가슴살</button>
-        <button type="button" class="chip-key" data-keyword="삼겹살">삼겹살</button>
-        <button type="button" class="chip-key" data-keyword="부채살">부채살</button>
-        <button type="button" class="chip-key" data-keyword="연어">연어</button>
-        <button type="button" class="chip-key" data-keyword="에어프라이어">에어프라이어</button>
+        <button type="button" class="chip-key" data-keyword="제육">제육</button>
+        <button type="button" class="chip-key" data-keyword="베이글">베이글</button>
       </div>
       <div class="sec-head" id="search-head" hidden>
         <h2>검색 결과 <span class="sec-count" id="search-count"></span></h2>
-        <span class="sec-sub" id="search-sub">단가 낮은 순</span>
       </div>
       <div class="panel" id="search-controls" data-controls="search" hidden></div>
       <div class="shelf" id="search-list"></div>
@@ -125,57 +107,38 @@
 
     <!-- ── 카테고리 ───────────────────────────────────── -->
     <section class="view" id="view-category" data-view="category" hidden>
-      <div class="view-head">
-        <h1>카테고리</h1>
-        <p>대분류와 종류·용기·성분으로 좁혀 보기</p>
+      <div class="cattiles" id="cattiles"></div>
+      <div id="cat-browse" hidden>
+        <button type="button" class="back-btn" data-backpart>← 카테고리 전체</button>
+        <div class="cat-head" id="cat-head"></div>
+        <nav class="filters" id="part-filters" aria-label="종류"></nav>
+        <div class="panel" data-controls="category"></div>
+        <div class="shelf" id="cat-list"></div>
       </div>
-      <nav class="parts" id="parts" aria-label="대분류"></nav>
-      <div class="filters-wrap" id="filters-wrap">
-        <div class="filter-row" id="row-part" hidden>
-          <span class="filter-lab">종류</span>
-          <nav class="filters" id="part-filters" aria-label="종류별 세부 분류"></nav>
-        </div>
-        <div class="filter-row" id="row-container">
-          <span class="filter-lab">용기</span>
-          <nav class="filters" id="filters" aria-label="용기"></nav>
-        </div>
-        <div class="filter-row" id="row-ingredient">
-          <span class="filter-lab">성분</span>
-          <nav class="filters ingredients" id="ingredients" aria-label="성분"></nav>
-        </div>
-        <p class="ing-note">성분표가 확인된 상품만 걸러요</p>
-      </div>
-      <div class="panel" data-controls="category"></div>
-      <p class="cat-note" id="cat-note" hidden></p>
-      <div class="shelf" id="cat-list"></div>
-      <section class="compare" id="compare" hidden>
-        <h2>한눈에 비교</h2>
-        <div class="compare-wrap">
-          <table class="compare-table" id="compare-table"></table>
-        </div>
-      </section>
     </section>
 
     <!-- ── 랭킹 ───────────────────────────────────────── -->
     <section class="view" id="view-ranking" data-view="ranking" hidden>
-      <div class="view-head">
-        <h1>랭킹</h1>
-        <p>부문별 최저가와 인기 순위 TOP 10</p>
-      </div>
       <nav class="seg" id="rank-parts" aria-label="부문"></nav>
-      <div class="panel" data-controls="ranking"></div>
+      <section class="rankblock">
+        <div class="sec-head"><h2>🔥 할인율 TOP 5</h2><span class="sec-sub">정가 대비</span></div>
+        <div class="ranklist" id="rank-discount"></div>
+      </section>
+      <section class="rankblock">
+        <div class="sec-head"><h2>💰 단가 최저 TOP 5</h2><span class="sec-sub">같은 단위끼리</span></div>
+        <div class="ranklist" id="rank-unit"></div>
+      </section>
       <p class="rank-note" id="rank-note"></p>
-      <div class="ranking-list" id="rank-list"></div>
     </section>
 
     <!-- ── 핫딜 ───────────────────────────────────────── -->
     <section class="view" id="view-hotdeal" data-view="hotdeal" hidden>
-      <div class="view-head">
-        <h1>핫딜</h1>
-        <p>할인 큰 상품과 60일 저점에 붙은 특가만 모았어요</p>
-      </div>
-      <div class="panel" data-controls="hotdeal"></div>
-      <p class="rank-note" id="deal-note"></p>
+      <div class="panel" id="hot-ctl" data-controls="hotdeal"></div>
+      <section class="chartwall-wrap">
+        <div class="sec-head"><h2>📈 60일 가격 그래프 한눈에</h2><span class="sec-sub">눌러서 자세히</span></div>
+        <div class="chartwall" id="chartwall"></div>
+      </section>
+      <div class="sec-head"><h2>할인 상품</h2><span class="sec-sub" id="deal-note"></span></div>
       <div class="deal-list" id="deal-list"></div>
     </section>
 

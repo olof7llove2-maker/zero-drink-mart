@@ -1,346 +1,155 @@
+/* 띠니마트 v5 — 5대 카테고리 · 옵션 묶음 · 미니 가격그래프
+   데이터: js/products.js (PRODUCTS · PARTS · CATEGORIES …), data/price-history.json */
 const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
 const $ = (id) => document.getElementById(id);
 const SHARE_BASE = "https://zero-drink-mart.vercel.app";
 
 const TABS = [
   { id: "home", label: "홈", icon: "🏠" },
-  { id: "category", label: "카테고리", icon: "🎛️" },
+  { id: "category", label: "카테고리", icon: "🗂️" },
   { id: "search", label: "검색", icon: "🔍" },
   { id: "ranking", label: "랭킹", icon: "🏆" },
   { id: "hotdeal", label: "핫딜", icon: "🔥" },
 ];
 
-const RANK_PARTS = [
-  { id: "zero", label: "제로 음료", part: "zero" },
-  { id: "protein", label: "단백질", part: "protein" },
-  { id: "meat", label: "식단 고기", part: "meat" },
+/* 카테고리 탭 대표 사진 — 재영 님이 고른 대표 상품 */
+const PART_TILES = [
+  { part: "zero", label: "제로 음료", emoji: "🥤", sub: "펩시·나랑드·몬스터", image: "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg" },
+  { part: "protein", label: "단백질 음료", emoji: "💪", sub: "더단백·셀렉스·테이크핏", image: "images/deodanbaek-deuringkeu-choco-250ml-18gae.jpg" },
+  { part: "shake", label: "단백질 쉐이크", emoji: "🥛", sub: "신타6·옵티멈·마이프로틴", image: "images/shake-bsn-syntha6-chocolate-milkshake-2-27kg.jpg" },
+  { part: "meat", label: "식단 고기", emoji: "🥩", sub: "스테이크·닭가슴살·제육", image: "images/toss-chefchoice-jeyuk-2kg.jpg" },
+  { part: "cheat", label: "치팅·간편식", emoji: "🍕", sub: "햇반·스팸·베이글", image: "images/retort-can-spam-classic-340g-6.jpg" },
 ];
-
-const RANK_METRICS = {
-  zero: [
-    {
-      id: "unit",
-      label: "100ml당 최저가",
-      unit: "100ml당",
-      perCategory: true,
-      value: (p) => (measureKind(p) === "per100ml" ? measureValue(p) : null),
-    },
-    {
-      id: "discount",
-      label: "할인율 높은 순",
-      unit: "",
-      desc: true,
-      value: (p) => (typeof p.discountPct === "number" ? p.discountPct : null),
-    },
-  ],
-  protein: [
-    { id: "protein20", label: "단백질 20g당 최저가", unit: "단백질 20g당", value: (p) => { const x = protein20(p); return x ? x.value : null; } },
-    { id: "unit", label: "100ml당 최저가", unit: "100ml당", value: (p) => (measureKind(p) === "per100ml" ? measureValue(p) : null) },
-    { id: "reviews", label: "리뷰 많은 순", unit: "", desc: true, value: (p) => (typeof p.reviewCount === "number" ? p.reviewCount : null) },
-  ],
-  meat: [
-    { id: "protein20", label: "단백질 20g당 최저가", unit: "단백질 20g당", value: (p) => { const x = protein20(p); return x ? x.value : null; } },
-    { id: "unit", label: "100g당 최저가", unit: "100g당", value: (p) => (measureKind(p) === "per100g" ? measureValue(p) : null) },
-    { id: "reviews", label: "리뷰 많은 순", unit: "", desc: true, value: (p) => (typeof p.reviewCount === "number" ? p.reviewCount : null) },
-  ],
-};
 
 const SORT_OPTIONS = [
+  { id: "popular", label: "🔥 인기·할인 순" },
   { id: "basis", label: "단가 낮은 순" },
-  { id: "low", label: "저점에 가까운 순" },
   { id: "discount", label: "할인율 높은 순" },
-  { id: "reviews", label: "리뷰 많은 순" },
-  { id: "rating", label: "평점 높은 순" },
+  { id: "low", label: "저점 가까운 순" },
   { id: "price", label: "가격 낮은 순" },
-  { id: "protein", label: "단백질 많은 순" },
-  { id: "proteinPerG", label: "단백질 1g당 낮은 순" },
 ];
 const SORT_IDS = new Set(SORT_OPTIONS.map((s) => s.id));
-const BASIS_OPTIONS = [
-  { id: "auto", label: "기본 단가" },
-  { id: "per100ml", label: "100ml당" },
-  { id: "per100g", label: "100g당" },
-  { id: "protein20", label: "단백질 20g당" },
-];
 
 const state = {
   data: null,
   priceHistory: null,
   priceMeta: null,
   low: {},
+  vgroups: {},
   tab: "home",
   part: "all",
   filter: "all",
-  container: "all",
-  ingredient: "all",
   sources: { coupang: true, toss: true },
-  basis: "auto",
-  sort: "basis",
-  rankPart: "zero",
-  rankMetric: "unit",
-  dealMode: "discount",
+  sort: "popular",
   query: "",
   highlightId: null,
+  limit: { home: 24, category: 30 },
 };
 
 function escapeHtml(s) {
-  return String(s)
+  return String(s == null ? "" : s)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 }
 
-/* ── 분류 구조 ───────────────────────────────────────── */
+/* ── 구조 ─────────────────────────────────────────────── */
 
 function allParts() {
   return state.data.parts && state.data.parts.length ? state.data.parts : [{ id: "all", label: "전체" }];
 }
-
 function partById(id) {
   return allParts().find((p) => p.id === id) || null;
 }
-
 function partOf(p) {
-  if (p.part) return p.part;
-  if (p.category === "protein" || p.category === "shake") return "protein";
-  const cat = (state.data.categories || []).find((c) => c.id === p.category);
-  return cat && cat.part ? cat.part : "zero";
+  return p.part || "zero";
 }
-
-function isMeat(p) {
-  return partOf(p) === "meat";
+function categoryLabel(catId) {
+  const c = (state.data.categories || []).find((x) => x.id === catId);
+  return c ? c.label : catId;
 }
-
-function isGadget(p) {
-  return p.category === "gadget";
-}
-
-function isProteinCat(p) {
-  return p.category === "protein" || p.category === "shake";
-}
-
-function isPowder(p) {
-  return p.category === "powder" || p.container === "powder";
-}
-
-function isToss(p) {
-  return p.platform === "toss";
-}
-
-function meatCats() {
-  return (state.data.categories || []).filter((c) => c.part === "meat").map((c) => c.id);
-}
-
 function partFilters(partId) {
   const part = partById(partId == null ? state.part : partId);
   if (!part || !part.filters || !part.filters.length) return [{ id: "all", label: "전체", cats: [] }];
   return part.filters;
 }
-
-function currentFilter(partId, filterId) {
-  const pid = partId == null ? state.part : partId;
-  const fid = filterId == null ? state.filter : filterId;
-  return partFilters(pid).find((x) => x.id === fid) || null;
+function currentFilter() {
+  return partFilters().find((f) => f.id === state.filter) || null;
 }
-
-function proteinTypes(p) {
-  if (Array.isArray(p.proteinType)) return p.proteinType;
-  return [p.proteinType || "plain"];
-}
-
 function matchesFilter(p, f) {
   if (!f) return true;
   const cats = f.cats || [];
-  const types = f.types || [];
-  const own = proteinTypes(p);
   if (cats.length && !cats.includes(p.category)) return false;
-  if (types.length && !types.some((t) => own.includes(t))) return false;
-  if (f.sources && f.sources.length && !f.sources.includes(p.proteinSourceKey)) return false;
-  if (typeof f.proteinMin === "number") {
-    const g = proteinValue(p);
-    if (g == null || g < f.proteinMin) return false;
-  }
   return true;
 }
 
-function categoryOrder() {
-  const ids = (state.data.categories || []).filter((c) => c.id !== "all").map((c) => c.id);
-  const protein = ids.filter((id) => id === "protein" || id === "shake");
-  const zero = ids.filter((id) => {
-    const cat = state.data.categories.find((c) => c.id === id);
-    return cat && cat.part === "zero" && id !== "powder";
-  });
-  const powder = ids.filter((id) => id === "powder");
-  const meat = ids.filter((id) => meatCats().includes(id));
-  return protein.concat(zero, powder, meat);
-}
-
-function categoryLabel(catId) {
-  const c = (state.data.categories || []).find((x) => x.id === catId);
-  return c ? c.label : catId;
-}
-
-/* ── 검색 ────────────────────────────────────────────── */
-
-function normText(s) {
-  return String(s == null ? "" : s)
-    .toLowerCase()
-    .replace(/[\s()\[\]{},·\-–—/]+/g, "");
-}
-
-function searchTokens() {
-  return String(state.query || "")
-    .toLowerCase()
-    .split(/\s+/)
-    .map(normText)
-    .filter(Boolean);
-}
-
-function searchHaystack(p) {
-  if (!p.__hay) {
-    p.__hay = normText([p.name, p.brand, p.kind, p.flavor, p.cut, p.cutGroup, p.group, categoryLabel(p.category)].join(" "));
-  }
-  return p.__hay;
-}
-
-function matchesQuery(p) {
-  const tokens = searchTokens();
-  if (!tokens.length) return true;
-  const hay = searchHaystack(p);
-  return tokens.every((t) => hay.includes(t));
-}
-
-function matchesSource(p) {
-  return isToss(p) ? state.sources.toss : state.sources.coupang;
-}
-
-/* 검색어는 검색 탭에서만 상품을 걸러 낸다 (다른 탭은 늘 전체 상품) */
-function searchPool() {
-  return (state.data.products || []).filter((p) => matchesSource(p) && matchesQuery(p));
-}
-
-function basePool() {
-  if (state.tab === "search") return searchPool();
-  return (state.data.products || []).filter((p) => matchesSource(p));
-}
-
-/* ── 단가 · 영양 ─────────────────────────────────────── */
+/* ── 단가 · 영양 ──────────────────────────────────────── */
 
 const MEASURE_LABEL = { per100ml: "100ml당", per100g: "100g당", each: "개당" };
-const CONTAINER_LABEL = { can: "캔", "pet-small": "페트", "pet-large": "대용량", powder: "분말" };
 
-function measureKind(p) {
-  if (isGadget(p)) return "each";
-  if (isPowder(p) || isMeat(p)) return "per100g";
-  return "per100ml";
+function isMeat(p) {
+  return partOf(p) === "meat";
 }
-
+function isGadget(p) {
+  return p.category === "gadget";
+}
+function measureKind(p) {
+  if (p.measure) return p.measure;
+  if (isGadget(p)) return "each";
+  if (p.category === "shake" || p.container === "powder") return "per100g";
+  if (partOf(p) === "zero" || partOf(p) === "protein") return "per100ml";
+  return "per100g";
+}
 function measureValue(p) {
-  const kind = measureKind(p);
-  if (kind === "per100g") {
-    if (typeof p.per100g === "number" && Number.isFinite(p.per100g)) return p.per100g;
-    if (typeof p.unitPricePer100g === "number" && Number.isFinite(p.unitPricePer100g)) return p.unitPricePer100g;
+  if (typeof p.perValue === "number" && Number.isFinite(p.perValue)) return p.perValue;
+  if (measureKind(p) === "each") return typeof p.price === "number" ? p.price : null;
+  if (measureKind(p) === "per100g") {
+    if (typeof p.per100g === "number") return p.per100g;
+    if (typeof p.unitPricePer100g === "number") return p.unitPricePer100g;
     return null;
   }
-  if (kind === "each") {
-    return typeof p.price === "number" && Number.isFinite(p.price) ? p.price : null;
-  }
-  return typeof p.unitPricePer100ml === "number" && Number.isFinite(p.unitPricePer100ml) ? p.unitPricePer100ml : null;
+  return typeof p.unitPricePer100ml === "number" ? p.unitPricePer100ml : null;
 }
-
 function measureLabel(p) {
-  return MEASURE_LABEL[measureKind(p)];
+  return MEASURE_LABEL[measureKind(p)] || "단가";
 }
-
 function proteinValue(p) {
   const n = p.protein_g_per_bottle;
   return typeof n === "number" && Number.isFinite(n) ? n : null;
 }
-
-function kcalValue(p) {
-  const n = p.kcal_per_bottle;
-  return typeof n === "number" && Number.isFinite(n) ? n : null;
-}
-
 function kcalLabel(p) {
   if (p.kcalLabel) return p.kcalLabel;
-  const n = kcalValue(p);
-  return n != null ? `${n}kcal` : null;
+  const n = p.kcal_per_bottle;
+  return typeof n === "number" && Number.isFinite(n) ? `${n}kcal` : null;
 }
-
-function unitEachPrice(p) {
-  if (p.price == null || !p.packCount) return null;
-  return p.price / p.packCount;
+function protein20(p) {
+  if (typeof p.protein20 === "number" && Number.isFinite(p.protein20)) return p.protein20;
+  return null;
 }
-
-function servingPrice(p) {
-  if (p.bottlePrice != null) return p.bottlePrice;
-  return unitEachPrice(p);
-}
-
 function proteinPerG(p) {
   if (typeof p.proteinPerG === "number" && Number.isFinite(p.proteinPerG)) return p.proteinPerG;
   const g = proteinValue(p);
-  const each = servingPrice(p);
+  const each = p.eachPrice;
   if (g == null || each == null || g <= 0) return null;
   return Math.round(each / g);
 }
-
-/* 단백질 20g당 가격 — 고기는 100g당 단백질 참고치로 '추정' */
-function protein20(p) {
-  if (isGadget(p) || p.price == null) return null;
-  if (isMeat(p)) {
-    const per = measureValue(p);
-    const g = typeof p.proteinPer100g === "number" ? p.proteinPer100g : null;
-    if (per == null || !g || g <= 0) return null;
-    return { value: Math.round((per / g) * 20), est: true };
-  }
-  if (isProteinCat(p)) {
-    const g = proteinValue(p);
-    const each = servingPrice(p);
-    if (g == null || each == null || g <= 0) return null;
-    return { value: Math.round((each / g) * 20), est: false };
-  }
-  return null;
-}
-
-function naturalUnit(p) {
-  const kind = measureKind(p);
-  if (kind === "each") return { value: p.price, label: "개당", kind };
-  if (kind === "per100g") return { value: measureValue(p), label: "100g당", kind };
-  return { value: measureValue(p), label: "100ml당", kind };
-}
-
-function displayUnit(p) {
-  if (state.basis === "protein20") {
-    const x = protein20(p);
-    if (x) return { value: x.value, label: "단백질 20g당", kind: "protein20", est: x.est };
-  }
-  if (state.basis === "per100ml" && measureKind(p) === "per100ml") {
-    return { value: measureValue(p), label: "100ml당", kind: "per100ml" };
-  }
-  if (state.basis === "per100g" && measureKind(p) === "per100g") {
-    return { value: measureValue(p), label: "100g당", kind: "per100g" };
-  }
-  return naturalUnit(p);
-}
-
-function reviewCountLabel(n) {
+function reviewLabel(n) {
   if (typeof n !== "number" || !Number.isFinite(n)) return "";
-  if (n >= 10000) return `${(n / 10000).toFixed(1)}만`;
+  if (n >= 10000) return `${(n / 10000).toFixed(n >= 100000 ? 0 : 1)}만`;
   if (n >= 1000) return `${(n / 1000).toFixed(1)}천`;
   return n.toLocaleString("ko-KR");
 }
 
-/* ── 60일 저점 ───────────────────────────────────────── */
+/* ── 60일 저점 ────────────────────────────────────────── */
 
 function buildLowInfo() {
   state.low = {};
   const entries = state.priceHistory || {};
   Object.entries(entries).forEach(([id, e]) => {
     const st = e.stats || {};
-    const has = e.status === "history" && st.min != null && (e.series || []).length > 1;
+    const series = e.series || [];
+    const has = e.status === "history" && st.min != null && series.length > 1;
     state.low[id] = {
       hasHistory: has,
       min: st.min,
@@ -350,112 +159,145 @@ function buildLowInfo() {
       days: st.days,
       observations: st.observations,
       volatile: !!(e.couprice && e.couprice.crosscheck && e.couprice.crosscheck.sourceWarnsVolatile),
-      detail: e.statusDetail,
+      series,
     };
   });
 }
-
+function historyOf(p) {
+  return state.low[p.id] || null;
+}
 function lowStats(p) {
-  const info = state.low[p.id];
+  const info = historyOf(p);
   if (!info) return { state: "none" };
   if (!info.hasHistory) return { state: "tracking", info };
   if (p.price == null || info.min == null) return { state: "none", info };
   const pct = Math.round((p.price / info.min - 1) * 100);
   const pctAvg = info.avg ? Math.round((p.price / info.avg - 1) * 100) : null;
-  const state_ = pct <= 0 ? "low" : pct <= 3 ? "near" : "above";
-  return { state: state_, pct, pctAvg, info };
+  const s = pct <= 0 ? "low" : pct <= 3 ? "near" : "above";
+  return { state: s, pct, pctAvg, info };
 }
 
-function lowBadges(p, withAvg = true, opts = {}) {
-  const s = lowStats(p);
-  if (s.state === "none") return "";
-  if (s.state === "tracking") {
-    return opts.tracking === false ? "" : `<span class="bd bd-track" title="가격 기록을 오늘부터 쌓고 있어요">추적 시작</span>`;
+/* 하루 단위 마지막 가격만 남긴 시계열 */
+function dailySeries(p) {
+  const info = historyOf(p);
+  if (!info || !info.series || info.series.length < 2) return [];
+  const byDate = new Map();
+  info.series.forEach((s) => {
+    if (!s || !Number.isFinite(s.price)) return;
+    byDate.set(String(s.date).slice(0, 10), s.price);
+  });
+  return [...byDate.entries()].map(([date, price]) => ({ date, price })).sort((a, b) => (a.date < b.date ? -1 : 1));
+}
+
+/* 미니 스파크라인 (사진 아래) */
+function sparkSVG(p) {
+  const series = dailySeries(p);
+  if (series.length < 2) return null;
+  const W = 108;
+  const H = 30;
+  const pad = 2;
+  const vals = series.map((s) => s.price);
+  let lo = Math.min(...vals);
+  let hi = Math.max(...vals);
+  if (hi === lo) {
+    hi += Math.max(100, Math.round(lo * 0.02));
+    lo = Math.max(0, lo - Math.max(100, Math.round(lo * 0.02)));
   }
-  const volatile = s.info && s.info.volatile;
-  const warn = volatile ? " · 묶음 구성이 바뀐 기록이 섞여 있어 참고용" : "";
-  const lowIsMeaningful = s.pct <= 3 || !volatile;
-  let main = "";
-  if (s.state === "low") {
-    main = `<span class="bd bd-low" title="쿠프라이스가 최근 60일 사이 확인한 최저가와 같거나 낮아요${warn}">60일 최저가!</span>`;
-  } else if (s.state === "near") {
-    main = `<span class="bd bd-near" title="60일 최저가 바로 위${warn}">저점 근접 +${s.pct}%</span>`;
-  } else if (lowIsMeaningful) {
-    main = `<span class="bd bd-up" title="60일 최저가 대비">저점 대비 +${s.pct}% ▲</span>`;
+  const x = (i) => pad + (i / (series.length - 1)) * (W - pad * 2);
+  const y = (v) => pad + (1 - (v - lo) / (hi - lo)) * (H - pad * 2);
+  const line = series.map((s, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(s.price).toFixed(1)}`).join(" ");
+  const area = `${line} L${x(series.length - 1).toFixed(1)} ${H - pad} L${pad} ${H - pad} Z`;
+  const last = series[series.length - 1];
+  const lowIdx = vals.indexOf(Math.min(...vals));
+  const down = last.price <= series[0].price;
+  const stroke = down ? "#1f8a5f" : "#c8442a";
+  return `<svg class="spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="60일 가격 추이">
+    <path d="${area}" fill="${down ? "rgba(31,138,95,0.14)" : "rgba(200,68,42,0.12)"}"/>
+    <path d="${line}" fill="none" stroke="${stroke}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(series.length - 1).toFixed(1)}" cy="${y(last.price).toFixed(1)}" r="2.2" fill="${stroke}"/>
+    <circle cx="${x(lowIdx).toFixed(1)}" cy="${y(vals[lowIdx]).toFixed(1)}" r="1.8" fill="#0f172a" opacity="0.55"/>
+  </svg>`;
+}
+
+function sparkBlock(p) {
+  const svg = sparkSVG(p);
+  if (!svg) {
+    return `<div class="spark is-none" title="60일 가격 기록을 모으는 중이에요"><span>조사 중</span></div>`;
   }
-  let avg = "";
-  if (withAvg && s.pctAvg != null) {
-    if (s.pctAvg <= -5) avg = `<span class="bd bd-avg" title="60일 관측 평균가 대비">평균 대비 ${s.pctAvg}% ▼</span>`;
-    else if (s.pctAvg >= 5) avg = `<span class="bd bd-up" title="60일 관측 평균가 대비">평균 대비 +${s.pctAvg}% ▲</span>`;
+  const info = historyOf(p);
+  return `<div class="spark">${svg}<span class="spark-cap">60일 최저 ${won(info.min)}</span></div>`;
+}
+
+/* 할인 시작일 — 기록에서 '지금 가격보다 비쌌던 마지막 날' 다음 날부터 */
+function discountSince(p) {
+  const series = dailySeries(p);
+  if (series.length < 2 || p.price == null) return null;
+  const cur = p.price;
+  let idx = -1;
+  for (let i = series.length - 1; i >= 0; i -= 1) {
+    if (series[i].price > cur * 1.01) {
+      idx = i;
+      break;
+    }
   }
-  return main + avg;
+  if (idx === -1) return null;
+  const startIdx = idx + 1;
+  if (startIdx >= series.length) return null;
+  const start = series[startIdx].date;
+  const today = new Date();
+  const d = new Date(`${start}T00:00:00+09:00`);
+  const days = Math.max(1, Math.round((today - d) / 86400000) + 1);
+  if (days > 60) return null;
+  const [, m, dd] = start.split("-");
+  return { date: `${Number(m)}/${Number(dd)}`, days };
 }
 
-/* ── 목록 고르기 ─────────────────────────────────────── */
+/* ── 목록 · 정렬 ──────────────────────────────────────── */
 
-function matchesIngredient(p, ingredient) {
-  if (!ingredient || ingredient === "all") return true;
-  if (ingredient === "caffeine-free") return p.caffeine === "none";
-  if (ingredient === "no-aspartame") return p.aspartame === "none";
-  return true;
+function isToss(p) {
+  return p.platform === "toss";
 }
-
-function productsIn(partId, filterId, container, ingredient) {
-  const pid = partId == null ? state.part : partId;
-  const f = currentFilter(pid, filterId == null ? state.filter : filterId);
-  const pack = container == null ? state.container : container;
-  const ing = ingredient == null ? state.ingredient : ingredient;
-  let all = basePool().filter((p) => (pid !== "all" ? partOf(p) === pid : true) && matchesFilter(p, f));
-  if (pack && pack !== "all") {
-    all = all.filter((p) => (isMeat(p) || isPowder(p) ? true : p.container === pack));
+function matchesSource(p) {
+  return isToss(p) ? state.sources.toss : state.sources.coupang;
+}
+function normText(s) {
+  return String(s == null ? "" : s).toLowerCase().replace(/[\s()\[\]{},·\-–—/]+/g, "");
+}
+function searchTokens() {
+  return String(state.query || "").toLowerCase().split(/\s+/).map(normText).filter(Boolean);
+}
+function haystack(p) {
+  if (!p.__hay) {
+    p.__hay = normText([p.name, p.brand, p.kind, p.flavor, p.group, categoryLabel(p.category)].join(" "));
   }
-  if (ing && ing !== "all") {
-    all = all.filter((p) => (isMeat(p) ? true : matchesIngredient(p, ing)));
-  }
-  return all;
+  return p.__hay;
 }
-
-function countFor(partId, f, ignorePack) {
-  const pid = partId == null ? state.part : partId;
-  const pack = ignorePack ? "all" : state.container;
-  const ing = ignorePack ? "all" : state.ingredient;
-  return basePool().filter((p) => {
-    if (pid !== "all" && partOf(p) !== pid) return false;
-    if (!matchesFilter(p, f)) return false;
-    if (pack && pack !== "all" && !isMeat(p) && !isPowder(p) && p.container !== pack) return false;
-    if (ing && ing !== "all" && !isMeat(p) && !matchesIngredient(p, ing)) return false;
-    return true;
-  }).length;
+function matchesQuery(p) {
+  const tokens = searchTokens();
+  if (!tokens.length) return true;
+  const hay = haystack(p);
+  return tokens.every((t) => hay.includes(t));
 }
-
-function partCount(partId) {
-  const list = basePool();
-  if (!partId || partId === "all") return list.length;
-  return list.filter((p) => partOf(p) === partId).length;
+function basePool() {
+  const all = (state.data.products || []).filter((p) => matchesSource(p));
+  return state.tab === "search" ? all.filter(matchesQuery) : all;
 }
-
-/* ── 정렬 ────────────────────────────────────────────── */
 
 function sortValue(p, key) {
-  const u = displayUnit(p);
-  if (key === "basis") return u && u.value != null ? u.value : null;
+  if (key === "popular") return typeof p.popularScore === "number" ? p.popularScore : null;
+  if (key === "basis") return measureValue(p);
+  if (key === "discount") return typeof p.discountPct === "number" ? p.discountPct : null;
+  if (key === "price") return typeof p.price === "number" ? p.price : null;
   if (key === "low") {
     const s = lowStats(p);
-    if (s.state === "low" || s.state === "near" || s.state === "above") return 1000 + s.pct;
+    if (s.state === "low" || s.state === "near" || s.state === "above") return s.pct;
     return null;
   }
-  if (key === "price") return typeof p.price === "number" ? p.price : null;
-  if (key === "discount") return typeof p.discountPct === "number" ? p.discountPct : null;
-  if (key === "rating") return typeof p.rating === "number" ? p.rating : null;
-  if (key === "reviews") return typeof p.reviewCount === "number" ? p.reviewCount : null;
-  if (key === "protein") return proteinValue(p);
-  if (key === "proteinPerG") return proteinPerG(p);
   return null;
 }
-
 function sortList(list, key) {
   const k = key || state.sort;
-  const desc = k === "discount" || k === "rating" || k === "reviews" || k === "protein";
+  const desc = k === "popular" || k === "discount";
   return list
     .map((p, i) => ({ p, i, v: sortValue(p, k) }))
     .sort((a, b) => {
@@ -470,164 +312,174 @@ function sortList(list, key) {
     .map((x) => x.p);
 }
 
-function groupHint(list) {
-  const items = list || [];
-  if (state.sort === "basis") {
-    if (state.basis === "protein20" && items.some((p) => protein20(p))) return "단백질 20g당 가격 낮은 순";
-    const kinds = new Set(items.map(measureKind));
-    if (kinds.size === 1) {
-      const kind = [...kinds][0];
-      if (kind === "per100ml") return "100ml당 가격 낮은 순";
-      if (kind === "per100g") return "100g당 가격 낮은 순";
-      if (kind === "each") return "가격 낮은 순";
-    }
-    return "단가 낮은 순";
-  }
-  const map = {
-    low: "저점에 가까운 순",
-    discount: "할인율 높은 순",
-    reviews: "리뷰 많은 순",
-    rating: "평점 높은 순",
-    price: "가격 낮은 순",
-    protein: "단백질 많은 순",
-    proteinPerG: "단백질 1g당 낮은 순",
-  };
-  return map[state.sort] || "";
+/* 옵션 묶음: 대표 1개만 목록에 보이고, 나머지는 카드 안 옵션 버튼으로 */
+function buildVariantIndex() {
+  state.vgroups = {};
+  (state.data.products || []).forEach((p) => {
+    if (!p.variantGroup) return;
+    (state.vgroups[p.variantGroup] = state.vgroups[p.variantGroup] || []).push(p);
+  });
+  Object.values(state.vgroups).forEach((arr) =>
+    arr.sort((a, b) => (a.packCount || 0) - (b.packCount || 0))
+  );
+}
+function defaultVariantIds() {
+  const ids = new Set();
+  Object.values(state.vgroups).forEach((arr) => {
+    const base = arr.find((x) => !String(x.id).includes("#")) || arr[Math.min(1, arr.length - 1)];
+    ids.add(base.id);
+  });
+  return ids;
+}
+let DEFAULTS = new Set();
+function collapseVariants(list) {
+  const hasGroup = (p) => p.variantGroup && state.vgroups[p.variantGroup] && state.vgroups[p.variantGroup].length > 1;
+  const present = new Set(list.map((p) => p.id));
+  return list.filter((p) => {
+    if (!hasGroup(p)) return true;
+    if (DEFAULTS.has(p.id)) return true;
+    const def = state.vgroups[p.variantGroup].find((x) => DEFAULTS.has(x.id));
+    return !def || !present.has(def.id);
+  });
 }
 
-/* ── 카드 ────────────────────────────────────────────── */
+/* ── 카드 ─────────────────────────────────────────────── */
 
-function unitLineHTML(p, override) {
-  const u = override || displayUnit(p);
-  if (!u || u.value == null) return "";
-  if (u.kind === "each" && !override) return "";
-  const est = u.est ? `<span class="est">추정</span>` : "";
-  return `<p class="pc-unit"><b>${won(Math.round(u.value))}</b> <span class="per">/ ${u.label}</span>${est}</p>`;
+function offBadge(p) {
+  if (typeof p.discountPct !== "number" || p.discountPct <= 0) return "";
+  const hot = p.discountPct >= 40 ? " is-hot" : "";
+  return `<span class="pc-off${hot}">-${p.discountPct}%</span>`;
+}
+
+function unitLine(p) {
+  const v = measureValue(p);
+  if (v == null) return "";
+  const each = p.eachPrice
+    ? `<span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(p.eachPrice)}</b>`
+    : "";
+  return `<p class="pc-unit"><b>${won(Math.round(v))}</b><span class="per">/${measureLabel(p).replace("당", "")}</span>${each}</p>`;
 }
 
 function subLine(p) {
   const bits = [];
-  if (isProteinCat(p)) {
+  if (partOf(p) === "protein" || p.category === "shake") {
     const src = p.proteinSourceDetail || p.proteinSource;
     if (src) bits.push(`🧬 ${src}`);
     const g = proteinValue(p);
-    if (g != null) {
-      const basis = p.proteinBasis ? p.proteinBasis : p.category === "shake" ? "1회" : "병당";
-      bits.push(`${basis} 단백질 ${g}g`);
-    }
+    if (g != null) bits.push(`${p.proteinBasis || (p.category === "shake" ? "1회" : "병당")} 단백질 ${g}g`);
     const k = kcalLabel(p);
     if (k) bits.push(k);
     if (p.sugarPerServing != null) bits.push(`당류 ${p.sugarPerServing}g`);
-  } else if (isMeat(p) && !isGadget(p)) {
-    if (p.cut) bits.push(p.cut);
-    if (p.weightG) bits.push(p.weightG >= 1000 ? `${p.weightG / 1000}kg` : `${p.weightG}g`);
-    if (p.proteinPer100g != null) bits.push(`단백질 ${p.proteinPer100g}g · 지방 ${p.fatPer100g}g / 100g`);
   } else if (isGadget(p)) {
     if (p.kind) bits.push(p.kind);
   } else {
-    const cont = CONTAINER_LABEL[p.container];
-    if (cont) bits.push(cont);
+    if (p.kind && p.category !== "rice" && p.category !== "can") bits.push(p.kind);
+    if (p.weightG) bits.push(p.weightG >= 1000 ? `${p.weightG / 1000}kg` : `${p.weightG}g`);
     if (p.volumeMl) bits.push(`${p.volumeMl}ml`);
-    if (p.packCount) bits.push(`${p.packCount}개`);
-    if (p.caffeine === "none") bits.push("논카페인");
-    if (p.aspartame === "none") bits.push("아스파탐 무첨가");
+    if (p.packCount && !p.variantGroup) bits.push(`${p.packCount}개`);
+    if (typeof p.proteinPer100g === "number") bits.push(`단백질 ${p.proteinPer100g}g/100g`);
   }
   return bits.filter(Boolean).join(" · ");
 }
 
-function airfryerTipHTML(p) {
-  if (!isMeat(p) || isGadget(p) || !p.airfryerTip) return "";
-  const full = p.airfryerTipNote || p.airfryerTip;
-  return `<p class="pc-tip" title="${escapeHtml(full)}"><span class="pc-tip-ico" aria-hidden="true">🔥</span> ${escapeHtml(p.airfryerTip)}</p>`;
-}
-
-function priceRowHTML(p) {
-  if (p.price == null) return "";
-  const off = p.discountPct ? `<span class="off">${p.discountPct}%</span>` : "";
-  const was = p.listPrice && p.listPrice > p.price ? `<span class="was">${won(p.listPrice)}</span>` : "";
-  return `<div class="pc-price"><strong>${won(p.price)}</strong>${off}${was}</div>`;
-}
-
-function rateHTML(p) {
+function rateLine(p) {
   if (p.rating == null && p.reviewCount == null) return "";
-  const star = p.rating != null ? `<b>★ ${Number(p.rating).toFixed(1)}</b>` : "";
-  const rv = p.reviewCount != null ? `${star ? " · " : ""}리뷰 ${reviewCountLabel(p.reviewCount)}` : "";
-  return `<p class="pc-rate">${star}${rv}</p>`;
+  const star = p.rating != null ? `★ ${Number(p.rating).toFixed(1)}` : "";
+  const rv = p.reviewCount != null ? `${star ? " " : ""}리뷰 ${reviewLabel(p.reviewCount)}` : "";
+  return `<span class="pc-rate">${star}${rv}</span>`;
 }
 
-function buyHTML(p, cls, label) {
+function dealBadges(p) {
+  const out = [];
+  const s = lowStats(p);
+  if (s.state === "low") out.push(`<span class="bd bd-low">60일 최저가!</span>`);
+  else if (s.state === "near") out.push(`<span class="bd bd-near">저점 +${s.pct}%</span>`);
+  else if (s.state === "above" && s.pct <= 12) out.push(`<span class="bd bd-up">저점 +${s.pct}%</span>`);
+  const since = discountSince(p);
+  if (since) out.push(`<span class="bd bd-since">${since.date}부터 할인 · ${since.days}일째</span>`);
+  if (!out.length && p.discountPct) out.push(`<span class="bd bd-track">수시 변동</span>`);
+  return out.join("");
+}
+
+function optionRow(p) {
+  const arr = p.variantGroup ? state.vgroups[p.variantGroup] || [] : [];
+  if (arr.length < 2) return "";
+  return `<div class="pc-opts" role="group" aria-label="묶음 수량 선택">${arr
+    .map(
+      (v) =>
+        `<button type="button" class="opt${v.id === p.id ? " is-on" : ""}" data-var="${escapeHtml(v.id)}">${escapeHtml(
+          v.variantLabel || `${v.packCount}개`
+        )}</button>`
+    )
+    .join("")}</div>`;
+}
+
+function altLine(p) {
+  if (!p.altPrice) return "";
+  return `<p class="pc-alt">네이버 최저 <b>${won(p.altPrice.price)}</b> · ${p.altPrice.savePct}% 더 싸요 <a href="${escapeHtml(
+    p.altPrice.url
+  )}" target="_blank" rel="noopener noreferrer">보기</a></p>`;
+}
+
+function buyHTML(p, cls) {
   if (!p.affiliateUrl) return `<span class="pending-label">링크 준비 중</span>`;
   const toss = isToss(p);
-  return `<a class="${cls}${toss ? " is-toss" : ""}" href="${escapeHtml(p.affiliateUrl)}" target="_blank" rel="noopener noreferrer">${label || "구매하기"}</a>`;
+  return `<a class="${cls}${toss ? " is-toss" : ""}" href="${escapeHtml(p.affiliateUrl)}" target="_blank" rel="noopener noreferrer">${toss ? "토스에서 사기" : "쿠팡에서 사기"}</a>`;
 }
 
 function cardEl(p, opts = {}) {
   const el = document.createElement("article");
   el.className = "pc";
   el.dataset.id = p.id;
+  el.__opts = opts;
   const toss = isToss(p);
-  const rank = opts.rank ? `<span class="pc-rank${opts.rank <= 3 ? " is-top" : ""}">${opts.rank}</span>` : "";
+  const rank = opts.rank
+    ? `<span class="pc-rank${opts.rank <= 3 ? " is-top" : ""}">${opts.rank}</span>`
+    : "";
   const photo = p.image
-    ? `<div class="pc-photo"><img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async"></div>`
-    : `<div class="pc-photo is-blank">사진<br>준비 중</div>`;
+    ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">`
+    : `<span class="photo-blank">사진 준비 중</span>`;
+  const was = p.listPrice && p.listPrice > p.price ? `<span class="was">${won(p.listPrice)}</span>` : "";
   el.innerHTML = `
     ${rank}
-    ${photo}
+    <div class="pc-left">
+      <div class="pc-photo">${photo}${offBadge(p)}</div>
+      ${sparkBlock(p)}
+    </div>
     <div class="pc-body">
       <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>
-        <span class="src ${toss ? "src-toss" : "src-coupang"}">${toss ? "토스" : "쿠팡"}</span></p>
+        <span class="src ${toss ? "src-toss" : "src-coupang"}">${toss ? "토스" : "쿠팡"}</span>
+        ${opts.showPart ? `<span class="pc-parttag">${escapeHtml((partById(partOf(p)) || {}).label || "")}</span>` : ""}
+        ${rateLine(p)}</p>
       <h3 class="pc-name">${escapeHtml(p.name)}</h3>
-      ${unitLineHTML(p, opts.unit)}
-      <p class="pc-sub">${escapeHtml(opts.showCategory ? `${categoryLabel(p.category)} · ${subLine(p)}` : subLine(p))}</p>
-      ${airfryerTipHTML(p)}
+      ${optionRow(p)}
+      <div class="pc-price"><strong>${won(p.price)}</strong>${was}</div>
+      ${unitLine(p)}
+      <p class="pc-sub">${escapeHtml(subLine(p))}</p>
       ${typeof gradeLineHTML === "function" ? gradeLineHTML(p) : ""}
-      ${priceRowHTML(p)}
-      <div class="pc-deal">${lowBadges(p)}</div>
-      ${rateHTML(p)}
+      ${altLine(p)}
+      <div class="pc-deal">${dealBadges(p)}</div>
       <div class="pc-acts">
         ${typeof alertIconHTML === "function" ? alertIconHTML(p) : ""}
-        <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 가격 추이</button>
+        <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 추이</button>
         ${buyHTML(p, "btn-buy")}
       </div>
     </div>`;
   return el;
 }
 
-function dealCardEl(p) {
-  const el = document.createElement("article");
-  el.className = "dc";
-  const toss = isToss(p);
-  const off = p.discountPct ? `<span class="off">${p.discountPct}%</span>` : "";
-  const was = p.listPrice && p.listPrice > p.price ? `<span class="was">${won(p.listPrice)}</span>` : "";
-  const lowLine = lowBadges(p, true, { tracking: false });
-  el.dataset.id = p.id;
-  el.innerHTML = `
-    <div class="dc-top">
-      <div class="dc-photo">${p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">` : ""}</div>
-      <div class="dc-head">
-        <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>
-          <span class="src ${toss ? "src-toss" : "src-coupang"}">${toss ? "토스" : "쿠팡"}</span></p>
-        <h3 class="pc-name">${escapeHtml(p.name)}</h3>
-        ${unitLineHTML(p)}
-        <p class="pc-sub">${escapeHtml(subLine(p))}</p>
-        ${typeof gradeLineHTML === "function" ? gradeLineHTML(p) : ""}
-      </div>
-    </div>
-    <div class="dc-box">
-      <div class="dc-row"><span class="dc-k">판매처</span><strong>${toss ? "토스" : "쿠팡"}</strong></div>
-      <div class="dc-row"><span class="dc-k">가격</span><strong>${p.price != null ? won(p.price) : "-"}</strong>${off}${was}</div>
-      ${buyHTML(p, "dc-go", "상품 확인")}
-      <div class="dc-deal"${lowLine ? "" : " hidden"}>${lowLine}</div>
-    </div>
-    <div class="dc-acts">
-      <button type="button" class="btn-copy" data-copy="${escapeHtml(p.id)}">🔗 링크 복사</button>
-      <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 가격 추이</button>
-    </div>
-    <p class="dc-when">${escapeHtml([p.priceCheckedLabel, state.data.site.priceNote].filter(Boolean).join(" · "))}</p>`;
-  return el;
+/* 옵션 버튼 → 카드만 다시 그린다 */
+function switchVariant(card, id) {
+  const p = (state.data.products || []).find((x) => x.id === id);
+  if (!p) return;
+  const opts = card.__opts || {};
+  const next = cardEl(p, opts);
+  card.replaceWith(next);
+  next.classList.add("is-flash");
+  setTimeout(() => next.classList.remove("is-flash"), 1600);
 }
 
-/* ── 그룹 · 목록 그리기 ──────────────────────────────── */
+/* ── 목록 그리기 ──────────────────────────────────────── */
 
 function emptyNode() {
   const box = document.createElement("div");
@@ -639,214 +491,348 @@ function emptyNode() {
          <button type="button" class="empty-btn" id="empty-clear">검색어 지우기</button>
          <button type="button" class="empty-btn is-primary" id="empty-reset">전체에서 다시 찾기</button>
        </div>`
-    : `<p>이 분류에 해당하는 상품이 없어요.</p>
+    : `<p>이 분류에 상품이 없어요.</p>
        <div class="empty-actions"><button type="button" class="empty-btn is-primary" id="empty-reset">전체에서 다시 찾기</button></div>`;
   return box;
 }
 
-function groupBlock(catId, list, hideHead) {
-  const sec = document.createElement("section");
-  sec.className = "group-block";
-  sec.id = `group-${catId}`;
-  const cat = (state.data.categories || []).find((c) => c.id === catId);
-  if (!hideHead) {
-    const head = document.createElement("div");
-    head.className = "group-head";
-    head.innerHTML = `<h2>${cat && cat.icon ? `<span class="cat-ico">${escapeHtml(cat.icon)}</span>` : ""}${escapeHtml(
-      cat ? cat.label : catId
-    )}</h2><span class="group-hint">${escapeHtml(groupHint(list))}</span>`;
-    sec.appendChild(head);
+function groupedByCategory(list) {
+  const order = (state.data.categories || []).map((c) => c.id);
+  const ids = order.filter((id) => list.some((p) => p.category === id));
+  return ids.map((id) => ({ id, items: list.filter((p) => p.category === id) }));
+}
+
+function renderCardsInto(target, list, opts = {}) {
+  target.innerHTML = "";
+  const items = collapseVariants(list);
+  if (!items.length) {
+    target.appendChild(emptyNode());
+    return;
   }
+  const limit = opts.limit || 0;
+  const shown = limit ? items.slice(0, limit) : items;
   const grid = document.createElement("div");
   grid.className = "list";
-  sortList(list).forEach((p) => grid.appendChild(cardEl(p)));
-  sec.appendChild(grid);
-  return sec;
-}
+  const push = (arr, groupOpts) => arr.forEach((p) => grid.appendChild(cardEl(p, { ...opts, ...groupOpts })));
 
-function partHead(partId, count) {
-  const part = partById(partId);
-  const wrap = document.createElement("div");
-  wrap.className = "part-head";
-  wrap.innerHTML = `<span class="part-head-ico">${escapeHtml((part && part.icon) || "")}</span>
-    <div>
-      <h2>${escapeHtml((part && part.label) || partId)} <span class="part-head-count">(${count})</span></h2>
-      ${part && part.desc ? `<p class="part-head-desc">${escapeHtml(part.desc)}</p>` : ""}
-    </div>`;
-  return wrap;
-}
-
-function renderListInto(target, list, opts = {}) {
-  target.innerHTML = "";
-  if (!list.length) {
-    target.appendChild(emptyNode());
-    if (opts.compare) renderCompare([]);
-    return;
+  if (opts.grouped) {
+    groupedByCategory(shown).forEach((g) => {
+      const head = document.createElement("div");
+      head.className = "group-head";
+      head.innerHTML = `<h2>${escapeHtml(categoryLabel(g.id))}</h2><span class="group-hint">${
+        sortHint()
+      }</span>`;
+      grid.appendChild(head);
+      push(g.items);
+    });
+  } else {
+    push(shown);
   }
-  const ids = categoryOrder().filter((id) => list.some((p) => p.category === id));
-  const grouped = ids.length > 1;
-  if (!grouped) {
-    const grid = document.createElement("div");
-    grid.className = "list";
-    const ordered = sortList(list);
-    ordered.forEach((p) => grid.appendChild(cardEl(p)));
-    target.appendChild(grid);
-    if (opts.compare) renderCompare(ordered);
-    return;
+  target.appendChild(grid);
+
+  if (limit && items.length > shown.length) {
+    const more = document.createElement("button");
+    more.type = "button";
+    more.className = "more-btn";
+    more.dataset.more = opts.moreKey || "";
+    more.textContent = `더 보기 (${items.length - shown.length}개 남음)`;
+    target.appendChild(more);
   }
-  const pids = state.part === "all" ? ["protein", "zero", "meat"] : [partOf(list[0])];
-  pids.forEach((pid) => {
-    const items = list.filter((p) => partOf(p) === pid);
-    if (!items.length) return;
-    const section = document.createElement("section");
-    section.className = `part-section part-section-${pid}`;
-    if (state.part === "all") section.appendChild(partHead(pid, items.length));
-    ids
-      .filter((cid) => items.some((p) => p.category === cid))
-      .forEach((cid) => {
-        const partLabel = (partById(pid) || {}).label || "";
-        const hideHead = state.part === "all" && categoryLabel(cid) === partLabel;
-        section.appendChild(groupBlock(cid, items.filter((p) => p.category === cid), hideHead));
-      });
-    target.appendChild(section);
-  });
-  if (opts.compare) renderCompare([]);
 }
 
-/* ── 오늘의 특가 ─────────────────────────────────────── */
-
-function dropVsPrevious(p) {
-  if (p.previousPrice == null || p.price == null || p.price >= p.previousPrice) return null;
-  const pct = Math.round(((p.previousPrice - p.price) / p.previousPrice) * 100);
-  return pct > 0 ? pct : null;
-}
-
-function topDeals(all) {
-  const dropped = all
-    .map((p) => ({ p, drop: dropVsPrevious(p) }))
-    .filter((x) => x.drop != null)
-    .sort((a, b) => (b.drop !== a.drop ? b.drop - a.drop : a.p.price - b.p.price));
-  if (dropped.length) {
-    return {
-      title: "오늘 특가 TOP 3",
-      items: dropped.slice(0, 3).map((x) => ({ p: x.p, label: `이전가 대비 -${x.drop}%` })),
-    };
-  }
-  const discounted = all
-    .filter((p) => p.discountPct)
-    .sort((a, b) => (b.discountPct || 0) - (a.discountPct || 0) || a.price - b.price);
-  return {
-    title: "할인 큰 순 TOP 3",
-    items: discounted.slice(0, 3).map((p) => ({ p, label: `정가 대비 -${p.discountPct}%` })),
+function sortHint() {
+  const map = {
+    popular: "인기·할인 순",
+    basis: "단가 낮은 순",
+    discount: "할인율 높은 순",
+    low: "저점 가까운 순",
+    price: "가격 낮은 순",
   };
+  return map[state.sort] || "";
 }
 
-function renderDeals() {
-  const sec = $("deals");
-  const row = $("deals-row");
-  const title = $("deals-title");
-  if (!sec || !row || !title) return;
+/* ── 컨트롤 (한 줄 칩) ────────────────────────────────── */
+
+function ctlBarHTML(extra = "") {
+  const chips = SORT_OPTIONS.map(
+    (o) =>
+      `<button type="button" class="cchip${state.sort === o.id ? " is-on" : ""}" data-sort="${o.id}">${o.label}</button>`
+  ).join("");
+  const srcs =
+    `<button type="button" class="cchip is-src${state.sources.coupang ? " is-on" : ""}" data-src="coupang">쿠팡</button>` +
+    `<button type="button" class="cchip is-src${state.sources.toss ? " is-on" : ""}" data-src="toss">토스</button>`;
+  return `<div class="ctlbar-scroll">${chips}<span class="ctl-sep"></span>${srcs}${extra}</div>`;
+}
+
+function renderControls() {
+  document.querySelectorAll("[data-controls]").forEach((box) => {
+    const kind = box.dataset.controls;
+    box.innerHTML = ctlBarHTML();
+  });
+}
+
+/* ── 홈 ──────────────────────────────────────────────── */
+
+function renderHome() {
+  const list = sortList(basePool(), state.sort);
+  renderCardsInto($("home-list"), list, {
+    limit: state.limit.home,
+    moreKey: "home",
+    showPart: true,
+  });
+  const count = $("home-count");
+  if (count) count.textContent = `${collapseVariants(list).length}개`;
+}
+
+/* ── 카테고리 ────────────────────────────────────────── */
+
+function renderTiles() {
+  const box = $("cattiles");
+  if (!box) return;
   const pool = basePool();
-  const { title: heading, items } = topDeals(pool);
-  if (!items.length || state.tab !== "home") {
-    sec.hidden = true;
-    if (!items.length) row.innerHTML = "";
+  box.innerHTML = PART_TILES.map((t) => {
+    const n = pool.filter((p) => partOf(p) === t.part).length;
+    return `<button type="button" class="tile" data-part-tile="${t.part}">
+      <span class="tile-photo"><img src="${escapeHtml(t.image)}" alt="" loading="lazy" decoding="async"></span>
+      <span class="tile-body">
+        <span class="tile-name">${t.emoji} ${escapeHtml(t.label)}</span>
+        <span class="tile-sub">${escapeHtml(t.sub)}</span>
+        <span class="tile-n">${n}개</span>
+      </span>
+    </button>`;
+  }).join("");
+}
+
+function renderCategoryList() {
+  const wrap = $("cat-browse");
+  const tiles = $("cattiles");
+  const list = $("cat-list");
+  if (!list) return;
+  const browsing = state.part !== "all";
+  if (tiles) tiles.hidden = browsing;
+  if (wrap) wrap.hidden = !browsing;
+  if (!browsing) {
+    list.innerHTML = "";
     return;
   }
-  sec.hidden = false;
-  title.textContent = heading;
-  row.innerHTML = items
+  const f = currentFilter();
+  let items = basePool().filter((p) => partOf(p) === state.part && matchesFilter(p, f));
+  items = sortList(items, state.sort);
+  const part = partById(state.part);
+  const head = $("cat-head");
+  if (head) {
+    head.innerHTML = `<h2>${escapeHtml(part.label)}</h2><span>${collapseVariants(items).length}개 · ${escapeHtml(
+      sortHint()
+    )}</span>`;
+  }
+  renderFilters();
+  renderCardsInto(list, items, { limit: state.limit.category, moreKey: "category", grouped: state.filter === "all" });
+}
+
+function renderFilters() {
+  const nav = $("part-filters");
+  if (!nav) return;
+  const items = partFilters();
+  nav.innerHTML = items
     .map(
-      ({ p, label }) => `<button type="button" class="deal-card" data-id="${escapeHtml(p.id)}">
-        <div class="deal-photo">${p.image ? `<img src="${escapeHtml(p.image)}" alt="" decoding="async">` : ""}</div>
-        <div class="deal-body">
-          <p class="deal-drop">${escapeHtml(label)}</p>
-          <p class="deal-name">${escapeHtml(p.name)}</p>
-          <p class="deal-price">${p.price != null ? won(p.price) : ""}</p>
-        </div>
-      </button>`
+      (f) =>
+        `<button type="button" class="filter${f.id === state.filter ? " is-on" : ""}" data-filter="${f.id}">${escapeHtml(
+          f.label
+        )}</button>`
     )
     .join("");
-  row.querySelectorAll(".deal-card").forEach((btn) => {
-    btn.addEventListener("click", () => jumpToProduct(btn.getAttribute("data-id")));
+}
+
+/* ── 랭킹 ────────────────────────────────────────────── */
+
+function rankParts() {
+  return [{ id: "all", label: "전체" }].concat(
+    PART_TILES.map((t) => ({ id: t.part, label: t.label }))
+  );
+}
+function renderRanking() {
+  const parts = $("rank-parts");
+  if (parts) {
+    parts.innerHTML = rankParts()
+      .map(
+        (p) =>
+          `<button type="button" class="${p.id === state.rankPart ? "is-on" : ""}" data-rankpart="${p.id}">${escapeHtml(
+            p.label
+          )}</button>`
+      )
+      .join("");
+  }
+  const pool = basePool().filter((p) => (state.rankPart === "all" ? true : partOf(p) === state.rankPart) && !isGadget(p));
+  const items = collapseVariants(pool);
+
+  const disc = items
+    .filter((p) => typeof p.discountPct === "number" && p.discountPct > 0)
+    .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
+    .slice(0, 5);
+  renderRankBlock("rank-discount", disc, "할인");
+
+  /* 단가 최저: 같은 단위(100ml/100g/개) 안에서만 견준다 */
+  const kinds = {};
+  items.forEach((p) => {
+    const k = measureKind(p);
+    kinds[k] = (kinds[k] || 0) + 1;
+  });
+  const mainKind = Object.entries(kinds).sort((a, b) => b[1] - a[1])[0];
+  const unit = mainKind ? mainKind[0] : "per100g";
+  const unitItems = items
+    .filter((p) => measureKind(p) === unit && measureValue(p) != null)
+    .sort((a, b) => measureValue(a) - measureValue(b))
+    .slice(0, 5);
+  renderRankBlock("rank-unit", unitItems, "단가");
+  const note = $("rank-note");
+  if (note) note.textContent = `단가 최저는 ${MEASURE_LABEL[unit]} 기준으로 비교했어요 · 값이 같으면 가격이 낮은 순.`;
+}
+
+function renderRankBlock(id, items, mode) {
+  const box = $(id);
+  if (!box) return;
+  box.innerHTML = "";
+  if (!items.length) {
+    box.appendChild(emptyNode());
+    return;
+  }
+  items.forEach((p, i) => {
+    const el = cardEl(p, { rank: i + 1, showPart: state.rankPart === "all" });
+    if (mode === "단가") {
+      const badge = el.querySelector(".pc-price");
+      if (badge) badge.insertAdjacentHTML("beforeend", `<span class="rank-metric">${won(Math.round(measureValue(p)))}/${measureLabel(p).replace("당", "")}</span>`);
+    }
+    box.appendChild(el);
   });
 }
 
-/* ── 비교표 ──────────────────────────────────────────── */
+/* ── 핫딜 ────────────────────────────────────────────── */
 
-function unitHeadFor(list) {
-  const kinds = new Set(list.map(measureKind));
-  if (kinds.size !== 1) return "단가";
-  const kind = [...kinds][0];
-  return kind === "each" ? "개당" : MEASURE_LABEL[kind];
+function renderHotdeal() {
+  const ctl = $("hot-ctl");
+  if (ctl) {
+    ctl.innerHTML = ctlBarHTML(
+      `<button type="button" class="cchip is-src${state.dealLow ? " is-on" : ""}" data-deallow="1">60일 저점만</button>`
+    );
+  }
+  const pool = collapseVariants(basePool());
+  const wall = pool
+    .filter((p) => p.price != null)
+    .sort((a, b) => (b.popularScore || 0) - (a.popularScore || 0))
+    .slice(0, 12);
+  const wallBox = $("chartwall");
+  if (wallBox) {
+    wallBox.innerHTML = wall
+      .map((p) => {
+        const svg = sparkSVG(p);
+        const s = lowStats(p);
+        const tag =
+          s.state === "low"
+            ? `<span class="wall-tag is-low">최저가</span>`
+            : typeof p.discountPct === "number" && p.discountPct > 0
+            ? `<span class="wall-tag">-${p.discountPct}%</span>`
+            : "";
+        return `<button type="button" class="wall-card" data-chart="${escapeHtml(p.id)}">
+          <span class="wall-head"><b>${escapeHtml(p.name)}</b>${tag}</span>
+          <span class="wall-body">${svg || `<span class="wall-none">조사 중</span>`}</span>
+          <span class="wall-foot">${won(p.price)}<em>${escapeHtml(measureLabel(p))} ${won(
+          Math.round(measureValue(p) || 0)
+        )}</em></span>
+        </button>`;
+      })
+      .join("");
+  }
+  let list = pool.filter((p) => typeof p.discountPct === "number" && p.discountPct > 0);
+  if (state.dealLow) {
+    list = pool.filter((p) => {
+      const s = lowStats(p);
+      return s.state === "low" || s.state === "near" || (s.state === "above" && s.pct <= 5);
+    });
+  }
+  const lowPct = (p) => {
+    const s = lowStats(p);
+    return s.pct == null ? 99 : s.pct;
+  };
+  list.sort((a, b) =>
+    state.dealLow ? lowPct(a) - lowPct(b) : b.discountPct - a.discountPct
+  );
+  renderCardsInto($("deal-list"), list, { limit: 30, moreKey: "hotdeal", showPart: true });
+  const note = $("deal-note");
+  if (note) {
+    note.textContent = state.dealLow
+      ? "60일 최저가에 붙은 상품만 모았어요."
+      : `할인율 높은 순 · ${list.length}개 중 상위 ${Math.min(30, list.length)}개.`;
+  }
 }
 
-function renderCompare(list) {
-  const sec = $("compare");
-  const table = $("compare-table");
-  if (!sec || !table) return;
-  if (list.length < 2) {
-    sec.hidden = true;
-    table.innerHTML = "";
+/* ── 검색 ────────────────────────────────────────────── */
+
+function renderSearchView() {
+  const q = String(state.query || "").trim();
+  const chips = $("search-chips");
+  const lead = $("search-lead");
+  const head = $("search-head");
+  const panel = $("search-controls");
+  const list = $("search-list");
+  if (chips) chips.hidden = !!q;
+  if (lead) lead.hidden = !!q;
+  if (head) head.hidden = !q;
+  if (panel) panel.hidden = !q;
+  if (!list) return;
+  if (!q) {
+    list.innerHTML = "";
+    if ($("search-count")) $("search-count").textContent = "";
     return;
   }
-  sec.hidden = false;
-  const showKcal = list.some((p) => kcalLabel(p));
-  const showProtein = list.some((p) => proteinValue(p) != null);
-  const showRating = list.some((p) => p.rating != null);
-  const unitHead = unitHeadFor(list);
-  const head = `<thead><tr><th>상품</th><th>${unitHead}</th><th>가격</th><th>할인</th>${
-    showRating ? "<th>평점</th>" : ""
-  }${showKcal ? "<th>열량</th>" : ""}${showProtein ? "<th>단백질</th>" : ""}<th>저점</th></tr></thead>`;
-  const rows = list
-    .map((p) => {
-      const v = measureValue(p);
-      const thumb = p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy">` : "";
-      const low = lowStats(p);
-      const lowText =
-        low.state === "low" ? "최저가" : low.state === "near" ? `+${low.pct}%` : low.state === "above" ? `+${low.pct}%` : "-";
-      return `<tr>
-        <td class="cmp-name">${thumb}<span>${escapeHtml(p.name)}</span></td>
-        <td>${v != null ? won(Math.round(v)) : ""}</td>
-        <td>${p.price != null ? won(p.price) : ""}</td>
-        <td>${p.discountPct ? `${p.discountPct}%` : ""}</td>
-        ${showRating ? `<td>${p.rating != null ? `★ ${Number(p.rating).toFixed(1)}` : ""}${p.reviewCount != null ? `<span class="cmp-reviews">${reviewCountLabel(p.reviewCount)}</span>` : ""}</td>` : ""}
-        ${showKcal ? `<td>${kcalLabel(p) ? escapeHtml(kcalLabel(p)) : ""}</td>` : ""}
-        ${showProtein ? `<td>${proteinValue(p) != null ? `${proteinValue(p)}g` : ""}</td>` : ""}
-        <td>${low.state === "low" ? `<span class="cheap-dot">최저가</span>` : lowText}</td>
-      </tr>`;
-    })
-    .join("");
-  table.innerHTML = `${head}<tbody>${rows}</tbody>`;
+  const items = sortList(basePool(), state.sort);
+  if ($("search-count")) $("search-count").textContent = `(${collapseVariants(items).length})`;
+  renderCardsInto(list, items, {});
 }
 
-/* ── 상단 탭 · 네비 ──────────────────────────────────── */
-
-function navLinks(className) {
-  return TABS.map(
-    (t) => `<a href="?tab=${t.id}" data-goto="${t.id}" class="${className} tab-${t.id}">
-      ${className === "tab" ? `<span class="ico" aria-hidden="true">${t.icon}</span>` : ""}
-      <span>${t.label}</span></a>`
-  ).join("");
+function resetSearch() {
+  state.query = "";
+  state.highlightId = null;
+  const input = $("search-input");
+  if (input) input.value = "";
+  paint();
 }
+
+function resetAllFilters() {
+  state.query = "";
+  state.part = "all";
+  state.filter = "all";
+  state.sort = "popular";
+  state.sources = { coupang: true, toss: true };
+  state.highlightId = null;
+  state.limit = { home: 24, category: 30 };
+  const input = $("search-input");
+  if (input) input.value = "";
+  paint();
+}
+
+/* ── 탭 · 내비 ───────────────────────────────────────── */
 
 function renderNav() {
   const top = $("topnav");
   if (top) {
     top.innerHTML = TABS.map(
-      (t) => `<a href="?tab=${t.id}" data-goto="${t.id}" class="tab-${t.id}"${state.tab === t.id ? ' aria-current="page"' : ""}>${t.label}</a>`
+      (t) =>
+        `<a href="?tab=${t.id}" data-goto="${t.id}" class="tab-${t.id}"${
+          state.tab === t.id ? ' aria-current="page"' : ""
+        }>${t.label}</a>`
     ).join("");
   }
   const bar = $("tabbar");
   if (bar) {
     bar.innerHTML = TABS.map(
-      (t) => `<a href="?tab=${t.id}" data-goto="${t.id}" class="tab-${t.id}"${state.tab === t.id ? ' aria-current="page"' : ""}>
-        <span class="ico" aria-hidden="true">${t.icon}</span><span>${t.label}</span></a>`
+      (t) =>
+        `<a href="?tab=${t.id}" data-goto="${t.id}" class="tab-${t.id}"${
+          state.tab === t.id ? ' aria-current="page"' : ""
+        }><span class="ico" aria-hidden="true">${t.icon}</span><span>${t.label}</span></a>`
     ).join("");
   }
 }
 
-/* 검색 탭을 열면 바로 입력할 수 있게 포커스 (모바일 키보드는 사용자가 탭했을 때만) */
 function focusSearchInput() {
   const input = $("search-input");
   if (!input) return;
@@ -864,440 +850,16 @@ function setTab(id, scroll = true) {
   state.tab = id;
   document.body.dataset.tab = id;
   document.title =
-    id === "home"
-      ? "띠니마트 | 제로음료·단백질쉐이크·식단고기 단가 비교"
-      : `${TABS.find((t) => t.id === id).label} | 띠니마트`;
+    id === "home" ? "띠니마트 | 제로음료·단백질·고기·간편식 단가 비교" : `${TABS.find((t) => t.id === id).label} | 띠니마트`;
   TABS.forEach((t) => {
     const view = $(`view-${t.id}`);
     if (view) view.hidden = t.id !== id;
   });
   const hero = $("hero");
   if (hero) hero.hidden = id !== "home";
-  if ($("deals")) $("deals").hidden = id !== "home" || !$("deals-row").children.length;
   renderNav();
   paint();
   if (scroll) window.scrollTo({ top: 0, behavior: "auto" });
-}
-
-/* ── 뷰: 검색 ────────────────────────────────────────── */
-
-function renderSearchView() {
-  const q = String(state.query || "").trim();
-  const chips = $("search-chips");
-  const lead = $("search-lead");
-  const head = $("search-head");
-  const panel = $("search-controls");
-  const list = $("search-list");
-  if (chips) chips.hidden = !!q;
-  if (lead) lead.hidden = !!q;
-  if (head) head.hidden = !q;
-  if (panel) panel.hidden = !q;
-  if (!list) return;
-  if (!q) {
-    list.innerHTML = "";
-    const count = $("search-count");
-    if (count) count.textContent = "";
-    return;
-  }
-  const items = searchPool();
-  const count = $("search-count");
-  if (count) count.textContent = `(${items.length})`;
-  renderListInto(list, items);
-}
-
-/* ── 컨트롤(필터 패널) ───────────────────────────────── */
-
-function sourceChecks() {
-  return `<label class="chk"><input type="checkbox" data-src="coupang"${state.sources.coupang ? " checked" : ""}><span>쿠팡</span></label>
-    <label class="chk"><input type="checkbox" data-src="toss"${state.sources.toss ? " checked" : ""}><span>토스</span></label>`;
-}
-
-function basisSelect() {
-  const hasProtein = (state.data.products || []).some((p) => protein20(p));
-  const opts = BASIS_OPTIONS.filter((o) => o.id !== "protein20" || hasProtein);
-  return `<select class="sel" data-ctl="basis" aria-label="가격 기준">${opts
-    .map((o) => `<option value="${o.id}"${state.basis === o.id ? " selected" : ""}>${o.label}</option>`)
-    .join("")}</select>`;
-}
-
-function sortSelect() {
-  return `<select class="sel" data-ctl="sort" aria-label="정렬">${SORT_OPTIONS.map(
-    (o) => `<option value="${o.id}"${state.sort === o.id ? " selected" : ""}>${o.label}</option>`
-  ).join("")}</select>`;
-}
-
-function metricSelect() {
-  const metrics = RANK_METRICS[state.rankPart];
-  return `<div class="ctl-grp"><span class="ctl-lab">기준</span><select class="sel" data-ctl="rankMetric" aria-label="랭킹 기준">
-    ${metrics.map((m) => `<option value="${m.id}"${state.rankMetric === m.id ? " selected" : ""}>${m.label}</option>`).join("")}
-  </select></div>`;
-}
-
-function dealModeSelect() {
-  const opts = [
-    { id: "discount", label: "할인율 높은 순" },
-    { id: "low", label: "60일 저점 대비" },
-  ];
-  return `<div class="ctl-grp"><span class="ctl-lab">모아보기</span><select class="sel" data-ctl="dealMode" aria-label="핫딜 기준">
-    ${opts.map((o) => `<option value="${o.id}"${state.dealMode === o.id ? " selected" : ""}>${o.label}</option>`).join("")}
-  </select></div>`;
-}
-
-function renderControls() {
-  document.querySelectorAll("[data-controls]").forEach((box) => {
-    const kind = box.dataset.controls;
-    const withBasis = kind === "home" || kind === "category" || kind === "search";
-    box.innerHTML = `<div class="ctl">
-      <div class="ctl-grp"><span class="ctl-lab">출처</span>${sourceChecks()}</div>
-      ${withBasis ? `<div class="ctl-grp"><span class="ctl-lab">가격 기준</span>${basisSelect()}</div>` : ""}
-      ${withBasis ? `<div class="ctl-grp"><span class="ctl-lab">정렬</span>${sortSelect()}</div>` : ""}
-      ${kind === "ranking" ? metricSelect() : ""}
-      ${kind === "hotdeal" ? dealModeSelect() : ""}
-    </div>`;
-  });
-}
-
-function initControls() {
-  document.addEventListener("change", (e) => {
-    const t = e.target;
-    if (!t || !t.matches) return;
-    if (t.matches("[data-src]")) {
-      const key = t.getAttribute("data-src");
-      state.sources[key] = t.checked;
-      if (!state.sources.coupang && !state.sources.toss) {
-        state.sources[key] = true;
-        showToast("출처는 하나 이상 골라야 해요");
-      }
-      state.highlightId = null;
-      paint();
-      return;
-    }
-    const ctl = t.getAttribute("data-ctl");
-    if (!ctl) return;
-    if (ctl === "basis") state.basis = t.value;
-    else if (ctl === "sort") state.sort = t.value;
-    else if (ctl === "dealMode") state.dealMode = t.value;
-    else if (ctl === "rankMetric") state.rankMetric = t.value;
-    state.highlightId = null;
-    paint();
-  });
-}
-
-/* ── 뷰: 홈 ──────────────────────────────────────────── */
-
-function renderHome() {
-  renderDeals();
-  const list = basePool();
-  const count = $("home-count");
-  if (count) count.textContent = `(${list.length})`;
-  renderListInto($("home-list"), list);
-}
-
-/* ── 뷰: 카테고리 ────────────────────────────────────── */
-
-function renderParts() {
-  const nav = $("parts");
-  if (!nav) return;
-  nav.innerHTML = allParts()
-    .map((pt) => {
-      const icon = pt.icon ? `<span class="chip-ico" aria-hidden="true">${escapeHtml(pt.icon)}</span>` : "";
-      return `<button type="button" class="part-chip" data-part="${pt.id}" aria-selected="${pt.id === state.part}">
-        ${icon}${escapeHtml(pt.label)} <span class="chip-n">${partCount(pt.id)}</span></button>`;
-    })
-    .join("");
-  nav.querySelectorAll("[data-part]").forEach((btn) => {
-    btn.addEventListener("click", () => pickPart(btn.getAttribute("data-part")));
-  });
-}
-
-function renderPartFilters() {
-  const nav = $("part-filters");
-  const row = $("row-part");
-  if (!nav) return;
-  const items = partFilters();
-  if (state.part === "all" || items.length < 2) {
-    nav.innerHTML = "";
-    if (row) row.hidden = true;
-    return;
-  }
-  let shown = 0;
-  nav.innerHTML = items
-    .map((f) => {
-      const total = countFor(state.part, f, true);
-      if (f.id !== "all" && total === 0) return "";
-      shown += 1;
-      const ico = f.icon ? `<span class="chip-ico">${escapeHtml(f.icon)}</span>` : "";
-      return `<button type="button" class="filter" data-filter="${f.id}" aria-selected="${f.id === state.filter}">
-        ${ico}${escapeHtml(f.label)} <span class="chip-n">${countFor(state.part, f)}</span></button>`;
-    })
-    .join("");
-  if (row) row.hidden = shown < 2;
-  nav.querySelectorAll("[data-filter]").forEach((btn) => {
-    btn.addEventListener("click", () => pickFilter(btn.getAttribute("data-filter")));
-  });
-}
-
-function renderChipRow(nav, items, current, onPick) {
-  if (!nav) return;
-  nav.innerHTML = (items || [])
-    .map(
-      (c) => `<button type="button" class="filter" data-chip="${escapeHtml(c.id)}" aria-selected="${c.id === current}">${escapeHtml(c.label)}</button>`
-    )
-    .join("");
-  nav.querySelectorAll("[data-chip]").forEach((btn) => {
-    btn.addEventListener("click", () => onPick(btn.getAttribute("data-chip")));
-  });
-}
-
-function renderFilters() {
-  const nav = $("filters");
-  const note = document.querySelector(".ing-note");
-  const meatOnly = state.part === "meat";
-  const row = $("row-container");
-  if (row) row.hidden = meatOnly;
-  if (note) note.hidden = meatOnly;
-  if (!meatOnly) {
-    renderChipRow(nav, state.data.containers || [], state.container, (id) => {
-      state.container = id;
-      state.highlightId = null;
-      paint();
-    });
-  }
-}
-
-function renderIngredients() {
-  const nav = $("ingredients");
-  const row = $("row-ingredient");
-  const meatOnly = state.part === "meat";
-  if (row) row.hidden = meatOnly;
-  if (meatOnly) return;
-  renderChipRow(nav, state.data.ingredientFilters || [], state.ingredient, (id) => {
-    state.ingredient = id;
-    state.highlightId = null;
-    paint();
-  });
-}
-
-function pickPart(id) {
-  if (!partById(id)) return;
-  state.part = id;
-  state.filter = "all";
-  state.highlightId = null;
-  paint();
-}
-
-function pickFilter(id) {
-  state.filter = id;
-  state.highlightId = null;
-  paint();
-}
-
-function renderCategory() {
-  renderParts();
-  renderPartFilters();
-  renderFilters();
-  renderIngredients();
-  const part = partById(state.part);
-  const cat = (state.data.categories || []).find((c) => c.id === state.filter);
-  const sub = currentFilter();
-  const noteText = [sub && sub.id !== "all" ? sub.note : "", cat && cat.note ? cat.note : "", part && part.note ? part.note : ""]
-    .filter(Boolean)
-    .join(" ");
-  const note = $("cat-note");
-  if (note) {
-    note.hidden = !noteText;
-    note.textContent = noteText;
-  }
-  renderListInto($("cat-list"), productsIn(), { compare: true });
-}
-
-/* ── 뷰: 랭킹 ────────────────────────────────────────── */
-
-function renderRankParts() {
-  const nav = $("rank-parts");
-  if (!nav) return;
-  nav.innerHTML = RANK_PARTS.map(
-    (p) => `<button type="button" data-rankpart="${p.id}" aria-selected="${p.id === state.rankPart}">${p.label}</button>`
-  ).join("");
-  nav.querySelectorAll("[data-rankpart]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.rankPart = btn.getAttribute("data-rankpart");
-      const metrics = RANK_METRICS[state.rankPart];
-      state.rankMetric = metrics[0].id;
-      paint();
-    });
-  });
-}
-
-function rankRows() {
-  const metric = RANK_METRICS[state.rankPart].find((m) => m.id === state.rankMetric) || RANK_METRICS[state.rankPart][0];
-  const part = RANK_PARTS.find((p) => p.id === state.rankPart);
-  const pool = basePool().filter((p) => partOf(p) === part.part && !isGadget(p));
-  let rows = pool.map((p) => ({ p, v: metric.value(p) })).filter((x) => x.v != null && x.v > 0);
-  if (metric.perCategory) {
-    const best = new Map();
-    rows.forEach((x) => {
-      const cur = best.get(x.p.category);
-      if (!cur || x.v < cur.v) best.set(x.p.category, x);
-    });
-    rows = [...best.values()];
-  }
-  rows.sort((a, b) => (metric.desc ? b.v - a.v : a.v - b.v));
-  return { metric, rows: rows.slice(0, 10), total: rows.length };
-}
-
-function renderRanking() {
-  renderRankParts();
-  const box = $("rank-list");
-  const note = $("rank-note");
-  if (!box) return;
-  const { metric, rows, total } = rankRows();
-  box.innerHTML = "";
-  if (!rows.length) {
-    box.appendChild(emptyNode());
-    if (note) note.textContent = "이 기준으로 비교할 수 있는 상품이 없어요.";
-    return;
-  }
-  rows.forEach((x, i) => {
-    const unit =
-      metric.unit && state.rankMetric !== "reviews" && state.rankMetric !== "discount"
-        ? { value: x.v, label: metric.unit, kind: metric.id, est: metric.id === "protein20" && isMeat(x.p) }
-        : null;
-    box.appendChild(cardEl(x.p, { rank: i + 1, unit, showCategory: true }));
-  });
-  if (note) {
-    note.textContent = metric.perCategory
-      ? `종류별로 가장 싼 상품만 모아 ${metric.label} 순으로 보여 줘요 · 비교 가능한 종류 ${total}개.`
-      : state.rankMetric === "reviews"
-      ? `리뷰가 확인된 상품 ${total}개 중 상위 ${rows.length}개예요.`
-      : `${metric.label} 기준 비교 가능한 상품 ${total}개 중 상위 ${rows.length}개예요. ` +
-        (state.rankMetric === "protein20" ? "고기 단백질은 부위 표준값 기준이라 '추정'으로 표시했어요." : "");
-  }
-}
-
-/* ── 뷰: 핫딜 ────────────────────────────────────────── */
-
-function hotdealRows() {
-  const pool = basePool();
-  if (state.dealMode === "low") {
-    const rows = pool
-      .map((p) => ({ p, s: lowStats(p) }))
-      .filter(
-        (x) =>
-          (x.s.state === "low" || x.s.state === "near" || x.s.state === "above") &&
-          x.s.pct <= 30 &&
-          (x.s.pct <= 3 || (x.s.pctAvg != null && x.s.pctAvg <= -5))
-      );
-    rows.sort((a, b) => a.s.pct - b.s.pct);
-    return rows.map((x) => x.p);
-  }
-  return pool
-    .filter((p) => typeof p.discountPct === "number" && p.discountPct > 0)
-    .sort((a, b) => b.discountPct - a.discountPct || a.price - b.price);
-}
-
-function renderHotdeal() {
-  const box = $("deal-list");
-  const note = $("deal-note");
-  if (!box) return;
-  const rows = hotdealRows();
-  const shown = rows.slice(0, 30);
-  box.innerHTML = "";
-  if (!shown.length) {
-    box.appendChild(emptyNode());
-    if (note) note.textContent = "조건에 맞는 핫딜이 없어요.";
-    return;
-  }
-  shown.forEach((p) => box.appendChild(dealCardEl(p)));
-  if (note) {
-    note.textContent =
-      state.dealMode === "low"
-        ? `60일 최저가에 붙어 있거나 60일 평균보다 확실히 싼 상품 ${rows.length}개만 모았어요 · 묶음 구성이 바뀐 기록이 있는 상품은 참고값이에요.`
-        : `할인율(정가 대비)이 확인된 상품 ${rows.length}개를 할인 큰 순으로 보여 줘요 · 상위 ${shown.length}개.`;
-  }
-}
-
-/* ── 검색 상태 ───────────────────────────────────────── */
-
-function renderSearchStatus() {
-  const status = $("search-status");
-  const clear = $("search-clear");
-  const input = $("search-input");
-  const q = String(state.query || "").trim();
-  if (clear) clear.hidden = !q;
-  if (input && document.activeElement !== input && input.value !== state.query) input.value = state.query;
-  if (!status) return;
-  if (!q) {
-    status.hidden = true;
-    status.innerHTML = "";
-    return;
-  }
-  const n = searchPool().length;
-  status.hidden = false;
-  status.innerHTML = n
-    ? `🔍 ‘${escapeHtml(q)}’ 검색 결과 <strong>${n}개</strong> <button type="button" class="search-reset" id="search-reset">초기화</button>`
-    : `🔍 ‘${escapeHtml(q)}’ 검색 결과가 없어요`;
-  const reset = $("search-reset");
-  if (reset) reset.addEventListener("click", resetSearch);
-}
-
-function resetSearch() {
-  state.query = "";
-  state.highlightId = null;
-  const input = $("search-input");
-  if (input) input.value = "";
-  paint();
-}
-
-function resetAllFilters() {
-  state.query = "";
-  state.part = "all";
-  state.filter = "all";
-  state.container = "all";
-  state.ingredient = "all";
-  state.basis = "auto";
-  state.sort = "basis";
-  state.sources = { coupang: true, toss: true };
-  state.highlightId = null;
-  const input = $("search-input");
-  if (input) input.value = "";
-  paint();
-}
-
-function initSearch() {
-  const input = $("search-input");
-  const clear = $("search-clear");
-  if (input) {
-    input.addEventListener("input", () => {
-      state.query = input.value;
-      state.highlightId = null;
-      paint();
-    });
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        resetSearch();
-      }
-    });
-  }
-  if (clear) {
-    clear.addEventListener("click", () => {
-      resetSearch();
-      if (input) input.focus();
-    });
-  }
-  document.addEventListener("click", (e) => {
-    if (e.target && e.target.id === "empty-clear") resetSearch();
-    if (e.target && e.target.id === "empty-reset") resetAllFilters();
-    const chip = e.target.closest("[data-keyword]");
-    if (chip) {
-      state.query = chip.getAttribute("data-keyword");
-      state.highlightId = null;
-      const el = $("search-input");
-      if (el) el.value = state.query;
-      paint();
-    }
-  });
 }
 
 /* ── 상품으로 이동 ───────────────────────────────────── */
@@ -1312,14 +874,12 @@ function jumpToProduct(id) {
   }
   state.part = "all";
   state.filter = "all";
-  state.container = "all";
-  state.ingredient = "all";
   state.sources = { coupang: true, toss: true };
-  state.highlightId = id;
+  state.highlightId = p.variantGroup ? (state.vgroups[p.variantGroup].find((x) => DEFAULTS.has(x.id)) || p).id : id;
   if (state.tab !== "home") setTab("home", false);
   paint();
   requestAnimationFrame(() => {
-    const el = document.querySelector(`.pc[data-id="${CSS.escape(id)}"]`);
+    const el = document.querySelector(`.pc[data-id="${CSS.escape(state.highlightId)}"]`);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.classList.add("is-flash");
@@ -1331,7 +891,6 @@ function jumpToProduct(id) {
 /* ── 공유 ────────────────────────────────────────────── */
 
 let toastTimer = null;
-
 function showToast(message) {
   const t = $("toast");
   if (!t) return;
@@ -1348,15 +907,13 @@ function showToast(message) {
 function shareLinkFor(p) {
   return p ? `${SHARE_BASE}/?p=${encodeURIComponent(p.id)}` : `${SHARE_BASE}/`;
 }
-
 function shareTextFor(p) {
-  if (!p) return "제로 음료·단백질 음료·식단 고기를 단가로 비교하는 띠니마트예요.";
+  if (!p) return "제로 음료·단백질·식단 고기·간편식을 단가로 비교하는 띠니마트예요.";
   const price = p.price != null ? `${won(p.price)} · ` : "";
-  const u = displayUnit(p);
-  const unit = u && u.value != null ? `${Math.round(u.value)}원 / ${u.label}` : p.unitPrice || "";
+  const v = measureValue(p);
+  const unit = v != null ? `${Math.round(v)}원 / ${measureLabel(p)}` : "";
   return `띠니마트에서 본 상품: ${p.name} / ${price}${unit}`.trim();
 }
-
 async function shareMart(p) {
   const url = shareLinkFor(p);
   const title = p ? `띠니마트 · ${p.name}` : "띠니마트 · 단가 비교";
@@ -1372,7 +929,6 @@ async function shareMart(p) {
   const ok = await copyText(url);
   showToast(ok ? "공유 링크가 복사됐어요!" : `직접 복사해 주세요: ${url}`);
 }
-
 async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
@@ -1399,19 +955,11 @@ function initShare() {
   document.addEventListener("click", async (e) => {
     const copyBtn = e.target.closest("[data-copy]");
     if (copyBtn) {
-      const id = copyBtn.getAttribute("data-copy");
-      const p = (state.data.products || []).find((x) => x.id === id);
+      const p = (state.data.products || []).find((x) => x.id === copyBtn.getAttribute("data-copy"));
       if (!p) return;
       const link = p.affiliateUrl || shareLinkFor(p);
       const ok = await copyText(link);
       showToast(ok ? "구매 링크를 복사했어요 (제휴 링크)" : `직접 복사해 주세요: ${link}`);
-      return;
-    }
-    const productBtn = e.target.closest("[data-share-product]");
-    if (productBtn) {
-      const id = productBtn.getAttribute("data-share-product");
-      const p = (state.data.products || []).find((x) => x.id === id);
-      shareMart(p || null);
       return;
     }
     const go = e.target.closest("[data-goto]");
@@ -1422,25 +970,21 @@ function initShare() {
       if (target === "search") focusSearchInput();
       return;
     }
-    const btn = e.target.closest("[data-share]");
-    if (btn) shareMart(null);
+    if (e.target.closest("[data-share]")) shareMart(null);
   });
 }
 
-/* ── 홈 화면 바로가기 추가 ───────────────────────────── */
+/* ── 홈 화면 바로가기 ────────────────────────────────── */
 
 let installPromptEvent = null;
-
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   installPromptEvent = e;
 });
-
 window.addEventListener("appinstalled", () => {
   installPromptEvent = null;
   hideShortcutBanners();
 });
-
 function isStandalone() {
   try {
     return (
@@ -1452,14 +996,10 @@ function isStandalone() {
     return false;
   }
 }
-
 function hideShortcutBanners() {
-  document.querySelectorAll("[data-shortcut]").forEach((btn) => {
-    btn.hidden = true;
-  });
+  document.querySelectorAll("[data-shortcut]").forEach((btn) => (btn.hidden = true));
   document.querySelectorAll(".quick-row").forEach((row) => row.classList.add("is-solo"));
 }
-
 function deviceEnv() {
   const ua = navigator.userAgent || "";
   const iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -1468,7 +1008,6 @@ function deviceEnv() {
   const mac = !iOS && /Macintosh|Mac OS X/.test(ua);
   return { iOS, android, inApp, mac };
 }
-
 function shortcutGuide() {
   const { iOS, android, inApp, mac } = deviceEnv();
   const ua = navigator.userAgent || "";
@@ -1521,19 +1060,12 @@ function shortcutGuide() {
     hint: "북마크에 넣어 두면 클릭 한 번으로 열 수 있어요.",
   };
 }
-
-function shortcutUrl() {
-  return location.origin + location.pathname;
-}
-
 function showInstallModal(guide) {
   const modal = $("install-modal");
   if (!modal) return;
   if ($("install-title")) $("install-title").textContent = guide.title || "홈 화면에 추가하기";
   if ($("install-device")) $("install-device").textContent = guide.device || "";
-  if ($("install-steps")) {
-    $("install-steps").innerHTML = (guide.steps || []).map((s) => `<li>${escapeHtml(s)}</li>`).join("");
-  }
+  if ($("install-steps")) $("install-steps").innerHTML = (guide.steps || []).map((s) => `<li>${escapeHtml(s)}</li>`).join("");
   if ($("install-hint")) {
     $("install-hint").textContent = guide.hint || "";
     $("install-hint").hidden = !guide.hint;
@@ -1546,14 +1078,12 @@ function showInstallModal(guide) {
   document.body.classList.add("modal-open");
   if ($("install-close")) $("install-close").focus({ preventScroll: true });
 }
-
 function closeInstallModal() {
   const modal = $("install-modal");
   if (!modal || modal.hidden) return;
   modal.hidden = true;
   if (!$(".pm-modal:not([hidden])")) document.body.classList.remove("modal-open");
 }
-
 async function onShortcutClick() {
   if (isStandalone()) {
     showInstallModal({
@@ -1569,10 +1099,7 @@ async function onShortcutClick() {
     try {
       ev.prompt();
       const choice = await ev.userChoice;
-      if (choice && choice.outcome === "accepted") {
-        hideShortcutBanners();
-        return;
-      }
+      if (choice && choice.outcome === "accepted") hideShortcutBanners();
       return;
     } catch {
       installPromptEvent = null;
@@ -1580,7 +1107,6 @@ async function onShortcutClick() {
   }
   showInstallModal(shortcutGuide());
 }
-
 function initShortcut() {
   document.querySelectorAll("[data-shortcut]").forEach((btn) => btn.addEventListener("click", onShortcutClick));
   if (isStandalone()) hideShortcutBanners();
@@ -1597,7 +1123,7 @@ function initShortcut() {
   const copy = $("install-copy");
   if (copy) {
     copy.addEventListener("click", async () => {
-      const url = shortcutUrl();
+      const url = location.origin + location.pathname;
       const ok = await copyText(url);
       const copied = $("install-copied");
       if (!copied) return;
@@ -1620,11 +1146,13 @@ const LEGACY_CAT = {
   energy: ["zero", "energy"],
   icetea: ["zero", "tea"],
   tea: ["zero", "tea"],
-  powder: ["zero", "tea"],
   protein: ["protein", "all"],
+  shake: ["shake", "all"],
+  beef: ["meat", "beef"],
+  pork: ["meat", "pork"],
+  chicken: ["meat", "chicken"],
 };
-const LEGACY_FILTER = { fizz: "cola", boost: "ion" };
-const LEGACY_SORT = { per100: "basis", per100g: "basis" };
+const LEGACY_SORT = { per100: "basis", per100g: "basis", reviews: "popular", rating: "popular" };
 
 function syncUrl() {
   const url = new URL(location.href);
@@ -1635,15 +1163,15 @@ function syncUrl() {
   put("tab", state.tab === "home" ? "" : state.tab);
   put("part", state.part);
   put("f", state.filter);
-  put("sort", state.sort === "basis" ? "" : state.sort);
-  put("basis", state.basis === "auto" ? "" : state.basis);
-  put("pack", state.container);
-  put("ing", state.ingredient);
-  const srcOn = state.sources.coupang && state.sources.toss ? "" : [state.sources.coupang ? "coupang" : "", state.sources.toss ? "toss" : ""].filter(Boolean).join(",");
+  put("sort", state.sort === "popular" ? "" : state.sort);
+  const srcOn =
+    state.sources.coupang && state.sources.toss
+      ? ""
+      : [state.sources.coupang ? "coupang" : "", state.sources.toss ? "toss" : ""].filter(Boolean).join(",");
   put("src", srcOn);
   put("q", state.query.trim());
   put("p", state.highlightId);
-  url.searchParams.delete("cat");
+  ["basis", "pack", "ing", "cat"].forEach((k) => url.searchParams.delete(k));
   history.replaceState({}, "", url);
 }
 
@@ -1651,7 +1179,6 @@ function applyUrlState() {
   const q = new URLSearchParams(location.search);
   const tab = q.get("tab");
   if (tab && TABS.some((t) => t.id === tab)) state.tab = tab;
-
   const src = q.get("src");
   if (src) {
     const set = new Set(src.split(",").map((s) => s.trim()).filter(Boolean));
@@ -1659,29 +1186,18 @@ function applyUrlState() {
     state.sources.toss = set.has("toss");
     if (!state.sources.coupang && !state.sources.toss) state.sources = { coupang: true, toss: true };
   }
-
   const legacy = q.get("cat") ? LEGACY_CAT[q.get("cat")] : null;
   const wantedPart = q.get("part") || (legacy ? legacy[0] : "all");
   if (allParts().some((p) => p.id === wantedPart)) state.part = wantedPart;
-  const filterId = q.get("f") ? LEGACY_FILTER[q.get("f")] || q.get("f") : legacy ? legacy[1] : "all";
+  const filterId = q.get("f") || (legacy ? legacy[1] : "all");
   if (partFilters(state.part).some((f) => f.id === filterId)) state.filter = filterId;
-
   const sort = q.get("sort");
   if (sort) {
     const mapped = LEGACY_SORT[sort] || sort;
     if (SORT_IDS.has(mapped)) state.sort = mapped;
   }
-  const basis = q.get("basis");
-  if (BASIS_OPTIONS.some((b) => b.id === basis)) state.basis = basis;
-
-  const packs = (state.data.containers || []).map((c) => c.id);
-  if (q.get("pack") && packs.includes(q.get("pack"))) state.container = q.get("pack");
-  const ings = (state.data.ingredientFilters || []).map((c) => c.id);
-  if (q.get("ing") && ings.includes(q.get("ing"))) state.ingredient = q.get("ing");
-
   const pid = q.get("p");
   if (pid && (state.data.products || []).some((p) => p.id === pid)) state.highlightId = pid;
-
   const query = q.get("q");
   if (query) {
     state.query = query;
@@ -1689,9 +1205,128 @@ function applyUrlState() {
     if (input) input.value = query;
     if (!tab) state.tab = "search";
   }
-
-  if (!tab && (q.get("part") || q.get("f") || q.get("pack") || q.get("ing"))) state.tab = "category";
+  if (!tab && (q.get("part") || q.get("f"))) state.tab = "category";
   if (!TABS.some((t) => t.id === state.tab)) state.tab = "home";
+}
+
+/* ── 이벤트 ──────────────────────────────────────────── */
+
+function initControls() {
+  document.addEventListener("click", (e) => {
+    const sortBtn = e.target.closest("[data-sort]");
+    if (sortBtn) {
+      state.sort = sortBtn.getAttribute("data-sort");
+      state.limit.home = 24;
+      state.limit.category = 30;
+      paint();
+      return;
+    }
+    const srcBtn = e.target.closest("[data-src]");
+    if (srcBtn) {
+      const key = srcBtn.getAttribute("data-src");
+      state.sources[key] = !state.sources[key];
+      if (!state.sources.coupang && !state.sources.toss) {
+        state.sources[key] = true;
+        showToast("출처는 하나 이상 골라야 해요");
+      }
+      paint();
+      return;
+    }
+    const dealLow = e.target.closest("[data-deallow]");
+    if (dealLow) {
+      state.dealLow = !state.dealLow;
+      paint();
+      return;
+    }
+    const tile = e.target.closest("[data-part-tile]");
+    if (tile) {
+      state.part = tile.getAttribute("data-part-tile");
+      state.filter = "all";
+      state.limit.category = 30;
+      paint();
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+    const back = e.target.closest("[data-backpart]");
+    if (back) {
+      state.part = "all";
+      state.filter = "all";
+      paint();
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+    const filt = e.target.closest("[data-filter]");
+    if (filt) {
+      state.filter = filt.getAttribute("data-filter");
+      state.limit.category = 30;
+      paint();
+      return;
+    }
+    const rp = e.target.closest("[data-rankpart]");
+    if (rp) {
+      state.rankPart = rp.getAttribute("data-rankpart");
+      paint();
+      return;
+    }
+    const more = e.target.closest("[data-more]");
+    if (more) {
+      const key = more.getAttribute("data-more");
+      if (key === "home") state.limit.home += 24;
+      else if (key === "category") state.limit.category += 30;
+      paint();
+      return;
+    }
+    const varBtn = e.target.closest("[data-var]");
+    if (varBtn) {
+      const card = varBtn.closest(".pc");
+      if (card) switchVariant(card, varBtn.getAttribute("data-var"));
+      return;
+    }
+  });
+}
+
+function initSearch() {
+  const input = $("search-input");
+  const clear = $("search-clear");
+  if (input) {
+    input.addEventListener("input", () => {
+      state.query = input.value;
+      state.highlightId = null;
+      paint();
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        resetSearch();
+      }
+    });
+  }
+  if (clear) {
+    clear.addEventListener("click", () => {
+      resetSearch();
+      if (input) input.focus();
+    });
+  }
+  document.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "empty-clear") resetSearch();
+    if (e.target && e.target.id === "empty-reset") resetAllFilters();
+    const chip = e.target.closest("[data-keyword]");
+    if (chip) {
+      state.query = chip.getAttribute("data-keyword");
+      state.highlightId = null;
+      const el = $("search-input");
+      if (el) el.value = state.query;
+      paint();
+    }
+  });
+}
+
+function renderSearchStatus() {
+  const clear = $("search-clear");
+  const input = $("search-input");
+  const q = String(state.query || "").trim();
+  if (clear) clear.hidden = !q;
+  if (input && document.activeElement !== input && input.value !== state.query) input.value = state.query;
 }
 
 /* ── 시작 ────────────────────────────────────────────── */
@@ -1701,8 +1336,10 @@ function paint() {
   renderSearchStatus();
   renderControls();
   if (state.tab === "home") renderHome();
-  else if (state.tab === "category") renderCategory();
-  else if (state.tab === "search") renderSearchView();
+  else if (state.tab === "category") {
+    renderTiles();
+    renderCategoryList();
+  } else if (state.tab === "search") renderSearchView();
   else if (state.tab === "ranking") renderRanking();
   else renderHotdeal();
   if (typeof refreshAlertButtons === "function") refreshAlertButtons();
@@ -1735,15 +1372,12 @@ function setLegalOffset() {
   document.documentElement.style.setProperty("--legal-h", legal.offsetHeight + "px");
 }
 
-/* 최신 업데이트 = 상품 카드 확인 시각 · 가격 이력 생성 시각 중 가장 늦은 값 */
 const WEEKDAY_KO = ["일", "월", "화", "수", "목", "금", "토"];
-
 function parseCheckedAt(value) {
   const m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/.exec(String(value || ""));
   if (!m) return null;
   return { date: `${m[1]}-${m[2]}-${m[3]}`, y: +m[1], mo: +m[2], d: +m[3], time: m[4] ? `${m[4]}:${m[5]}` : "" };
 }
-
 function latestChecked() {
   let best = null;
   const consider = (c) => {
@@ -1755,25 +1389,18 @@ function latestChecked() {
   consider(parseCheckedAt(state.data.site && state.data.site.updatedAt));
   return best;
 }
-
 function renderUpdateBand() {
-  const site = state.data.site || {};
   const latest = latestChecked();
   if (latest && $("update-date-big")) {
     const wd = WEEKDAY_KO[new Date(latest.y, latest.mo - 1, latest.d).getDay()] || "";
     $("update-date-big").textContent = `${latest.mo}/${latest.d}`;
     if ($("update-weekday")) $("update-weekday").textContent = wd ? `(${wd})` : "";
     if ($("update-time")) {
-      // 실제 확인 시각(예: 09:09)을 날짜 옆에 작게 표시
       $("update-time").textContent = latest.time || "";
       $("update-time").hidden = !latest.time;
     }
   }
-  if ($("update-cycle-main")) {
-    // 한 줄짜리 업데이트 바 — 날짜·시각 옆에 모니터링 범위를 짧게
-    $("update-cycle-main").textContent = "오전·오후 9시 할인·인기 베스트 상품 지속 모니터";
-  }
-  if ($("update-cycle-note")) $("update-cycle-note").textContent = site.updateCycleNote || "쿠팡·토스 가격을 다시 확인해요";
+  if ($("update-cycle-main")) $("update-cycle-main").textContent = "오전·오후 9시 할인·인기 베스트 상품 지속 모니터";
 }
 
 async function init() {
@@ -1788,9 +1415,12 @@ async function init() {
   if (typeof loadPriceHistory === "function") await loadPriceHistory();
   if (typeof initPriceModal === "function") initPriceModal();
   buildLowInfo();
+  buildVariantIndex();
+  DEFAULTS = defaultVariantIds();
   if (typeof buildMarketIndex === "function") buildMarketIndex(state.data.products, state.data.categories);
   if (typeof initPushUI === "function") initPushUI();
   if (typeof initPush === "function") initPush();
+  state.rankPart = state.rankPart || "zero";
   applyUrlState();
   renderUpdateBand();
   renderNav();
@@ -1803,8 +1433,6 @@ async function init() {
 
 init().catch((err) => {
   const box = document.querySelector("#home-list");
-  if (box) {
-    box.innerHTML = `<div class="empty"><p>상품 정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p></div>`;
-  }
+  if (box) box.innerHTML = `<div class="empty"><p>상품 정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p></div>`;
   console.error(err);
 });

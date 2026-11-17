@@ -1,0 +1,211 @@
+{
+ "products": 169,
+ "byPart": {
+  "cheat": 24,
+  "shake": 15,
+  "meat": 48,
+  "zero": 59,
+  "protein": 23
+ },
+ "byCategory": {
+  "rice": 9,
+  "can": 7,
+  "shake": 15,
+  "snack": 1,
+  "meal": 3,
+  "pork": 12,
+  "beef": 10,
+  "chicken": 10,
+  "duck": 3,
+  "cola": 13,
+  "egg": 2,
+  "salmon": 3,
+  "jeyuk": 1,
+  "gadget": 5,
+  "cider": 11,
+  "tea": 2,
+  "protein": 23,
+  "lamb": 2,
+  "ion": 6,
+  "energy": 8,
+  "water": 3,
+  "icetea": 3,
+  "bakery": 2,
+  "sparkling": 9,
+  "acv": 4,
+  "sauce": 2
+ },
+ "dropped": [
+  {
+   "id": "maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae",
+   "name": "마이밀 뉴프로틴 드링크 오리지널, 190ml, 30개",
+   "why": "인지도 낮은 브랜드(재영 님 지시)"
+  },
+  {
+   "id": "keeowel-baelreonseun-godanbaek-bananamat-200ml-60gae",
+   "name": "케어웰 밸런스N 고단백 바나나맛, 200ml, 60개",
+   "why": "인지도 낮은 브랜드(재영 님 지시)"
+  },
+  {
+   "id": "pepsi-zero-lime-355",
+   "name": "펩시 콜라 제로슈가 라임향, 355ml, 24개",
+   "why": "toss-pepsi-jero-syugeo-raimhyang-355ml-24gae와 같은 상품(더 비싸서 제외)"
+  }
+ ],
+ "variantGroups": [
+  {
+   "group": "g001",
+   "ids": [
+    "bakkaseu-eolbaksa-jero-24gae-355ml#6",
+    "bakkaseu-eolbaksa-jero-24gae-355ml#12",
+    "bakkaseu-eolbaksa-jero-24gae-355ml#18",
+    "bakkaseu-eolbaksa-jero-24gae-355ml",
+    "bakkaseu-eolbaksa-jero-24gae-355ml#48"
+   ],
+   "labels": [
+    "6개",
+    "12개",
+    "18개",
+    "24개",
+    "48개"
+   ]
+  },
+  {
+   "group": "g002",
+   "ids": [
+    "retort-rice-haetban-baekmi-210g-24#9",
+    "retort-rice-haetban-baekmi-210g-24#12",
+    "retort-rice-haetban-baekmi-210g-24#18",
+    "retort-rice-haetban-baekmi-210g-24",
+    "retort-rice-haetban-baekmi-210g-24#36"
+   ],
+   "labels": [
+    "9개",
+    "12개",
+    "18개",
+    "24개",
+    "36개"
+   ]
+  },
+  {
+   "group": "g003",
+   "ids": [
+    "retort-can-spam-classic-340g-6#3",
+    "retort-can-spam-classic-340g-6",
+    "retort-can-spam-classic-340g-6#9",
+    "retort-can-spam-classic-340g-6#12",
+    "retort-can-spam-classic-340g-6#20"
+   ],
+   "labels": [
+    "3개",
+    "6개",
+    "9개",
+    "12개",
+    "20개"
+   ]
+  },
+  {
+   "group": "g004",
+   "ids": [
+    "kokakolra-jero-190ml-30gae#6",
+    "kokakolra-jero-190ml-30gae#10",
+    "kokakolra-jero-190ml-30gae#20",
+    "kokakolra-jero-190ml-30gae",
+    "kokakolra-jero-190ml-30gae#90"
+   ],
+   "labels": [
+    "6개",
+    "10개",
+    "20개",
+    "30개",
+    "90개"
+   ]
+  },
+  {
+   "group": "g005",
+   "ids": [
+    "keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae",
+    "keulrup-aesabisoda-orijineol-500ml-24gae"
+   ],
+   "labels": [
+    "12개",
+    "24개"
+   ]
+  },
+  {
+   "group": "g006",
+   "ids": [
+    "seupakeul-saengsu-murabel-500ml-40byeong",
+    "toss-seupakeul-saengsu-murabel-500ml-80gae"
+   ],
+   "labels": [
+    "40개",
+    "80개"
+   ]
+  }
+ ],
+ "variantCardCount": 6,
+ "naverAlt": 6,
+ "topPopular": [
+  {
+   "name": "햇반 발아현미밥, 210g, 24개",
+   "score": 102,
+   "discount": 47
+  },
+  {
+   "name": "햇반 백미밥 작은 공기, 130g, 36개",
+   "score": 102,
+   "discount": 50
+  },
+  {
+   "name": "스팸 클래식, 340g, 6개",
+   "score": 102,
+   "discount": 50
+  },
+  {
+   "name": "동원참치 고추 참치, 150g, 12개",
+   "score": 102,
+   "discount": 45
+  },
+  {
+   "name": "동원 라이트 스탠다드 참치, 150g, 8개",
+   "score": 102,
+   "discount": 41
+  },
+  {
+   "name": "뉴욕웨이 라이트 단백질 보충제, 2kg, 1개",
+   "score": 102,
+   "discount": 62
+  },
+  {
+   "name": "곰곰 단백질바, 600g, 1개",
+   "score": 102,
+   "discount": 42
+  },
+  {
+   "name": "비비고 사골곰탕, 500g, 20개",
+   "score": 100.5,
+   "discount": 35
+  },
+  {
+   "name": "도드람 한돈 1등급 삼겹살 구이용 (냉장), 1kg, 1개",
+   "score": 99.2,
+   "discount": 36
+  },
+  {
+   "name": "농협안심한우 숙성등심 1등급 구이용 (냉장), 200g, 1개",
+   "score": 98.59,
+   "discount": 41
+  },
+  {
+   "name": "하림 자연실록 무항생제 인증 닭 안심 (냉장), 350g, 1개",
+   "score": 97.0,
+   "discount": 30
+  },
+  {
+   "name": "곰곰 1등급 원료육을 사용한 훈제오리슬라이스 (냉장), 600g, 1개",
+   "score": 96.91,
+   "discount": 32
+  }
+ ]
+}
