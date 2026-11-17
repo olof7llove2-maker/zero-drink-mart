@@ -7753,7 +7753,7 @@ const PRODUCTS = [
     "part": "cheat",
     "brand": "해담별",
     "name": "해담별 제주 흑돼지 왕구이, 1.2kg, 2개",
-    "kind": "제주 흑돼지 양념 왕구이 · 1.2kg 2팩",
+    "kind": "제주 흑돼지 양념 왕구이",
     "price": 13900,
     "listPrice": 15900,
     "discountPct": 13,
