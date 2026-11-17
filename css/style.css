@@ -1303,3 +1303,10 @@ body.modal-open { overflow: hidden; }
   }
   .list--grid > .pc .spark.is-none span { font-size: 8px; color: var(--muted-2); }
 }
+
+/* 2열 카드: 버튼 줄을 카드 바닥에 맞춰 가지런히 */
+@media (max-width: 859px) {
+  .list--grid > .pc .pc-body { height: 100%; }
+  .list--grid > .pc .pc-acts { margin-top: auto; }
+  .list--grid > .pc .pc-name { min-height: 2.6em; }
+}
