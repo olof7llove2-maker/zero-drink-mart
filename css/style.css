@@ -1306,3 +1306,156 @@ body.modal-open { overflow: hidden; }
   .list--grid > .pc .pc-acts.is-pair .btn-ghost { flex: 1 1 auto; }
   .list--grid > .pc .pc-nvtag { font-size: 9px; padding: 0 4px; }
 }
+
+/* ── 🔥 오늘의 역대급 할인 (가로 스와이프 카드) ─────────
+   이미지 크기는 CSS가 늦게 와도(캐시) 터지지 않도록 <img width/height="72">
+   속성과 여기 width/height를 이중으로 고정했습니다. */
+.spot { margin: 10px 0 0; }
+.spot[hidden] { display: none; }
+.spot-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 8px; margin: 0 2px 7px;
+}
+.spot-title {
+  font-size: 15px; font-weight: 900; letter-spacing: -0.035em;
+  color: var(--ink); line-height: 1.25;
+}
+.spot-hint {
+  font-size: 10px; font-weight: 800; letter-spacing: -0.02em;
+  color: var(--muted-2); white-space: nowrap;
+}
+.spot-rail {
+  display: flex; gap: 10px;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 1px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2px 20px 6px 1px;
+  margin-right: calc(var(--pad) * -1);
+}
+.spot-rail::-webkit-scrollbar { display: none; }
+
+.spot-card {
+  flex: 0 0 288px; max-width: 86%;
+  scroll-snap-align: start;
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  row-gap: 5px; column-gap: 10px;
+  align-items: start;
+  padding: 11px;
+  border-radius: 16px;
+  color: #fff;
+  background: radial-gradient(120% 130% at 0% 0%, #24314f 0%, #141c30 48%, #0b111f 100%);
+  box-shadow: 0 6px 18px rgba(11, 17, 31, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.spot-card::after {
+  content: ""; position: absolute; right: -44px; top: -54px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 37, 40, 0.36), rgba(229, 37, 40, 0) 68%);
+  pointer-events: none;
+}
+.spot-tap { display: contents; }
+.spot-tap:focus-visible { outline: none; }
+.spot-tap:focus-visible .spot-photo { box-shadow: 0 0 0 2px #ffcf6b; }
+
+.spot-photo {
+  grid-column: 1; grid-row: 1 / span 2;
+  align-self: center;
+  position: relative;
+  display: block;
+  width: 72px; height: 72px;
+  flex: none;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+}
+.spot-photo img {
+  display: block;
+  width: 72px; height: 72px;
+  max-width: 72px; max-height: 72px;
+  object-fit: contain;
+  flex-shrink: 0;
+  padding: 5px;
+  border-radius: 12px;
+}
+.spot-off {
+  position: absolute; left: 0; top: 0;
+  background: #e0231f; color: #fff;
+  font-size: 12.5px; font-weight: 900; letter-spacing: -0.05em; line-height: 1.15;
+  padding: 2px 6px 3px; border-radius: 11px 0 10px 0;
+  box-shadow: 0 2px 8px rgba(224, 35, 31, 0.35);
+}
+
+.spot-body {
+  grid-column: 2; grid-row: 1;
+  display: flex; flex-direction: column; gap: 2px;
+  min-width: 0;
+  cursor: pointer;
+}
+.spot-meta {
+  display: flex; align-items: center; gap: 4px;
+  min-width: 0;
+  font-size: 10px; font-weight: 800; letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.72); line-height: 1.2;
+}
+.spot-brand {
+  min-width: 0; max-width: 96px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.spot-src {
+  flex: none;
+  font-size: 9.5px; font-weight: 900; letter-spacing: 0.01em;
+  border-radius: 4px; padding: 1px 4px;
+}
+.spot-src.src-coupang { color: #ffdada; background: rgba(229, 37, 40, 0.3); }
+.spot-src.src-toss { color: #c3daff; background: rgba(0, 100, 255, 0.32); }
+.spot-src.src-naver { color: #baf2d0; background: rgba(3, 199, 90, 0.26); }
+.spot-name {
+  font-size: 12.5px; font-weight: 800; line-height: 1.3; letter-spacing: -0.03em;
+  color: #fff;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.spot-price {
+  display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap;
+  margin-top: 1px;
+}
+.spot-price strong {
+  font-size: 17px; font-weight: 900; letter-spacing: -0.05em;
+  color: #fff; font-variant-numeric: tabular-nums;
+}
+.spot-was {
+  font-size: 10px; font-weight: 600; color: rgba(255, 255, 255, 0.42);
+  font-variant-numeric: tabular-nums;
+}
+.spot-unit {
+  font-size: 10.5px; font-weight: 800; letter-spacing: -0.02em;
+  color: #7fe6b6;
+}
+
+.spot-buys {
+  grid-column: 2; grid-row: 2;
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 5px; margin-top: auto;
+}
+.spot-buy {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 50px; padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 10.5px; font-weight: 900; letter-spacing: -0.03em;
+  color: #fff; text-decoration: none; white-space: nowrap;
+  line-height: 1.2;
+}
+.spot-buy.is-coupang { background: var(--coupang); }
+.spot-buy.is-toss { background: var(--toss); }
+.spot-buy.is-naver { background: var(--naver); }
+.spot-buy.is-pending { background: rgba(255, 255, 255, 0.16); color: rgba(255, 255, 255, 0.72); }
+
+@media (min-width: 640px) {
+  .spot-card { flex-basis: 320px; }
+}

@@ -663,7 +663,89 @@ function pinFirst(list, id) {
   return out;
 }
 
+/* ── 🔥 오늘의 역대급 할인 (가로 스와이프) ─────────────── */
+
+/* 할인율 높은 순 Top 5 — 사진·구매링크가 있는 상품만 */
+function spotlightPicks(n) {
+  const pool = collapseVariants((state.data.products || []).filter(matchesSource));
+  return pool
+    .filter(
+      (p) =>
+        p.image &&
+        p.affiliateUrl &&
+        typeof p.price === "number" &&
+        typeof p.discountPct === "number" &&
+        p.discountPct > 0
+    )
+    .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
+    .slice(0, n || 5);
+}
+
+function spotUnitText(p) {
+  const v = measureValue(p);
+  if (v == null) return "";
+  return `${measureLabel(p)} ${won(Math.round(v))}`;
+}
+
+function spotCardHTML(p) {
+  const view = cheapView(p);
+  const srcKey = view.platform || platformOf(p);
+  const was =
+    p.listPrice && p.listPrice > view.price
+      ? `<s class="spot-was">${won(p.listPrice)}</s>`
+      : "";
+  const unit = spotUnitText(p);
+  const buys = buyOptions(p);
+  const buyHTML = buys.length
+    ? buys
+        .map((o) => {
+          const m = PLATFORMS[o.key];
+          return `<a class="spot-buy ${m.cls}" href="${escapeHtml(o.url)}" target="_blank" rel="noopener noreferrer" aria-label="${
+            m.label
+          }에서 사기 ${won(o.price)}">${m.label}</a>`;
+        })
+        .join("")
+    : `<span class="spot-buy is-pending">준비 중</span>`;
+  return `<article class="spot-card">
+    <div class="spot-tap" data-chart="${escapeHtml(p.id)}" role="button" tabindex="0" aria-label="${escapeHtml(
+      p.name
+    )} 가격 추이 보기">
+      <span class="spot-photo">
+        <img src="${escapeHtml(p.image)}" alt="" width="72" height="72" loading="lazy" decoding="async">
+        <span class="spot-off">-${p.discountPct}%</span>
+      </span>
+      <div class="spot-body">
+        <p class="spot-meta"><span class="spot-brand">${escapeHtml(
+          p.brand || categoryLabel(p.category)
+        )}</span><span class="spot-src src-${srcKey}">${PLATFORMS[srcKey].label}</span></p>
+        <h3 class="spot-name">${escapeHtml(p.name)}</h3>
+        <p class="spot-price"><strong>${won(view.price)}</strong>${was}</p>
+        ${unit ? `<p class="spot-unit">${escapeHtml(unit)}</p>` : ""}
+      </div>
+    </div>
+    <div class="spot-buys">${buyHTML}</div>
+  </article>`;
+}
+
+function renderSpotlight() {
+  const box = $("home-spot");
+  if (!box) return;
+  const picks = spotlightPicks(5);
+  if (!picks.length) {
+    box.innerHTML = "";
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  box.innerHTML = `<div class="spot-head">
+      <h2 class="spot-title">🔥 오늘의 역대급 할인</h2>
+      <span class="spot-hint">좌우로 넘기기 →</span>
+    </div>
+    <div class="spot-rail">${picks.map(spotCardHTML).join("")}</div>`;
+}
+
 function renderHome() {
+  renderSpotlight();
   let list = sortList(basePool(), state.sort);
   if (state.sort === "popular") list = pinFirst(list, HOME_PIN_ID);
   renderCardsInto($("home-list"), list, {

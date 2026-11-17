@@ -502,6 +502,8 @@ function initPriceModal() {
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-chart]");
     if (btn) {
+      /* 카드 안 구매 버튼(링크)은 링크대로 열고 모달은 열지 않는다 */
+      if (e.target.closest("a[href]")) return;
       openPriceModal(btn.getAttribute("data-chart"));
       return;
     }
@@ -510,6 +512,13 @@ function initPriceModal() {
   });
   const x = $("pm-x");
   if (x) x.addEventListener("click", closePriceModal);
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const card = e.target.closest ? e.target.closest('[data-chart][role="button"]') : null;
+    if (!card) return;
+    e.preventDefault();
+    openPriceModal(card.getAttribute("data-chart"));
+  });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closePriceModal();
   });
