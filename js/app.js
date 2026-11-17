@@ -433,6 +433,7 @@ function subLine(p) {
     const k = kcalLabel(p);
     if (k) bits.push(k);
     if (p.sugarPerServing != null) bits.push(`당류 ${p.sugarPerServing}g`);
+    if (!bits.length && p.kind) bits.push(p.kind);
   } else if (isGadget(p)) {
     if (p.kind) bits.push(p.kind);
   } else {
