@@ -305,8 +305,9 @@ function dealNumBlock(p) {
       <div class="pnum-c"><span class="pnum-k">보통</span><b class="pnum-v">${won(typical)}</b></div>
     </div>`;
   }
-  if (days >= 1) {
-    /* 기록이 짧으면 '현재'는 바로 위 가격과 겹치므로, 그동안의 최저가를 보여 줍니다 */
+  if (days >= 2) {
+    /* 기록이 짧으면 '현재'는 바로 위 가격과 겹치므로, 그동안의 최저가를 보여 줍니다.
+       기록 1일이면 최저=현재가라 빈 줄만 되살리므로 띄우지 않습니다. */
     const shown = min != null ? min : typeof p.price === "number" && Number.isFinite(p.price) ? p.price : null;
     if (shown != null) {
       return `<div class="pnum pnum-few" title="60일 기록 ${days}일째 쌓는 중이에요">
