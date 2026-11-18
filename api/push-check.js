@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
       if (rec.lastNotifiedAt && String(rec.lastNotifiedAt).slice(0, 10) === today) continue;
 
       const payload = {
-        title: `🔔 ${product.brand || "띠니마트"} 최저가 도달`,
+        title: `🔔 ${product.brand || "띠니마트"} 목표가 도달`,
         body: `${product.name}\n${Number(product.price).toLocaleString("ko-KR")}원 (목표 ${Number(
           rec.targetPrice
         ).toLocaleString("ko-KR")}원)`,

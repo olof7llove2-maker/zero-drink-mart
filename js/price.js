@@ -342,7 +342,7 @@ function categoryBlock(p) {
   }번째로 낮아요</b>(상위 ${cmp.topPct}%).</li>`;
   const line = `<li>카테고리 평균 <b>${wonShort(Math.round(cmp.avg))}원/${u}</b> · 이 상품 <b>${wonShort(
     cmp.value
-  )}원/${u}</b> → ${u}당 ${cheaper ? `<b class="minus">${wonShort(cmp.diffWon)}원 저렴</b>` : `<b class="plus">${wonShort(-cmp.diffWon)}원 비쌈</b>`}</li>`;
+  )}원/${u}</b> (평균보다 ${cheaper ? `${wonShort(cmp.diffWon)}원 낮음` : `${wonShort(-cmp.diffWon)}원 높음`})</li>`;
   const each = p.unitEach ? `<li>${escapeHtml(p.unitEach)}</li>` : "";
   let meatLine = "";
   if (isMeat(p) && !isGadget(p)) {
@@ -367,16 +367,19 @@ function categoryBlock(p) {
         }</li>`
       : "";
   let perGram = "";
-  if (p.category === "protein") {
+  if (p.category === "protein" || p.category === "lowsoy") {
     const g = proteinPerG(p);
+    const p20 = protein20(p);
     const vals = (state.data.products || [])
-      .filter((x) => x.category === "protein")
+      .filter((x) => x.category === p.category)
       .map((x) => proteinPerG(x))
       .filter((v) => v != null);
-    if (g != null && vals.length >= 3) {
-      const avgG = Math.round(vals.reduce((s, v) => s + v, 0) / vals.length);
-      perGram = `<li>단백질 1g당 <b>${won(g)}</b> · 같은 분류 평균 ${won(avgG)} → ${
-        g <= avgG ? `<b class="minus">1g당 ${won(avgG - g)} 저렴</b>` : `<b class="plus">1g당 ${won(g - avgG)} 비쌈</b>`
+    if (g != null) {
+      const avgG = vals.length >= 3 ? Math.round(vals.reduce((s, v) => s + v, 0) / vals.length) : null;
+      perGram = `<li>단백질 <b>1g당 ${won(g)}</b>${p20 ? ` · 20g당 <b>${won(p20)}</b>` : ""}${
+        avgG != null
+          ? ` · 같은 분류 평균 1g당 ${won(avgG)} (${g <= avgG ? `평균보다 ${won(avgG - g)} 낮아요` : `평균보다 ${won(g - avgG)} 높아요`})`
+          : ""
       }</li>`;
     }
   }
@@ -387,59 +390,55 @@ function categoryBlock(p) {
 }
 
 function verdictBlock(p, entry) {
-  const cmp = compareFor(p);
-  const st = entry && entry.status === "history" ? entry.stats : null;
-  const volatile =
-    entry && entry.couprice && entry.couprice.crosscheck && entry.couprice.crosscheck.sourceWarnsVolatile;
-  const bits = [];
-  if (cmp && cmp.count >= 3) {
-    if (cmp.topPct <= 25) bits.push(`같은 분류 가성비 상위 ${cmp.topPct}%`);
-    else if (cmp.diffPct >= 10) bits.push(`분류 평균보다 ${cmp.diffPct}% 저렴`);
-    else if (cmp.diffPct <= -10) bits.push(`분류 평균보다 ${Math.abs(cmp.diffPct)}% 비싼 편`);
-    else bits.push("분류 평균 수준");
-  }
-  if (p.discountPct && p.discountPct >= 20) bits.push(`정가 대비 ${p.discountPct}% 할인 중`);
-  if (st && p.price != null && st.min) {
-    const toMin = Math.round((p.price / st.min - 1) * 100);
-    if (p.price <= st.min) bits.push("관측 최저가와 같은 수준");
-    else if (toMin <= 5) bits.push("관측 최저가에 가까워요");
-    else if (volatile && st.avg) {
-      const vsAvg = Math.round((p.price / st.avg - 1) * 100);
-      bits.push(vsAvg <= 0 ? `관측 평균보다 ${Math.abs(vsAvg)}% 낮아요` : `관측 평균보다 ${vsAvg}% 높아요`);
-    } else if (!volatile && st.avg && p.price < st.avg) {
-      bits.push(`관측 평균보다 ${Math.round((1 - p.price / st.avg) * 100)}% 낮아요`);
-    } else {
-      bits.push("관측 평균보다 높아요 · 급하지 않으면 기다릴 만");
-    }
-  } else {
-    bits.push("오늘부터 가격 기록 시작");
-  }
-  if (!bits.length) bits.push("가격 정보를 모으는 중");
-  return `<div class="pm-verdict">${escapeHtml(bits.slice(0, 3).join(" · "))}</div>`;
+  const j = typeof judgeOf === "function" ? judgeOf(p) : null;
+  if (!j) return "";
+  const bits = [j.tier.label];
+  if (j.why) bits.push(j.why);
+  if (j.ref) bits.push(`참고 ${j.ref.label} 대비 ${signedPct(j.ref.pct)}`);
+  return `<div class="pm-verdict">${escapeHtml(bits.join(" · "))}</div>`;
 }
 
-/* 5단계 등급 — 이력 14일 이상 + 같은 용기·브랜드 시세가 있을 때만 */
+/* 5단계 등급 — 카드·단백질 레일과 같은 통일 판정(judgeOf)을 씁니다 */
 function gradeBlock(p) {
-  if (typeof gradeForProduct !== "function") return "";
+  if (typeof judgeOf !== "function") return "";
   if (p.category === "gadget") {
     return `<div class="pm-block"><h4>지금 사도 될까?</h4><ul class="pm-list"><li>조리기구는 중량이 없어 개당 가격으로만 비교했어요.</li></ul></div>`;
   }
-  const g = gradeForProduct(p);
-  if (g) {
-    return `<div class="pm-block"><h4>지금 사도 될까?</h4>
-      <div class="grade-line" style="margin:2px 0 8px"><span class="grade-badge ${g.band.cls}">${g.band.id}</span>
-        <span class="grade-note">${escapeHtml(g.market.label)} <b>${won(Math.round(g.market.value))}</b>/${g.label} 대비 <b>${signedPct(g.pct)}</b></span></div>
-      <ul class="pm-list"><li>${escapeHtml(g.band.verdict)}</li>
-        <li>${escapeHtml(g.market.label)}는 같은 용기 안 같은 브랜드 상품 ${g.market.sample}개의 단가 중간값이고, 이 상품은 ${g.days}일 관측 기록이 있어요.</li></ul></div>`;
+  const j = judgeOf(p);
+  const rows = [];
+  let badge = "";
+  if (j.badge && j.base) {
+    badge = `<div class="grade-line" style="margin:2px 0 8px"><span class="grade-badge ${j.badge.cls}">${
+      j.badge.id
+    }</span><span class="grade-note">${escapeHtml(j.tier.label)}</span></div>`;
+    rows.push(
+      `평소가는 이 상품의 관측 가격 ${j.base.observations}회 확인값의 중간값 <b>${won(
+        Math.round(j.base.median)
+      )}</b>(${j.base.days}일 기록)이고, 지금은 그 대비 <b>${signedPct(j.pct)}</b>이에요.`
+    );
+    rows.push(escapeHtml(j.badge.verdict));
+  } else if (j.basis === "discount") {
+    badge = `<div class="grade-line" style="margin:2px 0 8px"><span class="grade-note"><b>${escapeHtml(
+      j.tier.label
+    )}</b> · ${escapeHtml(j.why)}</span></div>`;
+    rows.push(
+      `가격 기록이 ${GRADE_MIN_DAYS}일·관측 5회에 못 미쳐 5단계 등급 대신 정가 할인·오픈 30일 최저로만 봤어요. 기록이 쌓이면 5단계로 바뀌어요.`
+    );
+  } else {
+    badge = `<div class="grade-line" style="margin:2px 0 8px"><span class="grade-note">${escapeHtml(
+      j.why || "가격 기록이 아직 없어 판정하지 않았어요."
+    )}</span></div>`;
   }
-  const days = historyDaysOf(p.id);
-  const market = marketForProduct(p);
-  const why = !days
-    ? `관측 기록이 ${GRADE_MIN_DAYS}일에 못 미쳐 아직 등급을 매기지 않았어요. 기록이 쌓이면 자동으로 붙어요.`
-    : !market
-    ? "같은 용기·같은 분류에 비교할 시세 표본이 적어 등급을 매기지 않았어요."
-    : "단가를 계산할 수 없어 등급을 매기지 않았어요.";
-  return `<div class="pm-block"><h4>지금 사도 될까?</h4><ul class="pm-list"><li>${why}</li></ul></div>`;
+  if (j.ref) {
+    rows.push(
+      `참고 — ${escapeHtml(j.ref.label)} <b>${won(Math.round(j.ref.value))}</b>/${j.ref.unit.replace("당", "")} (표본 ${
+        j.ref.sample
+      }개) 대비 <b>${signedPct(j.ref.pct)}</b>. 같은 용기 안에서만 건준 숫자이고, 위 판정에는 쓰지 않았어요.`
+    );
+  }
+  return `<div class="pm-block"><h4>지금 사도 될까?</h4>${badge}<ul class="pm-list">${rows
+    .map((r) => `<li>${r}</li>`)
+    .join("")}</ul></div>`;
 }
 
 /* 다른 판매처(네이버 쇼핑커넥트) — 구성이 다르면 수량을 같이 적는다 */
@@ -492,11 +491,7 @@ function modalBuyBlock(p) {
   </div>`;
 }
 
-/* 2026-11-17 14:55 → 11/17 14:55 (모달 안에서 짧게) */
-function shortStamp(ts) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(String(ts || ""));
-  return m ? `${Number(m[2])}/${Number(m[3])} ${m[4]}:${m[5]}` : String(ts || "");
-}
+/* 확인 시각 표기는 app.js의 shortStamp()를 씁니다 (11/17 14:55 형식). */
 
 function priceModalHTML(p, entry) {
   const hasHistory = entry && entry.status === "history" && (entry.series || []).length > 1;
@@ -504,6 +499,7 @@ function priceModalHTML(p, entry) {
     ? `쿠프라이스 관측 기록 · ${entry.stats.days}일 · ${entry.stats.observations}회 확인`
     : `마트 확인 기록 · ${escapeHtml(p.priceCheckedLabel || p.priceCheckedAt || "")}`;
   const st = hasHistory ? entry.stats : null;
+  const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
   const headline =
     st && p.price != null
       ? `관측 최고가 대비 <b>${Math.round(((st.max - p.price) / st.max) * 100)}%</b> 낮은 가격`
@@ -512,6 +508,13 @@ function priceModalHTML(p, entry) {
     <p class="pm-eyebrow">가격 추이 · 비교 분석</p>
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
     <p class="pm-src">${src}${headline ? ` · ${headline}` : ""}</p>
+    ${
+      stale && stale.stale
+        ? `<p class="pm-stale">⚠️ ${escapeHtml(
+            stale.label
+          )} 확인한 가격이에요 · 지금 판매처 가격과 다를 수 있으니 구매 전에 다시 확인해 주세요.</p>`
+        : ""
+    }
     ${p.note ? `<p class="pm-fine">${escapeHtml(p.note)}</p>` : ""}
     ${altShopBlock(p)}
     ${gradeBlock(p)}

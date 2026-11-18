@@ -139,6 +139,54 @@ function proteinPerG(p) {
   if (g == null || each == null || g <= 0) return null;
   return Math.round(each / g);
 }
+
+/* 단백질 1g당 가격 — 단백질 음료·두유·쉐이크 카드에서 한눈에 보이게 */
+function proteinUnitHTML(p, view) {
+  if (partOf(p) !== "protein") return "";
+  const g = proteinValue(p);
+  if (!g || g <= 0) return "";
+  const each = view && typeof view.eachPrice === "number" ? view.eachPrice : p.eachPrice;
+  const per1 = each ? Math.round(each / g) : proteinPerG(p);
+  if (!per1) return "";
+  const p20 = protein20(p);
+  return `<p class="pc-prot"><span class="pc-prot-k">단백질 1g당</span> <b>${won(per1)}</b>${
+    p20 ? `<span class="pc-prot-sub">20g당 ${won(p20)}</span>` : ""
+  }</p>`;
+}
+
+/* ── 확인 시각 신선도 (48시간 룰) ────────────────────────
+   가격은 상품마다 확인한 시각이 다릅니다. 48시간이 지난 값은 숨기지 않고
+   '48시간+ 전 확인'으로 작게 알립니다. */
+const STALE_HOURS = 48;
+
+function checkedAtMs(value) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/.exec(String(value || ""));
+  if (!m) return null;
+  /* 상품 확인 시각은 한국 시간(KST)으로 적혀 있어요 */
+  return Date.UTC(+m[1], +m[2] - 1, +m[3], m[4] ? +m[4] : 0, m[5] ? +m[5] : 0) - 9 * 60 * 60 * 1000;
+}
+function shortStamp(ts) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(String(ts || ""));
+  return m ? `${Number(m[2])}/${Number(m[3])} ${m[4]}:${m[5]}` : String(ts || "");
+}
+function staleInfoOf(p) {
+  const t = checkedAtMs(p && p.priceCheckedAt);
+  if (!t) return null;
+  const hours = Math.floor((Date.now() - t) / 3600000);
+  const stale = hours >= STALE_HOURS;
+  return {
+    hours,
+    stale,
+    label: stale ? `48시간+ 전 확인(${shortStamp(p.priceCheckedAt)})` : `${shortStamp(p.priceCheckedAt)} 확인`,
+  };
+}
+function staleBadgeHTML(p) {
+  const s = staleInfoOf(p);
+  if (!s || !s.stale) return "";
+  return `<span class="bd bd-stale" title="${escapeHtml(
+    `${s.label} · ${Math.floor(s.hours / 24)}일 지난 확인값이라 지금 판매처 가격과 다를 수 있어요`
+  )}">48시간+ 전 확인</span>`;
+}
 function reviewLabel(n) {
   if (typeof n !== "number" || !Number.isFinite(n)) return "";
   if (n >= 10000) return `${(n / 10000).toFixed(n >= 100000 ? 0 : 1)}만`;
@@ -236,7 +284,7 @@ function sparkBlock(p) {
     return "";
   }
   const info = historyOf(p);
-  return `<div class="spark">${svg}<span class="spark-cap">60일 최저 ${won(info.min)}</span></div>`;
+  return `<div class="spark">${svg}<span class="spark-cap">60일 관측 최저 ${won(info.min)}</span></div>`;
 }
 
 /* 할인 시작일 — 기록에서 '지금 가격보다 비쌌던 마지막 날' 다음 날부터 */
@@ -279,7 +327,7 @@ function platformOf(p) {
 function isToss(p) {
   return p.platform === "toss";
 }
-/* 네이버 최저가(배송비 포함)가 붙은 카드만 초록 버튼을 같이 띄운다 */
+/* 네이버 비교가(배송비 포함)가 붙은 카드만 초록 버튼을 같이 띄운다 */
 function naverAlt(p) {
   const a = p.altPrice;
   return a && a.source === "naver" && typeof a.price === "number" && a.url ? a : null;
@@ -475,7 +523,7 @@ function rateLine(p) {
 function dealBadges(p) {
   const out = [];
   const s = lowStats(p);
-  if (s.state === "low") out.push(`<span class="bd bd-low">60일 최저가!</span>`);
+  if (s.state === "low") out.push(`<span class="bd bd-low">60일 관측 최저</span>`);
   else if (s.state === "near") out.push(`<span class="bd bd-near">저점 +${s.pct}%</span>`);
   else if (s.state === "above" && s.pct <= 12) out.push(`<span class="bd bd-up">저점 +${s.pct}%</span>`);
   const since = discountSince(p);
@@ -489,6 +537,7 @@ function dealBadges(p) {
   } else if (nv && nv.shippingExtra) {
     out.push(`<span class="bd bd-naver">💚 네이버 ${won(nv.price)} + 배송 ${won(nv.shippingExtra)}</span>`);
   }
+  out.push(staleBadgeHTML(p));
   return out.join("");
 }
 
@@ -521,9 +570,9 @@ function buyHTML(p) {
         : `<span class="buy-lab">${meta.label}</span>`;
       return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}" href="${escapeHtml(
         o.url
-      )}" target="_blank" rel="noopener noreferrer" aria-label="${meta.label}에서 사기 ${
-        won(o.price)
-      }">${label}</a>`;
+      )}" target="_blank" rel="noopener noreferrer" data-click-pid="${escapeHtml(p.id)}" data-click-plat="${
+        o.key
+      }" aria-label="${meta.label}에서 사기 ${won(o.price)}">${label}</a>`;
     })
     .join("");
   return `<div class="pc-buys${multi ? " is-multi" : ""}">${html}</div>`;
@@ -562,6 +611,7 @@ function cardEl(p, opts = {}) {
         view.platform === "naver" ? `<span class="pc-nvtag">네이버 비교가</span>` : ""
       }${was}</div>
       ${unitLine(p, view)}
+      ${proteinUnitHTML(p, view)}
       <p class="pc-sub">${escapeHtml(subLine(p))}</p>
       ${typeof tipLineHTML === "function" ? tipLineHTML(p) : ""}
       ${typeof signalBarHTML === "function" ? signalBarHTML(p) : ""}
@@ -747,9 +797,9 @@ function spotCardHTML(p) {
             : m.label;
           return `<a class="spot-buy ${m.cls}${multiBuy ? " is-price" : ""}" href="${escapeHtml(
             o.url
-          )}" target="_blank" rel="noopener noreferrer" aria-label="${m.label}에서 사기 ${won(
-            o.price
-          )}">${label}</a>`;
+          )}" target="_blank" rel="noopener noreferrer" data-click-pid="${escapeHtml(
+            p.id
+          )}" data-click-plat="${o.key}" aria-label="${m.label}에서 사기 ${won(o.price)}">${label}</a>`;
         })
         .join("")
     : `<span class="spot-buy is-pending">준비 중</span>`;
@@ -967,7 +1017,7 @@ function renderHotdeal() {
         const s = lowStats(p);
         const tag =
           s.state === "low"
-            ? `<span class="wall-tag is-low">최저가</span>`
+            ? `<span class="wall-tag is-low">관측 최저</span>`
             : typeof p.discountPct === "number" && p.discountPct > 0
             ? `<span class="wall-tag">-${p.discountPct}%</span>`
             : "";
@@ -1001,7 +1051,7 @@ function renderHotdeal() {
   if (note) {
     const shownN = Math.min(dealLimit, list.length);
     note.textContent = state.dealLow
-      ? `60일 최저가에 붙은 상품만 · ${list.length}개 중 ${shownN}개.`
+      ? `60일 관측 최저에 붙은 상품만 · ${list.length}개 중 ${shownN}개.`
       : `할인율 높은 순 · ${list.length}개 중 ${shownN}개.`;
   }
 }
@@ -1652,7 +1702,52 @@ function renderUpdateBand() {
       $("update-time").hidden = !latest.time;
     }
   }
-  if ($("update-cycle-main")) $("update-cycle-main").textContent = "오전·오후 9시 할인·인기 베스트 상품 지속 모니터";
+  /* 전 상품을 한 시각에 확인한 것처럼 읽히지 않게, 상품별 확인 시각과 48시간 초과 수를 같이 적습니다 */
+  const staleN = (state.data.products || []).filter((p) => {
+    const s = staleInfoOf(p);
+    return s && s.stale;
+  }).length;
+  const cyc = $("update-cycle-main");
+  if (cyc) {
+    cyc.textContent = `상품별 확인 시각 상이${staleN ? ` · 48시간+ 지난 확인 ${staleN}종` : ""} · 오전·오후 9시 갱신`;
+  }
+  const band = $("update-band");
+  if (band && latest) {
+    band.title = `가격 이력 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} 기준 (상품별 확인 시각 상이) · 가격은 바뀔 수 있어요`;
+    band.setAttribute(
+      "aria-label",
+      `가격 이력 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} 기준, 상품별 확인 시각이 달라요. 48시간 넘은 확인 ${staleN}종.`
+    );
+  }
+}
+
+/* ── 구매 버튼 클릭 수 (익명 카운트) ─────────────────
+   상품 ID·플랫폼만 셈니다. IP·쿠키·개인정보는 보내지도 저장하지도 않습니다. */
+function trackBuyClick(pid, plat) {
+  if (!pid) return;
+  const body = JSON.stringify({ productId: pid, platform: plat || "" });
+  try {
+    if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+      const blob = new Blob([body], { type: "application/json" });
+      if (navigator.sendBeacon("/api/clicks", blob)) return;
+    }
+    fetch("/api/clicks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+      keepalive: true,
+    }).catch(() => {});
+  } catch (err) {
+    /* 카운트를 못 남겨도 구매 이동은 그대로 */
+  }
+}
+
+function initClickTracking() {
+  document.addEventListener("click", (e) => {
+    const a = e.target && e.target.closest ? e.target.closest("a[data-click-pid]") : null;
+    if (!a) return;
+    trackBuyClick(a.getAttribute("data-click-pid"), a.getAttribute("data-click-plat"));
+  });
 }
 
 async function init() {
@@ -1661,6 +1756,7 @@ async function init() {
   initShare();
   initSearch();
   initControls();
+  initClickTracking();
   if (typeof initSmart === "function") initSmart();
   window.addEventListener("resize", setLegalOffset);
 

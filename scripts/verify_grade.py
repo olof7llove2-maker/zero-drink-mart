@@ -1,18 +1,26 @@
 #!/usr/bin/env python3
-"""띠니마트 5단계 등급 · 단가 계산 검증 (js/grade.js 와 같은 계산을 파이썬으로 다시 구현해 대조).
+"""띠니마트 판정 검증 (2026-11-18 r15) — js/grade.js 의 judgeOf()를 파이썬으로 다시 구현해 대조.
+
+판정 규칙(화면과 같은 식)
+- 평소가 = 이 상품의 관측 가격(data/price-history.json) 중간값. 관측 14일·5회 이상만 인정.
+- 5단계: −20%↓ 역대급 · −12%↓ 대박급 · −5%↓ 중박급 · +3%까지 쏘쏘 · 그 위 비쌈
+- 3단계(신호등): −5%↓ 지금 사기 좋아요 · +3%까지 무난한 가격 · 그 위 조금 비싸요
+- 단백질 레일: −5%↓ 핫딜 · +3%까지 보통 · 그 위 비쌈 · 기록 부족은 기록중
+- 기록이 14일 미만이면 판정·5단계 배지 없이 정가 할인·30일 최저로 3단계 톤만.
+- 참고 시세(같은 용기)는 판정에 쓰지 않습니다. 단백질 음료는 단백질 20g당 가격끼리 견줍니다.
+
+검사 항목
+ ① 같은 상품에서 3단계·5단계·단백질 레일 판정이 서로 반대가 아닌지 (예: 무난한 가격 + 비쌈 ✗)
+ ② 판정이 있는데 5단계 배지가 없는/있는 경우가 규칙과 맞는지
+ ③ data/products.json 과 js/products.js 가 같은지
+ ④ 두유·저단백(lowsoy) 상품이 단백질 레일 대상에서 빠졌는지
 
 사용:
-    python3 scripts/verify_grade.py            # 등급 분포와 검증값 표
-    python3 scripts/verify_grade.py --check    # 기대값과 다르면 종료코드 1
-
-계산 규칙(js/grade.js와 동일)
-- 단가: 음료 100ml당, 단백질 쉐이크·고기 100g당. 저장된 반올림 값보다 계산값을 먼저 씁니다.
-- 시세: 같은 용기(캔/소형페트/대용량/분말/100g) 안에서 같은 브랜드 상품 단가의 중간값.
-        브랜드 표본이 2개 미만이면 같은 용기의 분류 시세(표본 3개 이상)를 씁니다.
-- 등급: 역대급 -20% 이하 / 대박급 -12% 이하 / 중박급 -5% 이하 / 쏘쏘 +3% 이하 / 비쌈 그 위.
-- 배지: 실제 관측 이력 14일 이상 + 관측 5회 이상인 상품만.
+    python3 scripts/verify_grade.py
+    python3 scripts/verify_grade.py --check    # 하나라도 어긋나면 종료코드 1
 """
 import json
+import re
 import statistics
 import sys
 from pathlib import Path
@@ -20,9 +28,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MIN_DAYS = 14
 
+TIERS = [("good", -5), ("mid", 3), ("wait", float("inf"))]
+TIER_LABEL = {"good": "지금 사기 좋아요", "mid": "무난한 가격", "wait": "조금 비싸요"}
+BADGE_TIER = {"역대급": "good", "대박급": "good", "중박급": "good", "쏘쏘": "mid", "비쌈": "wait"}
+PROT_LABEL = {"good": "핫딜", "mid": "보통", "wait": "비쌈"}
+
 
 def container_of(p):
-    if p.get("category") == "gadget":
+    if p.get("category") in ("gadget", "egg", "bakery"):
         return None
     if p.get("part") == "meat":
         return "raw"
@@ -76,88 +89,129 @@ def grade_of(pct):
     return "비쌈"
 
 
-def build(products):
-    brand, group = {}, {}
-    for p in products:
-        u, c = unit_value(p), container_of(p)
-        if u is None or not c or not p.get("category"):
-            continue
-        group.setdefault(f"{c}|{p['category']}", []).append(u)
-        b = str(p.get("brand") or "").strip()
-        if b:
-            brand.setdefault(f"{c}|{p['category']}|{b}", []).append(u)
-    return brand, group
+def tier_of(pct):
+    for tid, mx in TIERS:
+        if pct <= mx:
+            return tid
+    return "wait"
 
 
-def market_for_values(brand, group, category, b, container):
-    if b and f"{container}|{category}|{b}" in brand:
-        arr = brand[f"{container}|{category}|{b}"]
-        if len(arr) >= 2:
-            return statistics.median(arr), "brand", len(arr)
-    arr = group.get(f"{container}|{category}")
-    if arr and len(arr) >= 3:
-        return statistics.median(arr), "group", len(arr)
-    return None, None, 0
-
-
-def history_days(entry):
+def baseline_of(p, history):
+    entry = history.get(p["id"])
     if not entry or entry.get("status") != "history":
-        return 0
+        return None
     st = entry.get("stats") or {}
-    if (st.get("days") or 0) < MIN_DAYS:
-        return 0
-    if (st.get("observations") or 0) < 5:
-        return 0
-    return st.get("days")
+    days, obs = st.get("days") or 0, st.get("observations") or 0
+    if days < MIN_DAYS or obs < 5:
+        return None
+    prices = [s["price"] for s in (entry.get("series") or []) if s and isinstance(s.get("price"), (int, float)) and s["price"] > 0]
+    if not prices:
+        return None
+    return {"median": statistics.median(prices), "days": days, "observations": obs}
+
+
+def judge(p, history):
+    if p.get("price") is None:
+        return {"basis": "none", "tier": None, "badge": None, "pct": None}
+    base = baseline_of(p, history)
+    if base:
+        pct = (p["price"] / base["median"] - 1) * 100
+        return {"basis": "history", "tier": tier_of(pct), "badge": grade_of(pct), "pct": pct, "base": base}
+    disc = p.get("discountPct")
+    l30 = None if (p.get("id") and "#" in p["id"]) else p.get("lowest30d")
+    if disc is None and l30 is None:
+        return {"basis": "none", "tier": None, "badge": None, "pct": None}
+    score = 50 if disc is None else 46 + min(32, disc * 0.6)
+    at30 = l30 is not None and p["price"] <= l30 * 1.001
+    if at30:
+        score += 6
+    if l30 is not None and p["price"] > l30 * 1.12:
+        score -= 14
+    score = max(6, min(92, score))
+    tier = "good" if score >= 70 else ("mid" if score >= 44 else "wait")
+    return {"basis": "discount", "tier": tier, "badge": None, "pct": None}
+
+
+def load_js_blocks():
+    text = (ROOT / "js" / "products.js").read_text(encoding="utf-8")
+    names = {
+        "SITE": "site",
+        "CATEGORIES": "categories",
+        "PARTS": "parts",
+        "SORTS": "sorts",
+        "CONTAINERS": "containers",
+        "INGREDIENT_FILTERS": "ingredientFilters",
+        "PRODUCTS": "products",
+    }
+    out = {}
+    for name, key in names.items():
+        start = text.index(f"const {name} = ") + len(f"const {name} = ")
+        rest = text[start:]
+        nxt = rest.find("const ")
+        block = rest if nxt == -1 else rest[:nxt]
+        out[key] = json.loads(block.strip().rstrip(";"))
+    return out
 
 
 def main():
-    products = json.loads((ROOT / "data/products.json").read_text())["products"]
-    history = json.loads((ROOT / "data/price-history.json").read_text())["products"]
-    brand, group = build(products)
+    doc = json.loads((ROOT / "data" / "products.json").read_text(encoding="utf-8"))
+    history = json.loads((ROOT / "data/price-history.json").read_text(encoding="utf-8"))["products"]
+    products = doc["products"]
 
+    problems = []
     rows = []
     for p in products:
-        days = history_days(history.get(p["id"]))
-        if not days or p.get("price") is None:
-            continue
-        u = unit_value(p)
-        if u is None:
-            continue
-        base, kind, sample = market_for_values(brand, group, p["category"], str(p.get("brand") or "").strip(), container_of(p))
-        if not base:
-            continue
-        pct = (u - base) / base * 100
-        rows.append((p["id"], p.get("brand"), container_of(p), u, base, kind, sample, pct, grade_of(pct), days))
+        j = judge(p, history)
+        tier, badge = j["tier"], j["badge"]
+        if badge and BADGE_TIER[badge] != tier:
+            problems.append(f"{p['id']}: 5단계 {badge} ↔ 3단계 {TIER_LABEL.get(tier)}")
+        if j["basis"] != "history" and badge:
+            problems.append(f"{p['id']}: 기록 부족인데 5단계 배지 {badge}")
+        if p.get("category") == "protein":
+            g = p.get("protein_g_per_bottle")
+            if g is not None and g < 10:
+                problems.append(f"{p['id']}: 10g 미만인데 lowsoy로 옮겨지지 않음")
+        rows.append((p["id"], p.get("category"), j))
 
-    print(f"5단계 배지가 붙는 상품: {len(rows)}종 (관측 {MIN_DAYS}일 이상)\n")
-    print(f"{'상품 ID':44s} {'용기':9s} {'단가':>8s} {'시세':>8s} {'종류':6s} {'차이':>7s}  등급")
-    for r in sorted(rows, key=lambda x: x[7]):
-        print(f"{r[0]:44s} {r[2]:9s} {r[3]:8.1f} {r[4]:8.1f} {r[5]:6s} {r[7]:+6.1f}%  {r[8]}")
+    # ① 화면에 동시에 뜨는 판정 조합 (카드: 3단계 + 5단계, 레일: 레일 판정)
+    print(f"상품 {len(products)}종 · 판정 있음 {sum(1 for r in rows if r[2]['tier'])}종")
+    print(f"{'상품 ID':46s} {'3단계(신호등)':14s} {'5단계 배지':8s} {'레일':6s} 근거")
+    seen = {}
+    for pid, cat, j in sorted(rows, key=lambda r: (r[2]["pct"] is None, r[2]["pct"] if r[2]["pct"] is not None else 0)):
+        if not j["tier"]:
+            continue
+        rail = PROT_LABEL[j["tier"]] if cat == "protein" else "-"
+        label = TIER_LABEL[j["tier"]]
+        badge = j["badge"] or "—"
+        pct = f"{j['pct']:+.1f}%" if j["pct"] is not None else ("할인 기준" if j["tier"] else "")
+        print(f"{pid[:46]:46s} {label:14s} {badge:8s} {rail:6s} {pct}")
+        seen.setdefault((label, badge, rail), 0)
+        seen[(label, badge, rail)] += 1
 
-    counts = {}
-    for r in rows:
-        counts[r[8]] = counts.get(r[8], 0) + 1
-    print("\n등급 분포:", counts)
+    print("\n나타난 판정 조합:")
+    for combo, n in sorted(seen.items(), key=lambda x: -x[1]):
+        print(f"  {combo[0]:14s} + {combo[1]:8s} + 레일 {combo[2]:6s} → {n}종")
 
-    # 계산기 회귀 검증값
-    cases = [
-        ("펩시 제로 355ml 48캔 25,760원 무료배송", 355, 48, 25760, 0, "cola", "펩시", 151.2, -18.8, "대박급"),
-        ("같은 딜 36캔 29,900원", 355, 36, 29900, 0, "cola", "펩시", 234.0, 25.7, "비쌈"),
-        ("코카콜라 제로 350ml 24개 18,700원", 350, 24, 18700, 0, "cola", "코카콜라", 222.6, -9.4, "중박급"),
-    ]
-    ok = True
-    print("\n계산기 검증")
-    for name, vol, qty, price, ship, cat, br, exp_unit, exp_pct, exp_grade in cases:
-        total = price + ship
-        unit = total / (vol * qty) * 100
-        base, kind, sample = market_for_values(brand, group, cat, br, "can")
-        pct = (unit - base) / base * 100
-        grade = grade_of(pct)
-        good = abs(unit - exp_unit) < 0.15 and abs(pct - exp_pct) < 0.15 and grade == exp_grade
-        ok = ok and good
-        print(f"  {'OK ' if good else 'X  '} {name}\n      100ml당 {unit:.1f}원 · 시세 {base:.1f}원({kind}) → {pct:+.1f}% {grade}")
-    sys.exit(0 if ok or "--check" not in sys.argv else 1)
+    # ② 데이터·js 동기화
+    js = load_js_blocks()
+    for key in ("site", "categories", "parts", "sorts", "containers", "ingredientFilters", "products"):
+        if js[key] != doc[key]:
+            problems.append(f"data/products.json ↔ js/products.js 불일치: {key}")
+
+    # ③ 두유·저단백 분리
+    lowsoy = [p for p in products if p.get("category") == "lowsoy"]
+    print(f"\n두유·저단백(lowsoy): {len(lowsoy)}종 — " + ", ".join(f"{p['name']}({p.get('protein_g_per_bottle')}g)" for p in lowsoy))
+
+    # ④ 단백질 레일 대상
+    rail = [p for p in products if p.get("category") == "protein" and (p.get("protein_g_per_bottle") or 0) >= 10 and p.get("protein20")]
+    print(f"단백질 레일 대상(1병 10g 이상·20g당 계산 가능): {len(rail)}종")
+
+    if problems:
+        print("\n✗ 문제:")
+        for x in problems:
+            print("  -", x)
+        sys.exit(1 if "--check" in sys.argv else 0)
+    print("\n✓ 판정 충돌 없음 · 데이터 동기화 OK")
 
 
 if __name__ == "__main__":

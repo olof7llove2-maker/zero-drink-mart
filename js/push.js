@@ -1,4 +1,4 @@
-/* ── 웹푸시 최저가 알림 ─────────────────────────────────
+/* ── 웹푸시 가격(목표가) 알림 ───────────────────────────
    개인정보(전화번호·이메일)는 받지 않습니다. 브라우저가 만든 구독 객체(endpoint·키)와
    관심 상품 ID·목표가만 서버에 저장합니다. 켜고 끄는 상태는 이 브라우저에만 둡니다. */
 
@@ -63,7 +63,7 @@ function alertIconHTML(p) {
   const on = alertOn(p.id);
   return `<button type="button" class="btn-icon alert-btn${on ? " is-on" : ""}" data-alert="${escapeHtml(
     p.id
-  )}" aria-pressed="${on}" aria-label="최저가 알림" title="${on ? "알림 켜짐 · 눌러서 바꾸기" : "최저가 알림 켜기"}">🔔</button>`;
+  )}" aria-pressed="${on}" aria-label="가격 알림" title="${on ? "알림 켜짐 · 눌러서 바꾸기" : "가격 알림 켜기"}">🔔</button>`;
 }
 
 function alertInlineHTML(p) {
@@ -79,7 +79,7 @@ function refreshAlertButtons() {
     btn.classList.toggle("is-on", on);
     btn.setAttribute("aria-pressed", String(on));
     if (btn.classList.contains("btn-icon")) {
-      btn.title = on ? "알림 켜짐 · 눌러서 바꾸기" : "최저가 알림 켜기";
+      btn.title = on ? "알림 켜짐 · 눌러서 바꾸기" : "가격 알림 켜기";
     } else {
       btn.textContent = `🔔 ${on ? "알림 켜짐 · 목표가 바꾸기" : "가격 내리면 알림 받기"}`;
     }
@@ -137,7 +137,7 @@ function alertBodyHTML(p) {
   const target = saved && saved.target ? saved.target : i.suggested;
   const chips = [];
   if (i.cur) chips.push(`<button type="button" class="alert-chip" data-alert-set="${i.cur}">현재가 ${won(i.cur)}</button>`);
-  if (i.min && i.min !== i.cur) chips.push(`<button type="button" class="alert-chip" data-alert-set="${i.min}">60일 최저 ${won(i.min)}</button>`);
+  if (i.min && i.min !== i.cur) chips.push(`<button type="button" class="alert-chip" data-alert-set="${i.min}">60일 관측 최저 ${won(i.min)}</button>`);
   if (i.cur) {
     const d = Math.round((i.cur * 0.9) / 10) * 10;
     chips.push(`<button type="button" class="alert-chip" data-alert-set="${d}">10% 더 낮게 ${won(d)}</button>`);
@@ -161,7 +161,7 @@ function renderAlertBody(p) {
   const name = $("alert-name");
   if (name) name.textContent = p.name || "";
   const title = $("alert-title");
-  if (title) title.textContent = alertOn(p.id) ? "🔔 최저가 알림 (켜짐)" : "🔔 최저가 알림";
+  if (title) title.textContent = alertOn(p.id) ? "🔔 가격 알림 (켜짐)" : "🔔 가격 알림";
 }
 
 function openAlert(id) {

@@ -1,15 +1,14 @@
 /* ── 💪 단백질 음료, 지금 사도 될까? ──────────────────────
    홈 '🔥 오늘의 역대급 할인' 바로 아래에 붙는 컴팩트 판정 레일.
 
-   판정 규칙 (그록봇 배포본과 같은 기준)
-   - 평소가 = 이 상품의 실제 관측 가격(쿠프라이스·마트 확인)의 중간값
-   - −5% 이하 = 핫딜 · +3%까지 = 보통 · 그 위 = 비쌈
-   - 관측 기록이 14일(관측 5회)에 못 미치면 = 기록중
+   판정은 js/grade.js 의 judgeOf() 하나만 씁니다 — 카드 신호등·5단계 배지·모달과 같은 값입니다.
+   - 평소가 = 이 상품의 관측 가격(쿠프라이스·마트 확인) 중간값, 14일·관측 5회 이상만
+   - −5% 이하 = 핫딜 · +3%까지 = 보통 · 그 위 = 비쌈 · 기록이 모자라면 = 기록중
+   - 같은 용기 시세는 판정이 아니라 카드에 숫자로만 덧붙입니다(100ml당 대신 단백질 20g당).
    없는 가격·기록은 만들지 않고 data/price-history.json 에 있는 값만 씁니다. */
 
 const PROT_MIN_PROTEIN_G = 10;
 const PROT_MIN_DAYS = 14;
-const PROT_MIN_OBS = 5;
 
 const PROT_STATES = [
   { id: "hot", label: "핫딜" },
@@ -24,42 +23,26 @@ const PROT_STATE = {
   track: { label: "기록중", cls: "is-track" },
 };
 
-/* 이 상품의 관측 기록 — 중간값·기록 일수 */
-function protHistory(p) {
-  const entry = state.priceHistory ? state.priceHistory[p.id] : null;
-  if (!entry || entry.status !== "history") return null;
-  const st = entry.stats || {};
-  const prices = (entry.series || [])
-    .map((s) => (s ? Number(s.price) : null))
-    .filter((v) => typeof v === "number" && Number.isFinite(v) && v > 0);
-  if (!prices.length) return null;
-  return {
-    median: medianOf(prices),
-    days: Number(st.days) || 0,
-    observations: Number(st.observations) || prices.length,
-    min: st.min,
-    max: st.max,
-  };
-}
-
-/* 핫딜 / 보통 / 비쌈 / 기록중 */
+/* 핫딜 / 보통 / 비쌈 / 기록중 — 통일 판정(judgeOf)을 그대로 옮긴 것 */
 function protVerdict(p) {
-  const h = protHistory(p);
-  if (!h || h.days < PROT_MIN_DAYS || h.observations < PROT_MIN_OBS || !h.median || p.price == null) {
+  const j = typeof judgeOf === "function" ? judgeOf(p) : null;
+  const base = j && j.base ? j.base : null;
+  if (!j || j.basis !== "history" || j.pct == null || !base) {
     return {
       id: "track",
       pct: null,
-      median: h ? h.median : null,
-      days: h ? h.days : 0,
-      observations: h ? h.observations : 0,
+      median: null,
+      days: base ? base.days : 0,
+      observations: base ? base.observations : 0,
+      judge: j,
     };
   }
-  const pct = (p.price / h.median - 1) * 100;
-  const id = pct <= -5 ? "hot" : pct <= 3 ? "mid" : "high";
-  return { id, pct, median: h.median, days: h.days, observations: h.observations };
+  const id = j.tier.id === "good" ? "hot" : j.tier.id === "mid" ? "mid" : "high";
+  return { id, pct: j.pct, median: base.median, days: base.days, observations: base.observations, judge: j };
 }
 
-/* 대상: 단백질 음료 중 1병 단백질 10g 이상 + 20g당 가격을 계산할 수 있는 상품 */
+/* 대상: 단백질 음료 중 1병 단백질 10g 이상 + 20g당 가격을 계산할 수 있는 상품.
+   두유·저단백(1병 10g 미만)은 카테고리에서 따로 보므로 여기 섞지 않습니다. */
 function protPool() {
   return (state.data.products || []).filter((p) => {
     if (p.category !== "protein") return false;
@@ -92,26 +75,33 @@ function protPctText(pct) {
   return `${r > 0 ? "+" : "−"}${Math.abs(r)}%`;
 }
 
-/* 카드 1장 — 탭하면 가격 추이 모달, 아래는 플랫폼 3색 구매 버튼 */
+/* 카드 1장 — 뒤에 상품 사진을 은은하게 깔고, 앞은 텍스트만.
+   탭하면 가격 추이 모달, 아래는 플랫폼 3색 구매 버튼. */
 function protCardHTML(p) {
   const v = protVerdict(p);
   const meta = PROT_STATE[v.id] || PROT_STATE.track;
   const srcKey = platformOf(p);
   const g = proteinValue(p);
   const p20 = protein20(p);
+  const per1 = typeof proteinPerG === "function" ? proteinPerG(p) : null;
   const cmp =
     v.id === "track"
       ? `가격 기록 ${Math.max(1, v.days)}일 · ${PROT_MIN_DAYS}일 쌓이면 판정해요`
-      : `${v.days}일 기록 평소가 ${won(Math.round(v.median))} 대비 <b class="${
+      : `평소가 ${won(Math.round(v.median))} 대비 <b class="${
           v.pct <= 0 ? "minus" : "plus"
         }">${protPctText(v.pct)}</b>`;
+  const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
   const fine = [
     g != null ? `1병 단백질 ${g}g` : "",
-    p.priceCheckedLabel || "",
+    stale && stale.stale ? `${stale.label} 재확인 필요` : p.priceCheckedLabel || "",
   ]
     .filter(Boolean)
     .join(" · ");
-  return `<article class="prot-card ${meta.cls}">
+  const bg = p.image
+    ? `<span class="prot-bg" aria-hidden="true"><img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async"></span>`
+    : "";
+  return `<article class="prot-card ${meta.cls}${stale && stale.stale ? " is-stale" : ""}">
+    ${bg}
     <div class="prot-tap" data-chart="${escapeHtml(p.id)}" role="button" tabindex="0" aria-label="${escapeHtml(
     p.name
   )} 가격 추이 보기">
@@ -123,7 +113,7 @@ function protCardHTML(p) {
       <h3 class="prot-name">${escapeHtml(p.name)}</h3>
       <p class="prot-price"><strong>${won(p.price)}</strong></p>
       <p class="prot-p20">단백질 20g당 <strong>${won(p20)}</strong>${
-    g != null ? `<span class="prot-per-bottle">· 1병 ${g}g</span>` : ""
+    per1 ? `<span class="prot-p1g">1g당 ${won(per1)}</span>` : ""
   }</p>
       <p class="prot-cmp">${cmp}</p>
     </div>
@@ -155,9 +145,9 @@ function renderProteinSection() {
     (s) =>
       `<button type="button" class="prot-chip ${PROT_STATE[s.id].cls}${
         active === s.id ? " is-on" : ""
-      }" data-prot-state="${s.id}" aria-pressed="${active === s.id ? "true" : "false"}">${
-        s.label
-      } <b>${counts[s.id]}</b></button>`
+      }" data-prot-state="${s.id}" aria-pressed="${active === s.id ? "true" : "false"}">${s.label} <b>${
+        counts[s.id]
+      }</b></button>`
   ).join("");
 
   const body = sorted.length
@@ -168,7 +158,7 @@ function renderProteinSection() {
       <h2 class="prot-title">💪 단백질 음료, 지금 사도 될까?</h2>
       <button type="button" class="prot-more" data-prot-all>전체 ${pool.length}개 →</button>
     </div>
-    <p class="prot-sub">1병 단백질 ${PROT_MIN_PROTEIN_G}g 이상 · 60일 평소가(중간값) 대비</p>
+    <p class="prot-sub">1병 단백질 ${PROT_MIN_PROTEIN_G}g 이상 · 내 평소가(60일 중간값) 대비 · 두유·저단백은 카테고리에서 따로 봐요</p>
     <div class="prot-chips" role="group" aria-label="판정으로 보기">${chips}</div>
     ${body}
     <p class="prot-note">평소가 = 이 상품 가격 기록의 중간값 · −5% 이하 핫딜 · +3%까지 보통 · 그 위 비쌈 · 기록 ${PROT_MIN_DAYS}일 미만은 기록중 · 카드를 누르면 가격 추이</p>`;

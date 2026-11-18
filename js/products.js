@@ -91,6 +91,13 @@ const CATEGORIES = [
     "part": "protein"
   },
   {
+    "id": "lowsoy",
+    "label": "두유·저단백",
+    "icon": "🥛",
+    "part": "protein",
+    "note": "1병 단백질 10g 미만 — 고단백 음료 순위와 따로 봐요."
+  },
+  {
     "id": "shake",
     "label": "단백질 쉐이크",
     "icon": "🥛",
@@ -308,13 +315,14 @@ const PARTS = [
     "label": "단백질 음료",
     "icon": "💪",
     "desc": "병당 단백질(g) 높은 순",
-    "note": "병당 단백질(g)과 100ml당 가격을 같이 봐요.",
+    "note": "1병 단백질 10g 이상은 '단백질 음료', 그 미만 두유·식물성은 '두유·저단백'으로 나눠 봐요.",
     "filters": [
       {
         "id": "all",
         "label": "전체",
         "cats": [
-          "protein"
+          "protein",
+          "lowsoy"
         ]
       },
       {
@@ -323,6 +331,14 @@ const PARTS = [
         "icon": "💪",
         "cats": [
           "protein"
+        ]
+      },
+      {
+        "id": "lowsoy",
+        "label": "두유·저단백",
+        "icon": "🥛",
+        "cats": [
+          "lowsoy"
         ]
       }
     ]
@@ -1633,7 +1649,7 @@ const PRODUCTS = [
     "reviewCount": 11997,
     "measure": "per100ml",
     "unitEach": "1병당 689원",
-    "note": "57% 할인 16,530원 = 100ml당 138원. 350ml 24개(100ml당 172원)보다 훨씬 싸요. 네이버 최저도 16,530원으로 같아요.",
+    "note": "57% 할인 16,530원 = 100ml당 138원. 350ml 24개(100ml당 172원)보다 훨씬 싸요. 네이버 확인가도 16,530원으로 같아요.",
     "previousPrice": null,
     "lowest30d": 16530,
     "priceHistoryDays": 0,
@@ -2580,7 +2596,7 @@ const PRODUCTS = [
   {
     "id": "amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae",
     "group": "단백질 음료",
-    "category": "protein",
+    "category": "lowsoy",
     "brand": "아몬드브리즈",
     "name": "아몬드브리즈 뉴트리플러스 프로틴, 190ml, 24개",
     "kind": "단백질 음료",
@@ -3974,7 +3990,7 @@ const PRODUCTS = [
   {
     "id": "heoswi-chokolrit-deuringkeu-peurotin-235ml-24gae",
     "group": "단백질 음료",
-    "category": "protein",
+    "category": "lowsoy",
     "brand": "허쉬",
     "name": "허쉬 초콜릿 드링크 프로틴, 235ml, 24개",
     "kind": "단백질 음료 · 초콜릿",
@@ -4295,7 +4311,7 @@ const PRODUCTS = [
       "url": "https://search.shopping.naver.com/catalog/85407045740",
       "save": 700,
       "savePct": 3.2,
-      "note": "네이버 최저가(배송비 포함) 기준"
+      "note": "네이버 확인가(배송비 포함) 기준"
     },
     "measure": "per100g",
     "perValue": 1110.0,
@@ -4381,7 +4397,7 @@ const PRODUCTS = [
       "url": "https://search.shopping.naver.com/catalog/55917735929",
       "save": 1850,
       "savePct": 7.0,
-      "note": "네이버 최저가(배송비 포함) 기준"
+      "note": "네이버 확인가(배송비 포함) 기준"
     },
     "measure": "per100g",
     "perValue": 1325.0,
@@ -4495,7 +4511,7 @@ const PRODUCTS = [
     "reviewCount": 768,
     "measure": "per100g",
     "unitEach": "1스틱(15g)당 198원",
-    "note": "20% 할인. 100스틱 19,790원 = 1스틱 198원·100g당 1,319원. 200스틱 38,490원(100g당 1,283원)도 있어요. 네이버 최저도 같은 가격이에요.",
+    "note": "20% 할인. 100스틱 19,790원 = 1스틱 198원·100g당 1,319원. 200스틱 38,490원(100g당 1,283원)도 있어요. 네이버 확인가도 같은 가격이에요.",
     "previousPrice": null,
     "lowest30d": 19790,
     "priceHistoryDays": 0,
@@ -5179,7 +5195,7 @@ const PRODUCTS = [
       "url": "https://search.shopping.naver.com/catalog/53411712678",
       "save": 970,
       "savePct": 10.9,
-      "note": "네이버 최저가(배송비 포함) 기준"
+      "note": "네이버 확인가(배송비 포함) 기준"
     },
     "measure": "per100ml",
     "weightG": null,
@@ -5215,7 +5231,7 @@ const PRODUCTS = [
     "reviewCount": 3284,
     "measure": "per100ml",
     "unitEach": "1병당 4,798원",
-    "note": "51% 할인. 4L에 19,190원 = 100ml당 480원. 1개 5,900원(100ml당 590원)보다 훨씬 싸요. 네이버 최저도 같은 가격이에요.",
+    "note": "51% 할인. 4L에 19,190원 = 100ml당 480원. 1개 5,900원(100ml당 590원)보다 훨씬 싸요. 네이버 확인가도 같은 가격이에요.",
     "previousPrice": null,
     "lowest30d": 19190,
     "priceHistoryDays": 0,
@@ -6024,7 +6040,7 @@ const PRODUCTS = [
       "url": "https://search.shopping.naver.com/catalog/91259853993",
       "save": 4040,
       "savePct": 15.3,
-      "note": "네이버 최저가(배송비 포함) 기준"
+      "note": "네이버 확인가(배송비 포함) 기준"
     },
     "measure": "per100ml",
     "weightG": null,
@@ -6165,7 +6181,7 @@ const PRODUCTS = [
       "url": "https://search.shopping.naver.com/search/all?query=%EB%A7%A5%EC%BD%9C%20%EC%A0%9C%EB%A1%9C%20250ml",
       "save": 1000,
       "savePct": 6.3,
-      "note": "네이버 최저(일화 공식몰, 무료배송) 14,900원"
+      "note": "네이버 확인가(일화 공식몰, 무료배송) 14,900원"
     }
   },
   {
@@ -6241,7 +6257,7 @@ const PRODUCTS = [
   {
     "id": "maeilduyu-99-9-seoritae-24gae-190ml",
     "group": "단백질 음료",
-    "category": "protein",
+    "category": "lowsoy",
     "brand": "매일두유",
     "name": "매일두유 99.9 서리태, 24개, 190ml",
     "kind": "단백질 음료 · 서리태",
@@ -6317,7 +6333,7 @@ const PRODUCTS = [
     "reviewCount": 95508,
     "measure": "per100ml",
     "unitEach": "1병당 9,800원",
-    "note": "55% 할인 9,800원 = 100ml당 980원. 리뷰 9.5만·평점 5.0. 네이버 최저도 같은 가격이에요.",
+    "note": "55% 할인 9,800원 = 100ml당 980원. 리뷰 9.5만·평점 5.0. 네이버 확인가도 같은 가격이에요.",
     "previousPrice": null,
     "lowest30d": 9800,
     "priceHistoryDays": 0,
@@ -7715,7 +7731,7 @@ const PRODUCTS = [
     "reviewCount": 12773,
     "measure": "per100ml",
     "unitEach": "1병당 7,550원",
-    "note": "22% 할인(6일 남음) 7,550원 = 100ml당 755원. 네이버 최저는 8,390원이라 쿠팡이 더 싸요. 4개 20,840원(100ml당 521원)·6개 29,090원(485원) 묶음이 더 저렴해요.",
+    "note": "22% 할인(6일 남음) 7,550원 = 100ml당 755원. 네이버 확인가는 8,390원이라 쿠팡이 더 싸요. 4개 20,840원(100ml당 521원)·6개 29,090원(485원) 묶음이 더 저렴해요.",
     "previousPrice": null,
     "lowest30d": 7550,
     "priceHistoryDays": 0,
@@ -8083,7 +8099,7 @@ const PRODUCTS = [
       "url": "https://search.shopping.naver.com/search/all?query=%EB%B8%8C%EB%9E%98%EA%B7%B8%20%EC%9C%A0%EA%B8%B0%EB%86%8D%20%EC%82%AC%EA%B3%BC%EC%8B%9D%EC%B4%88%20946ml",
       "save": 3320,
       "savePct": 11.9,
-      "note": "네이버 최저(페퍼앤솔트, 배송비 100원 포함) 24,580원"
+      "note": "네이버 확인가(페퍼앤솔트, 배송비 100원 포함) 24,580원"
     },
     "popularScore": 33.6
   },

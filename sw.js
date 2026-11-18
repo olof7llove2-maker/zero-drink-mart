@@ -3,7 +3,7 @@
    사이트 파일은 캐시하지 않아요(가격이 항상 새로 보이도록).
    예전 버전이 남긴 캐시가 있으면 켜질 때 전부 지웁니다. */
 
-const SW_BUILD = "20261118r14";
+const SW_BUILD = "20261118r15";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
@@ -35,7 +35,7 @@ self.addEventListener("push", (event) => {
   } catch (err) {
     data = { body: event.data ? event.data.text() : "목표 가격에 도달했어요" };
   }
-  const title = data.title || "띠니마트 최저가 알림";
+  const title = data.title || "띠니마트 가격 알림";
   const options = {
     body: data.body || "목표 가격에 도달했어요",
     icon: "/images/icon-192.png",

@@ -21,11 +21,12 @@ const KIND_DEFS = [
   { id: "meal", emoji: "🍗", label: "든든한 고기·간편식", parts: ["meat", "cheat"] },
 ];
 
+/* 판정 문구·색은 js/grade.js 의 VERDICT_TIERS 하나를 그대로 씁니다(화면마다 말이 달라지지 않게). */
 const TL_LEVELS = {
-  good: { label: "지금 사세요", short: "지금 사기 좋은 가격", dot: "🟢" },
+  good: { label: "지금 사기 좋아요", short: "지금 사기 좋은 가격", dot: "🟢" },
   mid: { label: "무난한 가격", short: "무난한 가격", dot: "🟡" },
-  wait: { label: "잠깐 대기", short: "지금은 조금 비싼 편", dot: "🔴" },
-  none: { label: "데이터 수집 중", short: "가격 기록을 모으는 중", dot: "🔴" },
+  wait: { label: "조금 비싸요", short: "지금은 조금 비싼 편", dot: "🔴" },
+  none: { label: "가격 기록 모으는 중", short: "가격 기록을 모으는 중", dot: "⚪" },
 };
 
 /* 카테고리별 한 줄 꿀팁 씨앗 — 스펙이 아니라 '언제 쓰면 좋은지' */
@@ -69,67 +70,20 @@ function fmtG(v) {
   return String(Math.round(v * 10) / 10);
 }
 
-/* ── ② 지금 사도 되나 — 신호등 판정 ─────────────────────── */
+/* ── ② 지금 사도 되나 — 신호등 게이지 ───────────────────
+   판정은 js/grade.js 의 judgeOf() 하나만 씁니다. 카드·단백질 레일·모달과 같은 값입니다. */
 
 function signalOf(p) {
-  if (!p || numOrNull(p.price) == null) {
-    return { level: "none", score: 50, why: "가격을 아직 확인하지 못했어요." };
+  if (typeof judgeOf !== "function") {
+    return { level: "none", score: 50, why: "가격 기록을 모으는 중이에요." };
   }
-  const st = typeof lowStats === "function" ? lowStats(p) : null;
-  const info = (st && st.info) || null;
-  if (st && (st.state === "low" || st.state === "near" || st.state === "above")) {
-    const g = typeof gradeForProduct === "function" ? gradeForProduct(p) : null;
-    let level = "mid";
-    let score = 50;
-    let why = "";
-    /* 옵션·묶음이 바뀌며 최저가가 크게 흔들린 기록은 최저가 대신 평균가와 비교합니다 */
-    if (info && info.volatile && numOrNull(info.avg) != null) {
-      const avg = info.avg;
-      const rel = (p.price / avg - 1) * 100;
-      score = clampNum(70 - rel * 1.6, 6, 95);
-      level = rel <= -8 ? "good" : rel <= 6 ? "mid" : "wait";
-      why = `관측 평균가 ${won(Math.round(avg))}보다 ${Math.abs(Math.round(rel))}% ${rel <= 0 ? "낮아요" : "높아요"}.`;
-    } else {
-      const pct = st.pct;
-      const min = info && info.min != null ? info.min : null;
-      score = 84 - pct * 3;
-      if (numOrNull(p.discountPct) != null) score += Math.min(8, Math.max(0, p.discountPct - 20) * 0.25);
-      score = clampNum(score, 4, 97);
-      level = pct <= 3 ? "good" : pct <= 10 ? "mid" : "wait";
-      why =
-        pct <= 0
-          ? `60일 관측 최저가${min != null ? ` ${won(Math.round(min))}` : ""}와 같은 수준이에요.`
-          : `60일 최저가${min != null ? ` ${won(Math.round(min))}` : ""}보다 ${pct}% 높은 가격이에요.`;
-    }
-    /* 5단계 등급(같은 용기·브랜드 시세)과 엇갈리지 않게 맞춥니다 */
-    if (g) {
-      if (g.band.cls === "is-best" || g.band.cls === "is-great") level = "good";
-      else if ((g.band.cls === "is-mid" || g.band.cls === "is-soso") && level === "wait") level = "mid";
-      why += ` 같은 용기 시세 대비 ${signedPct(g.pct)}(${g.band.id}).`;
-      if (level === "good") score = Math.max(score, 74);
-      else if (level === "mid") score = clampNum(score, 42, 66);
-      else score = Math.min(score, 36);
-    }
-    return { level, score, why };
-  }
-
-  const disc = numOrNull(p.discountPct);
-  /* 묶음 수량(#) 상품은 30일 최저가가 다른 구성의 값이라 쓰지 않습니다 */
-  const l30 = p.id && String(p.id).includes("#") ? null : numOrNull(p.lowest30d);
-  if (disc == null && l30 == null) {
-    return { level: "none", score: 50, why: "60일 가격 기록과 정가 할인 정보가 아직 없어요." };
-  }
-  let score = disc == null ? 50 : 46 + Math.min(32, disc * 0.6);
-  const at30 = l30 != null && p.price <= l30 * 1.001;
-  if (at30) score += 6;
-  if (l30 != null && p.price > l30 * 1.12) score -= 14;
-  score = clampNum(score, 6, 92);
-  const level = score >= 70 ? "good" : score >= 44 ? "mid" : "wait";
-  const bits = [];
-  if (disc != null) bits.push(`정가보다 ${disc}% 할인`);
-  if (at30) bits.push("최근 30일 최저가와 같은 수준");
-  else if (l30 != null) bits.push(`최근 30일 최저 ${won(l30)}보다 비싸요`);
-  return { level, score, why: bits.join(" · ") || "가격을 모으는 중이에요." };
+  const j = judgeOf(p);
+  const level = j.tier && j.tier.id ? j.tier.id : "none";
+  /* 게이지 바늘: 왼쪽(초록)이 싸고 오른쪽(빨강)이 비싼 쪽 */
+  const base = j.pct == null ? 48 : 48 + j.pct * 2.2;
+  const score = level === "none" ? 48 : clampNum(Math.round(base), 4, 96);
+  const why = [j.why, j.ref ? `참고 ${j.ref.label} 대비 ${signedPct(j.ref.pct)}` : ""].filter(Boolean).join(" · ");
+  return { level, score, why };
 }
 
 function signalBarHTML(p) {
@@ -178,9 +132,9 @@ function tipOf(p) {
   const s = signalOf(p);
   if (s.level === "good" && bits.length < 2) {
     const st = typeof lowStats === "function" ? lowStats(p) : null;
-    if (st && st.state === "low") bits.push("60일 최저가");
+    if (st && st.state === "low") bits.push("60일 관측 최저");
     else if (numOrNull(p.discountPct) != null && p.discountPct >= 40) bits.push(`-${p.discountPct}% 할인 중`);
-    else if (numOrNull(p.lowest30d) != null && p.price <= p.lowest30d * 1.001) bits.push("30일 최저가");
+    else if (numOrNull(p.lowest30d) != null && p.price <= p.lowest30d * 1.001) bits.push("30일 관측 최저");
   }
   return bits.filter(Boolean).join(" · ").split(" · ").slice(0, 2).join(" · ");
 }
