@@ -105,7 +105,8 @@ function tipOf(p) {
   const sugar = numOrNull(p.sugarPerServing);
   const protein = numOrNull(p.protein_g_per_bottle);
   const kcal = numOrNull(p.kcal_per_bottle);
-  const flavor = TIP_FLAVOR[p.category] || "";
+  /* 상품별 문구(p.tip)가 있으면 카테고리 기본 문구보다 먼저 쓴다 */
+  const flavor = p.tip || TIP_FLAVOR[p.category] || "";
 
   if (part === "protein" || part === "shake") {
     if (protein != null && protein >= 20) bits.push(`단백질 ${fmtG(protein)}g · 운동 직후`);

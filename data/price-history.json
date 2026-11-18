@@ -15382,6 +15382,36 @@
     "days": 1
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-6332981118"
+  },
+  "toss-jimin-tongtong-wangjokbal-800g-1": {
+   "id": "toss-jimin-tongtong-wangjokbal-800g-1",
+   "name": "지민푸드 통통왕족발, 800g, 1팩",
+   "platform": "toss",
+   "cardPrice": 8800,
+   "cardPriceCheckedAt": "2026-11-18 13:30",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-18",
+     "price": 8800,
+     "ts": "2026-11-18T13:30:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 8800,
+    "minDate": "2026-11-18",
+    "max": 8800,
+    "maxDate": "2026-11-18",
+    "avg": 8800,
+    "latest": 8800,
+    "latestDate": "2026-11-18",
+    "observations": 1,
+    "days": 1
+   }
   }
  }
 }
