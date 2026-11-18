@@ -1503,11 +1503,13 @@ function renderSearchView() {
   const q = String(state.query || "").trim();
   const chips = $("search-chips");
   const lead = $("search-lead");
+  const promos = $("search-promos");
   const head = $("search-head");
   const panel = $("search-controls");
   const list = $("search-list");
   if (chips) chips.hidden = !!q;
   if (lead) lead.hidden = !!q;
+  if (promos) promos.hidden = !!q; /* 검색어를 넣으면 결과가 먼저 보이도록 기획전은 접습니다 */
   if (head) head.hidden = !q;
   if (panel) panel.hidden = !q;
   if (!list) return;

@@ -223,6 +223,33 @@ main { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad) 28px; }
   font-size: 11.5px; font-weight: 800; letter-spacing: -0.01em; color: var(--muted);
 }
 .chip-key:active { background: var(--sage-soft); border-color: var(--sage); color: var(--sage-text); }
+/* 쿠팡 공식 기획전 — 추천 검색어 바로 아래 3칸 */
+.promos { margin-top: 12px; }
+.promos[hidden] { display: none; }
+.promos-lab {
+  font-size: 10px; font-weight: 800; letter-spacing: -0.01em;
+  color: var(--muted-2);
+}
+.promo-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px; margin-top: 6px;
+}
+.promo {
+  display: flex; flex-direction: column; gap: 3px; min-width: 0;
+  padding: 9px 8px 8px; border-radius: 11px;
+  border: 1px solid var(--line); background: var(--surface);
+  text-decoration: none; color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+.promo:active { transform: scale(0.985); border-color: var(--sage); }
+.promo-emoji { font-size: 16px; line-height: 1.1; }
+.promo-title { font-size: 11px; font-weight: 900; letter-spacing: -0.035em; line-height: 1.3; }
+.promo-title span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.promo-sub {
+  font-size: 9.5px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.3;
+  color: var(--muted-2);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .view-search .sec-head { margin-top: 14px; }
 .search-box {
   display: flex; align-items: center; gap: 8px;
