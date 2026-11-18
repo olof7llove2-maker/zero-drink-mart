@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""띠니마트 공유 미리보기(OG) 이미지 1200x630 생성.
+"""띠니픽 공유 미리보기(OG) 이미지 1200x630 생성.
 
 Pretendard 대신 시스템에 있는 Noto Sans CJK KR로 그립니다.
 색·문구는 사이트 CSS 토큰(:root)과 맞췄습니다.
@@ -52,13 +52,13 @@ x0, y0 = 72, 60
 if os.path.exists(icon_path):
     icon = Image.open(icon_path).convert("RGBA").resize((76, 76), Image.LANCZOS)
     img.paste(icon, (x0, y0), icon)
-text(d, (x0 + 94, y0 + 6), "띠니마트", 40, INK, bold=1)
-text(d, (x0 + 96, y0 + 56), "제로음료 · 단백질 · 고기 · 간편식", 21, MUTED2)
+text(d, (x0 + 94, y0 + 6), "띠니픽", 40, INK, bold=1)
+text(d, (x0 + 96, y0 + 56), "쿠팡·토스·네이버 최저가 비교", 21, MUTED2)
 
 # 헤드라인
 text(d, (72, 196), "1병·100g당 가격 비교", 64, INK, bold=1)
 text(d, (72, 282), "지금 사도 될까?", 64, SAGE, bold=1)
-text(d, (74, 382), "목적만 누르면 1분 안에 결론", 30, MUTED)
+text(d, (74, 382), "직접 팔지 않고, 가장 싼 곳으로 연결해요", 30, MUTED)
 
 # 신호등 3종
 pills = [(MINT, "지금 사세요"), (AMBER, "무난한 가격"), (RED, "잠깐 대기")]

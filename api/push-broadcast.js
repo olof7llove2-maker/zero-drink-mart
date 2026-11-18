@@ -93,7 +93,7 @@ module.exports = async (req, res) => {
     });
   }
 
-  const title = clampText(param(src, "title") || "🔥 띠니마트 새 초특가", MAX_TITLE);
+  const title = clampText(param(src, "title") || "🔥 띠니픽 새 초특가", MAX_TITLE);
   const text = clampText(param(src, "body") || param(src, "message") || "새 초특가가 올라왔어요", MAX_BODY);
   const url = safeUrl(param(src, "url") || SITE_URL);
   const tag = clampText(param(src, "tag") || "ttini-hotdeal", 40);

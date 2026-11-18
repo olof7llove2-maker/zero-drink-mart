@@ -1,4 +1,4 @@
-/* 띠니마트 v5 — 5대 카테고리 · 옵션 묶음 · 미니 가격그래프
+/* 띠니픽 v5 — 5대 카테고리 · 옵션 묶음 · 미니 가격그래프
    데이터: js/products.js (PRODUCTS · PARTS · CATEGORIES …), data/price-history.json */
 const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
 const $ = (id) => document.getElementById(id);
@@ -39,6 +39,9 @@ const state = {
   tab: "home",
   part: "all",
   filter: "all",
+  filters: [], /* r39 — 종류 다중 선택(소고기+닭고기처럼 여러 개를 함께) */
+  stores: [], /* r39 — 보관 다중 선택(냉장·냉동) */
+  pick: "", /* r39 — 빠른 필터: "" | "good"(지금 사기 좋아요) | "wow"(역대급) */
   sources: { coupang: true, toss: true },
   sort: "popular",
   goal: "all",
@@ -75,14 +78,56 @@ function partFilters(partId) {
   if (!part || !part.filters || !part.filters.length) return [{ id: "all", label: "전체", cats: [] }];
   return part.filters;
 }
-function currentFilter() {
-  return partFilters().find((f) => f.id === state.filter) || null;
+function selectedFilters() {
+  const list = partFilters();
+  return (state.filters || []).map((id) => list.find((f) => f.id === id)).filter(Boolean);
 }
 function matchesFilter(p, f) {
   if (!f) return true;
   const cats = f.cats || [];
   if (cats.length && !cats.includes(p.category)) return false;
   return true;
+}
+
+/* r39 — 보관 구분: 상품에 적힌 '냉장·냉동' 표기만 근거로 삼습니다(추측해서 채우지 않음). */
+function storageOf(p) {
+  const t = `${p.kind || ""} ${p.name || ""} ${p.cutGroup || ""}`;
+  if (/냉동|IQF|개별동결|급속동결/.test(t)) return "frozen";
+  if (/냉장/.test(t)) return "chilled";
+  return "";
+}
+
+/* 목록 필터 한곳에 모음: 종류(선택한 것 중 하나라도 맞으면) + 보관(선택한 것 중 하나라도 맞으면) */
+function matchesListFilters(p) {
+  if (!matchesCategoryFilters(p)) return false;
+  const stores = state.stores || [];
+  if (stores.length && stores.indexOf(storageOf(p)) < 0) return false;
+  return true;
+}
+function matchesCategoryFilters(p) {
+  const sel = selectedFilters();
+  return !sel.length || sel.some((f) => matchesFilter(p, f));
+}
+
+/* r39 — 빠른 필터: 판정(judgeOf) 하나만 근거로 씁니다 */
+function matchesPick(p) {
+  if (!state.pick) return true;
+  const j = typeof judgeOf === "function" ? judgeOf(p) : null;
+  if (!j || !j.tier || j.tier.id === "none") return false;
+  if (state.pick === "good") return j.tier.id === "good";
+  if (state.pick === "wow") return !!j.badge && j.badge.id === "역대급";
+  return true;
+}
+
+function setFilters(ids) {
+  const valid = partFilters().filter((f) => f.id !== "all").map((f) => f.id);
+  state.filters = (ids || []).filter((id, i, arr) => valid.includes(id) && arr.indexOf(id) === i);
+  state.filter = state.filters[0] || "all"; /* 예전 코드 호환용 대표값 */
+}
+function clearFilters() {
+  state.filters = [];
+  state.filter = "all";
+  state.stores = [];
 }
 
 /* ── 단가 · 영양 ──────────────────────────────────────── */
@@ -751,7 +796,16 @@ function ctlBarHTML(extra = "") {
   const srcs =
     `<button type="button" class="cchip is-src${state.sources.coupang ? " is-on" : ""}" data-src="coupang">쿠팡</button>` +
     `<button type="button" class="cchip is-src${state.sources.toss ? " is-on" : ""}" data-src="toss">토스</button>`;
-  return `<div class="ctlbar-scroll">${chips}<span class="ctl-sep"></span>${srcs}${extra}</div>`;
+  return `<div class="ctlbar-scroll">${pickChipsHTML()}<span class="ctl-sep"></span>${chips}<span class="ctl-sep"></span>${srcs}${extra}</div>`;
+}
+
+/* r39 — 목록 필터 맨 앞의 빠른 필터 칩 두 개(하나만 켜지는 토글) */
+function pickChipsHTML() {
+  const mk = (id, label, cls) => {
+    const on = state.pick === id;
+    return `<button type="button" class="cchip ${cls}${on ? " is-on" : ""}" data-pick="${id}" aria-pressed="${on}">${label}</button>`;
+  };
+  return mk("good", "🟢 지금 사기 좋아요", "is-good") + mk("wow", "🔥 역대급", "is-wow");
 }
 
 function renderControls() {
@@ -1289,9 +1343,9 @@ function renderHome() {
   let topId = "";
   if (goalOn) {
     /* 목적을 고르면 그 목적에 맞는 것만, 목적 기준 순서로 */
-    list = goalList(state.goal);
+    list = goalList(state.goal).filter(matchesPick);
   } else {
-    list = collapseVariants(sortList(basePool(), state.sort));
+    list = collapseVariants(sortList(basePool(), state.sort)).filter(matchesPick);
     if (state.sort === "popular") {
       /* 오늘의 1위 상품을 첫 칸으로 — 옵션 묶음 대표로 접힌 경우도 잡아 줍니다 */
       topId = homePinTarget(homeChampionId(), list);
@@ -1355,7 +1409,7 @@ const CAT_PROMOS = {
 };
 
 function catPromoOf() {
-  if (state.part === "meat") return state.filter === "gadget" ? CAT_PROMOS.gadget : CAT_PROMOS.meat;
+  if (state.part === "meat") return (state.filters || []).includes("gadget") ? CAT_PROMOS.gadget : CAT_PROMOS.meat;
   if (state.part === "protein" || state.part === "shake") return CAT_PROMOS.protein;
   return CAT_PROMOS.diet; /* 전체(타일) · 제로 음료 · 치팅·간편식 · 기타 */
 }
@@ -1382,32 +1436,78 @@ function renderCategoryList() {
     list.innerHTML = "";
     return;
   }
-  const f = currentFilter();
-  let items = basePool().filter((p) => partOf(p) === state.part && matchesFilter(p, f));
+  let items = basePool().filter(
+    (p) => partOf(p) === state.part && matchesListFilters(p) && matchesPick(p)
+  );
   items = sortList(items, state.sort);
   if (state.part === "meat") items = withPremiumLast(items);
   const part = partById(state.part);
   const head = $("cat-head");
+  const picking = (state.filters || []).length + (state.stores || []).length > 0;
   if (head) {
     head.innerHTML = `<h2>${escapeHtml(part.label)}</h2><span>${collapseVariants(items).length}개 · ${escapeHtml(
       sortHint()
-    )}</span>`;
+    )}</span>${
+      picking ? `<button type="button" class="cat-reset" data-clear-filters>필터 해제</button>` : ""
+    }`;
   }
   renderFilters();
-  renderCardsInto(list, items, { limit: state.limit.category, moreKey: "category", grouped: state.filter === "all", twoCol: true });
+  renderCardsInto(list, items, {
+    limit: state.limit.category,
+    moreKey: "category",
+    grouped: (state.filters || []).length === 0,
+    twoCol: true,
+  });
 }
 
+/* r39 — 종류는 다중 체크(소고기+닭고기), 식단 고기는 보관(냉장·냉동)까지 한 줄 더.
+   · 종류 안에서는 OR(고르면 고를수록 넓게), 보관과는 AND로 좁힙니다. */
+function filterCount(f) {
+  return basePool().filter((p) => partOf(p) === state.part && matchesFilter(p, f)).length;
+}
+function storeCount(kind) {
+  return basePool().filter(
+    (p) => partOf(p) === state.part && matchesCategoryFilters(p) && storageOf(p) === kind
+  ).length;
+}
 function renderFilters() {
   const nav = $("part-filters");
   if (!nav) return;
-  const items = partFilters();
-  nav.innerHTML = items
-    .map(
-      (f) =>
-        `<button type="button" class="filter${f.id === state.filter ? " is-on" : ""}" data-filter="${f.id}">${escapeHtml(
-          f.label
-        )}</button>`
-    )
+  const items = partFilters().filter((f) => f.id !== "all");
+  const sel = state.filters || [];
+  const anySel = sel.length > 0;
+  const all = `<button type="button" class="filter${!anySel ? " is-on" : ""}" data-filter="all" aria-selected="${!anySel}">전체</button>`;
+  nav.innerHTML =
+    all +
+    items
+      .map((f) => {
+        const on = sel.includes(f.id);
+        return `<button type="button" class="filter${on ? " is-on" : ""}" data-filter="${f.id}" aria-selected="${on}" aria-pressed="${on}">${
+          on ? `<span class="chip-tick" aria-hidden="true">✓</span>` : ""
+        }${escapeHtml(f.label)}<span class="chip-n">${filterCount(f)}</span></button>`;
+      })
+      .join("");
+
+  const row = $("store-row");
+  const snav = $("store-filters");
+  if (!row || !snav) return;
+  if (state.part !== "meat") {
+    row.hidden = true;
+    snav.innerHTML = "";
+    return;
+  }
+  row.hidden = false;
+  const defs = [
+    { id: "chilled", label: "🧊 냉장" },
+    { id: "frozen", label: "❄️ 냉동" },
+  ];
+  snav.innerHTML = defs
+    .map((d) => {
+      const on = (state.stores || []).includes(d.id);
+      return `<button type="button" class="filter${on ? " is-on" : ""}" data-store="${d.id}" aria-selected="${on}" aria-pressed="${on}">${
+        on ? `<span class="chip-tick" aria-hidden="true">✓</span>` : ""
+      }${d.label}<span class="chip-n">${storeCount(d.id)}</span></button>`;
+    })
     .join("");
 }
 
@@ -1483,7 +1583,7 @@ function renderHotdeal() {
       `<button type="button" class="cchip is-src${state.dealLow ? " is-on" : ""}" data-deallow="1">60일 저점만</button>`
     );
   }
-  const pool = collapseVariants(basePool());
+  const pool = collapseVariants(basePool()).filter(matchesPick);
   let list = pool.filter((p) => typeof p.discountPct === "number" && p.discountPct > 0);
   if (state.dealLow) {
     list = pool.filter((p) => {
@@ -1531,7 +1631,7 @@ function renderSearchView() {
     if ($("search-count")) $("search-count").textContent = "";
     return;
   }
-  const items = sortList(basePool(), state.sort);
+  const items = sortList(basePool().filter(matchesPick), state.sort);
   if ($("search-count")) $("search-count").textContent = `(${collapseVariants(items).length})`;
   renderCardsInto(list, items, { twoCol: true });
 }
@@ -1541,13 +1641,16 @@ function resetSearch() {
   state.highlightId = null;
   const input = $("search-input");
   if (input) input.value = "";
+  const hdr = $("hdr-find-input");
+  if (hdr) hdr.value = "";
   paint();
 }
 
 function resetAllFilters() {
   state.query = "";
   state.part = "all";
-  state.filter = "all";
+  clearFilters();
+  state.pick = "";
   state.sort = "popular";
   state.goal = "all";
   state.sources = { coupang: true, toss: true };
@@ -1555,6 +1658,8 @@ function resetAllFilters() {
   state.limit = { home: 24, category: 30, hotdeal: 30 };
   const input = $("search-input");
   if (input) input.value = "";
+  const hdr = $("hdr-find-input");
+  if (hdr) hdr.value = "";
   paint();
 }
 
@@ -1581,8 +1686,16 @@ function renderNav() {
   }
 }
 
+function headerSearchOn() {
+  try {
+    return !!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches);
+  } catch (err) {
+    return false;
+  }
+}
+
 function focusSearchInput() {
-  const input = $("search-input");
+  const input = headerSearchOn() ? $("hdr-find-input") || $("search-input") : $("search-input");
   if (!input) return;
   requestAnimationFrame(() => {
     try {
@@ -1598,7 +1711,7 @@ function setTab(id, scroll = true) {
   state.tab = id;
   document.body.dataset.tab = id;
   document.title =
-    id === "home" ? "띠니마트 | 제로음료·단백질·고기·간편식 단가 비교" : `${TABS.find((t) => t.id === id).label} | 띠니마트`;
+    id === "home" ? "띠니픽 | 제로음료·단백질·고기 최저가 비교" : `${TABS.find((t) => t.id === id).label} | 띠니픽`;
   TABS.forEach((t) => {
     const view = $(`view-${t.id}`);
     if (view) view.hidden = t.id !== id;
@@ -1621,7 +1734,8 @@ function jumpToProduct(id) {
     if (input) input.value = "";
   }
   state.part = "all";
-  state.filter = "all";
+  clearFilters();
+  state.pick = "";
   state.goal = "all";
   state.sources = { coupang: true, toss: true };
   state.highlightId = p.variantGroup ? (state.vgroups[p.variantGroup].find((x) => DEFAULTS.has(x.id)) || p).id : id;
@@ -1657,15 +1771,15 @@ function shareLinkFor(p) {
   return p ? `${SHARE_BASE}/?p=${encodeURIComponent(p.id)}` : `${SHARE_BASE}/`;
 }
 function shareTextFor(p) {
-  if (!p) return "제로 음료·단백질·식단 고기·간편식을 단가로 비교하는 띠니마트예요.";
+  if (!p) return "쿠팡·토스·네이버 최저가를 모아 비교하는 띠니픽이에요. 직접 팔지 않고 원래 판매처로 연결해요.";
   const price = p.price != null ? `${won(p.price)} · ` : "";
   const v = measureValue(p);
   const unit = v != null ? `${Math.round(v)}원 / ${measureLabel(p)}` : "";
-  return `띠니마트에서 본 상품: ${p.name} / ${price}${unit}`.trim();
+  return `띠니픽에서 본 상품: ${p.name} / ${price}${unit}`.trim();
 }
 async function shareMart(p) {
   const url = shareLinkFor(p);
-  const title = p ? `띠니마트 · ${p.name}` : "띠니마트 · 단가 비교";
+  const title = p ? `띠니픽 · ${p.name}` : "띠니픽 · 최저가 비교";
   const text = shareTextFor(p);
   if (typeof navigator.share === "function") {
     try {
@@ -1779,7 +1893,7 @@ function shortcutGuide() {
     return {
       device: "아이폰 · 아이패드 (Safari)",
       steps: ["하단 가운데 공유 버튼(□↑)을 눌러요", "목록에서 '홈 화면에 추가'를 골라요", "오른쪽 위 '추가'를 누르면 끝!"],
-      hint: "홈 화면에 '띠니마트' 아이콘으로 추가돼요.",
+      hint: "홈 화면에 '띠니픽' 아이콘으로 추가돼요.",
     };
   }
   if (android) {
@@ -1793,7 +1907,7 @@ function shortcutGuide() {
     return {
       device: "안드로이드 (Chrome)",
       steps: ["오른쪽 위 ⋮ 메뉴를 눌러요", "'앱 설치' 또는 '홈 화면에 추가'를 골라요", "'설치'를 누르면 끝!"],
-      hint: "설치하면 홈 화면에 '띠니마트'로 보여요.",
+      hint: "설치하면 홈 화면에 '띠니픽'으로 보여요.",
     };
   }
   if (mac) {
@@ -1941,8 +2055,10 @@ function syncUrl() {
   };
   put("tab", state.tab === "home" ? "" : state.tab);
   put("part", state.part);
-  put("f", state.filter);
-  put("sort", state.sort === "popular" ? "" : state.sort);
+  put("f", (state.filters || []).join(","));
+  put("store", (state.stores || []).join(","));
+  put("pick", state.pick);
+  put("sort", state.sort === "popular" ? "" : state.sort || "");
   put("goal", state.goal);
   const srcOn =
     state.sources.coupang && state.sources.toss
@@ -1970,7 +2086,14 @@ function applyUrlState() {
   const wantedPart = q.get("part") || (legacy ? legacy[0] : "all");
   if (allParts().some((p) => p.id === wantedPart)) state.part = wantedPart;
   const filterId = q.get("f") || (legacy ? legacy[1] : "all");
-  if (partFilters(state.part).some((f) => f.id === filterId)) state.filter = filterId;
+  if (filterId && filterId !== "all") setFilters(filterId.split(",").map((s) => s.trim()).filter(Boolean));
+  const storeParam = q.get("store");
+  if (storeParam) {
+    const set = new Set(storeParam.split(",").map((s) => s.trim()));
+    state.stores = ["chilled", "frozen"].filter((k) => set.has(k));
+  }
+  const pickParam = q.get("pick");
+  if (pickParam === "good" || pickParam === "wow") state.pick = pickParam;
   const sort = q.get("sort");
   if (sort) {
     const mapped = LEGACY_SORT[sort] || sort;
@@ -2025,7 +2148,7 @@ function initControls() {
     const tile = e.target.closest("[data-part-tile]");
     if (tile) {
       state.part = tile.getAttribute("data-part-tile");
-      state.filter = "all";
+      clearFilters();
       state.limit.category = 30;
       paint();
       window.scrollTo({ top: 0, behavior: "auto" });
@@ -2034,14 +2157,51 @@ function initControls() {
     const back = e.target.closest("[data-backpart]");
     if (back) {
       state.part = "all";
-      state.filter = "all";
+      clearFilters();
       paint();
       window.scrollTo({ top: 0, behavior: "auto" });
       return;
     }
+    const pickBtn = e.target.closest("[data-pick]");
+    if (pickBtn) {
+      const id = pickBtn.getAttribute("data-pick");
+      state.pick = state.pick === id ? "" : id;
+      state.limit.home = 24;
+      state.limit.category = 30;
+      state.limit.hotdeal = 30;
+      paint();
+      return;
+    }
+    const clearF = e.target.closest("[data-clear-filters]");
+    if (clearF) {
+      clearFilters();
+      paint();
+      return;
+    }
     const filt = e.target.closest("[data-filter]");
     if (filt) {
-      state.filter = filt.getAttribute("data-filter");
+      const id = filt.getAttribute("data-filter");
+      if (id === "all") {
+        setFilters([]);
+      } else {
+        const cur = (state.filters || []).slice();
+        const at = cur.indexOf(id);
+        if (at >= 0) cur.splice(at, 1);
+        else cur.push(id);
+        setFilters(cur);
+      }
+      state.limit.category = 30;
+      paint();
+      return;
+    }
+    const storeBtn = e.target.closest("[data-store]");
+    if (storeBtn) {
+      const id = storeBtn.getAttribute("data-store");
+      const cur = (state.stores || []).slice();
+      const at = cur.indexOf(id);
+      if (at >= 0) cur.splice(at, 1);
+      else cur.push(id);
+      state.stores = cur;
       state.limit.category = 30;
       paint();
       return;
@@ -2092,6 +2252,34 @@ function initSearch() {
       if (input) input.focus();
     });
   }
+
+  /* r39 — PC·태블릿 헤더 상시 검색창. 첫 글자를 치면 바로 검색 탭 결과로 이어집니다. */
+  const hdr = $("hdr-find-input");
+  const hdrForm = $("hdr-find");
+  const hdrClear = $("hdr-find-clear");
+  if (hdrForm) {
+    hdrForm.addEventListener("submit", (e) => e.preventDefault());
+  }
+  if (hdr) {
+    hdr.addEventListener("input", () => {
+      state.query = hdr.value;
+      state.highlightId = null;
+      if (state.tab !== "search") setTab("search", false);
+      else paint();
+    });
+    hdr.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        resetSearch();
+      }
+    });
+  }
+  if (hdrClear) {
+    hdrClear.addEventListener("click", () => {
+      resetSearch();
+      if (hdr) hdr.focus();
+    });
+  }
   document.addEventListener("click", (e) => {
     if (e.target && e.target.id === "empty-clear") resetSearch();
     if (e.target && e.target.id === "empty-reset") resetAllFilters();
@@ -2109,9 +2297,13 @@ function initSearch() {
 function renderSearchStatus() {
   const clear = $("search-clear");
   const input = $("search-input");
+  const hdr = $("hdr-find-input");
+  const hdrClear = $("hdr-find-clear");
   const q = String(state.query || "").trim();
   if (clear) clear.hidden = !q;
+  if (hdrClear) hdrClear.hidden = !q;
   if (input && document.activeElement !== input && input.value !== state.query) input.value = state.query;
+  if (hdr && document.activeElement !== hdr && hdr.value !== state.query) hdr.value = state.query;
 }
 
 /* ── 시작 ────────────────────────────────────────────── */

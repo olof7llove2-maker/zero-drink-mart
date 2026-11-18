@@ -1,9 +1,9 @@
-/* 띠니마트 서비스 워커
+/* 띠니픽 서비스 워커
    하는 일은 두 가지뿐입니다: 푸시 알림 받기, 알림을 누르면 그 상품으로 이동.
    사이트 파일은 캐시하지 않아요(가격이 항상 새로 보이도록).
    예전 버전이 남긴 캐시가 있으면 켜질 때 전부 지웁니다. */
 
-const SW_BUILD = "20261118r38";
+const SW_BUILD = "20261118r39";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
@@ -35,7 +35,7 @@ self.addEventListener("push", (event) => {
   } catch (err) {
     data = { body: event.data ? event.data.text() : "목표 가격에 도달했어요" };
   }
-  const title = data.title || "띠니마트 가격 알림";
+  const title = data.title || "띠니픽 가격 알림";
   const options = {
     body: data.body || "목표 가격에 도달했어요",
     icon: "/images/icon-192.png",

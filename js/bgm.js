@@ -1,4 +1,4 @@
-/* 띠니마트 — 푸터 1줄 신나는 BGM (Kevin MacLeod 업비트 3곡)
+/* 띠니픽 — 푸터 1줄 신나는 BGM (Kevin MacLeod 업비트 3곡)
    재영 님(2026-11-18): "잔잔한 로파이 말고 신나고 밝은 업비트로" (r37)
    - audio/ 아래 192kbps·2분·페이드인아웃 통일 MP3 3곡을 한 <audio>로 번갈아 틉니다.
        electro-cabello.mp3 · exit-the-premises.mp3 · groove-grove.mp3
@@ -13,7 +13,8 @@
        · 끈 기록(localStorage ttini-bgm-off)이 있으면 자동으로 켜지 않습니다.
    - 소리는 0 → 0.28로 0.8초에 걸쳐 올립니다(첫 탭 직후 바로 들리되 놀라지 않게).
    - iOS처럼 audio.volume이 듣지 않는 브라우저는 WebAudio 게인으로 볼륨을 맞춥니다.
-   - 끄고 켜는 곳은 푸터의 1줄 컨트롤 하나뿐이고, 그 줄에 지금 곡 이름이 보입니다. */
+   - 끄고 켜는 곳은 푸터의 1줄 컨트롤과 화면 우하단 떠 있는 작은 버튼 두 곳이고(r39),
+     둘 다 같은 상태를 보고 같이 바뀝니다. 각 버튼은 지금 상태만 보여 줍니다. */
 
 (function () {
   "use strict";
@@ -23,6 +24,8 @@
   var stateEl = document.getElementById("bgm-state");
   var nameEl = document.getElementById("bgm-name");
   var bar = document.getElementById("foot-bgm");
+  var fab = document.getElementById("bgm-fab"); /* r39 — 화면 우하단 상시 음소거/재생 */
+  var fabIco = document.getElementById("bgm-fab-ico");
   if (!audio || !btn) return;
 
   var TRACKS = [
@@ -96,6 +99,14 @@
     btn.setAttribute("aria-pressed", on ? "true" : "false");
     btn.setAttribute("aria-label", on ? "배경음악 끄기" : "신나는 배경음악 켜기");
     if (stateEl) stateEl.textContent = on ? "ON" : "OFF";
+    /* r39 — 바로 꺼야 하니까 문구보다 아이콘으로 상태를 보여 줍니다 */
+    if (fab) {
+      fab.classList.toggle("is-on", on);
+      fab.setAttribute("aria-pressed", on ? "true" : "false");
+      fab.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기");
+      fab.title = on ? "배경음악 끄기" : "배경음악 켜기";
+    }
+    if (fabIco) fabIco.textContent = on ? "🔊" : "🔇";
   }
 
   /* ── 볼륨 ──────────────────────────────────────────── */
@@ -243,9 +254,9 @@
   /* ── 첫 터치에 자동 시작 ───────────────────────────── */
 
   function onGesture(e) {
-    /* 푸터 BGM 버튼은 직접 켜고 끄는 곳이라 자동 시작 대상에서 뺍니다 */
+    /* 푸터 BGM 버튼·우하단 버튼은 직접 켜고 끄는 곳이라 자동 시작 대상에서 뺍니다 */
     var t = e && e.target;
-    if (t && t.closest && t.closest("#foot-bgm")) return;
+    if (t && t.closest && t.closest("#foot-bgm, #bgm-fab")) return;
     if (on) {
       unarm();
       return;
@@ -285,6 +296,19 @@
     }
   });
 
+  /* r39 — 우하단 떠 있는 버튼도 같은 동작(푸터와 상태 동기화) */
+  if (fab) {
+    fab.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (on) stop(true);
+      else {
+        writeOff(false);
+        play();
+      }
+    });
+  }
+
   /* 한 곡이라도 못 받으면 다른 곡으로 넘어가고, 3곡 다 실패하면 죽은 버튼을 남기지 않습니다. */
   audio.addEventListener("error", function () {
     fails += 1;
@@ -298,6 +322,7 @@
       return;
     }
     if (bar) bar.hidden = true;
+    if (fab) fab.hidden = true;
   });
 
   setTrack(idx); /* 첫 곡 이름을 바로 띄우고 그 곡을 미리 받아 둡니다 */

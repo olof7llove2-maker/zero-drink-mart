@@ -213,7 +213,9 @@ document.addEventListener("click", (e) => {
     if (typeof state === "undefined") return;
     state.tab = "category";
     state.part = "protein";
-    state.filter = "all";
+    if (typeof clearFilters === "function") clearFilters();
+    else state.filter = "all";
+    state.pick = "";
     state.goal = "all";
     if (typeof setTab === "function") setTab("category", false);
     else if (typeof paint === "function") paint();

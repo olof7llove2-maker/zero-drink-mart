@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>띠니마트 | 제로음료·단백질·고기·간편식 단가 비교</title>
-  <meta name="description" content="제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교해요. 할인율과 60일 가격 그래프까지 한눈에. 가격은 바뀔 수 있어요.">
+  <title>띠니픽 | 제로음료·단백질·고기 최저가 비교</title>
+  <meta name="description" content="띠니픽은 직접 팔지 않고, 쿠팡·토스·네이버 최저가를 모아 비교하는 곳이에요. 제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교하고 구매는 원래 판매처로 연결해요.">
   <meta name="theme-color" content="#2FBE8C">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -12,28 +12,28 @@
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="띠니마트">
-  <meta name="application-name" content="띠니마트">
+  <meta name="apple-mobile-web-app-title" content="띠니픽">
+  <meta name="application-name" content="띠니픽">
   <meta name="mobile-web-app-capable" content="yes">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="띠니마트">
-  <meta property="og:title" content="띠니마트 | 제로음료·단백질·고기·간편식 단가 비교">
-  <meta property="og:description" content="제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta property="og:site_name" content="띠니픽">
+  <meta property="og:title" content="띠니픽 | 제로음료·단백질·고기 최저가 비교">
+  <meta property="og:description" content="직접 파는 가게가 아니라 쿠팡·토스·네이버 최저가를 모아 비교하는 곳이에요. 구매는 원래 판매처로 연결돼요.">
   <meta property="og:image" content="https://zero-drink-mart.vercel.app/images/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="띠니마트 — 1병·100g당 가격 비교, 지금 사도 될까?">
+  <meta property="og:image:alt" content="띠니픽 — 쿠팡·토스·네이버 최저가 비교, 1병·100g당 가격">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="띠니마트 | 제로음료·단백질·고기·간편식 단가 비교">
-  <meta name="twitter:description" content="제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교해요. 가격은 바뀔 수 있어요.">
+  <meta name="twitter:title" content="띠니픽 | 제로음료·단백질·고기 최저가 비교">
+  <meta name="twitter:description" content="직접 파는 가게가 아니라 쿠팡·토스·네이버 최저가를 모아 비교하는 곳이에요. 구매는 원래 판매처로 연결돼요.">
   <meta name="twitter:image" content="https://zero-drink-mart.vercel.app/images/og-image.png">
-  <meta name="twitter:image:alt" content="띠니마트 — 1병·100g당 가격 비교, 지금 사도 될까?">
+  <meta name="twitter:image:alt" content="띠니픽 — 쿠팡·토스·네이버 최저가 비교, 1병·100g당 가격">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset: 쓰는 글자 구간만 내려받아요(정적 웨이트 9종 ~3.5MB → 수백 KB) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261118r38">
+  <link rel="stylesheet" href="css/style.css?v=20261118r39">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -44,19 +44,29 @@
 
   <header class="hdr">
     <div class="hdr-in">
-      <a class="brand" href="#home" data-goto="home" aria-label="띠니마트 홈">
+      <a class="brand" href="#home" data-goto="home" aria-label="띠니픽 홈">
         <img class="mark-img" src="images/icon-192.png" alt="" width="34" height="34" decoding="async">
         <span class="word">
           <span class="brand-line">
-            <strong>띠니마트</strong>
+            <strong>띠니픽</strong>
+            <!-- r39: 직접 파는 쇼핑몰로 오해하지 않게 '최저가 비교'를 이름 옆에 항상 붙임 -->
+            <span class="brand-badge">최저가 비교</span>
             <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
           </span>
-          <em>마운자로보단 띠니!</em>
+          <em><span class="sub-a">제로·식단 최저가 비교</span><span class="sub-b"> · 쿠팡·토스·네이버 링크 연결</span></em>
         </span>
       </a>
+      <!-- r39: PC·태블릿 넓은 화면(>=900px)에서는 검색창을 헤더에 항상 열어 둔다.
+           375px 모바일에서는 CSS로 숨기고 기존 하단 검색 탭을 그대로 씁니다. -->
+      <form class="hdr-find" id="hdr-find" role="search" action="#search" autocomplete="off">
+        <span class="hdr-find-ico" aria-hidden="true">🔍</span>
+        <input class="hdr-find-input" id="hdr-find-input" type="search" inputmode="search" autocomplete="off"
+               placeholder="상품·브랜드 검색" aria-label="상품 검색">
+        <button type="button" class="hdr-find-clear" id="hdr-find-clear" aria-label="검색어 지우기" hidden>✕</button>
+      </form>
       <nav class="topnav" id="topnav" aria-label="주요 메뉴"></nav>
-      <button type="button" class="hdr-share" data-share aria-label="띠니마트 공유하기">🔗</button>
-      <button type="button" class="hdr-info" id="info-open" aria-label="이용 안내" title="띠니마트 이용 안내">
+      <button type="button" class="hdr-share" data-share aria-label="띠니픽 공유하기">🔗</button>
+      <button type="button" class="hdr-info" id="info-open" aria-label="이용 안내" title="띠니픽 이용 안내">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
           <path d="M14 3v5h5"></path>
@@ -64,7 +74,7 @@
         </svg>
       </button>
       <!-- 홈 화면 추가 — 로고 아래 큰 버튼을 없애고 헤더 맨 오른쪽에 작게 -->
-      <button type="button" class="hdr-add" data-shortcut aria-label="홈 화면에 띠니마트 추가" title="홈 화면에 추가">📲 추가</button>
+      <button type="button" class="hdr-add" data-shortcut aria-label="홈 화면에 띠니픽 추가" title="홈 화면에 추가">📲 추가</button>
     </div>
   </header>
 
@@ -138,7 +148,11 @@
       <div id="cat-browse" hidden>
         <button type="button" class="back-btn" data-backpart>← 카테고리 전체</button>
         <div class="cat-head" id="cat-head"></div>
-        <nav class="filters" id="part-filters" aria-label="종류"></nav>
+        <!-- r39: 종류·보관 다중 체크 필터 (예: 소고기+닭고기 · 냉장) -->
+        <div class="filters-wrap">
+          <div class="filter-row"><span class="filter-lab">종류</span><nav class="filters" id="part-filters" aria-label="종류"></nav></div>
+          <div class="filter-row" id="store-row" hidden><span class="filter-lab">보관</span><nav class="filters" id="store-filters" aria-label="보관"></nav></div>
+        </div>
         <div class="panel" data-controls="category"></div>
         <div class="shelf" id="cat-list"></div>
       </div>
@@ -169,6 +183,7 @@
       <p class="legal-foot">이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격은 확인한 시각 기준이며, 바뀔 수 있어요. 건강·효능을 약속하지 않아요.</p>
       <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
       <p class="legal-foot">이 포스팅은 네이버 쇼핑 커넥트 활동의 일환으로, 수수료를 제공받습니다.</p>
+      <p class="legal-foot">띠니픽은 직접 상품을 판매하지 않는 <b>최저가 비교 사이트</b>예요. 구매·배송·교환·환불은 링크를 누른 판매처(쿠팡·토스·네이버)에서 이뤄집니다.</p>
       <div class="foot-bgm" id="foot-bgm">
         <button type="button" class="bgm-btn" id="bgm-toggle" aria-pressed="false" aria-label="신나는 배경음악 켜기" title="신나는 배경음악">
           <span class="bgm-eq" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -183,11 +198,17 @@
         <span class="update-cycle-main" id="update-cycle-main">상품별 확인 시각 상이 · 오전·오후 9시 갱신</span>
         <span class="view-stat" id="view-stat" hidden aria-label="사이트 조회수">👀 오늘 <b id="view-today">–</b> · 누적 <b id="view-total">–</b></span>
       </p>
-      <p class="copy">띠니 · 띠니마트</p>
+      <p class="copy">띠니 · 띠니픽</p>
     </footer>
   </main>
 
   <nav class="tabbar" id="tabbar" aria-label="주요 메뉴"></nav>
+
+  <!-- r39: 화면 우하단 BGM 즉시 음소거/재생 — 스크롤과 상관없이 바로 끌 수 있게.
+       푸터 BGM 한 줄과 같은 상태를 씁니다(js/bgm.js). -->
+  <button type="button" class="bgm-fab" id="bgm-fab" aria-pressed="false" aria-label="배경음악 켜기" title="배경음악 켜기/끄기">
+    <span class="bgm-fab-ico" id="bgm-fab-ico" aria-hidden="true">🔇</span>
+  </button>
 
   <div class="install-modal" id="install-modal" hidden>
     <div class="install-card" role="dialog" aria-modal="true" aria-labelledby="install-title">
@@ -213,12 +234,13 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <!-- ── ? 띠니마트 안내 (홈에서 뺀 설명을 모아 둔 곳) ───── -->
+  <!-- ── ? 띠니픽 안내 (홈에서 뺀 설명을 모아 둔 곳) ───── -->
   <div class="info-modal" id="info-modal" hidden>
     <div class="info-card" role="dialog" aria-modal="true" aria-labelledby="info-title">
       <button type="button" class="info-x" id="info-x" aria-label="닫기">✕</button>
-      <h2 class="info-title" id="info-title">📖 띠니마트 이용 안내</h2>
-      <p class="info-lead">운동하는 사람을 위한 <b>단가 비교 마트</b>예요. 같은 값이면 단가로, 같은 단백질이면 20g당 가격으로 비교해요.</p>
+      <h2 class="info-title" id="info-title">📖 띠니픽 이용 안내</h2>
+      <p class="info-lead">운동하는 사람을 위한 <b>최저가 비교 마트</b>예요. 같은 값이면 단가로, 같은 단백질이면 20g당 가격으로 비교해요.</p>
+      <p class="info-lead info-lead-strong">띠니픽은 직접 파는 가게가 아니에요. 쿠팡·토스·네이버에서 <b>가장 싼 곳을 골라 링크로 보내 드리는</b> 곳이에요. 결제·배송은 그 판매처에서 해요.</p>
       <div class="info-scroll">
         <section class="info-sec">
           <h3>① 가격·단가 비교 기준</h3>
@@ -282,14 +304,14 @@
        곡이 끝나면 Kevin MacLeod 업비트 3곡을 번갈아 이어 틉니다(js/bgm.js). -->
   <audio id="bgm-audio" src="audio/electro-cabello.mp3" preload="auto" playsinline aria-hidden="true"></audio>
 
-  <script src="js/price.js?v=20261118r38" defer></script>
-  <script src="js/products.js?v=20261118r38" defer></script>
-  <script src="js/views.js?v=20261118r38" defer></script>
-  <script src="js/grade.js?v=20261118r38" defer></script>
-  <script src="js/protein.js?v=20261118r38" defer></script>
-  <script src="js/smart.js?v=20261118r38" defer></script>
-  <script src="js/app.js?v=20261118r38" defer></script>
-  <script src="js/push.js?v=20261118r38" defer></script>
-  <script src="js/bgm.js?v=20261118r38" defer></script>
+  <script src="js/price.js?v=20261118r39" defer></script>
+  <script src="js/products.js?v=20261118r39" defer></script>
+  <script src="js/views.js?v=20261118r39" defer></script>
+  <script src="js/grade.js?v=20261118r39" defer></script>
+  <script src="js/protein.js?v=20261118r39" defer></script>
+  <script src="js/smart.js?v=20261118r39" defer></script>
+  <script src="js/app.js?v=20261118r39" defer></script>
+  <script src="js/push.js?v=20261118r39" defer></script>
+  <script src="js/bgm.js?v=20261118r39" defer></script>
 </body>
 </html>

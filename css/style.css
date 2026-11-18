@@ -1,4 +1,4 @@
-/* 띠니마트 — design v3 (clean · intuitive · fresh · value) */
+/* 띠니픽 — design v3 (clean · intuitive · fresh · value) */
 :root {
   --bg: #f5f3ee;
   --surface: #ffffff;
@@ -110,8 +110,52 @@ b, strong { font-weight: 800; }
 .word strong { font-size: 16.5px; font-weight: 800; letter-spacing: -0.035em; }
 .word em { font-style: normal; font-size: 10.5px; font-weight: 650; color: var(--muted-2); }
 .word strong, .word em { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* r39 — 이름 옆 '최저가 비교' 배지: 직접 파는 쇼핑몰이 아니라는 걸 첫눈에 */
+.brand-badge {
+  flex: none;
+  display: inline-flex; align-items: center;
+  height: 16px; padding: 0 6px; border-radius: 999px;
+  background: var(--sage-soft); border: 1px solid #cfe3d7;
+  color: var(--sage-text);
+  font-size: 9.5px; font-weight: 900; letter-spacing: -0.03em; white-space: nowrap;
+}
+.word em .sub-b { display: none; }
+@media (min-width: 1100px) { .word em .sub-b { display: inline; } }
 
 .topnav { display: none; margin-left: auto; gap: 2px; }
+
+/* r39 — PC·태블릿(>=900px) 헤더 상시 검색창. 모바일에서는 숨기고 검색 탭을 그대로 씁니다. */
+.hdr-find {
+  display: none;
+}
+@media (min-width: 900px) {
+  .hdr-find {
+    display: flex; align-items: center; gap: 7px;
+    flex: 1 1 170px; max-width: 320px; min-width: 150px;
+    margin-left: 6px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 11px;
+  }
+  .hdr-find:focus-within { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(47, 107, 79, 0.1); }
+  .hdr-find-input {
+    flex: 1; min-width: 0;
+    border: 0; outline: none; background: transparent;
+    font-size: 13px; font-weight: 700; color: var(--ink); padding: 0;
+  }
+  .hdr-find-input::placeholder { color: var(--muted-2); font-weight: 650; }
+  .hdr-find-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+  .hdr-find-clear {
+    flex: none; cursor: pointer; width: 18px; height: 18px; border-radius: 999px;
+    border: 0; background: var(--line-2); color: var(--muted);
+    font-size: 10px; font-weight: 800; line-height: 1; display: grid; place-items: center; padding: 0;
+  }
+  .hdr-find-clear[hidden] { display: none; }
+  /* 헤더 검색창이 생기면 검색 탭의 같은 입력창은 숨겨 중복을 없앱니다(추천 검색어·결과는 그대로) */
+  .view-search .toolbar { display: none; }
+  .view-search { padding-top: 10px; }
+}
+.hdr-find-ico { font-size: 12.5px; line-height: 1; opacity: 0.65; flex: none; }
+
 .topnav a {
   text-decoration: none;
   font-size: 13.5px; font-weight: 800; letter-spacing: -0.02em;
@@ -378,6 +422,7 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
 /* ── 세부 필터 줄 ────────────────────────────────────── */
 .filters-wrap { margin: 12px 0 0; }
 .filter-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.filter-row[hidden] { display: none; }
 .filter-lab {
   flex: none; width: 26px;
   font-size: 10.5px; font-weight: 800; color: var(--muted-2);
@@ -400,6 +445,17 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
 }
 .chip-ico { margin-right: 3px; }
 .chip-n { margin-left: 3px; font-size: 10px; font-weight: 700; opacity: 0.7; }
+/* r39 — 다중 체크 표시·필터 해제 */
+.chip-tick { margin-right: 3px; font-size: 10.5px; font-weight: 900; opacity: 0.9; }
+.filter.is-on[aria-selected="true"] .chip-n { opacity: 0.75; }
+.cat-reset {
+  flex: none; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface);
+  border-radius: 999px; padding: 3px 9px;
+  font-size: 10.5px; font-weight: 800; color: var(--muted);
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-reset:active { border-color: var(--sage); color: var(--sage-text); }
 .ing-note { margin: 7px 0 0 34px; font-size: 10.5px; font-weight: 650; color: var(--muted-2); }
 .cat-note {
   margin: 10px 0 0; font-size: 12px; font-weight: 600; line-height: 1.55;
@@ -753,6 +809,30 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
   50% { height: 11px; }
 }
 
+/* r39 — 화면 우하단 떠 있는 BGM 버튼(모바일은 탭바 위, PC는 구석). 푸터 BGM과 같은 상태 */
+.bgm-fab {
+  position: fixed; right: 12px;
+  bottom: calc(66px + env(safe-area-inset-bottom));
+  z-index: 74;
+  width: 40px; height: 40px; padding: 0;
+  display: grid; place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(22, 19, 15, 0.16);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.bgm-fab-ico { font-size: 17px; line-height: 1; }
+.bgm-fab.is-on { border-color: #cfe6da; background: var(--sage-soft); }
+.bgm-fab:active { transform: scale(0.94); }
+.bgm-fab[hidden] { display: none; }
+@media (min-width: 860px) {
+  .bgm-fab { right: 20px; bottom: 20px; width: 42px; height: 42px; }
+}
+
 /* ── 설치 안내 모달 ──────────────────────────────────── */
 body.modal-open { overflow: hidden; }
 .install-modal {
@@ -792,7 +872,7 @@ body.modal-open { overflow: hidden; }
 .install-copied { margin-top: 10px; text-align: center; font-size: 11.5px; font-weight: 700; color: var(--sage-text); }
 @media (min-width: 640px) { .install-modal { align-items: center; } }
 
-/* ── ? 띠니마트 안내 모달 ────────────────────────────── */
+/* ── ? 띠니픽 안내 모달 ────────────────────────────── */
 .info-modal {
   position: fixed; inset: 0; z-index: 96;
   background: rgba(22, 19, 15, 0.45);
@@ -814,6 +894,12 @@ body.modal-open { overflow: hidden; }
 .info-title { padding: 20px 20px 0; font-size: 18px; font-weight: 900; letter-spacing: -0.035em; }
 .info-lead { padding: 6px 20px 0; font-size: 12px; line-height: 1.55; color: var(--muted); }
 .info-lead b { color: var(--ink); font-weight: 800; }
+.info-lead-strong {
+  margin: 10px 20px 0; padding: 9px 11px;
+  background: var(--sage-soft); border: 1px solid #d6e9de; border-radius: 10px;
+  color: var(--sage-text);
+}
+.info-lead-strong b { color: var(--sage-text); }
 .info-scroll { padding: 14px 20px 6px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .info-sec { margin-bottom: 14px; }
 .info-sec h3 { margin-bottom: 6px; font-size: 13px; font-weight: 900; letter-spacing: -0.02em; color: var(--ink); }
@@ -1095,6 +1181,11 @@ body.modal-open { overflow: hidden; }
 .cchip.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
 .cchip.is-src { padding: 6px 9px; font-size: 11px; }
 .cchip.is-src.is-on { background: var(--sage-soft); border-color: #c9e2d4; color: var(--sage-text); }
+/* r39 — 바로 거르는 빠른 필터: 🟢 지금 사기 좋아요 / 🔥 역대급 */
+.cchip.is-good { border-color: #cfe3d7; background: #f3faf6; color: var(--sage-text); }
+.cchip.is-good.is-on { background: #0a7d4f; border-color: #0a7d4f; color: #fff; }
+.cchip.is-wow { border-color: #f0d6bc; background: #fff8f0; color: #9a3324; }
+.cchip.is-wow.is-on { background: #c00a0a; border-color: #c00a0a; color: #fff; }
 .ctl-sep { flex: none; width: 1px; height: 16px; background: var(--line); margin: 0 2px; }
 
 /* 상품 카드 */
@@ -1207,6 +1298,7 @@ body.modal-open { overflow: hidden; }
 .cat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 10px 0 2px; }
 .cat-head h2 { font-size: 19px; font-weight: 900; letter-spacing: -0.04em; }
 .cat-head span { font-size: 11px; font-weight: 700; color: var(--muted-2); }
+.cat-head .cat-reset { margin-left: auto; align-self: center; }
 .filters .filter.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
 
 /* 더 보기 */
