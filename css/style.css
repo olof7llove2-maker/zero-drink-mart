@@ -1397,26 +1397,25 @@ body.modal-open { overflow: hidden; }
 .spot-bell-n.is-dot { min-width: 10px; width: 10px; height: 10px; padding: 0; top: -3px; right: -3px; }
 
 /* 카테고리 필터 칩 — 1분 결론 대신 할인 섹션 안으로 합쳤습니다.
-   r38: 10.5px·4px 패딩은 너무 작다는 지시로 13px·높이 38px로 키웠습니다(한 줄 가로 스크롤 유지). */
+   r38: 10.5px·4px 패딩은 너무 작다는 지시로 13px·높이 38px로 키우고,
+   375px에서 5개가 한 번에 다 보이도록 6칸 그리드로 3+2 두 줄에 나눠 놓았습니다
+   (1~3번째는 2칸씩, 4~5번째는 3칸씩 차지). */
 .spot-chips {
-  display: flex; align-items: center; gap: 7px;
-  overflow-x: auto; overflow-y: hidden;
-  padding: 2px 20px 4px 1px; margin: 0 calc(var(--pad) * -1) 10px 0;
-  -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  scroll-snap-type: x proximity;
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 7px; margin: 0 0 10px; padding: 0;
 }
-.spot-chips::-webkit-scrollbar { display: none; }
 .spot-chip {
-  flex: none; cursor: pointer; white-space: nowrap;
+  grid-column: span 2; min-width: 0;
+  cursor: pointer; white-space: nowrap;
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 38px; padding: 0 14px;
+  min-height: 38px; padding: 0 8px;
   border: 1px solid #ded7c9; border-radius: 999px;
   background: var(--surface); color: var(--ink);
   font-size: 13px; font-weight: 800; letter-spacing: -0.03em;
   box-shadow: 0 1px 2px rgba(22, 19, 15, 0.05);
-  scroll-snap-align: start;
   -webkit-tap-highlight-color: transparent;
 }
+.spot-chip:nth-child(4), .spot-chip:nth-child(5) { grid-column: span 3; }
 .spot-chip.is-on {
   background: var(--ink); border-color: var(--ink); color: #fff;
   box-shadow: 0 2px 7px rgba(22, 19, 15, 0.22);
