@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-18T12:45:57+09:00",
+  "generatedAt": "2026-11-18T13:21:12+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -21,12 +21,12 @@
    "쿠팡 판매가는 옵션·묶음 구성이 바뀌면 크게 오르내릴 수 있어 최고가·평균가는 참고값입니다."
   ],
   "tally": {
-   "history": 29,
+   "history": 0,
    "tracking-started": 0,
-   "not-tracked": 124,
-   "item-mismatch": 17,
-   "no-records": 3,
-   "error": 29
+   "not-tracked": 1,
+   "item-mismatch": 0,
+   "no-records": 0,
+   "error": 0
   }
  },
  "products": {
@@ -14237,6 +14237,36 @@
     "days": 1
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-8745000733"
+  },
+  "haetaehtb-galbaesaida-jero-185ml-30gae": {
+   "id": "haetaehtb-galbaesaida-jero-185ml-30gae",
+   "name": "해태htb 갈배사이다 제로, 185ml, 30개",
+   "platform": "coupang",
+   "cardPrice": 9020,
+   "cardPriceCheckedAt": "2026-11-18 13:15",
+   "cardListPrice": 11280,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-18",
+     "price": 9020,
+     "ts": "2026-11-18T13:15:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 9020,
+    "minDate": "2026-11-18",
+    "max": 9020,
+    "maxDate": "2026-11-18",
+    "avg": 9020,
+    "latest": 9020,
+    "latestDate": "2026-11-18",
+    "observations": 1,
+    "days": 1
+   }
   },
   "pepsi-zero-lime-355": {
    "id": "pepsi-zero-lime-355",
