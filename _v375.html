@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>375px 미리보기 (임시)</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #d9d9d9; }
+  iframe { display: block; width: 375px; height: 3200px; border: 0; background: #fff; }
+</style>
+</head>
+<body>
+<iframe id="f"></iframe>
+<script>
+  /* 375px 검증용 임시 페이지 — 라이브 화면을 375px iframe으로 띄웁니다.
+     ?to=섹션ID 로 그 섹션까지 스크롤하고 나머지 쿼리(tab·p 등)는 그대로 넘깁니다.
+     확인이 끝나면 지웁니다. */
+  (function () {
+    var f = document.getElementById("f");
+    var qs = new URLSearchParams(location.search);
+    var to = qs.get("to") || "home-protein";
+    qs.delete("to");
+    qs.set("cb", "v375r15");
+    f.src = "/?" + qs.toString();
+    f.addEventListener("load", function () {
+      var w = f.contentWindow;
+      var tries = 0;
+      (function move() {
+        try {
+          var d = f.contentDocument;
+          var el = d.getElementById(to);
+          if (el) {
+            w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - 8);
+            return;
+          }
+        } catch (e) {}
+        if (tries++ < 40) setTimeout(move, 120);
+      })();
+    });
+  })();
+</script>
+</body>
+</html>

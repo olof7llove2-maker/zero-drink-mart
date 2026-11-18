@@ -332,11 +332,12 @@ function marketRefNoteOf(p) {
 /* 카드 1줄: 5단계 배지(판정) + 평소가 근거 + 참고 시세 */
 function gradeLineHTML(p) {
   const j = judgeOf(p);
-  if (!j.badge && !j.ref) return "";
-  const showRef = j.ref && (j.badge || Math.abs(j.ref.pct) >= 8);
-  if (!j.badge && !showRef) return "";
+  /* 시세 줄은 판정(5단계 배지)이 있는 카드에서만 덧붙입니다.
+     판정이 할인율 기준인 카드에 시세 숫자만 붙으면 서로 말이 엇갈려 보입니다. */
+  const showRef = j.ref && j.badge;
+  if (!j.badge) return "";
   const notes = [];
-  if (j.badge && j.base) notes.push(`평소가 <b>${won(Math.round(j.base.median))}</b> 대비 <b>${signedPct(j.pct)}</b>`);
+  if (j.base) notes.push(`평소가 <b>${won(Math.round(j.base.median))}</b> 대비 <b>${signedPct(j.pct)}</b>`);
   if (showRef) notes.push(`같은 용기 시세 대비 ${signedPct(j.ref.pct)}`);
   const title = [
     j.badge ? `${j.badge.id} — ${j.tier.label}` : j.tier.label,
