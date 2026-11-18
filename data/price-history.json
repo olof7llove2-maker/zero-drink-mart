@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-18T09:05:20+09:00",
+  "generatedAt": "2026-11-18T12:45:57+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -21,12 +21,12 @@
    "쿠팡 판매가는 옵션·묶음 구성이 바뀌면 크게 오르내릴 수 있어 최고가·평균가는 참고값입니다."
   ],
   "tally": {
-   "history": 27,
+   "history": 29,
    "tracking-started": 0,
    "not-tracked": 124,
    "item-mismatch": 17,
-   "no-records": 1,
-   "error": 28
+   "no-records": 3,
+   "error": 29
   }
  },
  "products": {
@@ -14175,6 +14175,68 @@
     "days": 1
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-7828219997"
+  },
+  "meat-chicken-hf-guknaesan-naengjang-breast-1kg-5": {
+   "id": "meat-chicken-hf-guknaesan-naengjang-breast-1kg-5",
+   "name": "HF 국내산 냉장 닭가슴살, 1kg, 5개",
+   "platform": "coupang",
+   "cardPrice": 36900,
+   "cardPriceCheckedAt": "2026-11-18 12:45",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "no-records",
+   "series": [
+    {
+     "date": "2026-11-18",
+     "price": 36900,
+     "ts": "2026-11-18T12:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 36900,
+    "minDate": "2026-11-18",
+    "max": 36900,
+    "maxDate": "2026-11-18",
+    "avg": 36900,
+    "latest": 36900,
+    "latestDate": "2026-11-18",
+    "observations": 1,
+    "days": 1
+   },
+   "sourceUrl": "https://www.couprice.co.kr/products/x-9341582482"
+  },
+  "tamseu-jero-painaepeul-355ml-24gae": {
+   "id": "tamseu-jero-painaepeul-355ml-24gae",
+   "name": "탐스제로 파인애플 탄산음료, 355ml, 24개",
+   "platform": "coupang",
+   "cardPrice": 11700,
+   "cardPriceCheckedAt": "2026-11-18 12:45",
+   "cardListPrice": 13270,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "no-records",
+   "series": [
+    {
+     "date": "2026-11-18",
+     "price": 11700,
+     "ts": "2026-11-18T12:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 11700,
+    "minDate": "2026-11-18",
+    "max": 11700,
+    "maxDate": "2026-11-18",
+    "avg": 11700,
+    "latest": 11700,
+    "latestDate": "2026-11-18",
+    "observations": 1,
+    "days": 1
+   },
+   "sourceUrl": "https://www.couprice.co.kr/products/x-8745000733"
   },
   "pepsi-zero-lime-355": {
    "id": "pepsi-zero-lime-355",
