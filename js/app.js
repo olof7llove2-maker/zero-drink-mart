@@ -759,11 +759,14 @@ const SPOT_KNOWN_BRANDS = SPOT_HERO_BRANDS.concat([
   "매일두유", "뉴케어", "아몬드브리즈", "연세두유", "베지밀", "미트리", "부채살", "삼겹살", "닭가슴살", "펩시",
 ]);
 
-/* 레일 구성 — 단백질 위주: 단백질 음료·쉐이크 3 + 식단 고기 2 + 간편식 1
+/* 레일 구성 — 재영 님(2026-11-18): "너무 단백질쉐이크만 보이니까 1번은 인지도·단백질,
+   그 다음엔 핫딜 먼저 보이되 식단고기·제로음료·간편식·단백질음료가 섞이게."
+   → 단백질 2 + 식단 고기 2 + 제로 음료 1 + 간편식 1.
    window는 '매일 섞을 상위 후보 수'입니다. 창 안에서만 섞어 품질을 지킵니다. */
 const SPOT_GROUPS = [
-  { id: "protein", parts: ["protein", "shake"], quota: 3, window: 7 },
+  { id: "protein", parts: ["protein", "shake"], quota: 2, window: 7 },
   { id: "meat", parts: ["meat"], quota: 2, window: 5 },
+  { id: "zero", parts: ["zero"], quota: 1, window: 6 },
   { id: "meal", parts: ["cheat"], quota: 1, window: 4 },
 ];
 const SPOT_MEAL_CATS = ["rice", "can", "meal", "jeyuk", "snack", "ready", "bakery", "egg"];
@@ -860,6 +863,7 @@ function spotMerit(p, dayKey) {
 /* 상품 → 레일 그룹 (단백질 / 식단 고기 / 간편식). 음료·조리기구·소스는 뺍니다. */
 function spotGroupOf(p) {
   const part = p.part || "zero";
+  if (part === "zero") return "zero";
   if (part === "protein" || part === "shake") return "protein";
   if (part === "meat") {
     if (p.category === "egg" || p.category === "gadget") return null;
@@ -932,13 +936,48 @@ function spotlightPicks(n) {
       chosen.push(row);
     });
   }
-  /* 보이는 순서 — 오늘 시드로 조금씩 섞고, 첫 카드는 단백질 쪽에서 고릅니다 */
-  const shown = chosen
-    .map((row) => ({ ...row, d: row.m * (0.86 + 0.28 * spotHash(`${row.p.id}|${dayKey}|order`)) }))
-    .sort((a, b) => b.d - a.d);
-  const first = shown.find((row) => spotGroupOf(row.p) === "protein");
-  if (first) return [first.p].concat(shown.filter((row) => row !== first).map((row) => row.p)).slice(0, limit);
-  return shown.map((row) => row.p).slice(0, limit);
+  return spotlightOrder(chosen, dayKey, limit);
+}
+
+/* 보이는 순서 — ①1번은 인지도 높은 단백질 대표(음료 쪽 살짝 우대)
+   ②2번부터는 오늘 핫딜(메리트 점수) 높은 순서로, 단 같은 카테고리가 연달아 붙지 않게 섞습니다.
+   재영 님(2026-11-18): "제일 첫 상품은 인지도·단백질 위주로, 그 다음엔 핫딜 먼저 보이게." */
+function spotlightOrder(chosen, dayKey, limit) {
+  const left = chosen.slice();
+  const groupOf = (row) => spotGroupOf(row.p) || "기타";
+  const out = [];
+
+  /* ① 오늘의 대표 — 아는 브랜드 단백질 중 인지도가 가장 높은 1종 */
+  let hero = null;
+  let heroScore = -1;
+  left.forEach((row) => {
+    if (groupOf(row) !== "protein") return;
+    const s =
+      spotAwareness(row.p) +
+      (row.p.part === "protein" ? 0.06 : 0) /* 큰 통 웨이보다 마시는 단백질 음료를 살짝 앞에 */
+      + 0.03 * spotHash(`${row.p.id}|${dayKey}|hero`);
+    if (s > heroScore) {
+      hero = row;
+      heroScore = s;
+    }
+  });
+  /* 단백질 후보가 없으면 그날 메리트 1위로 */
+  if (!hero) left.forEach((row) => { if (row.m > heroScore) { hero = row; heroScore = row.m; } });
+  if (hero) {
+    out.push(hero);
+    left.splice(left.indexOf(hero), 1);
+  }
+
+  /* ② 나머지 — 핫딜(메리트) 순서대로, 앞 카드와 같은 카테고리는 건너뛰고 고릅니다 */
+  left.sort((a, b) => b.m - a.m);
+  let prev = hero ? groupOf(hero) : "";
+  while (left.length && out.length < limit) {
+    const pick = left.find((row) => groupOf(row) !== prev) || left[0];
+    out.push(pick);
+    left.splice(left.indexOf(pick), 1);
+    prev = groupOf(pick);
+  }
+  return out.map((row) => row.p).slice(0, limit);
 }
 
 /* ── 홈 그리드 🏆 1위 ────────────────────────────────
