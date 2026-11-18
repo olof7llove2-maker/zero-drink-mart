@@ -6,7 +6,7 @@
 <style>
   html, body { margin: 0; background: #ddd; font: 12px system-ui; }
   .wrap { display: flex; gap: 12px; padding: 10px; }
-  iframe { width: 375px; height: 812px; border: 0; background: #fff; }
+  iframe { width: 390px; height: 812px; border: 0; background: #fff; }
   .lab { font-weight: 700; margin-bottom: 4px; }
   #info { font: 12px/1.5 ui-monospace, monospace; white-space: pre-wrap; max-width: 420px; }
 </style>
@@ -14,7 +14,7 @@
 <body>
 <div class="wrap">
   <div>
-    <div class="lab">375 × 812</div>
+    <div class="lab">375 × 812 (iframe 390 = 내용 375)</div>
     <iframe id="f" src="/"></iframe>
   </div>
   <div>
@@ -32,7 +32,7 @@
   f.addEventListener('load', () => {
     setTimeout(() => {
       const d = f.contentDocument, w = f.contentWindow;
-      let msg = `scrollWidth ${d.documentElement.scrollWidth} / client ${d.documentElement.clientWidth}\n`;
+      let msg = `내용 폭 ${d.documentElement.clientWidth} · scrollWidth ${d.documentElement.scrollWidth}\n`;
       msg += `body scrollWidth ${d.body.scrollWidth}\n`;
       msg += `가로 오버플로 ${d.documentElement.scrollWidth > d.documentElement.clientWidth ? '⚠️ 있음' : '없음'}`;
       info.textContent = msg;
