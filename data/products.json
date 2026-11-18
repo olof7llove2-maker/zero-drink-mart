@@ -1432,7 +1432,8 @@
    "unitEach": null,
    "protein20": null,
    "listPrice": 26545,
-   "popularScore": 84.68
+   "popularScore": 84.68,
+   "lowest30d": 14600
   },
   {
    "id": "shake-dymatize-iso100-gourmet-chocolate-2-3kg",
@@ -6673,7 +6674,8 @@
    "measure": "per100g",
    "perValue": 662.5,
    "note": "1.2kg×2팩 = 2.4kg. 11/18 13:40 토스 어드민 기준 15,900원(100g당 663원) — 11/17 선착순특가 13,900원이 끝나 정가(15,900원)로 돌아갔어요. 지금은 할인 표기가 없어요. 양념·가공육이라 단백질·지방은 표기하지 않았어요",
-   "popularScore": 44.3
+   "popularScore": 44.3,
+   "lowest30d": 13900
   },
   {
    "id": "protein-otmond-choco-250ml-36",
@@ -7933,7 +7935,8 @@
    "protein20": null,
    "note": "1kg×2개 = 2kg. 11/18 13:40 토스 어드민 기준 14,100원(100g당 705원) — 11/17 12,920원에서 올랐어요. 토스쇼핑 모바일 웹은 가격·정가를 안 띄워서 정가·할인율은 표기하지 않았어요. 양념·가공육이라 단백질·지방은 적지 않았어요",
    "shipNote": "내일 출발 · 모레 도착 예정 · (주)예찬F&S",
-   "popularScore": 34.96
+   "popularScore": 34.96,
+   "lowest30d": 12920
   },
   {
    "id": "meat-lamb-gome-shoulderrack-400g",

@@ -119,6 +119,7 @@ def refresh(p, price, ts):
     low = p.get("lowest30d")
     if isinstance(low, (int, float)):
         p["lowest30d"] = min(low, price)
+    # 값이 없던 상품은 아래 main()에서 지금까지 확인한 최저가로 채운다
 
     p["note"] = NOTES[p["id"]]
     return old
@@ -144,6 +145,8 @@ def restats(series):
 def main():
     data = json.loads(DATA.read_text(encoding="utf-8"))
     by_id = {p["id"]: p for p in data["products"]}
+    hist = json.loads(HIST.read_text(encoding="utf-8"))
+    hp = hist["products"]
     missing = [k for k in CHANGES if k not in by_id]
     if missing:
         raise SystemExit(f"상품을 찾지 못했습니다: {missing}")
@@ -151,6 +154,10 @@ def main():
     for pid, price in CHANGES.items():
         p = by_id[pid]
         old = refresh(p, price, TS)
+        entry = hp.get(pid) or {}
+        seen = [s["price"] for s in entry.get("series", [])] + [price]
+        if seen:
+            p["lowest30d"] = min(seen)
         diff = price - old
         print(
             f"{p['name']}\n  {old:,}원 → {price:,}원 "
@@ -162,8 +169,6 @@ def main():
     DATA.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
     # ── 가격 이력: 오늘 관측점 추가 (같은 날 점이 있으면 마지막 점을 새 값으로 바꾼다)
-    hist = json.loads(HIST.read_text(encoding="utf-8"))
-    hp = hist["products"]
     for pid, price in CHANGES.items():
         p = by_id[pid]
         entry = hp.get(pid)
