@@ -104,6 +104,16 @@ function protSorted(list) {
     .map((x) => x.p);
 }
 
+/* 1병 단백질 25g 이상 = 고함량 배지 (30g 이상은 더 진하게) */
+const PROT_HIGH_G = 25;
+const PROT_HIGH_STRONG_G = 30;
+
+function protHighBadge(g) {
+  if (g == null || g < PROT_HIGH_G) return "";
+  const strong = g >= PROT_HIGH_STRONG_G;
+  return `<span class="prot-hi${strong ? " is-strong" : ""}" title="1병 단백질 ${g}g — ${strong ? "고함량" : "일반 20g 제품보다 많아요"}">🔥 고함량 ${g}g</span>`;
+}
+
 function protPctText(pct) {
   if (pct == null) return "";
   const r = Math.round(pct);
@@ -147,7 +157,7 @@ function protCardHTML(p) {
         <span class="prot-src src-${srcKey}">${PLATFORMS[srcKey].label}</span>
       </p>
       <h3 class="prot-name">${escapeHtml(p.name)}</h3>
-      <p class="prot-price"><strong>${won(p.price)}</strong></p>
+      <p class="prot-price"><strong>${won(p.price)}</strong>${protHighBadge(g)}</p>
       <p class="prot-p20">단백질 20g당 <strong>${won(p20)}</strong>${
     per1 ? `<span class="prot-p1g">1g당 ${won(per1)}</span>` : ""
   }</p>
