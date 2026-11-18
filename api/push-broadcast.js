@@ -28,6 +28,8 @@ const {
 
 const SITE_URL = "https://zero-drink-mart.vercel.app";
 const LAST_KEY = "ttini:push:broadcast:last";
+const RATE_KEY = "ttini:push:broadcast:rate";
+const RATE_LIMIT = 6; /* 한 시간에 최대 6번까지만 */
 const DEDUPE_SECONDS = 600;
 const MAX_TITLE = 60;
 const MAX_BODY = 200;
@@ -140,6 +142,18 @@ module.exports = async (req, res) => {
       } catch (err) {
         /* Redis를 못 읽어도 발송은 계속합니다 */
       }
+    }
+
+    /* 공개 주소로 들어오는 호출을 막기 위한 시간당 상한(CRON_SECRET이 없을 때도 피해를 좁힘) */
+    try {
+      const hits = Number(await redisCommand(["INCR", RATE_KEY]));
+      /* 매번 만료를 다시 걸어 카운트가 영원히 남지 않게 합니다 */
+      await redisCommand(["EXPIRE", RATE_KEY, "3600"]);
+      if (hits > RATE_LIMIT) {
+        return sendJson(res, 429, { ok: false, error: "rate-limited", limitPerHour: RATE_LIMIT });
+      }
+    } catch (err) {
+      /* Redis를 못 읽어도 발송은 계속합니다 */
     }
 
     webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);

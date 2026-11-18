@@ -115,7 +115,8 @@
   - 실제 발송: `POST /api/push-broadcast` `{"title":"🔥 …","body":"…","url":"https://zero-drink-mart.vercel.app/?p=…"}`
     (또는 `GET /api/push-broadcast?send=1&title=…&body=…&url=…` — cron용)
   - 인증: `CRON_SECRET` 또는 `PUSH_BROADCAST_SECRET`이 있으면 `Authorization: Bearer <secret>` 필요(push-check와 같은 방식).
-  - 안전장치: 같은 제목·내용·링크를 10분 안에 다시 보내면 `skipped: "duplicate"`로 건너뜀(`force=1`로 해제), 종료(404·410) 구독은 자동 삭제.
+  - 안전장치: 같은 제목·내용·링크를 10분 안에 다시 보내면 `skipped: "duplicate"`로 건너뜀(`force=1`로 해제),
+    **한 시간에 6번**을 넘기면 `429 rate-limited`, 종료(404·410) 구독은 자동 삭제.
   - 저장하는 개인정보는 없습니다(구독 객체뿐). 발송 기록은 `ttini:push:broadcast:last`에 제목·해시만 10분 보관.
 
 ## 1분 결론 · 신호등 게이지 · 10초 추천 (2026-11-18, 빌드 r12)
