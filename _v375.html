@@ -13,26 +13,33 @@
 <body>
 <iframe id="f" src="/?cb=v375r14"></iframe>
 <script>
-  /* 375px 검증용 임시 페이지 — 라이브 홈을 375px iframe(높이=화면)으로 띄우고,
-     ?to=섹션ID 가 실제로 그려진 뒤 그 위치까지 스크롤합니다. 확인 뒤 삭제합니다. */
+  /* 375px 검증용 임시 페이지 (확인 뒤 삭제)
+     ?to=섹션ID  : 그 섹션을 헤더 아래에 맞춰 스크롤
+     ?y=절대값   : 그 스크롤 위치로 바로 이동 */
   (function () {
+    var q = new URLSearchParams(location.search);
+    var to = q.get("to") || "home-protein";
+    var y = q.get("y");
     var f = document.getElementById("f");
-    var to = new URLSearchParams(location.search).get("to") || "home-protein";
     f.addEventListener("load", function () {
       var w = f.contentWindow;
       var tries = 0;
-      var moves = 0;
       (function move() {
         try {
           var d = f.contentDocument;
           var el = d.getElementById(to);
-          if (el && el.offsetHeight > 60) {
-            w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - 70);
-            if (moves++ < 3) setTimeout(move, 700);
+          if (y !== null) {
+            w.scrollTo(0, Number(y) || 0);
+          } else if (el && el.offsetHeight > 60) {
+            w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - 74);
+          } else {
+            if (tries++ < 50) setTimeout(move, 150);
             return;
           }
-        } catch (e) {}
-        if (tries++ < 50) setTimeout(move, 150);
+          if (tries++ < 6) setTimeout(move, 400);
+        } catch (e) {
+          if (tries++ < 50) setTimeout(move, 150);
+        }
       })();
     });
   })();
