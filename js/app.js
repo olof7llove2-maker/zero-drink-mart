@@ -241,16 +241,13 @@ function dailySeries(p) {
 }
 
 /* 미니 스파크라인 (사진 아래) */
-function sparkSVG(p, opts) {
+function sparkSVG(p) {
   const series = dailySeries(p);
   if (series.length < 2) return null;
-  const withAvg = !!(opts && opts.avgLine);
-  const info = withAvg ? historyOf(p) : null;
   const W = 108;
   const H = 30;
   const pad = 2;
   const vals = series.map((s) => s.price);
-  if (info && Number.isFinite(info.avg)) vals.push(info.avg);
   let lo = Math.min(...vals);
   let hi = Math.max(...vals);
   if (hi === lo) {
@@ -265,19 +262,8 @@ function sparkSVG(p, opts) {
   const lowIdx = vals.indexOf(Math.min(...vals));
   const down = last.price <= series[0].price;
   const stroke = down ? "#1f8a5f" : "#c8442a";
-  /* 평소가(중간값) 가로 점선 — 지금 가격이 평소보다 어디쯤인지 한눈에 */
-  const avgY = info && Number.isFinite(info.avg) ? y(info.avg) : null;
-  const avgLine =
-    avgY == null
-      ? ""
-      : `<line x1="${pad}" x2="${W - pad}" y1="${avgY.toFixed(1)}" y2="${avgY.toFixed(1)}" stroke="#a89f90" stroke-width="0.8" stroke-dasharray="2 2"/>`;
-  const avgDot =
-    avgY == null
-      ? ""
-      : `<circle cx="${W - pad}" cy="${avgY.toFixed(1)}" r="1.4" fill="#a89f90"/>`;
   return `<svg class="spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="60일 가격 추이">
     <path d="${area}" fill="${down ? "rgba(31,138,95,0.14)" : "rgba(200,68,42,0.12)"}"/>
-    ${avgLine}
     <path d="${line}" fill="none" stroke="${stroke}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
     <circle cx="${x(series.length - 1).toFixed(1)}" cy="${y(last.price).toFixed(1)}" r="2.2" fill="${stroke}"/>
     <circle cx="${x(lowIdx).toFixed(1)}" cy="${y(vals[lowIdx]).toFixed(1)}" r="1.8" fill="#0f172a" opacity="0.55"/>
@@ -299,19 +285,35 @@ function sparkBlock(p) {
   return `<div class="spark">${svg}<span class="spark-cap">60일 관측 최저 ${won(info.min)}</span></div>`;
 }
 
-/* 핫딜 카드용 — 카드 아래 전체 폭 스파크라인 + 최저가·평소가 캡션
-   재영 님(2026-11-18): "핫딜이란 60일 그래프 맨 위에 두지 말고 핫딜 아이템 사진 밑에 넣자." */
-function dealSparkBlock(p) {
-  const svg = sparkSVG(p, { avgLine: true });
-  if (!svg) return sparkBlock(p); /* 기록이 2일 미만이면 기존 '기록 N일' 표기 그대로 */
+/* 핫딜 카드용 — 60일 최저와 보통가를 숫자만으로 (그래프 없이)
+   재영 님(2026-11-18): "그래프 보다 그냥 숫자로 얘기해주는게 나을거같아. 60일중 최저가 보통가 뭐 이런식으로"
+   - 보통가 = 이 상품 관측 가격의 중간값(화면 판정과 같은 값, 14일·5회 이상만)
+   - 14일이 안 됐으면 오해 없이 '기록 N일 · 현재 X원' 한 줄만 */
+function dealNumBlock(p) {
   const info = historyOf(p) || {};
-  const cap =
-    Number.isFinite(info.avg) && Number.isFinite(info.min)
-      ? `<b>최저 ${won(info.min)}</b><span>평소 ${won(info.avg)}</span>`
-      : Number.isFinite(info.min)
-      ? `<b>최저 ${won(info.min)}</b>`
-      : "";
-  return `<div class="spark spark-deal">${svg}${cap ? `<span class="spark-cap">${cap}</span>` : ""}</div>`;
+  const days = Number(info.days) || 0;
+  const observations = Number(info.observations) || 0;
+  const min = Number.isFinite(info.min) ? info.min : null;
+  const prices = (info.series || [])
+    .map((s) => (s ? Number(s.price) : null))
+    .filter((v) => typeof v === "number" && Number.isFinite(v) && v > 0);
+  const typical = prices.length && typeof medianOf === "function" ? Math.round(medianOf(prices)) : null;
+  const enough = days >= 14 && observations >= 5 && Number.isFinite(typical);
+  if (enough && min != null) {
+    return `<div class="pnum" title="60일 관측 ${days}일·${observations}회 기록">
+      <div class="pnum-c"><span class="pnum-k">60일 최저</span><b class="pnum-v is-low">${won(min)}</b></div>
+      <div class="pnum-c"><span class="pnum-k">보통</span><b class="pnum-v">${won(typical)}</b></div>
+    </div>`;
+  }
+  if (days >= 1) {
+    /* 기록이 짧으면 '현재'는 바로 위 가격과 겹치므로, 그동안의 최저가를 보여 줍니다 */
+    const shown = min != null ? min : typeof p.price === "number" && Number.isFinite(p.price) ? p.price : null;
+    if (shown != null) {
+      return `<div class="pnum pnum-few" title="60일 기록 ${days}일째 쌓는 중이에요">
+        <span class="pnum-k">기록 ${days}일</span><b class="pnum-v">최저 ${won(shown)}</b></div>`;
+    }
+  }
+  return "";
 }
 
 /* 할인 시작일 — 기록에서 '지금 가격보다 비쌌던 마지막 날' 다음 날부터 */
@@ -625,7 +627,7 @@ function cardEl(p, opts = {}) {
     ${rank}
     <div class="pc-left">
       <div class="pc-photo">${photo}${offBadge(p)}</div>
-      ${opts.dealSpark ? "" : sparkBlock(p)}
+      ${opts.dealNum ? "" : sparkBlock(p)}
     </div>
     <div class="pc-body">
       <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>
@@ -649,7 +651,7 @@ function cardEl(p, opts = {}) {
         <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 <span class="ghost-lab">추이</span></button>
         ${buyHTML(p)}
       </div>
-      ${opts.dealSpark ? dealSparkBlock(p) : ""}
+      ${opts.dealNum ? dealNumBlock(p) : ""}
     </div>`;
   return el;
 }
@@ -1488,8 +1490,8 @@ function renderHotdeal() {
     state.dealLow ? lowPct(a) - lowPct(b) : b.discountPct - a.discountPct
   );
   const dealLimit = state.limit.hotdeal || 30;
-  /* 카드마다 사진·가격·버튼 아래에 그 상품의 60일 미니 그래프를 붙입니다 */
-  renderCardsInto($("deal-list"), list, { limit: dealLimit, moreKey: "hotdeal", showPart: true, dealSpark: true });
+  /* 카드마다 사진·가격·버튼 아래에 그 상품의 60일 최저·보통가를 숫자로 붙입니다 */
+  renderCardsInto($("deal-list"), list, { limit: dealLimit, moreKey: "hotdeal", showPart: true, dealNum: true });
   const note = $("deal-note");
   if (note) {
     const shownN = Math.min(dealLimit, list.length);

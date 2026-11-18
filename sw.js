@@ -3,7 +3,7 @@
    사이트 파일은 캐시하지 않아요(가격이 항상 새로 보이도록).
    예전 버전이 남긴 캐시가 있으면 켜질 때 전부 지웁니다. */
 
-const SW_BUILD = "20261118r33";
+const SW_BUILD = "20261118r34";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
