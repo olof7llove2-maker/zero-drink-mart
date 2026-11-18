@@ -793,6 +793,7 @@ function renderSpotlight() {
 
 function renderHome() {
   renderSpotlight();
+  if (typeof renderProteinSection === "function") renderProteinSection();
   const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
   let list;
   if (goalOn) {

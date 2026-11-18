@@ -1802,3 +1802,160 @@ body.modal-open { overflow: hidden; }
 .tl-mid .tl-bar i:nth-child(2),
 .tl-wait .tl-bar i:nth-child(3),
 .tl-none .tl-bar i:nth-child(3) { opacity: 1; }
+
+/* ══════════════════════════════════════════════════════
+   r14 — 💪 단백질 음료, 지금 사도 될까?
+   홈 '오늘의 역대급 할인' 바로 아래, 판정 레일(가로 스와이프)
+   ══════════════════════════════════════════════════════ */
+
+.prot { margin: 12px 0 0; }
+.prot[hidden] { display: none; }
+
+.prot-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 8px; margin: 0 2px 2px;
+}
+.prot-title {
+  font-size: 15px; font-weight: 900; letter-spacing: -0.035em;
+  color: var(--ink); line-height: 1.25;
+}
+.prot-more {
+  flex: none; cursor: pointer; border: 0; background: transparent;
+  font-size: 10px; font-weight: 900; letter-spacing: -0.02em;
+  color: var(--sage-text); padding: 2px 0; white-space: nowrap;
+}
+.prot-sub {
+  margin: 0 2px 7px;
+  font-size: 10.5px; font-weight: 750; letter-spacing: -0.01em;
+  color: var(--muted-2);
+}
+
+/* 판정 요약 알약 — 누르면 그 판정만, 다시 누르면 전체 */
+.prot-chips { display: flex; gap: 5px; margin: 0 2px 8px; }
+.prot-chip {
+  flex: 1 1 0; min-width: 0; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+  border-radius: 999px; padding: 6px 3px;
+  font-size: 10.5px; font-weight: 900; letter-spacing: -0.035em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  -webkit-tap-highlight-color: transparent;
+}
+.prot-chip b { font-variant-numeric: tabular-nums; font-weight: 900; }
+.prot-chip:active { transform: scale(0.99); }
+.prot-chip.is-on.is-hot { background: var(--sage); border-color: var(--sage); color: #fff; }
+.prot-chip.is-on.is-mid { background: var(--ink); border-color: var(--ink); color: #fff; }
+.prot-chip.is-on.is-high { background: var(--pap); border-color: var(--pap); color: #fff; }
+.prot-chip.is-on.is-track { background: var(--muted-2); border-color: var(--muted-2); color: #fff; }
+
+/* 가로 스와이프 레일 */
+.prot-rail {
+  display: flex; gap: 8px;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 1px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2px 20px 6px 1px;
+  margin-right: calc(var(--pad) * -1);
+}
+.prot-rail::-webkit-scrollbar { display: none; }
+
+.prot-card {
+  flex: 0 0 234px; max-width: 78%;
+  scroll-snap-align: start;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.prot-card.is-hot { border-color: #b3ddc8; box-shadow: 0 1px 0 #e4f2ea; }
+.prot-card.is-high { border-color: #f2d3c9; }
+
+.prot-tap { display: flex; flex-direction: column; gap: 3px; min-width: 0; cursor: pointer; }
+.prot-tap:focus-visible { outline: 2px solid #f0b429; outline-offset: 3px; border-radius: 9px; }
+
+.prot-top { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.prot-badge {
+  flex: none;
+  font-size: 10px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2;
+  border-radius: 6px; padding: 2px 6px;
+}
+.prot-badge.is-hot { background: var(--sage); color: #fff; }
+.prot-badge.is-mid { background: var(--line-2); color: var(--muted); border: 1px solid var(--line); }
+.prot-badge.is-high { background: var(--pap-soft); color: var(--pap); border: 1px solid #f4d2c8; }
+.prot-badge.is-track { background: var(--surface-2); color: var(--muted-2); border: 1px dashed var(--line); }
+
+.prot-brand {
+  min-width: 0; flex: 1 1 auto;
+  font-size: 10px; font-weight: 800; letter-spacing: -0.01em;
+  color: var(--muted-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.prot-src {
+  flex: none;
+  font-size: 9px; font-weight: 900; border-radius: 4px; padding: 1px 4px;
+  background: var(--line-2); color: var(--muted);
+}
+.prot-src.src-coupang { color: var(--coupang); background: var(--coupang-soft); }
+.prot-src.src-toss { color: var(--toss); background: var(--toss-soft); }
+.prot-src.src-naver { color: #01934a; background: var(--naver-soft); }
+
+.prot-name {
+  font-size: 12.5px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.3;
+  color: var(--ink);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+.prot-price { display: flex; align-items: baseline; gap: 4px; margin-top: 1px; }
+.prot-price strong {
+  font-size: 16.5px; font-weight: 900; letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.prot-p20 {
+  font-size: 10.5px; font-weight: 800; letter-spacing: -0.02em;
+  color: var(--sage-text);
+}
+.prot-p20 strong { font-size: 12.5px; font-weight: 900; letter-spacing: -0.04em; }
+.prot-per-bottle { font-weight: 700; color: var(--muted-2); margin-left: 2px; }
+.prot-cmp {
+  font-size: 10.5px; font-weight: 750; letter-spacing: -0.02em;
+  color: var(--muted); line-height: 1.35;
+}
+.prot-cmp .minus { color: var(--sage-text); font-weight: 900; }
+.prot-cmp .plus { color: var(--pap); font-weight: 900; }
+
+.prot-buys { display: flex; margin-top: auto; }
+.prot-buys .pc-buys { flex: 1 1 auto; width: 100%; gap: 4px; }
+.prot-buys .btn-buy { padding: 7px 4px; font-size: 11px; border-radius: 9px; letter-spacing: -0.03em; }
+.prot-buys .btn-buy.is-pair { padding: 6px 3px; gap: 2px; }
+.prot-buys .btn-buy.is-pair .bp-lab { font-size: 9px; }
+.prot-buys .btn-buy.is-pair .bp-price { font-size: 10px; }
+
+.prot-fine {
+  font-size: 9.5px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.35;
+  color: var(--muted-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.prot-empty {
+  margin: 2px; padding: 11px;
+  background: var(--surface-2); border: 1px dashed var(--line); border-radius: 12px;
+  font-size: 11px; font-weight: 750; color: var(--muted);
+}
+.prot-reset {
+  cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  border-radius: 999px; padding: 3px 9px; font-size: 10.5px; font-weight: 900; margin-left: 4px;
+}
+
+.prot-note {
+  margin: 7px 2px 0;
+  font-size: 9.5px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.4;
+  color: var(--muted-2);
+}
+
+@media (min-width: 640px) {
+  .prot-card { flex-basis: 260px; }
+}
