@@ -19,7 +19,7 @@ const SITE = {
     "url": "https://open.kakao.com/o/goXz5qUi"
   },
   "tossDisclosure": "이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.",
-  "updatedAt": "2026-11-17",
+  "updatedAt": "2026-11-18",
   "updateCycle": "매일 오전 9시·오후 9시 가격 자동 업데이트",
   "updateCycleNote": "쿠팡·토스 가격을 다시 확인해요"
 };
