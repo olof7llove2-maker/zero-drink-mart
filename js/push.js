@@ -68,8 +68,12 @@ function hotdealInstallHint() {
 function hotdealCardHTML() {
   const on = hotdealOn();
   const ready = pushState.ready && pushState.configured;
+  const env = deviceEnv();
+  const iosNeedsInstall = env.iOS && !isStandalone();
+  /* 아이폰은 홈 화면 앱이 아니어도 토글이 눌려야 설치 안내로 이어집니다 */
   const blocked =
     ready &&
+    !iosNeedsInstall &&
     (!("serviceWorker" in navigator) ||
       !("PushManager" in window) ||
       (typeof Notification !== "undefined" && Notification.permission === "denied"));

@@ -27,6 +27,7 @@
   const info = document.getElementById('info');
   const qs = new URLSearchParams(location.search);
   const open = qs.get('open');           // hub → 알림 허브 시트 열기
+  const ios = qs.get('ios');             // 1 → 아이폰 환경으로 흔내 보기(확인용)
   const scrollTo = qs.get('sel');
   const yOff = parseInt(qs.get('y') || '0', 10);
 
@@ -35,6 +36,11 @@
       const d = f.contentDocument, w = f.contentWindow;
       let msg = `scrollWidth ${d.documentElement.scrollWidth} / client ${d.documentElement.clientWidth}\n`;
       msg += `가로 오버플로 ${d.documentElement.scrollWidth > d.documentElement.clientWidth ? '⚠️ 있음' : '없음'}\n`;
+      if (ios === '1') {
+        w.deviceEnv = () => ({ iOS: true, android: false, inApp: false, mac: false });
+        w.isStandalone = () => false;
+        msg += `iOS 환경 흔내(홈 화면 앱 아님)\n`;
+      }
       if (open === 'hub') {
         const btn = d.getElementById('alert-cta');
         if (btn) btn.click();
