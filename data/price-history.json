@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-18T13:21:12+09:00",
+  "generatedAt": "2026-11-18T16:22:00+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -7789,8 +7789,8 @@
    "id": "deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae",
    "name": "더단백 40g 고함량 드링크 더블초코, 350ml, 20개",
    "platform": "coupang",
-   "cardPrice": 53070,
-   "cardPriceCheckedAt": "2026-11-15 20:00",
+   "cardPrice": 51170,
+   "cardPriceCheckedAt": "2026-11-18 16:22",
    "cardListPrice": 78000,
    "source": "mart",
    "status": "tracking-started",
@@ -7801,18 +7801,24 @@
      "price": 53070,
      "ts": "2026-11-15T20:00:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 51170,
+     "ts": "2026-11-18T16:22:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
-    "min": 53070,
-    "minDate": "2026-11-15",
+    "min": 51170,
+    "minDate": "2026-11-18",
     "max": 53070,
     "maxDate": "2026-11-15",
-    "avg": 53070,
-    "latest": 53070,
-    "latestDate": "2026-11-15",
-    "observations": 1,
-    "days": 1
+    "avg": 52120,
+    "latest": 51170,
+    "latestDate": "2026-11-18",
+    "observations": 2,
+    "days": 2
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044"
   },
