@@ -6,6 +6,7 @@ const {
   VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY,
   VAPID_SUBJECT,
+  HOTDEAL_ID,
   pushConfigured,
   readAll,
   writeOne,
@@ -44,13 +45,17 @@ module.exports = async (req, res) => {
     const byId = new Map((catalog.products || []).map((p) => [p.id, p]));
 
     const subs = await readAll();
+    /* 새 초특가 전체 알림(__hotdeal_all__)은 상품이 아니라서 이 검사에서 건너뜁니다.
+       상품 목록에 없다고 지우거나 실패로 세지 않습니다 — 발송은 api/push-broadcast.js 담당. */
+    const priceSubs = subs.filter((rec) => rec.productId !== HOTDEAL_ID);
+    const hotdealSubs = subs.length - priceSubs.length;
     const today = todayKst();
     let sent = 0;
     let hit = 0;
     let dropped = 0;
     const matched = [];
 
-    for (const rec of subs) {
+    for (const rec of priceSubs) {
       const product = byId.get(rec.productId);
       if (!product || product.price == null) continue;
       if (product.price > rec.targetPrice) continue;
@@ -90,7 +95,16 @@ module.exports = async (req, res) => {
       }
     }
 
-    return sendJson(res, 200, { ok: true, checked: subs.length, hit, sent, dropped, dry, matched: dry ? matched.slice(0, 20) : undefined });
+    return sendJson(res, 200, {
+      ok: true,
+      checked: priceSubs.length,
+      hotdeal: hotdealSubs,
+      hit,
+      sent,
+      dropped,
+      dry,
+      matched: dry ? matched.slice(0, 20) : undefined,
+    });
   } catch (err) {
     console.error("push-check failed", err);
     return sendJson(res, 500, { error: "check-failed", detail: String(err && err.message ? err.message : err).slice(0, 200) });

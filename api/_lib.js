@@ -6,6 +6,14 @@ const crypto = require("crypto");
 
 const HASH_KEY = "ttini:push:subs";
 
+/* 새 초특가 전체 알림 전용 productId. 상품 ID와 절대 겹치지 않도록 앞뒤 밑줄을 씁니다.
+   api/push-check.js 는 이 값을 일반 상품으로 보지 않고, api/push-broadcast.js 만 발송합니다. */
+const HOTDEAL_ID = "__hotdeal_all__";
+
+function isHotdeal(record) {
+  return Boolean(record && record.productId === HOTDEAL_ID);
+}
+
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "";
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "";
 
@@ -93,6 +101,8 @@ function readBody(req) {
 
 module.exports = {
   HASH_KEY,
+  HOTDEAL_ID,
+  isHotdeal,
   VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY,
   VAPID_SUBJECT,

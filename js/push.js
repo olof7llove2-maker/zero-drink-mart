@@ -27,6 +27,177 @@ function alertOn(id) {
   return Boolean(pushState.alerts[id]);
 }
 
+/* ── 🔥 새 초특가 전체 알림 ────────────────────────────
+   상품 하나를 고르지 않고 '새 특가가 뜨면' 알림을 받는 별도 구독입니다.
+   상품별 목표가 알림과 같은 구독(브라우저)을 쓰지만, 서버에는 productId
+   "__hotdeal_all__" 로 따로 저장해 서로 섞이지 않습니다. */
+
+const HOTDEAL_SUB_ID = "__hotdeal_all__";
+
+function hotdealOn() {
+  return Boolean(pushState.alerts && pushState.alerts[HOTDEAL_SUB_ID]);
+}
+
+function hotdealNote() {
+  if (!pushState.ready) return "알림 상태를 확인하는 중이에요…";
+  if (!pushState.configured) return "알림 서버를 마지막으로 켜는 중이에요. 켜지면 알려드릴게요.";
+  const env = deviceEnv();
+  if (env.iOS && !isStandalone()) {
+    return "아이폰은 '홈 화면에 추가'한 뒤에 켜야 알림이 와요(아이폰 16.4 이상).";
+  }
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+    return "이 브라우저는 알림을 지원하지 않아요. 크롬·사파리 최신 버전에서 열어 주세요.";
+  }
+  if (typeof Notification !== "undefined" && Notification.permission === "denied") {
+    return "이 브라우저에서 알림이 차단돼 있어요. 주소창 옆 사이트 설정에서 알림을 허용으로 바꿔 주세요.";
+  }
+  if (hotdealOn()) return "켜 뒀어요. 새 초특가가 올라오면 이 브라우저로 알려드려요.";
+  return env.iOS
+    ? "홈 화면에 추가한 띠니마트에서 켜면 초특가가 뜰 때 바로 와요."
+    : "상품을 하나하나 고르지 않아도 돼요. 새 초특가가 뜨면 한 번에 알려드려요.";
+}
+
+/* 아이폰은 홈 화면 앱에서만 웹푸시가 되므로 설치 안내를 같이 보여 줍니다. */
+function hotdealInstallHint() {
+  if (!pushState.ready || !pushState.configured) return "";
+  const env = deviceEnv();
+  if (!env.iOS || isStandalone()) return "";
+  return `<button type="button" class="hot-install" data-hotdeal-install>📲 홈 화면에 추가하는 방법 보기</button>`;
+}
+
+function hotdealCardHTML() {
+  const on = hotdealOn();
+  const ready = pushState.ready && pushState.configured;
+  const blocked =
+    ready &&
+    (!("serviceWorker" in navigator) ||
+      !("PushManager" in window) ||
+      (typeof Notification !== "undefined" && Notification.permission === "denied"));
+  const sub = on
+    ? "켜짐 · 새 초특가·타임세일이 뜰 때 알려드려요"
+    : "상품 하나씩 고르지 않아도 돼요 · 새 특가만 골라 알림";
+  return `<section class="hot-card${on ? " is-on" : ""}" aria-labelledby="hot-title">
+    <div class="hot-top">
+      <span class="hot-ico" aria-hidden="true">🔥</span>
+      <div class="hot-mid">
+        <p class="hot-title" id="hot-title">새 초특가 뜨면 알림 받기</p>
+        <p class="hot-sub">${sub}</p>
+      </div>
+      <button type="button" class="hot-switch${on ? " is-on" : ""}" role="switch" aria-checked="${
+        on ? "true" : "false"
+      }" data-hotdeal-toggle aria-label="새 초특가 알림 ${on ? "끄기" : "켜기"}"${
+        blocked ? " disabled" : ""
+      }><span class="hot-knob" aria-hidden="true"></span></button>
+    </div>
+    <p class="hot-note${on ? " is-on" : ""}">${hotdealNote()}</p>
+    ${hotdealInstallHint()}
+    <p class="hot-fine">개별 상품 목표가 알림과 <b>따로</b> 동작해요 · 전화번호·이메일 없이 브라우저 구독으로만 보내요</p>
+  </section>`;
+}
+
+/* 토글을 누른 직후 화면만 바로 갱신(허브가 닫혀 있으면 표시할 곳이 없습니다) */
+function refreshHotdealUI() {
+  document.querySelectorAll(".hot-card").forEach((card) => {
+    const on = hotdealOn();
+    card.classList.toggle("is-on", on);
+    const sw = card.querySelector("[data-hotdeal-toggle]");
+    if (sw) {
+      sw.classList.toggle("is-on", on);
+      sw.setAttribute("aria-checked", on ? "true" : "false");
+      sw.setAttribute("aria-label", `새 초특가 알림 ${on ? "끄기" : "켜기"}`);
+    }
+    const note = card.querySelector(".hot-note");
+    if (note) {
+      note.textContent = hotdealNote();
+      note.classList.toggle("is-on", on);
+    }
+  });
+  if (typeof refreshAlertHub === "function") refreshAlertHub();
+  if (typeof refreshAlertCTA === "function") refreshAlertCTA();
+}
+
+async function enableHotdeal() {
+  if (!pushState.ready) {
+    showToast("알림 상태를 확인하는 중이에요. 잠깐 뒤 다시 눌러 주세요");
+    return;
+  }
+  if (!pushState.configured) {
+    showToast("알림 서버를 켜는 중이에요. 조금 뒤 다시 눌러 주세요");
+    return;
+  }
+  const env = deviceEnv();
+  if (env.iOS && !isStandalone()) {
+    showToast("아이폰은 홈 화면에 추가한 뒤에 켤 수 있어요");
+    if (typeof onShortcutClick === "function") onShortcutClick();
+    return;
+  }
+  try {
+    if (typeof Notification !== "undefined" && Notification.permission !== "granted") {
+      const perm = await Notification.requestPermission();
+      if (perm !== "granted") {
+        refreshHotdealUI();
+        showToast("브라우저 알림을 허용해야 초특가 알림이 와요");
+        return;
+      }
+    }
+    const reg = await navigator.serviceWorker.ready;
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) {
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(pushState.publicKey),
+      });
+    }
+    const res = await fetch("/api/push-subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subscription: sub.toJSON(), productId: HOTDEAL_SUB_ID }),
+    });
+    if (!res.ok) throw new Error("save failed");
+    pushState.alerts[HOTDEAL_SUB_ID] = { hotdeal: true, endpoint: sub.endpoint, at: Date.now() };
+    saveAlerts();
+    refreshAlertButtons();
+    refreshHotdealUI();
+    showToast("🔥 새 초특가 알림을 켰어요");
+  } catch (err) {
+    showToast("알림을 켜지 못했어요. 잠시 뒤 다시 시도해 주세요");
+    console.error(err);
+  }
+}
+
+async function disableHotdeal() {
+  try {
+    const reg = "serviceWorker" in navigator ? await navigator.serviceWorker.ready : null;
+    const sub = reg ? await reg.pushManager.getSubscription() : null;
+    const saved = pushState.alerts[HOTDEAL_SUB_ID];
+    const endpoint = (sub && sub.endpoint) || (saved && saved.endpoint);
+    if (endpoint) {
+      await fetch("/api/push-subscribe", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ endpoint, productId: HOTDEAL_SUB_ID }),
+      });
+    }
+    delete pushState.alerts[HOTDEAL_SUB_ID];
+    saveAlerts();
+    /* 개별 상품 알림이 하나도 안 남았을 때만 브라우저 구독까지 해제합니다 */
+    const rest = Object.keys(pushState.alerts);
+    if (sub && !rest.length) {
+      try {
+        await sub.unsubscribe();
+      } catch (err) {
+        /* 이미 해제된 구독 */
+      }
+    }
+    refreshAlertButtons();
+    refreshHotdealUI();
+    showToast("초특가 알림을 껐어요");
+  } catch (err) {
+    showToast("알림을 끄지 못했어요");
+    console.error(err);
+  }
+}
+
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -273,6 +444,19 @@ function initPushUI() {
     if (e.target.closest("[data-alert-install]")) {
       closeAlert();
       if (typeof onShortcutClick === "function") onShortcutClick();
+      return;
+    }
+    if (e.target.closest("[data-hotdeal-install]")) {
+      if (typeof closeAlertHub === "function") closeAlertHub();
+      else closeAlert();
+      if (typeof onShortcutClick === "function") onShortcutClick();
+      return;
+    }
+    const hotToggle = e.target.closest("[data-hotdeal-toggle]");
+    if (hotToggle) {
+      if (hotToggle.disabled) return;
+      if (hotdealOn()) disableHotdeal();
+      else enableHotdeal();
       return;
     }
     const chip = e.target.closest("[data-alert-set]");

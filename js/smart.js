@@ -334,19 +334,30 @@ function renderGoalBar() {
 
 /* ── 상단 알림 버튼 상태 ──────────────────────────────── */
 
+/* 새 초특가 전체 알림은 상품 알림 개수에서 빼고 따로 셉니다. */
+const HUB_HOT_ID = "__hotdeal_all__";
+
+function hubHotOn() {
+  return typeof pushState !== "undefined" && pushState.alerts ? Boolean(pushState.alerts[HUB_HOT_ID]) : false;
+}
+
 function alertCount() {
   if (typeof pushState === "undefined" || !pushState.alerts) return 0;
-  return Object.keys(pushState.alerts).length;
+  return Object.keys(pushState.alerts).filter((id) => id !== HUB_HOT_ID).length;
 }
 
 function refreshAlertCTA() {
   const btn = $("alert-cta");
   if (!btn) return;
   const n = alertCount();
+  const hot = hubHotOn();
   const lab = btn.querySelector(".smart-btn-lab");
-  btn.classList.toggle("is-on", n > 0);
-  if (lab) lab.textContent = n > 0 ? `알림 ${n}개 켜짐` : "가격 내리면 알림";
-  btn.setAttribute("aria-label", n > 0 ? `알림 ${n}개 켜짐 · 알림 관리` : "가격 내리면 알림 받기");
+  btn.classList.toggle("is-on", n > 0 || hot);
+  if (lab) lab.textContent = n > 0 ? (hot ? `알림 ${n}개 + 초특가` : `알림 ${n}개 켜짐`) : hot ? "초특가 알림 켜짐" : "가격 내리면 알림";
+  btn.setAttribute(
+    "aria-label",
+    n > 0 || hot ? `알림 켜짐${hot ? " · 새 초특가 포함" : ""} · 알림 관리` : "가격 내리면 알림 받기"
+  );
 }
 
 /* ── ③ 10초 맞춤 추천 ─────────────────────────────────── */
@@ -492,7 +503,8 @@ function releaseModalLock() {
 function alertHubHTML() {
   const picks = typeof spotlightPicks === "function" ? spotlightPicks(6) : [];
   const on = typeof pushState !== "undefined" && pushState.alerts ? pushState.alerts : {};
-  const ids = Object.keys(on);
+  /* 상품 알림만 목록에 올립니다(__hotdeal_all__ 은 맨 위 전용 카드가 따로 그립니다) */
+  const ids = Object.keys(on).filter((id) => id !== HUB_HOT_ID);
   const mine = ids
     .map((id) => (state.data.products || []).find((p) => p.id === id))
     .filter(Boolean)
@@ -517,7 +529,8 @@ function alertHubHTML() {
          .map((p) => rowHTML(p, false))
          .join("")}</div>`
     : "";
-  return `<p class="hub-lead">관심 상품을 고르면 <b>목표가</b>를 정할 수 있어요. 목표가 이하로 내려갈 때 <b>딱 한 번</b> 알려드려요.</p>
+  return `${typeof hotdealCardHTML === "function" ? hotdealCardHTML() : ""}
+    <p class="hub-lead">아래에서 관심 상품을 골라 <b>목표가</b>를 정할 수도 있어요. 목표가 이하로 내려갈 때 <b>딱 한 번</b> 알려드려요.</p>
     ${mineBlock}
     ${pickBlock}
     <p class="hub-fine">전화번호·이메일은 받지 않고, 브라우저 구독으로만 보내요. 아이폰은 홈 화면에 추가한 뒤에 알림을 켤 수 있어요(16.4 이상).</p>`;
@@ -528,10 +541,21 @@ function openAlertHub() {
   const body = $("hub-body");
   if (!modal || !body) return;
   body.innerHTML = alertHubHTML();
+  body.scrollTop = 0;
   modal.hidden = false;
   document.body.classList.add("modal-open");
   const x = $("hub-x");
   if (x) x.focus({ preventScroll: true });
+}
+
+/* 허브가 열려 있을 때만 다시 그립니다(토글·알림 저장 뒤) */
+function refreshAlertHub() {
+  const modal = $("hub-modal");
+  const body = $("hub-body");
+  if (!modal || !body || modal.hidden) return;
+  const scroll = body.scrollTop;
+  body.innerHTML = alertHubHTML();
+  body.scrollTop = scroll;
 }
 
 function closeAlertHub() {
@@ -627,8 +651,7 @@ function hookAlertRefresh() {
   window.refreshAlertButtons = function () {
     prevRefresh.apply(this, arguments);
     refreshAlertCTA();
-    const hub = $("hub-modal");
-    if (hub && !hub.hidden && $("hub-body")) $("hub-body").innerHTML = alertHubHTML();
+    refreshAlertHub();
   };
   window.refreshAlertButtons.__smart = true;
 }

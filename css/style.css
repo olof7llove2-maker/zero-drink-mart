@@ -1756,6 +1756,50 @@ body.modal-open { overflow: hidden; }
 .hub-bell { flex: none; font-size: 14px; }
 .hub-fine { margin-top: 13px; font-size: 10px; line-height: 1.55; color: var(--muted-2); }
 
+/* ── 🔥 새 초특가 전체 알림 (허브 맨 위 전용 카드) ─────────── */
+.hot-card {
+  margin-top: 10px;
+  border: 1px solid #f2d7a4;
+  border-radius: 16px;
+  padding: 12px 12px 11px;
+  background: linear-gradient(155deg, #fffaf0 0%, #fff3dd 60%, #ffedd0 100%);
+  box-shadow: inset 0 1px 0 #fff;
+}
+.hot-card.is-on {
+  border-color: #eeb45b;
+  background: linear-gradient(155deg, #fff4dc 0%, #ffe9c2 62%, #ffe1ae 100%);
+}
+.hot-top { display: flex; align-items: center; gap: 9px; }
+.hot-ico {
+  flex: none; width: 34px; height: 34px; border-radius: 11px;
+  display: grid; place-items: center; font-size: 17px;
+  background: #fff; border: 1px solid #f2d7a4;
+}
+.hot-mid { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
+.hot-title { font-size: 13.5px; font-weight: 900; letter-spacing: -0.03em; color: #7a3c05; line-height: 1.3; }
+.hot-sub { font-size: 10.5px; font-weight: 700; color: #a4703a; line-height: 1.4; }
+.hot-switch {
+  flex: none; position: relative; width: 46px; height: 27px; padding: 0;
+  border-radius: 999px; border: 1px solid #e2c58f; background: #fff; cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.hot-switch .hot-knob {
+  position: absolute; left: 3px; top: 3px; width: 19px; height: 19px; border-radius: 50%;
+  background: #cdae74; transition: transform 0.18s ease, background 0.18s ease;
+}
+.hot-switch.is-on { background: #f97316; border-color: #e2660a; }
+.hot-switch.is-on .hot-knob { transform: translateX(19px); background: #fff; }
+.hot-switch:disabled { opacity: 0.5; cursor: default; }
+.hot-note { margin-top: 8px; font-size: 10.5px; line-height: 1.5; font-weight: 700; color: #96601f; }
+.hot-note.is-on { color: #2f6f46; }
+.hot-install {
+  margin-top: 7px; width: 100%; border: 1px solid #eec27c; background: #fff;
+  color: #7a3c05; font-size: 11px; font-weight: 800; border-radius: 10px; padding: 7px 8px; cursor: pointer;
+}
+.hot-install:active { background: #fff3dd; }
+.hot-fine { margin-top: 8px; font-size: 9.5px; line-height: 1.5; color: #a2804f; }
+.hot-fine b { color: #7a3c05; font-weight: 800; }
+
 @media (min-width: 640px) {
   .rec-modal, .hub-modal { align-items: center; padding: 20px; }
   .goal-chip { font-size: 11.5px; }

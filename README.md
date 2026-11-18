@@ -100,6 +100,24 @@
   "알림 서버를 켜는 중" 안내를 보여줍니다(구독을 흉내 내지 않습니다).
 - 아이폰은 **홈 화면에 추가한 뒤**(iOS 16.4+)에만 웹푸시가 됩니다. 사이트는 그 경우 설치 안내로 안내합니다.
 
+### 🔥 새 초특가 전체 알림 (2026-11-18, 빌드 r17)
+
+상품 하나를 고르지 않고 **"새 초특가가 뜨면"** 알림만 따로 받는 구독입니다. 상품별 목표가 알림과 저장 키가 달라 섞이지 않습니다.
+
+- **화면**: 상단 `🔔 가격 내리면 알림` 허브 시트 **맨 위**의 `🔥 새 초특가 뜨면 알림 받기` 카드/토글(`js/smart.js`의 `alertHubHTML()` → `js/push.js`의 `hotdealCardHTML()`).
+  개별 상품 알림과 구분되도록 호박색 카드로 따로 그리고, 아이폰에서 홈 화면 앱이 아니면
+  "아이폰은 '홈 화면에 추가'한 뒤에 켜야 알림이 와요(16.4 이상)" 안내와 설치 안내 버튼을 함께 보여 줍니다.
+- **저장**: `productId: "__hotdeal_all__"`, `kind: "hotdeal"`, 목표가 없음(`targetPrice: null`). 같은 Upstash 해시(`ttini:push:subs`).
+  `api/push-subscribe.js`가 이 값만 목표가 검사 없이 받고, `api/push-check.js`는 이 레코드를 **건너뛰기만** 합니다(상품이 없다고 지우지 않음).
+  응답의 `hotdeal` 값이 초특가 구독자 수입니다.
+- **발송**: `api/push-broadcast.js`.
+  - 확인(발송 없음): `GET /api/push-broadcast?dry=1` → `{targeted, payload}`
+  - 실제 발송: `POST /api/push-broadcast` `{"title":"🔥 …","body":"…","url":"https://zero-drink-mart.vercel.app/?p=…"}`
+    (또는 `GET /api/push-broadcast?send=1&title=…&body=…&url=…` — cron용)
+  - 인증: `CRON_SECRET` 또는 `PUSH_BROADCAST_SECRET`이 있으면 `Authorization: Bearer <secret>` 필요(push-check와 같은 방식).
+  - 안전장치: 같은 제목·내용·링크를 10분 안에 다시 보내면 `skipped: "duplicate"`로 건너뜀(`force=1`로 해제), 종료(404·410) 구독은 자동 삭제.
+  - 저장하는 개인정보는 없습니다(구독 객체뿐). 발송 기록은 `ttini:push:broadcast:last`에 제목·해시만 10분 보관.
+
 ## 1분 결론 · 신호등 게이지 · 10초 추천 (2026-11-18, 빌드 r12)
 
 쿠프라이스처럼 "가격 이력"을 보여주는 데서 멈추지 않고, **고르는 시간을 줄이는 쪽**으로 붙인 기능입니다.
