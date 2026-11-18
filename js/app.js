@@ -1111,21 +1111,94 @@ function spotCardHTML(p) {
   </article>`;
 }
 
+/* ── 오늘의 역대급 할인 — 카테고리 필터 칩 ──────────────
+   재영 님(2026-11-18): "1분 결론은 오늘의 역대급 할인에 비슷한 UI로 편입해서
+   카테고리별로 추천하는 걸로" — 칩은 아래 가로 카드만 바꾸고,
+   홈 그리드·정렬·주소(?goal=)는 건드리지 않습니다. */
+const SPOT_CATS = [
+  { id: "all", emoji: "🔥", label: "전체", parts: null },
+  { id: "zero", emoji: "🥤", label: "제로음료", parts: ["zero"] },
+  { id: "protein", emoji: "💪", label: "단백질", parts: ["protein", "shake"] },
+  { id: "meat", emoji: "🥩", label: "식단고기", parts: ["meat"] },
+  { id: "meal", emoji: "🍕", label: "간편식", parts: ["cheat"] },
+];
+let spotCat = "all";
+
+/* 카테고리 안의 오늘 추천 — 메리트 점수(할인·저점·인하) 우선, 같으면 인지도 순.
+   날짜 시드로 조금씩 섞어 매일 같은 칩이 1번에 오지 않게 합니다. */
+function spotCatPicks(cat, n) {
+  const limit = n || 6;
+  if (cat === "all") return spotlightPicks(limit);
+  const def = SPOT_CATS.find((c) => c.id === cat);
+  if (!def || !def.parts) return spotlightPicks(limit);
+  const dayKey = spotDayKey();
+  const rows = [];
+  (state.data.products || []).forEach((p) => {
+    if (isSpotlightOut(p)) return;
+    if (typeof matchesSource === "function" && !matchesSource(p)) return;
+    if (!p.image || !p.affiliateUrl || typeof p.price !== "number") return;
+    if (def.parts.indexOf(p.part || "zero") < 0) return;
+    const merit = spotMerit(p, dayKey);
+    const aware = spotAwareness(p);
+    const score = (merit == null ? 0 : merit) * (0.88 + 0.24 * spotHash(`${p.id}|${dayKey}|${cat}`));
+    rows.push({ p, score, aware });
+  });
+  rows.sort((a, b) => b.score - a.score || b.aware - a.aware || String(a.p.id).localeCompare(String(b.p.id)));
+  const out = [];
+  const push = (p) => {
+    if (out.length < limit && out.indexOf(p) < 0) out.push(p);
+  };
+  rows.forEach((r) => {
+    if (out.length >= limit) return;
+    if (out.some((p) => spotBrandKey(p) === spotBrandKey(r.p))) return; /* 한 칩에 같은 브랜드는 한 번 */
+    push(r.p);
+  });
+  if (out.length < limit) rows.forEach((r) => push(r.p)); /* 모자라면 브랜드 중복 허용 */
+  return out.slice(0, limit);
+}
+
+function spotChipHTML(c) {
+  const on = spotCat === c.id;
+  return `<button type="button" class="spot-chip${on ? " is-on" : ""}" data-spot-cat="${c.id}" aria-pressed="${on}">${c.emoji} ${escapeHtml(
+    c.label
+  )}</button>`;
+}
+
 function renderSpotlight() {
   const box = $("home-spot");
   if (!box) return;
-  const picks = spotlightPicks(6);
-  if (!picks.length) {
+  const picks = spotCatPicks(spotCat, 6);
+  const cat = SPOT_CATS.find((c) => c.id === spotCat) || SPOT_CATS[0];
+  if (!picks.length && cat.id === "all") {
     box.innerHTML = "";
     box.hidden = true;
     return;
   }
   box.hidden = false;
+  const hint = cat.id === "all" ? "매일 새로 골라요 · 넘기기 →" : `${cat.label} 오늘 추천 · 넘기기 →`;
+  const rail = picks.length
+    ? `<div class="spot-rail">${picks.map(spotCardHTML).join("")}</div>`
+    : `<p class="spot-empty">이 칩은 오늘 추천할 상품이 없어요. 다른 칩을 눌러 보세요.</p>`;
   box.innerHTML = `<div class="spot-head">
       <h2 class="spot-title">🔥 오늘의 역대급 할인</h2>
-      <span class="spot-hint">매일 새로 골라요 · 넘기기 →</span>
+      <span class="spot-hint">${escapeHtml(hint)}</span>
     </div>
-    <div class="spot-rail">${picks.map(spotCardHTML).join("")}</div>`;
+    <div class="spot-chips" role="group" aria-label="카테고리별 추천">${SPOT_CATS.map(spotChipHTML).join("")}</div>
+    ${rail}`;
+}
+
+/* 칩은 아래 카드 레일만 바꿉니다(페이지 전체 필터 아님) */
+function initSpotChips() {
+  document.addEventListener("click", (e) => {
+    const chip = e.target && e.target.closest ? e.target.closest("[data-spot-cat]") : null;
+    if (!chip) return;
+    const id = chip.getAttribute("data-spot-cat");
+    if (!id || id === spotCat) return;
+    spotCat = SPOT_CATS.some((c) => c.id === id) ? id : "all";
+    renderSpotlight();
+    const again = $("home-spot") && $("home-spot").querySelector(`[data-spot-cat="${spotCat}"]`);
+    if (again) again.setAttribute("aria-pressed", "true");
+  });
 }
 
 function renderHome() {
@@ -1704,7 +1777,7 @@ function closeInstallModal() {
   const modal = $("install-modal");
   if (!modal || modal.hidden) return;
   modal.hidden = true;
-  if (!$(".pm-modal:not([hidden])")) document.body.classList.remove("modal-open");
+  if (!document.querySelector(MODAL_OPEN_SEL)) document.body.classList.remove("modal-open");
 }
 async function onShortcutClick() {
   if (isStandalone()) {
@@ -1729,6 +1802,36 @@ async function onShortcutClick() {
   }
   showInstallModal(shortcutGuide());
 }
+/* ── 📖 이용 안내 모달 (헤더 문서 아이콘) ─────────────── */
+
+const MODAL_OPEN_SEL =
+  ".pm-modal:not([hidden]), .install-modal:not([hidden]), .alert-modal:not([hidden]), .hub-modal:not([hidden]), .info-modal:not([hidden])";
+
+function closeInfoModal() {
+  const modal = $("info-modal");
+  if (!modal || modal.hidden) return;
+  modal.hidden = true;
+  if (!document.querySelector(MODAL_OPEN_SEL)) document.body.classList.remove("modal-open");
+}
+function initInfo() {
+  const modal = $("info-modal");
+  if (!modal) return;
+  document.addEventListener("click", (e) => {
+    if (!e.target || !e.target.closest) return;
+    if (e.target.closest("#info-open")) {
+      modal.hidden = false;
+      document.body.classList.add("modal-open");
+      const btn = $("info-close");
+      if (btn) btn.focus({ preventScroll: true });
+      return;
+    }
+    if (e.target.closest("#info-x") || e.target.closest("#info-close") || e.target === modal) closeInfoModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeInfoModal();
+  });
+}
+
 function initShortcut() {
   document.querySelectorAll("[data-shortcut]").forEach((btn) => btn.addEventListener("click", onShortcutClick));
   if (isStandalone()) hideShortcutBanners();
@@ -2083,7 +2186,9 @@ function initClickTracking() {
 async function init() {
   setLegalOffset();
   initShortcut();
+  initInfo();
   initShare();
+  initSpotChips();
   initSearch();
   initControls();
   initClickTracking();

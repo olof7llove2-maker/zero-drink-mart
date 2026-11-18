@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset: 쓰는 글자 구간만 내려받아요(정적 웨이트 9종 ~3.5MB → 수백 KB) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261118r27">
+  <link rel="stylesheet" href="css/style.css?v=20261118r28">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -55,10 +55,14 @@
         </span>
       </a>
       <nav class="topnav" id="topnav" aria-label="주요 메뉴"></nav>
-      <button type="button" class="hdr-bgm" id="bgm-toggle" aria-pressed="false" aria-label="배경음악 켜기" title="배경음악">
-        <span class="bgm-ico" aria-hidden="true">🎧</span><span class="bgm-lab" aria-hidden="true">BGM</span>
-      </button>
       <button type="button" class="hdr-share" data-share aria-label="띠니마트 공유하기">🔗</button>
+      <button type="button" class="hdr-info" id="info-open" aria-label="이용 안내" title="띠니마트 이용 안내">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+          <path d="M14 3v5h5"></path>
+          <path d="M9 12.5h6M9 16h4"></path>
+        </svg>
+      </button>
     </div>
   </header>
 
@@ -66,15 +70,11 @@
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
       <div class="quick-row">
-        <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
-        <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
+        <button type="button" class="qbtn" data-shortcut>📲 홈 화면 추가</button>
+        <button type="button" class="qbtn qbtn-alert" id="alert-cta" aria-pressed="false">
+          <span class="qbtn-ico" aria-hidden="true">🔔</span><span class="smart-btn-lab">가격 내리면 알림</span>
+        </button>
       </div>
-      <div class="smart-row">
-        <button type="button" class="smart-btn is-rec" id="rec-open">🎯 <span class="smart-btn-lab">10초 맞춤 추천</span></button>
-        <button type="button" class="smart-btn is-bell" id="alert-cta">🔔 <span class="smart-btn-lab">가격 내리면 알림</span></button>
-      </div>
-      <div class="goal-row" id="goal-row" aria-label="목적별 1분 결론"></div>
-      <div id="goal-verdict"></div>
       <section class="spot" id="home-spot" aria-label="오늘의 역대급 할인"></section>
       <section class="prot" id="home-protein" aria-label="단백질 음료 지금 사도 될까"></section>
       <div class="panel" data-controls="home"></div>
@@ -154,9 +154,12 @@
       <p class="legal-foot">이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격은 확인한 시각 기준이며, 바뀔 수 있어요. 건강·효능을 약속하지 않아요.</p>
       <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
       <p class="legal-foot">이 포스팅은 네이버 쇼핑 커넥트 활동의 일환으로, 수수료를 제공받습니다.</p>
-      <div class="quick-row quick-row-foot">
-        <button type="button" class="qbtn" data-shortcut>📲 바로가기 추가</button>
-        <button type="button" class="qbtn" data-share>🔗 마트 공유</button>
+      <div class="foot-bgm" id="foot-bgm">
+        <button type="button" class="bgm-btn" id="bgm-toggle" aria-pressed="false" aria-label="잔잔한 배경음악 켜기" title="잔잔한 배경음악">
+          <span class="bgm-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="bgm-name" id="bgm-name">잔잔한 로파이 · A Cup of Tea</span>
+          <span class="bgm-state" id="bgm-state">OFF</span>
+        </button>
       </div>
       <p class="foot-meta" id="update-band" aria-label="가격 업데이트 안내">
         <span class="update-ico" aria-hidden="true">🔄</span>
@@ -194,15 +197,49 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <!-- ── 🎯 10초 맞춤 추천 ───────────────────────────── -->
-  <div class="rec-modal" id="rec-modal" hidden>
-    <div class="rec-card" role="dialog" aria-modal="true" aria-labelledby="rec-title">
-      <button type="button" class="rec-x" id="rec-x" aria-label="닫기">✕</button>
-      <div class="rec-head">
-        <h2 class="rec-title" id="rec-title">🎯 10초 맞춤 추천</h2>
-        <p class="rec-sub">뭐 살지 못 고르겠을 때, 두 번만 눌러 주세요</p>
+  <!-- ── ? 띠니마트 안내 (홈에서 뺀 설명을 모아 둔 곳) ───── -->
+  <div class="info-modal" id="info-modal" hidden>
+    <div class="info-card" role="dialog" aria-modal="true" aria-labelledby="info-title">
+      <button type="button" class="info-x" id="info-x" aria-label="닫기">✕</button>
+      <h2 class="info-title" id="info-title">📖 띠니마트 이용 안내</h2>
+      <p class="info-lead">운동하는 사람을 위한 <b>단가 비교 마트</b>예요. 같은 값이면 단가로, 같은 단백질이면 20g당 가격으로 비교해요.</p>
+      <div class="info-scroll">
+        <section class="info-sec">
+          <h3>① 가격·단가 비교 기준</h3>
+          <ul>
+            <li><b>제로 음료</b>는 100ml당, <b>고기</b>는 100g당, <b>단백질 음료</b>는 단백질 20g당 가격으로 비교해요.</li>
+            <li>같은 상품이라도 <b>쿠팡·토스·네이버</b> 판매처 가격을 카드 한 장에 같이 보여 드려요.</li>
+            <li>할인율은 정가 대비, 단가는 1병·1팩 기준으로 계산해요.</li>
+          </ul>
+        </section>
+        <section class="info-sec">
+          <h3>② 신호등 판정 기준</h3>
+          <ul>
+            <li>🟢 <b>핫딜 · 지금 사기 좋아요</b> — 평소가보다 5% 이상 싸요</li>
+            <li>🟡 <b>보통 · 무난한 가격</b> — 평소가에서 3% 오른 정도까지</li>
+            <li>🔴 <b>비싼 편</b> — 평소가보다 그 위</li>
+            <li><b>평소가</b>는 이 상품의 60일 관측 가격 중간값이에요. 기록이 14일 미만이면 <b>기록 중</b>으로 표시해요.</li>
+          </ul>
+        </section>
+        <section class="info-sec">
+          <h3>③ 가격 갱신 주기</h3>
+          <ul>
+            <li><b>매일 오전·오후 9시</b>에 전체 상품 가격을 새로 받아요.</li>
+            <li>핵심 상품은 <b>하루 4번</b>(07:30·12:30·18:30·22:30) 타임세일을 따로 살펴요.</li>
+            <li>카드마다 <b>마지막으로 확인한 시각</b>이 표시되고, 가격은 바뀔 수 있어요.</li>
+          </ul>
+        </section>
+        <section class="info-sec">
+          <h3>④ 가격 알림</h3>
+          <ul>
+            <li>상품 카드의 🔔을 눌러 <b>목표가</b>를 정하면, 그 가격 이하로 내려갈 때 <b>딱 한 번</b> 알려 드려요.</li>
+            <li>전화번호·이메일은 받지 않고 <b>브라우저 구독</b>으로만 보내요.</li>
+            <li>아이폰은 <b>홈 화면에 추가</b>한 뒤에 알림을 켤 수 있어요(iOS 16.4 이상).</li>
+          </ul>
+        </section>
+        <p class="info-fine">쿠팡 파트너스·토스쇼핑 쉐어링크·네이버 쇼핑 커넥트 활동의 일환으로 일정 수수료를 받을 수 있어요. 건강·효능을 약속하지 않아요.</p>
       </div>
-      <div class="rec-scroll" id="rec-body"></div>
+      <div class="info-actions"><button type="button" class="info-close" id="info-close">확인</button></div>
     </div>
   </div>
 
@@ -225,25 +262,17 @@
     </div>
   </div>
 
-  <!-- BGM 미니 유튜브 플레이어 (ON일 때 화면 하단에 보임) -->
-  <div class="bgm-mini" id="bgm-mini">
-    <div class="bgm-mini-frame">
-      <div id="bgm-yt"></div>
-      <button type="button" class="bgm-mini-x" id="bgm-mini-x" aria-label="배경음악 끄기" title="배경음악 끄기">✕</button>
-      <button type="button" class="bgm-mini-play" id="bgm-mini-play" aria-label="음악 재생" hidden>▶</button>
-    </div>
-    <p class="bgm-mini-cap">🎧 All That You Wanted</p>
-  </div>
-  <audio id="bgm-audio" src="audio/lofi-bgm.mp3" loop preload="none" playsinline aria-hidden="true"></audio>
+  <!-- 잔잔한 배경음악 — 푸터의 1줄 컨트롤로만 켜고 끕니다. 첫 터치에 자동으로 시작 -->
+  <audio id="bgm-audio" src="audio/lofi-bgm.mp3" loop preload="auto" playsinline aria-hidden="true"></audio>
 
-  <script src="js/price.js?v=20261118r27" defer></script>
-  <script src="js/products.js?v=20261118r27" defer></script>
-  <script src="js/views.js?v=20261118r27" defer></script>
-  <script src="js/grade.js?v=20261118r27" defer></script>
-  <script src="js/protein.js?v=20261118r27" defer></script>
-  <script src="js/smart.js?v=20261118r27" defer></script>
-  <script src="js/app.js?v=20261118r27" defer></script>
-  <script src="js/push.js?v=20261118r27" defer></script>
-  <script src="js/bgm.js?v=20261118r27" defer></script>
+  <script src="js/price.js?v=20261118r28" defer></script>
+  <script src="js/products.js?v=20261118r28" defer></script>
+  <script src="js/views.js?v=20261118r28" defer></script>
+  <script src="js/grade.js?v=20261118r28" defer></script>
+  <script src="js/protein.js?v=20261118r28" defer></script>
+  <script src="js/smart.js?v=20261118r28" defer></script>
+  <script src="js/app.js?v=20261118r28" defer></script>
+  <script src="js/push.js?v=20261118r28" defer></script>
+  <script src="js/bgm.js?v=20261118r28" defer></script>
 </body>
 </html>

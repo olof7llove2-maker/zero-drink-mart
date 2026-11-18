@@ -355,7 +355,7 @@ function closeAlert() {
   const modal = $("alert-modal");
   if (!modal || modal.hidden) return;
   modal.hidden = true;
-  if (!document.querySelector(".pm-modal:not([hidden]), .install-modal:not([hidden]), .rec-modal:not([hidden]), .hub-modal:not([hidden])")) {
+  if (!document.querySelector(".pm-modal:not([hidden]), .install-modal:not([hidden]), .hub-modal:not([hidden]), .info-modal:not([hidden])")) {
     document.body.classList.remove("modal-open");
   }
 }

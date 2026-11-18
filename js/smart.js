@@ -314,22 +314,12 @@ function goalVerdictHTML(goal) {
   </div>`;
 }
 
+/* 1분 결론 칩은 없앴습니다(재영 님 2026-11-18: "1분 결론은 빠지는 거긴 해").
+   같은 목적별 추천은 홈 '🔥 오늘의 역대급 할인' 안의 카테고리 칩으로 옮겼습니다(js/app.js).
+   여기서는 상단 알림 버튼 상태만 최신으로 맞춥니다. */
 function renderGoalBar() {
   if (!state.data) return;
   hookAlertRefresh();
-  const row = $("goal-row");
-  const vbox = $("goal-verdict");
-  const goal = state.goal && state.goal !== "all" ? state.goal : "all";
-  if (row) {
-    row.innerHTML = `<p class="goal-lab">⚡ 1분 결론 <em>목적을 하나만 누르면 바로 골라 드려요</em></p>
-      <div class="goal-chips">${GOAL_DEFS.map(
-        (g) =>
-          `<button type="button" class="goal-chip${goal === g.id ? " is-on" : ""}" data-goal="${g.id}" aria-pressed="${
-            goal === g.id
-          }">${g.emoji} ${escapeHtml(g.label)}</button>`
-      ).join("")}</div>`;
-  }
-  if (vbox) vbox.innerHTML = goal === "all" ? "" : goalVerdictHTML(goal);
   refreshAlertCTA();
 }
 
@@ -494,7 +484,7 @@ function closeRec() {
 
 function releaseModalLock() {
   const open = document.querySelector(
-    ".pm-modal:not([hidden]), .install-modal:not([hidden]), .alert-modal:not([hidden]), .rec-modal:not([hidden]), .hub-modal:not([hidden])"
+    ".pm-modal:not([hidden]), .install-modal:not([hidden]), .alert-modal:not([hidden]), .hub-modal:not([hidden]), .info-modal:not([hidden])"
   );
   if (!open) document.body.classList.remove("modal-open");
 }

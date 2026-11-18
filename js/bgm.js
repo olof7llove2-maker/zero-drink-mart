@@ -1,53 +1,71 @@
-/* 띠니마트 — 잔잔한 BGM 토글 + 화면에 보이는 미니 유튜브 플레이어
-   1순위: 공식 유튜브 임베드 — JINBO, Hersh, PoPoMo 「All That You Wanted」
-          (POCLANOS 공식 오디오, videoId 0-DwYWZC870)
-   2순위: 로컬 로파이 루프(audio/lofi-bgm.mp3) — 임베드 제한·오류·차단 시 자동 폴백
-
-   아이폰(사파리·크롬 모두 WebKit)에서는 화면 밖에 숨긴 iframe의 재생이 막히므로
-   BGM을 켜면 하단에 160×90 미니 플레이어를 실제로 띄우고, 그 안에서 재생을 겁니다.
-   그래도 막히면 미니 플레이어 위에 ▶ 버튼을 띄워 한 번 눌러 재생하게 합니다.
-   헤더의 🎧 BGM 버튼 하나로 켜고 끕니다(기본 OFF). */
+/* 띠니마트 — 푸터 1줄 잔잔한 BGM
+   재영 님(2026-11-18): "헤더 BGM 버튼 빼고 푸터로, 잔잔한 음악이 첫 터치에 바로"
+   - 유튜브 임베드를 떼고 audio/lofi-bgm.mp3(CC0, 105초 루프) 하나만 씁니다.
+       · 유튜브 iframe은 iOS에서 화면에 띄워야만 재생되고, 뜨기까지 2~3초 걸려 "바로 안 나오는" 원인이었습니다.
+   - 페이지 어디든 첫 터치(pointerdown·touchstart·keydown·click)에 자동으로 시작합니다.
+       · 브라우저 자동재생 정책상 '사용자 제스처 안에서 play()'가 조건이라, 첫 터치에 맞춰 겁니다.
+       · 끈 기록(localStorage ttini-bgm-off)이 있으면 자동으로 켜지 않습니다.
+   - 소리는 0 → 0.16으로 2.6초에 걸쳐 서서히 올립니다(처음에 놀라지 않게).
+   - iOS처럼 audio.volume이 듣지 않는 브라우저는 WebAudio 게인으로 볼륨을 맞춥니다.
+   - 끄고 켜는 곳은 푸터의 1줄 컨트롤 하나뿐입니다. */
 
 (function () {
   "use strict";
 
-  var btn = document.getElementById("bgm-toggle");
   var audio = document.getElementById("bgm-audio");
-  var mini = document.getElementById("bgm-mini");
-  var closeBtn = document.getElementById("bgm-mini-x");
-  var tapBtn = document.getElementById("bgm-mini-play");
-  if (!btn || !audio) return;
+  var btn = document.getElementById("bgm-toggle");
+  var stateEl = document.getElementById("bgm-state");
+  var bar = document.getElementById("foot-bgm");
+  if (!audio || !btn) return;
 
-  var YT_VIDEO_ID = "0-DwYWZC870";
-  var LOCAL_VOLUME = 0.25; // 로컬 로파이 볼륨
-  var YT_VOLUME = 25; // 유튜브 볼륨(0~100) = 0.25
-  var FADE_IN = 700;
-  var FADE_OUT = 500;
-  var YT_START_TIMEOUT = 2600;
+  var VOLUME = 0.16; /* 잔잔하게 — 예전 0.25보다 한 단계 더 조용히 */
+  var FADE_IN = 2600;
+  var FADE_OUT = 900;
+  var KEY_OFF = "ttini-bgm-off";
+  var GESTURES = ["pointerdown", "touchstart", "keydown", "click"];
 
   var on = false;
-  var vol = 0;
-  var raf = 0;
+  var starting = false;
+  var armed = false;
   var ctx = null;
   var gain = null;
-  var ytTimer = 0;
-  var tapTimer = 0;
+  var vol = 0;
+  var raf = 0;
 
-  var yt = { ready: false, failed: false, playing: false, player: null, loading: false, ramp: 0, warmed: false };
-  var ytCbs = [];
+  /* ── 설정 기억 ─────────────────────────────────────── */
 
-  /* ── 로컬 음원(폴백) ─────────────────────────────── */
-
-  /* iOS 사파리처럼 audio.volume 설정이 반영되지 않는 브라우저는
-     WebAudio 게인으로 볼륨을 맞춘다. */
-  function ensureGraph() {
-    if (ctx) return;
+  function readOff() {
     try {
-      var probe = document.createElement("audio");
-      probe.volume = 0.5;
-      if (probe.volume === 0.5) return;
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
+      return window.localStorage.getItem(KEY_OFF) === "1";
+    } catch (err) {
+      return false;
+    }
+  }
+  function writeOff(off) {
+    try {
+      if (off) window.localStorage.setItem(KEY_OFF, "1");
+      else window.localStorage.removeItem(KEY_OFF);
+    } catch (err) {}
+  }
+
+  /* ── 화면 표시 ─────────────────────────────────────── */
+
+  function paint() {
+    btn.classList.toggle("is-on", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.setAttribute("aria-label", on ? "배경음악 끄기" : "잔잔한 배경음악 켜기");
+    if (stateEl) stateEl.textContent = on ? "ON" : "OFF";
+  }
+
+  /* ── 볼륨 ──────────────────────────────────────────── */
+
+  /* iOS 사파리는 audio.volume 설정이 무시되므로 WebAudio 게인을 먼저 씁니다.
+     첫 제스처 안에서 만들어야 AudioContext가 잠기지 않습니다. */
+  function ensureChain() {
+    if (gain) return true;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return false;
+    try {
       ctx = new AC();
       var src = ctx.createMediaElementSource(audio);
       gain = ctx.createGain();
@@ -55,27 +73,50 @@
       src.connect(gain);
       gain.connect(ctx.destination);
       audio.volume = 1;
+      return true;
     } catch (err) {
       ctx = null;
       gain = null;
+      return false;
     }
   }
 
-  function applyLocal(v) {
+  function applyVol(v) {
     vol = v;
-    if (gain && ctx) gain.gain.value = v;
-    else audio.volume = v;
+    if (gain && ctx) {
+      try {
+        gain.gain.value = v;
+        return;
+      } catch (err) {}
+    }
+    try {
+      audio.volume = v;
+    } catch (err) {}
   }
 
-  function fadeLocal(to, ms, done) {
-    if (raf) cancelAnimationFrame(raf);
+  function fadeTo(to, ms, done) {
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    }
+    if (gain && ctx) {
+      try {
+        var t = ctx.currentTime;
+        gain.gain.cancelScheduledValues(t);
+        gain.gain.setValueAtTime(gain.gain.value, t);
+        gain.gain.linearRampToValueAtTime(to, t + Math.max(0.05, ms / 1000));
+        vol = to;
+        if (done) setTimeout(done, ms + 40);
+        return;
+      } catch (err) {}
+    }
     var from = vol;
     var t0 = 0;
-    function step(t) {
-      if (!t0) t0 = t;
-      var k = ms > 0 ? Math.min(1, (t - t0) / ms) : 1;
-      var e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; // ease-in-out
-      applyLocal(from + (to - from) * e);
+    function step(now) {
+      if (!t0) t0 = now;
+      var k = ms > 0 ? Math.min(1, (now - t0) / ms) : 1;
+      var e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; /* ease-in-out */
+      applyVol(from + (to - from) * e);
       if (k < 1) raf = requestAnimationFrame(step);
       else {
         raf = 0;
@@ -85,262 +126,98 @@
     raf = requestAnimationFrame(step);
   }
 
-  function playLocal() {
-    ensureGraph();
+  /* ── 재생/정지 ─────────────────────────────────────── */
+
+  function play() {
+    if (on || starting) return;
+    starting = true;
+    ensureChain();
     if (ctx && ctx.state === "suspended") {
       try {
         ctx.resume();
       } catch (err) {}
     }
-    if (!audio.paused && vol > 0) return;
-    applyLocal(0);
-    var played = audio.play();
-    if (played && typeof played.then === "function") {
-      played
-        .then(function () {
-          if (on && !yt.playing) fadeLocal(LOCAL_VOLUME, FADE_IN);
-        })
-        .catch(function () {});
-    } else {
-      fadeLocal(LOCAL_VOLUME, FADE_IN);
-    }
-  }
-
-  function pauseLocal() {
-    fadeLocal(0, 300, function () {
-      audio.pause();
-    });
-  }
-
-  /* ── 유튜브 임베드 (미니 플레이어) ─────────────────── */
-
-  function loadApi(cb) {
-    if (window.YT && window.YT.Player) {
-      cb();
-      return;
-    }
-    ytCbs.push(cb);
-    if (yt.loading) return;
-    yt.loading = true;
-    window.onYouTubeIframeAPIReady = function () {
-      var list = ytCbs;
-      ytCbs = [];
-      for (var i = 0; i < list.length; i++) {
-        try {
-          list[i]();
-        } catch (err) {}
-      }
-    };
-    var s = document.createElement("script");
-    s.src = "https://www.youtube.com/iframe_api";
-    s.async = true;
-    s.onerror = function () {
-      yt.failed = true;
-    };
-    document.head.appendChild(s);
-  }
-
-  function ensurePlayer() {
-    if (yt.player || yt.failed) return;
-    loadApi(function () {
-      if (yt.player || yt.failed) return;
-      var host = document.getElementById("bgm-yt");
-      if (!host) return;
-      try {
-        yt.player = new window.YT.Player(host, {
-          videoId: YT_VIDEO_ID,
-          width: 160,
-          height: 90,
-          playerVars: {
-            autoplay: 0,
-            controls: 0,
-            disablekb: 1,
-            modestbranding: 1,
-            rel: 0,
-            playsinline: 1,
-            loop: 1,
-            playlist: YT_VIDEO_ID,
-            origin: window.location.origin,
-          },
-          events: {
-            onReady: function () {
-              yt.ready = true;
-              try {
-                yt.player.setVolume(YT_VOLUME);
-              } catch (err) {}
-              if (on) startYT();
-            },
-            onStateChange: function (e) {
-              handleState(e.data);
-            },
-            onError: function () {
-              // 임베드 제한(101·150)·삭제·재생 불가 → 로컬 로파이로 폴백
-              yt.failed = true;
-              yt.playing = false;
-              setSource("local");
-              hideTapHint();
-              if (on) playLocal();
-            },
-          },
-        });
-      } catch (err) {
-        yt.failed = true;
-      }
-    });
-  }
-
-  /* 미니 플레이어에 ▶ 안내 버튼 */
-  function showTapHint() {
-    if (!tapBtn || !on) return;
-    tapBtn.hidden = false;
-  }
-  function hideTapHint() {
-    clearTimeout(tapTimer);
-    if (tapBtn) tapBtn.hidden = true;
-  }
-
-  function startYT() {
-    if (!yt.player || !yt.ready || yt.failed) return;
-    hideTapHint();
+    applyVol(0);
+    var p = null;
     try {
-      yt.player.setVolume(YT_VOLUME);
-      yt.player.playVideo();
+      p = audio.play();
     } catch (err) {
-      yt.failed = true;
+      p = null;
+    }
+    var ok = function () {
+      starting = false;
+      on = true;
+      paint();
+      fadeTo(VOLUME, FADE_IN);
+      unarm();
+    };
+    var fail = function () {
+      starting = false;
+      on = false;
+      paint();
+      arm(); /* 다음 터치에 다시 시도 */
+    };
+    if (p && typeof p.then === "function") p.then(ok).catch(fail);
+    else if (audio.paused) fail();
+    else ok();
+  }
+
+  function stop(save) {
+    on = false;
+    starting = false;
+    paint();
+    if (save) writeOff(true);
+    fadeTo(0, FADE_OUT, function () {
+      try {
+        audio.pause();
+      } catch (err) {}
+    });
+  }
+
+  /* ── 첫 터치에 자동 시작 ───────────────────────────── */
+
+  function onGesture(e) {
+    /* 푸터 BGM 버튼은 직접 켜고 끄는 곳이라 자동 시작 대상에서 뺍니다 */
+    var t = e && e.target;
+    if (t && t.closest && t.closest("#foot-bgm")) return;
+    if (on || starting || readOff()) {
+      unarm();
       return;
     }
-    clearTimeout(ytTimer);
-    ytTimer = setTimeout(function () {
-      if (on && !yt.playing) {
-        setSource("local");
-        if (audio.paused) playLocal();
-        showTapHint(); // 한 번 더 눌러야 재생되는 기기(아이폰)용
-      }
-    }, YT_START_TIMEOUT);
+    play();
   }
 
-  function rampYT(to, ms) {
-    if (!yt.player || !yt.ready) return;
-    var t0 = Date.now();
-    clearInterval(yt.ramp);
-    yt.ramp = setInterval(function () {
-      var k = Math.min(1, (Date.now() - t0) / ms);
-      try {
-        yt.player.setVolume(Math.round(to * k));
-      } catch (err) {}
-      if (k >= 1) clearInterval(yt.ramp);
-    }, 60);
+  function arm() {
+    if (armed) return;
+    armed = true;
+    GESTURES.forEach(function (name) {
+      document.addEventListener(name, onGesture, { passive: true });
+    });
   }
 
-  function handleState(state) {
-    if (state === 1) {
-      // 유튜브 재생 시작 → 로컬 로파이를 줄이고 유튜브 볼륨을 올린다
-      yt.playing = true;
-      yt.failed = false;
-      clearTimeout(ytTimer);
-      hideTapHint();
-      if (!on) {
-        try {
-          yt.player.pauseVideo();
-        } catch (err) {}
-        return;
-      }
-      setSource("youtube");
-      fadeLocal(0, 400, function () {
-        if (yt.playing) audio.pause();
-      });
-      rampYT(YT_VOLUME, 600);
-    } else if (state === 2 || state === 5) {
-      yt.playing = false;
-    } else if (state === 0) {
-      // 한 곡이 끝났을 때(loop 설정이 풀린 경우) 처음부터 다시
-      if (on) {
-        try {
-          yt.player.seekTo(0);
-          yt.player.playVideo();
-        } catch (err) {}
-      }
+  function unarm() {
+    if (!armed) return;
+    armed = false;
+    GESTURES.forEach(function (name) {
+      document.removeEventListener(name, onGesture, { passive: true });
+    });
+  }
+
+  /* ── 버튼 ──────────────────────────────────────────── */
+
+  btn.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (on) stop(true);
+    else {
+      writeOff(false);
+      play();
     }
-  }
-
-  /* ── 버튼 ────────────────────────────────────────── */
-
-  function setSource(name) {
-    btn.dataset.src = name; // youtube | local
-  }
-
-  function mark(isOn) {
-    on = isOn;
-    btn.classList.toggle("is-on", isOn);
-    btn.setAttribute("aria-pressed", isOn ? "true" : "false");
-    btn.setAttribute("aria-label", isOn ? "배경음악 끄기" : "배경음악 켜기");
-    if (mini) mini.classList.toggle("is-on", isOn);
-    if (!isOn) hideTapHint();
-  }
-
-  function turnOn() {
-    mark(true);
-    setSource("local");
-    playLocal(); // 임베드가 준비되기 전에도 바로 소리가 나도록
-    ensurePlayer();
-    if (yt.ready) startYT();
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(function () {
-      if (on && !yt.playing) showTapHint();
-    }, YT_START_TIMEOUT + 400);
-  }
-
-  function turnOff() {
-    mark(false);
-    if (yt.player && yt.ready) {
-      try {
-        yt.player.pauseVideo();
-      } catch (err) {}
-    }
-    yt.playing = false;
-    pauseLocal();
-  }
-
-  btn.addEventListener("click", function () {
-    if (on) turnOff();
-    else turnOn();
   });
-
-  if (closeBtn) {
-    closeBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      turnOff();
-    });
-  }
-
-  if (tapBtn) {
-    tapBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      hideTapHint();
-      if (!on) return;
-      if (!yt.player) ensurePlayer();
-      startYT();
-      setTimeout(function () {
-        if (on && !yt.playing) {
-          showTapHint();
-          if (audio.paused) playLocal();
-        }
-      }, YT_START_TIMEOUT);
-    });
-  }
-
-  /* 플레이어를 미리 만들어 두면 첫 BGM 클릭에서 바로 재생을 걸 수 있다 */
-  function warm() {
-    if (yt.warmed) return;
-    yt.warmed = true;
-    ensurePlayer();
-  }
-  document.addEventListener("pointerdown", warm, { once: true, passive: true });
-  document.addEventListener("keydown", warm, { once: true });
 
   audio.addEventListener("error", function () {
-    if (on && !yt.playing) applyLocal(0);
+    if (bar) bar.hidden = true; /* 음원을 못 받으면 죽은 버튼을 남기지 않습니다 */
   });
+
+  paint();
+  if (!readOff()) arm();
 })();

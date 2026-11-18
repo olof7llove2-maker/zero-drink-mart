@@ -114,13 +114,6 @@ function protHighBadge(g) {
   return `<span class="prot-hi${strong ? " is-strong" : ""}" title="1병 단백질 ${g}g — ${strong ? "고함량" : "일반 20g 제품보다 많아요"}">🔥 고함량 ${g}g</span>`;
 }
 
-function protPctText(pct) {
-  if (pct == null) return "";
-  const r = Math.round(pct);
-  if (r === 0) return "0%";
-  return `${r > 0 ? "+" : "−"}${Math.abs(r)}%`;
-}
-
 /* 카드 1장 — 뒤에 상품 사진을 은은하게 깔고, 앞은 텍스트만.
    탭하면 가격 추이 모달, 아래는 플랫폼 3색 구매 버튼. */
 function protCardHTML(p) {
@@ -130,12 +123,6 @@ function protCardHTML(p) {
   const g = proteinValue(p);
   const p20 = protein20(p);
   const per1 = typeof proteinPerG === "function" ? proteinPerG(p) : null;
-  const cmp =
-    v.id === "track"
-      ? `가격 기록 ${Math.max(1, v.days)}일 · ${PROT_MIN_DAYS}일 쌓이면 판정해요`
-      : `평소가 ${won(Math.round(v.median))} 대비 <b class="${
-          v.pct <= 0 ? "minus" : "plus"
-        }">${protPctText(v.pct)}</b>`;
   const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
   const fine = [
     g != null ? `1병 단백질 ${g}g` : "",
@@ -161,7 +148,6 @@ function protCardHTML(p) {
       <p class="prot-p20">단백질 20g당 <strong>${won(p20)}</strong>${
     per1 ? `<span class="prot-p1g">1g당 ${won(per1)}</span>` : ""
   }</p>
-      <p class="prot-cmp">${cmp}</p>
     </div>
     <div class="prot-buys">${typeof buyHTML === "function" ? buyHTML(p) : ""}</div>
     ${fine ? `<p class="prot-fine" title="${escapeHtml(
@@ -206,7 +192,6 @@ function renderProteinSection() {
       <h2 class="prot-title">💪 단백질 음료, 지금 사도 될까?</h2>
       <button type="button" class="prot-more" data-prot-all>전체 ${pool.length}개 →</button>
     </div>
-    <p class="prot-sub">1병 단백질 ${PROT_MIN_PROTEIN_G}g 이상 · 인지도 순 · 내 평소가(60일 중간값) 대비 · 두유·저단백은 카테고리에서 따로 봐요</p>
     <div class="prot-chips" role="group" aria-label="판정으로 보기">${chips}</div>
     ${body}
     <p class="prot-note">평소가 = 이 상품 가격 기록의 중간값 · −5% 이하 핫딜 · +3%까지 보통 · 그 위 비쌈 · 기록 ${PROT_MIN_DAYS}일 미만은 기록중 · 인지도 높은 브랜드부터 · 카드를 누르면 가격 추이</p>`;
