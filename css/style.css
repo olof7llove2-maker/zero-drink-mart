@@ -1351,8 +1351,8 @@ body.modal-open { overflow: hidden; }
 .spot-chip {
   flex: none; cursor: pointer; white-space: nowrap;
   border: 1px solid var(--line); background: var(--surface-2); color: var(--muted);
-  border-radius: 999px; padding: 5px 10px;
-  font-size: 11px; font-weight: 800; letter-spacing: -0.02em;
+  border-radius: 999px; padding: 4px 8px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: -0.03em;
   -webkit-tap-highlight-color: transparent;
 }
 .spot-chip.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
