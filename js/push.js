@@ -502,9 +502,9 @@ function hubPicks(n) {
     out.push(p);
   };
 
-  /* ① 오늘의 역대급 할인 앞쪽 3개 */
+  /* ① 오늘의 역대급 할인 앞쪽 2개 */
   const spot = typeof spotlightPicks === "function" ? spotlightPicks(limit) : [];
-  spot.slice(0, 3).forEach(add);
+  spot.slice(0, 2).forEach(add);
 
   /* ② 실제로 가격이 내렸거나 60일 저점에 붙은 상품 */
   const deals = (state.data.products || [])
@@ -522,7 +522,7 @@ function hubPicks(n) {
     .sort((a, b) => b.score - a.score || (b.p.popularScore || 0) - (a.p.popularScore || 0));
   deals.slice(0, 2).forEach((x) => add(x.p));
 
-  /* ③ 단백질 인기 — 상위 10개 중 오늘 시드로 하나 */
+  /* ③ 단백질 인기 — 상위 10개를 오늘 시드로 섞어, 아직 없는 것 중 첫 상품 */
   const prot = (state.data.products || [])
     .filter((p) => usable(p) && (p.part === "protein" || p.part === "shake"))
     .sort(
@@ -530,15 +530,15 @@ function hubPicks(n) {
         (b.popularScore || 0) - (a.popularScore || 0) || (b.reviewCount || 0) - (a.reviewCount || 0)
     )
     .slice(0, 10);
-  if (prot.length) {
-    const pick = prot
-      .map((p) => ({ p, k: typeof spotHash === "function" ? spotHash(`${p.id}|${dayKey}|hub`) : 0 }))
-      .sort((a, b) => b.k - a.k)[0];
-    add(pick.p);
-  }
+  const protOrder = prot
+    .map((p) => ({ p, k: typeof spotHash === "function" ? spotHash(`${p.id}|${dayKey}|hub`) : 0 }))
+    .sort((a, b) => b.k - a.k)
+    .map((x) => x.p);
+  protOrder.slice(0, 2).forEach(add);
 
-  /* ④ 모자라면 오늘의 할인 → 단백질 인기 순으로 채웁니다 */
+  /* ④ 모자라면 가격 인하 → 오늘의 할인 → 단백질 인기 순으로 채웁니다 */
+  deals.forEach((x) => add(x.p));
   spot.forEach(add);
-  prot.forEach(add);
+  protOrder.forEach(add);
   return out.slice(0, limit);
 }
