@@ -247,7 +247,14 @@ function marketRefOf(p) {
     if (brandArr && brandArr.length >= 2) {
       const value = medianOf(brandArr);
       if (value) {
-        return { pct: (v / value - 1) * 100, value, unit: "단백질 20g당", label: `${b} 단백질 20g당 시세`, sample: brandArr.length };
+        return {
+          pct: (v / value - 1) * 100,
+          value,
+          amount: won(Math.round(value)),
+          unit: "",
+          label: `${b} 20g당 시세`,
+          sample: brandArr.length,
+        };
       }
     }
     const groupArr = p20Index.group.get(`${c}|protein`);
@@ -257,8 +264,9 @@ function marketRefOf(p) {
         return {
           pct: (v / value - 1) * 100,
           value,
-          unit: "단백질 20g당",
-          label: `단백질 음료 ${containerLabel(c)} 단백질 20g당 시세`,
+          amount: won(Math.round(value)),
+          unit: "",
+          label: `단백질 음료 ${containerLabel(c)} 20g당 시세`,
           sample: groupArr.length,
         };
       }
@@ -271,7 +279,8 @@ function marketRefOf(p) {
   return {
     pct: (u - m.value) / m.value * 100,
     value: m.value,
-    unit: unitLabelOf(p),
+    amount: `${won(Math.round(m.value))}/${unitLabelOf(p).replace("당", "")}`,
+    unit: unitLabelOf(p).replace("당", ""),
     label: m.label,
     shortLabel: m.shortLabel,
     sample: m.sample,
@@ -326,7 +335,7 @@ function marketRefNoteOf(p) {
   const j = judgeOf(p);
   const r = j.ref;
   if (!r) return "";
-  return `같은 용기 시세 ${won(Math.round(r.value))}/${r.unit.replace("당", "")} 대비 ${signedPct(r.pct)}`;
+  return `같은 용기 시세 ${r.amount || won(Math.round(r.value))} 대비 ${signedPct(r.pct)}`;
 }
 
 /* 카드 1줄: 5단계 배지(판정) + 평소가 근거 + 참고 시세 */
@@ -342,7 +351,7 @@ function gradeLineHTML(p) {
   const title = [
     j.badge ? `${j.badge.id} — ${j.tier.label}` : j.tier.label,
     j.base ? `평소가 ${won(Math.round(j.base.median))} (관측 ${j.base.days}일·${j.base.observations}회 중간값) 대비 ${signedPct(j.pct)}` : "",
-    j.ref ? `참고: ${j.ref.label} ${won(Math.round(j.ref.value))}/${j.ref.unit.replace("당", "")} (표본 ${j.ref.sample}개) 대비 ${signedPct(j.ref.pct)} — 판정에는 쓰지 않아요` : "",
+    j.ref ? `참고: ${j.ref.label} ${j.ref.amount || won(Math.round(j.ref.value))} (표본 ${j.ref.sample}개) 대비 ${signedPct(j.ref.pct)} — 판정에는 쓰지 않아요` : "",
   ]
     .filter(Boolean)
     .join(" · ");

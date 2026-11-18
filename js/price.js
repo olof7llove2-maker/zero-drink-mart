@@ -431,9 +431,9 @@ function gradeBlock(p) {
   }
   if (j.ref) {
     rows.push(
-      `참고 — ${escapeHtml(j.ref.label)} <b>${won(Math.round(j.ref.value))}</b>/${j.ref.unit.replace("당", "")} (표본 ${
+      `참고 — ${escapeHtml(j.ref.label)} <b>${j.ref.amount || won(Math.round(j.ref.value))}</b> (표본 ${
         j.ref.sample
-      }개) 대비 <b>${signedPct(j.ref.pct)}</b>. 같은 용기 안에서만 건준 숫자이고, 위 판정에는 쓰지 않았어요.`
+      }개) 대비 <b>${signedPct(j.ref.pct)}</b>. 같은 용기 안에서만 견준 숫자이고, 위 판정에는 쓰지 않았어요.`
     );
   }
   return `<div class="pm-block"><h4>지금 사도 될까?</h4>${badge}<ul class="pm-list">${rows
