@@ -1083,6 +1083,23 @@ body.modal-open { overflow: hidden; }
 .bd-since { color: #8a4b1f; background: var(--cocoa-soft); }
 .pc-deal:empty { display: none; }
 
+/* 카테고리 안쪽 1줄 쿠팡 기획전 (r27) — 홈에는 안 보임, 얇은 바 하나 */
+.promo-bar { margin: 0 0 2px; }
+.promo-bar[hidden] { display: none; }
+.promo-link {
+  display: flex; align-items: center; gap: 4px;
+  padding: 6px 10px; border-radius: 9px;
+  background: var(--sage-soft); border: 1px solid #cde8da;
+  font-size: 11.5px; font-weight: 800; letter-spacing: -0.02em;
+  color: var(--sage-text); text-decoration: none;
+}
+.promo-link:active { opacity: 0.75; }
+.promo-txt {
+  min-width: 0; flex: 1; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+@media (max-width: 359px) { .promo-link { font-size: 11px; padding: 6px 9px; } }
+
 /* 카테고리 대표 사진 타일 */
 .cattiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
 .tile {

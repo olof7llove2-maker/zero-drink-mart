@@ -1180,6 +1180,43 @@ function renderTiles() {
   }).join("");
 }
 
+/* ── 카테고리 안쪽 1줄 쿠팡 기획전 (홈에는 절대 안 띄움) ─────────
+   아버님 쿠팡 파트너스(AF5520784) 단축 링크 — 누르면 새 탭으로 열립니다. */
+const CAT_PROMOS = {
+  meat: {
+    label: "🥩 쿠팡 로켓프레시 고기역전 기획전 보기 →",
+    href: "https://link.coupang.com/a/iLYqwMeRCm",
+  },
+  protein: {
+    label: "💪 쿠팡 올해는 건강 챙기세요! (단백질·저당) →",
+    href: "https://link.coupang.com/a/iLYxco3wHc",
+  },
+  gadget: {
+    label: "⚡ 쿠팡 가전디지털 블랙 프라이데이 (~11/29) →",
+    href: "https://link.coupang.com/a/iLYxOpEHhk",
+  },
+  diet: {
+    label: "🥗 쿠팡 로켓프레시 식단관리 기획전 보기 →",
+    href: "https://link.coupang.com/a/iLYm0PH9C8",
+  },
+};
+
+function catPromoOf() {
+  if (state.part === "meat") return state.filter === "gadget" ? CAT_PROMOS.gadget : CAT_PROMOS.meat;
+  if (state.part === "protein" || state.part === "shake") return CAT_PROMOS.protein;
+  return CAT_PROMOS.diet; /* 전체(타일) · 제로 음료 · 치팅·간편식 · 기타 */
+}
+
+function renderCatPromo() {
+  const box = $("cat-promo");
+  if (!box) return;
+  const p = catPromoOf();
+  box.innerHTML = `<a class="promo-link" href="${p.href}" target="_blank" rel="noopener noreferrer"><span class="promo-txt">${escapeHtml(
+    p.label
+  )}</span></a>`;
+  box.hidden = false;
+}
+
 function renderCategoryList() {
   const wrap = $("cat-browse");
   const tiles = $("cattiles");
@@ -1931,6 +1968,7 @@ function paint() {
     renderHome();
   }
   else if (state.tab === "category") {
+    renderCatPromo();
     renderTiles();
     renderCategoryList();
   } else if (state.tab === "search") renderSearchView();
