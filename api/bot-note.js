@@ -247,15 +247,21 @@ async function listNotes(req, res, url) {
   if (from) notes = notes.filter((n) => n.from === from);
   if (kind) notes = notes.filter((n) => n.kind === kind);
   if (unackedOnly) notes = notes.filter((n) => !n.acked);
+  /* after: 쪽지 ID를 먼저 보고(그 쪽지보다 새 것), ID가 아니면 ISO 시각으로 해석합니다.
+     V8이 어중간한 문자열을 날짜로 받아들이는 경우가 있어 ID를 먼저 확인합니다. */
   if (after) {
-    const asDate = Date.parse(after);
-    if (Number.isFinite(asDate)) {
-      const iso = new Date(asDate).toISOString();
-      notes = notes.filter((n) => String(n.ts) > iso);
+    const known = all.find((n) => n.id === after);
+    if (known) {
+      const base = String(known.ts);
+      notes = notes.filter((n) => String(n.ts) > base);
     } else {
-      const idx = notes.findIndex((n) => n.id === after);
-      if (idx >= 0) notes = notes.slice(0, idx);
-      else warnings.push("after-not-found");
+      const asDate = Date.parse(after);
+      if (Number.isFinite(asDate)) {
+        const iso = new Date(asDate).toISOString();
+        notes = notes.filter((n) => String(n.ts) > iso);
+      } else {
+        warnings.push("after-not-found");
+      }
     }
   }
 
