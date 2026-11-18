@@ -1498,14 +1498,15 @@ function renderFilters() {
   }
   row.hidden = false;
   const defs = [
-    { id: "chilled", label: "🧊 냉장" },
-    { id: "frozen", label: "❄️ 냉동" },
+    { id: "chilled", emoji: "🧊", label: "냉장" },
+    { id: "frozen", emoji: "❄️", label: "냉동" },
   ];
+  /* 고를 때는 ✓로 바꿔 아이콘 두 개가 나란히 붙지 않게 합니다 */
   snav.innerHTML = defs
     .map((d) => {
       const on = (state.stores || []).includes(d.id);
       return `<button type="button" class="filter${on ? " is-on" : ""}" data-store="${d.id}" aria-selected="${on}" aria-pressed="${on}">${
-        on ? `<span class="chip-tick" aria-hidden="true">✓</span>` : ""
+        on ? `<span class="chip-tick" aria-hidden="true">✓</span>` : `<span class="chip-ico" aria-hidden="true">${d.emoji}</span>`
       }${d.label}<span class="chip-n">${storeCount(d.id)}</span></button>`;
     })
     .join("");
