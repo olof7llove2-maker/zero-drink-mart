@@ -480,7 +480,7 @@ function modalBuyBlock(p) {
   if (!opts.length) return "";
   const view = typeof cheapView === "function" ? cheapView(p) : { price: p.price, platform: platformOf(p) };
   const head = opts.length > 1
-    ? `${opts.length}곳 가격 비교${p.priceCheckedAt ? ` · ${escapeHtml(p.priceCheckedAt)} 확인` : ""}`
+    ? `${opts.length}곳 가격 비교${p.priceCheckedAt ? ` · ${escapeHtml(shortStamp(p.priceCheckedAt))} 확인` : ""}`
     : escapeHtml(p.priceCheckedLabel || "");
   return `<div class="pm-buy">
     <p class="pm-buy-head">
@@ -490,6 +490,12 @@ function modalBuyBlock(p) {
     </p>
     ${buyHTML(p)}
   </div>`;
+}
+
+/* 2026-11-17 14:55 → 11/17 14:55 (모달 안에서 짧게) */
+function shortStamp(ts) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(String(ts || ""));
+  return m ? `${Number(m[2])}/${Number(m[3])} ${m[4]}:${m[5]}` : String(ts || "");
 }
 
 function priceModalHTML(p, entry) {
