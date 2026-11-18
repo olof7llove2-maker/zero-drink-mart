@@ -28,7 +28,7 @@
   const qs = new URLSearchParams(location.search);
   const open = qs.get('open');
   const sel = qs.get('sel') || '#home-spot';
-  const yOff = parseInt(qs.get('y') || '-6', 10);
+  const yOff = parseInt(qs.get('y') || '-96', 10);
 
   f.addEventListener('load', () => {
     setTimeout(() => {
@@ -40,11 +40,14 @@
         if (btn) btn.click();
         msg += `hub hidden=${d.getElementById('hub-modal') ? d.getElementById('hub-modal').hidden : 'none'}\n`;
       }
-      const el = sel ? d.querySelector(sel) : null;
-      if (el) {
+      const scrollToSel = () => {
+        const el = sel ? d.querySelector(sel) : null;
+        if (!el) return;
         const top = el.getBoundingClientRect().top + w.scrollY + yOff;
         w.scrollTo(0, Math.max(0, top));
-      }
+      };
+      scrollToSel();
+      setTimeout(scrollToSel, 700);
       msg += `scrollY ${w.scrollY}\n`;
       const cards = [...d.querySelectorAll('.spot-card')];
       msg += `spot 카드 ${cards.length}개\n`;
