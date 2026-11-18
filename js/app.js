@@ -1994,14 +1994,14 @@ function renderUpdateBand() {
       $("update-time").hidden = !latest.time;
     }
   }
-  /* 전 상품을 한 시각에 확인한 것처럼 읽히지 않게, 상품별 확인 시각과 48시간 초과 수를 같이 적습니다 */
+  /* 상품별 확인 시각과 48시간 초과 수는 화면에는 크게 쓰지 않고(푸터 작은 줄) title·aria-label에 담습니다 */
   const staleN = (state.data.products || []).filter((p) => {
     const s = staleInfoOf(p);
     return s && s.stale;
   }).length;
   const cyc = $("update-cycle-main");
   if (cyc) {
-    cyc.textContent = `상품별 확인 시각 상이${staleN ? ` · 48시간+ 지난 확인 ${staleN}종` : ""} · 오전·오후 9시 갱신`;
+    cyc.textContent = "상품별 확인 시각 상이 · 오전·오후 9시 갱신";
   }
   const band = $("update-band");
   if (band && latest) {
