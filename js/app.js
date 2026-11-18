@@ -975,28 +975,48 @@ function homeFieldTop(fieldId, pool) {
   return rows.slice(0, HOME_FIELD_TOP).map((r) => r.p);
 }
 
-/* 오늘의 홈 1위 상품 ID — 분야별 Top 3(최대 12종) 중 오늘 점수 최고.
-   점수는 spotlightPicks와 같은 잣대(인지도·할인·저점·인하)에 날짜 시드를 곱해
-   날마다 1위가 바뀌고, 하루 동안은 같은 상품으로 고정됩니다. */
-function homeChampionId() {
-  const dayKey = spotDayKey();
+/* 오늘의 홈 1위 후보 점수표 — 분야별 인지도 Top 3(최대 12종)를
+   spotlightPicks와 같은 잣대(인지도·할인·저점·인하)로 채점하고 날짜 시드로 ±22% 섞습니다. */
+function homeChampionRows(dayKey) {
   const pool = basePool().filter((p) => !isSpotlightOut(p));
-  if (!pool.length) return "";
-  const railIds = new Set(spotlightPicks(6).map((p) => p.id));
   const rows = [];
+  if (!pool.length) return rows;
   HOME_FIELDS.forEach((f) => {
     homeFieldTop(f.id, pool).forEach((p) => {
       const merit = spotMerit(p, dayKey);
       const aware = spotAwareness(p);
       /* 실제 메리트가 있으면 항상 우선, 없으면 그 분야 대표 중 인지도 순 */
       let score = merit != null ? 0.62 + merit : 0.2 * aware;
-      if (railIds.has(p.id)) score += 0.05; /* 오늘의 할인 레일과도 이어지게 */
-      score *= 0.86 + 0.28 * spotHash(`${p.id}|${dayKey}|home`);
+      score *= 0.78 + 0.44 * spotHash(`${p.id}|${dayKey}|home`);
       rows.push({ p, score, merit, field: f.id });
     });
   });
   rows.sort((a, b) => b.score - a.score || String(a.p.id).localeCompare(String(b.p.id)));
-  return rows.length ? rows[0].p.id : "";
+  return rows;
+}
+
+/* 어제 날짜 키 (KST) — 바로 전날과 같은 상품이 1위로 반복되는 것을 막는 데 씁니다 */
+function spotPrevDayKey(dayKey) {
+  const t = Date.parse(`${dayKey}T00:00:00+09:00`);
+  if (!Number.isFinite(t)) return "";
+  return spotDayKey(new Date(t - 86400000));
+}
+
+/* 오늘의 홈 1위 상품 ID — 분야별 Top 3 중 오늘 점수 최고.
+   날마다 시드가 바뀌어 1위가 돌아가고, 하루 동안은 같은 상품으로 고정됩니다.
+   어제도 같은 상품이 1위였다면 점수가 80% 이상인 다음 후보로 바꿔 이틀 연속 같은 얼굴을 피합니다. */
+function homeChampionId() {
+  const dayKey = spotDayKey();
+  const rows = homeChampionRows(dayKey);
+  if (!rows.length) return "";
+  const top = rows[0];
+  const prevKey = spotPrevDayKey(dayKey);
+  const prev = prevKey ? homeChampionRows(prevKey)[0] : null;
+  if (prev && prev.p.id === top.p.id) {
+    const next = rows.find((r) => r.p.id !== top.p.id && r.score >= top.score * 0.8);
+    if (next) return next.p.id;
+  }
+  return top.p.id;
 }
 
 /* 1위 상품이 옵션 묶음 대표로 접혀 사라지면 그 묶음의 대표 ID로 바꿔 잡습니다. */
