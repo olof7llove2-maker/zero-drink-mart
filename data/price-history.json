@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-18T16:22:00+09:00",
+  "generatedAt": "2026-11-18T18:50:00+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -21,9 +21,9 @@
    "쿠팡 판매가는 옵션·묶음 구성이 바뀌면 크게 오르내릴 수 있어 최고가·평균가는 참고값입니다."
   ],
   "tally": {
-   "history": 0,
-   "tracking-started": 0,
-   "not-tracked": 1,
+   "history": 29,
+   "tracking-started": 177,
+   "not-tracked": 0,
    "item-mismatch": 0,
    "no-records": 0,
    "error": 0
@@ -7789,8 +7789,8 @@
    "id": "deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae",
    "name": "더단백 40g 고함량 드링크 더블초코, 350ml, 20개",
    "platform": "coupang",
-   "cardPrice": 51170,
-   "cardPriceCheckedAt": "2026-11-18 16:22",
+   "cardPrice": 51300,
+   "cardPriceCheckedAt": "2026-11-18 18:50",
    "cardListPrice": 78000,
    "source": "mart",
    "status": "tracking-started",
@@ -7807,6 +7807,12 @@
      "price": 51170,
      "ts": "2026-11-18T16:22:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 51300,
+     "ts": "2026-11-18T18:50:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -7814,13 +7820,14 @@
     "minDate": "2026-11-18",
     "max": 53070,
     "maxDate": "2026-11-15",
-    "avg": 52120,
-    "latest": 51170,
+    "avg": 51847,
+    "latest": 51300,
     "latestDate": "2026-11-18",
-    "observations": 2,
+    "observations": 3,
     "days": 2
    },
-   "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044"
+   "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044",
+   "lastObservedAt": "2026-11-18T18:50:00+09:00"
   },
   "meat-beef-ouratown-woosamgyup-1kg": {
    "id": "meat-beef-ouratown-woosamgyup-1kg",
@@ -8520,8 +8527,8 @@
    "id": "narangd-cider-zero",
    "name": "나랑드사이다 제로, 245ml, 30개",
    "platform": "coupang",
-   "cardPrice": 12900,
-   "cardPriceCheckedAt": "2026-11-17 07:30",
+   "cardPrice": 12770,
+   "cardPriceCheckedAt": "2026-11-18 18:50",
    "cardListPrice": 15000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7447842898",
    "couprice": {
@@ -8859,20 +8866,26 @@
      "price": 12900,
      "ts": "2026-11-17T14:02:47.393443+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 12770,
+     "ts": "2026-11-18T18:50:00+09:00",
+     "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-22T10:02:43.259366+00:00",
-   "lastObservedAt": "2026-11-17T14:02:47.393443+00:00",
+   "lastObservedAt": "2026-11-18T18:50:00+09:00",
    "stats": {
     "min": 7900,
     "minDate": "2026-09-27",
     "max": 25950,
     "maxDate": "2026-09-28",
-    "avg": 12350,
-    "latest": 12900,
-    "latestDate": "2026-11-17",
-    "observations": 52,
-    "days": 30
+    "avg": 12358,
+    "latest": 12770,
+    "latestDate": "2026-11-18",
+    "observations": 53,
+    "days": 31
    }
   },
   "meat-pork-dodram-handon-samgyeopsal-1kg": {
@@ -14298,6 +14311,121 @@
     "days": 1
    }
   },
+  "toss-jimin-tongtong-wangjokbal-800g-1": {
+   "id": "toss-jimin-tongtong-wangjokbal-800g-1",
+   "name": "지민푸드 통통왕족발, 800g, 1팩",
+   "platform": "toss",
+   "cardPrice": 8800,
+   "cardPriceCheckedAt": "2026-11-18 13:30",
+   "cardListPrice": null,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-18",
+     "price": 8800,
+     "ts": "2026-11-18T13:30:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 8800,
+    "minDate": "2026-11-18",
+    "max": 8800,
+    "maxDate": "2026-11-18",
+    "avg": 8800,
+    "latest": 8800,
+    "latestDate": "2026-11-18",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-k1-naengjang-breast-1kg-1kg": {
+   "id": "meat-chicken-k1-naengjang-breast-1kg-1kg",
+   "name": "[케이원푸드] 국내산 냉장 닭가슴살, 1kg, 2개",
+   "platform": "coupang",
+   "cardPrice": 12650,
+   "cardPriceCheckedAt": "2026-11-18 18:50",
+   "cardListPrice": 16000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "fetch-error",
+   "series": [
+    {
+     "date": "2026-11-18",
+     "price": 12650,
+     "ts": "2026-11-18T18:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 12650,
+    "minDate": "2026-11-18",
+    "max": 12650,
+    "maxDate": "2026-11-18",
+    "avg": 12650,
+    "latest": 12650,
+    "latestDate": "2026-11-18",
+    "observations": 1,
+    "days": 1
+   },
+   "sourceUrl": "https://www.couprice.co.kr/products/x-9194426453"
+  },
+  "shake-peurotinseutori-purepeurotin7-3kg-choko": {
+   "id": "shake-peurotinseutori-purepeurotin7-3kg-choko",
+   "name": "프로틴스토리 맛있는 단백질 퓨어프로틴7 3kg 쇼콜라초코, 3kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 42410,
+   "cardPriceCheckedAt": "2026-11-18 18:50",
+   "cardListPrice": 69000,
+   "sourceUrl": "https://www.couprice.co.kr/products/x-9499047981",
+   "couprice": {
+    "ids": {
+     "productId": "9499047981",
+     "itemId": "24263235071",
+     "vendorItemId": "94917160218"
+    },
+    "sameItem": true,
+    "crosscheck": {
+     "source60Min": 19900,
+     "source60Max": 45500,
+     "sourceRecords": 6,
+     "sourceCurrent": 42410,
+     "sourceWarnsVolatile": true
+    }
+   },
+   "coupang": {
+    "productId": "9499047981",
+    "itemId": "24263235071",
+    "vendorItemId": "94917160218"
+   },
+   "source": "couprice+mart",
+   "status": "tracking-started",
+   "statusDetail": "option-mixed",
+   "series": [
+    {
+     "date": "2026-11-18",
+     "price": 42410,
+     "ts": "2026-11-18T18:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "firstObservedAt": "2026-11-18T18:50:00+09:00",
+   "lastObservedAt": "2026-11-18T18:50:00+09:00",
+   "stats": {
+    "min": 42410,
+    "minDate": "2026-11-18",
+    "max": 42410,
+    "maxDate": "2026-11-18",
+    "avg": 42410,
+    "latest": 42410,
+    "latestDate": "2026-11-18",
+    "observations": 1,
+    "days": 1
+   },
+   "statusNote": "쿠프라이스 60일 기록에 같은 상품번호의 1kg 옵션(19,900원)이 섞여 있어 3kg 카드의 과거 값으로 쓰지 않았어요. 마트가 직접 확인한 값만 남깁니다."
+  },
   "pepsi-zero-lime-355": {
    "id": "pepsi-zero-lime-355",
    "name": "펩시 콜라 제로슈가 라임향, 355ml, 24개",
@@ -15412,36 +15540,6 @@
     "days": 1
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-6332981118"
-  },
-  "toss-jimin-tongtong-wangjokbal-800g-1": {
-   "id": "toss-jimin-tongtong-wangjokbal-800g-1",
-   "name": "지민푸드 통통왕족발, 800g, 1팩",
-   "platform": "toss",
-   "cardPrice": 8800,
-   "cardPriceCheckedAt": "2026-11-18 13:30",
-   "cardListPrice": null,
-   "source": "mart",
-   "status": "tracking-started",
-   "statusDetail": "not-tracked",
-   "series": [
-    {
-     "date": "2026-11-18",
-     "price": 8800,
-     "ts": "2026-11-18T13:30:00+09:00",
-     "src": "mart"
-    }
-   ],
-   "stats": {
-    "min": 8800,
-    "minDate": "2026-11-18",
-    "max": 8800,
-    "maxDate": "2026-11-18",
-    "avg": 8800,
-    "latest": 8800,
-    "latestDate": "2026-11-18",
-    "observations": 1,
-    "days": 1
-   }
   }
  }
 }
