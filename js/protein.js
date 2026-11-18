@@ -52,14 +52,50 @@ function protPool() {
   });
 }
 
-/* 판정이 있는 상품 먼저, 그 안에서 단백질 20g당 가격이 낮은 순 */
+/* 인지도 순 — 재영 님 지시(2026-11-18): "유명 제품부터".
+   아는 브랜드를 앞에 두고, 그 안에서는 popularScore → 리뷰 수 → 단백질 20g당 가격 순.
+   새 브랜드가 들어오면 목록에 넣어 주면 됩니다(없으면 점수·리뷰로 자동 정렬). */
+const PROT_BRAND_RANK = [
+  "더단백",
+  "테이크핏",
+  "셀렉스",
+  "하이뮨",
+  "닥터유",
+  "칼로바이",
+  "뉴케어",
+  "마이프로틴",
+  "매일두유",
+  "연세두유",
+  "베지밀",
+  "맛있는두유GT",
+  "요플레",
+  "빙그레",
+];
+
+function protBrandRank(p) {
+  const brand = String((p && p.brand) || "").trim();
+  const name = String((p && p.name) || "");
+  for (let i = 0; i < PROT_BRAND_RANK.length; i += 1) {
+    const key = PROT_BRAND_RANK[i];
+    if (brand.includes(key) || name.includes(key)) return i;
+  }
+  return PROT_BRAND_RANK.length;
+}
+
+/* 인지도 순 정렬 (판정 유무와 상관없이) */
 function protSorted(list) {
   return list
-    .map((p, i) => ({ p, i, v: protVerdict(p) }))
+    .map((p, i) => ({ p, i }))
     .sort((a, b) => {
-      const aj = a.v.id === "track" ? 1 : 0;
-      const bj = b.v.id === "track" ? 1 : 0;
-      if (aj !== bj) return aj - bj;
+      const ra = protBrandRank(a.p);
+      const rb = protBrandRank(b.p);
+      if (ra !== rb) return ra - rb;
+      const pa = typeof a.p.popularScore === "number" ? a.p.popularScore : -1;
+      const pb = typeof b.p.popularScore === "number" ? b.p.popularScore : -1;
+      if (pa !== pb) return pb - pa;
+      const va = typeof a.p.reviewCount === "number" ? a.p.reviewCount : -1;
+      const vb = typeof b.p.reviewCount === "number" ? b.p.reviewCount : -1;
+      if (va !== vb) return vb - va;
       const ap = protein20(a.p);
       const bp = protein20(b.p);
       if (ap !== bp) return ap - bp;
@@ -160,10 +196,10 @@ function renderProteinSection() {
       <h2 class="prot-title">💪 단백질 음료, 지금 사도 될까?</h2>
       <button type="button" class="prot-more" data-prot-all>전체 ${pool.length}개 →</button>
     </div>
-    <p class="prot-sub">1병 단백질 ${PROT_MIN_PROTEIN_G}g 이상 · 내 평소가(60일 중간값) 대비 · 두유·저단백은 카테고리에서 따로 봐요</p>
+    <p class="prot-sub">1병 단백질 ${PROT_MIN_PROTEIN_G}g 이상 · 인지도 순 · 내 평소가(60일 중간값) 대비 · 두유·저단백은 카테고리에서 따로 봐요</p>
     <div class="prot-chips" role="group" aria-label="판정으로 보기">${chips}</div>
     ${body}
-    <p class="prot-note">평소가 = 이 상품 가격 기록의 중간값 · −5% 이하 핫딜 · +3%까지 보통 · 그 위 비쌈 · 기록 ${PROT_MIN_DAYS}일 미만은 기록중 · 카드를 누르면 가격 추이</p>`;
+    <p class="prot-note">평소가 = 이 상품 가격 기록의 중간값 · −5% 이하 핫딜 · +3%까지 보통 · 그 위 비쌈 · 기록 ${PROT_MIN_DAYS}일 미만은 기록중 · 인지도 높은 브랜드부터 · 카드를 누르면 가격 추이</p>`;
 }
 
 /* 칩으로 판정 필터 · '전체 보기'는 카테고리 탭의 단백질 음료로 */
