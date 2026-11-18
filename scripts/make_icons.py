@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """띠니마트 홈 화면 아이콘을 만든다.
 
-민트색 배경 + 흰색 'ㅌ' 캐릭터(눈 두 개) 로고.
+민트색 배경 + 흰색 'ㄸ' 캐릭터(눈 두 개) 로고.
 - images/icon-192.png, icon-512.png          (any)
 - images/icon-maskable-512.png               (maskable, 안전 영역 안쪽에 축소 배치)
 - images/apple-touch-icon.png, apple-touch.png (180, 불투명)
@@ -42,7 +42,11 @@ def background(size: int, inset: float = 0.0) -> Image.Image:
 
 
 def draw_logo(size: int, scale: float = 1.0, radius_ratio: float = 0.0) -> Image.Image:
-    """민트 배경 위에 흰 'ㅌ' 캐릭터를 그린다. 4배로 그린 뒤 축소해 계단을 없앤다."""
+    """민트 배경 위에 흰 'ㄸ' 캐릭터를 그린다. 4배로 그린 뒤 축소해 계단을 없앤다.
+
+    가운데 가로획 없이 위·아래 가로획만 두고, 세로획 가운데를 살짝 비워
+    'ㄱ' 두 개를 포갠 ㄸ 모양으로 읽히게 한다. 눈은 위·아래 사이 빈칸에.
+    """
     ss = 4
     big = size * ss
     base = background(big).convert("RGBA")
@@ -58,31 +62,29 @@ def draw_logo(size: int, scale: float = 1.0, radius_ratio: float = 0.0) -> Image
     d = ImageDraw.Draw(overlay)
 
     # 로고 박스(중앙, scale 만큼 축소)
-    box = big * 0.78 * scale
+    box = big * 0.72 * scale
     left = (big - box) / 2
-    bar = box * 0.164          # 가로획 두께
-    gap = box * 0.134          # 획 사이 간격
+    bar = box * 0.174          # 가로획 두께
     right = left + box
     vright = left + bar        # 세로획 오른쪽
-    mid_right = left + box * 0.815
-    height = bar * 3 + gap * 2
+    height = box * 0.64        # 위획~아래획 전체 높이
     top = (big - height) / 2
+    midy = top + height / 2
     r = bar / 2
+    split = bar * 0.30         # 세로획 가운데 틈(ㄸ)
 
-    # 세로획
-    d.rounded_rectangle([left, top, vright, top + height], radius=r, fill=WHITE)
-    # 위·아래 가로획
+    # 위 'ㄱ'
+    d.rounded_rectangle([left, top, vright, midy - split / 2], radius=r, fill=WHITE)
     d.rounded_rectangle([left, top, right, top + bar], radius=r, fill=WHITE)
+    # 아래 'ㄴ'
     d.rounded_rectangle(
-        [left, top + height - bar, right, top + height], radius=r, fill=WHITE
+        [left, midy + split / 2, vright, top + height], radius=r, fill=WHITE
     )
-    # 가운데 가로획(살짝 짧게)
-    my = top + bar + gap
-    d.rounded_rectangle([left, my, mid_right, my + bar], radius=r, fill=WHITE)
+    d.rounded_rectangle([left, top + height - bar, right, top + height], radius=r, fill=WHITE)
 
-    # 눈 두 개: 위획과 가운데획 사이 빈칸
-    eye_y = top + bar + gap / 2
-    eye_r = gap * 0.30
+    # 눈 두 개: 위·아래 사이 빈칸 가운데
+    eye_y = midy
+    eye_r = bar * 0.32
     for cx in (left + box * 0.47, left + box * 0.76):
         d.ellipse([cx - eye_r, eye_y - eye_r, cx + eye_r, eye_y + eye_r], fill=MINT_DEEP)
         d.ellipse(
@@ -123,13 +125,13 @@ def main() -> int:
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#mint)"/>
   <g fill="#FFFFFF">
-    <rect x="16" y="18" width="7" height="28" rx="3.5"/>
-    <rect x="16" y="18" width="32" height="7" rx="3.5"/>
-    <rect x="16" y="39" width="32" height="7" rx="3.5"/>
-    <rect x="16" y="28.5" width="25" height="7" rx="3.5"/>
+    <rect x="16" y="17" width="7" height="14" rx="3.5"/>
+    <rect x="16" y="17" width="32" height="7" rx="3.5"/>
+    <rect x="16" y="33" width="7" height="14" rx="3.5"/>
+    <rect x="16" y="40" width="32" height="7" rx="3.5"/>
   </g>
-  <circle cx="33" cy="26" r="2.6" fill="#0A7458"/>
-  <circle cx="41.5" cy="26" r="2.6" fill="#0A7458"/>
+  <circle cx="33" cy="32" r="2.6" fill="#0A7458"/>
+  <circle cx="41.5" cy="32" r="2.6" fill="#0A7458"/>
 </svg>
 """,
         encoding="utf-8",

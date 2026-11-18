@@ -893,30 +893,30 @@
   },
   "meat-pork-gomgom-daepae-samgyeop-1kg-2": {
    "id": "meat-pork-gomgom-daepae-samgyeop-1kg-2",
-   "name": "곰곰 돌돌말이 대패삼겹살 (냉동), 1kg, 2개",
+   "name": "곰곰 돌돌말이 대패삼겹살 (냉동), 1kg, 1개",
    "platform": "coupang",
-   "cardPrice": 20370,
-   "cardPriceCheckedAt": "2026-11-17 14:20",
-   "cardListPrice": 33980,
+   "cardPrice": 9900,
+   "cardPriceCheckedAt": "2026-11-18 10:15",
+   "cardListPrice": 16990,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 20370,
-     "ts": "2026-11-17T14:20:00+09:00",
+     "date": "2026-11-18",
+     "price": 9900,
+     "ts": "2026-11-18T10:15:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
-    "min": 20370,
-    "minDate": "2026-11-17",
-    "max": 20370,
-    "maxDate": "2026-11-17",
-    "avg": 20370,
-    "latest": 20370,
-    "latestDate": "2026-11-17",
+    "min": 9900,
+    "minDate": "2026-11-18",
+    "max": 9900,
+    "maxDate": "2026-11-18",
+    "avg": 9900,
+    "latest": 9900,
+    "latestDate": "2026-11-18",
     "observations": 1,
     "days": 1
    }
@@ -1547,30 +1547,30 @@
   },
   "meat-chicken-sajowon-tenderloin-1kg-2": {
    "id": "meat-chicken-sajowon-tenderloin-1kg-2",
-   "name": "사조원 닭안심 (냉장), 1kg, 2개",
+   "name": "사조원 닭안심 (냉장), 1kg, 1개",
    "platform": "coupang",
-   "cardPrice": 13550,
-   "cardPriceCheckedAt": "2026-11-17 14:20",
+   "cardPrice": 7650,
+   "cardPriceCheckedAt": "2026-11-18 10:15",
    "cardListPrice": null,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 13550,
-     "ts": "2026-11-17T14:20:00+09:00",
+     "date": "2026-11-18",
+     "price": 7650,
+     "ts": "2026-11-18T10:15:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
-    "min": 13550,
-    "minDate": "2026-11-17",
-    "max": 13550,
-    "maxDate": "2026-11-17",
-    "avg": 13550,
-    "latest": 13550,
-    "latestDate": "2026-11-17",
+    "min": 7650,
+    "minDate": "2026-11-18",
+    "max": 7650,
+    "maxDate": "2026-11-18",
+    "avg": 7650,
+    "latest": 7650,
+    "latestDate": "2026-11-18",
     "observations": 1,
     "days": 1
    }
