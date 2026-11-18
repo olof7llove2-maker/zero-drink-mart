@@ -4,15 +4,15 @@
    GET  /api/clicks?top=20
         → { ok, total, top: [{ productId, platform, clicks }] } (많이 누른 순)
 
-   저장: Upstash Redis HINCRBY ttini:clicks:items "상품ID|플랫폼" 1
-                                   INCR    ttini:clicks:total
+   저장: Upstash Redis HINCRBY ttini:buyclick:v1:items "상품ID|플랫폼" 1
+                                   INCR    ttini:buyclick:v1:total
    개인정보는 받지도 저장하지도 않습니다 — IP·쿠키·브라우저 정보·시각(초 단위) 모두 남기지 않고,
    상품 ID와 플랫폼 이름, 누적 개수만 셉니다. 저장소가 없으면 ok:false 만 돌려줍니다. */
 
 const { storageConfigured, redisCommand, sendJson, readBody } = require("./_lib");
 
-const ITEMS_KEY = "ttini:clicks:items";
-const TOTAL_KEY = "ttini:clicks:total";
+const ITEMS_KEY = "ttini:buyclick:v1:items";
+const TOTAL_KEY = "ttini:buyclick:v1:total";
 const PLATFORMS = new Set(["coupang", "toss", "naver"]);
 const ID_RE = /^[A-Za-z0-9#._-]{1,80}$/;
 const MAX_BODY = 400;
