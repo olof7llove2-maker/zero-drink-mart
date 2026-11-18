@@ -1237,17 +1237,18 @@ body.modal-open { overflow: hidden; }
 
 /* 핫딜 카드 — 사진·가격·버튼 아래, 그 상품의 60일 최저·보통가 숫자 요약 (그래프 없이) */
 .pnum {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 7px;
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px;
 }
 .pnum-c {
+  flex: 1 1 88px; min-width: 0;
   display: flex; flex-direction: column; align-items: center; gap: 1px;
   padding: 4px 3px 5px; border: 1px solid var(--line-2); border-radius: 9px;
   background: linear-gradient(180deg, #fbfaf6, #f4f2ec);
 }
-.pnum-k { font-size: 9px; font-weight: 800; color: var(--muted-2); letter-spacing: -0.02em; }
+.pnum-k { font-size: 9px; font-weight: 800; color: var(--muted-2); letter-spacing: -0.02em; white-space: nowrap; }
 .pnum-v {
   font-size: 12.5px; font-weight: 900; color: var(--ink);
-  letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em; font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .pnum-v.is-low { color: var(--sage-text); }
 .pnum-few {
