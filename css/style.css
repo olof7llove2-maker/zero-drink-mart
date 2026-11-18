@@ -1367,9 +1367,10 @@ body.modal-open { overflow: hidden; }
 .spot { margin: 10px 0 0; }
 .spot[hidden] { display: none; }
 .spot-head {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center;
   gap: 8px; margin: 0 2px 9px;
 }
+.spot-title { flex: 1 1 auto; } /* 제목이 남는 폭을 차지해 힌트·종 버튼이 오른쪽에 붙습니다 */
 /* ── 제목 오른쪽 작은 🔔 종 버튼 (r38) ──────────────────
    아래 큰 알림 줄을 없애고 여기로 옮겼습니다. 누르면 알림 허브가 열립니다. */
 .spot-bell {
