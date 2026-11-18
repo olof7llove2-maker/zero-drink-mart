@@ -740,7 +740,7 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
 .legal-foot { margin-bottom: 8px; }
 .copy { margin-top: 12px; font-size: 10.5px; color: #a9a29a; }
 
-/* 푸터 잔잔한 BGM 1줄 컨트롤 (예전 헤더 🎧 BGM 버튼이 여기로) */
+/* 푸터 BGM 1줄 컨트롤 (예전 헤더 🎧 BGM 버튼이 여기로) — 신나는 업비트 3곡 */
 .foot-bgm { margin-top: 12px; }
 .bgm-btn {
   display: inline-flex; align-items: center; gap: 7px;
@@ -755,6 +755,11 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
 .bgm-btn:active { transform: scale(0.99); }
 .bgm-name { max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bgm-state { flex: none; font-size: 9px; font-weight: 900; letter-spacing: 0.02em; opacity: 0.72; }
+.bgm-credit {
+  display: block; margin-top: 5px;
+  font-size: 9px; font-weight: 650; letter-spacing: 0.01em;
+  color: var(--muted-2); opacity: 0.78;
+}
 .bgm-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; flex: none; }
 .bgm-eq i { display: block; width: 2.5px; height: 3px; border-radius: 2px; background: currentColor; opacity: 0.5; }
 .bgm-btn.is-on .bgm-eq i { opacity: 1; animation: bgm-eq 1.15s ease-in-out infinite; }

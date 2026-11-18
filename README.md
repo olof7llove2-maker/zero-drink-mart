@@ -30,12 +30,15 @@
   카드의 단백질·지방 줄 아래에 작은 한 줄로 보이고, 마우스를 올리면 `airfryerTipNote`(레스팅·주의사항까지 담은 원문)가 툴팁으로 나옵니다.
 - 구매 링크: 각 상품의 `affiliateUrl`만 사용합니다. 공유 버튼은 제휴 링크가 아니라 마트 주소를 공유합니다.
 - 홈 화면 아이콘: `python3 scripts/make_icons.py` (민트 배경 + 흰 'ㅌ' 캐릭터).
-- 배경음악(BGM, r28): **푸터의 1줄 컨트롤**(`#foot-bgm` — 곡 이름 + `ON/OFF`)로만 켜고 끕니다(`js/bgm.js`).
-  유튜브 임베드는 iOS에서 재생까지 2~3초 걸려 뺐고, 이제 `audio/lofi-bgm.mp3`(CC0, 105초 루프)만 씁니다.
-  **페이지 어디든 첫 터치(pointerdown·touchstart·keydown·click)에 자동으로 시작**합니다 — 브라우저 자동재생
-  정책상 사용자 제스처 안에서 `play()`를 걸어야 해서 첫 터치에 맞춥니다. 끈 기록(`localStorage ttini-bgm-off`)이
-  있으면 자동으로 켜지 않습니다. 볼륨은 0 → 0.16으로 2.6초에 걸쳐 올리고, iOS처럼 `audio.volume`이 듣지 않는
-  브라우저는 WebAudio 게인으로 맞춥니다. 음원 출처·라이선스는 `audio/README.md`에 있습니다.
+- 배경음악(BGM, r37): **푸터의 1줄 컨트롤**(`#foot-bgm` — 지금 곡 이름 + `ON/OFF`)로만 켜고 끕니다(`js/bgm.js`).
+  잔잔한 로파이 대신 **신나는 업비트** — Kevin MacLeod의 `electro-cabello`·`exit-the-premises`·`groove-grove`
+  (192kbps, 각 2분, 페이드 통일) 3곡을 열 때 무작위 첫 곡으로 시작해 곡이 끝나면 다른 곡으로 이어 틉니다.
+  한 `<audio>` 요소를 계속 쓰므로 iOS에서도 다음 곡 자동재생 권한이 유지됩니다. 세 곡 모두 **CC BY 4.0**이라
+  푸터 `.bgm-credit`에 `BGM: Kevin MacLeod (incompetech.com), CC BY 4.0`을 표기합니다.
+  **페이지 어디든 첫 터치(touchend·click·keydown)에 자동으로 시작**합니다 — 브라우저 자동재생
+  정책상 사용자 제스처 안에서 `play()`를 걸어야 해서 첫 터치에 맞춥니다(iOS 사파리는 touchend·click에서만 잠금이 풀립니다).
+  끈 기록(`localStorage ttini-bgm-off`)이 있으면 자동으로 켜지 않습니다. 볼륨은 0 → 0.28로 0.8초에 걸쳐 올리고,
+  iOS처럼 `audio.volume`이 듣지 않는 브라우저는 WebAudio 게인으로 맞춥니다. 음원 출처·라이선스는 `audio/README.md`에 있습니다.
 
 ## 화면 구조 (v3 · 2026-11-16 개편)
 

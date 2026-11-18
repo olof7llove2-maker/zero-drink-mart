@@ -1,16 +1,22 @@
 # BGM 음원 정보
 
-`lofi-bgm.mp3` — 띠니마트 푸터 1줄 컨트롤(`#foot-bgm`)로 켜고 끄는 잔잔한 배경음악.
-페이지 어디든 첫 터치에 자동으로 시작하고(끈 기록이 있으면 시작 안 함), 볼륨은 0.16으로 아주 조용합니다.
+띠니마트 푸터 1줄 컨트롤(`#foot-bgm`)로 켜고 끄는 **신나는 업비트 배경음악**.
+페이지 어디든 첫 터치에 자동으로 시작하고(끈 기록이 있으면 시작 안 함), 볼륨은 0.28입니다.
+r37(2026-11-18)부터 잔잔한 로파이 1곡 대신 아래 3곡을 **무작위 첫 곡 → 곡이 끝나면 다른 곡** 순으로 이어 틉니다.
+
+| 파일 | 곡 | 길이 | 음질 | 크기 |
+| --- | --- | --- | --- | --- |
+| `electro-cabello.mp3` | **Electro Cabello** — Kevin MacLeod | 120초 | MP3 192 kbps, 44.1 kHz 스테레오 | 2.75 MB |
+| `exit-the-premises.mp3` | **Exit the Premises** — Kevin MacLeod | 120초 | MP3 192 kbps, 44.1 kHz 스테레오 | 2.75 MB |
+| `groove-grove.mp3` | **Groove Grove** — Kevin MacLeod | 120초 | MP3 192 kbps, 44.1 kHz 스테레오 | 2.75 MB |
 
 | 항목 | 내용 |
 | --- | --- |
-| 원곡 | **A cup of tea** — TAD, *lofi Compilation* (2019-03-08) |
-| 출처 | https://opengameart.org/content/lofi-compilation |
-| 라이선스 | **CC0 1.0 (퍼블릭 도메인)** — 저작자 표시 불필요, 상업적 이용 가능 |
-| 길이 | 105초 (2초 이퀄파워 크로스페이드로 무한 루프용으로 편집) |
-| 음질 | MP3 128 kbps, 44.1 kHz 스테레오, 약 1.7 MB |
-| 가공 | 원곡 앞부분(0~107초)만 사용, 루프 이음매 2초 크로스페이드, RMS 약 -17 dB로 정규화, 피크 소프트리미팅 |
+| 출처 | https://incompetech.com (Kevin MacLeod) |
+| 라이선스 | **CC BY 4.0** — 상업적 이용 가능, **저작자 표시 필수** |
+| 표기 위치 | 푸터 `.bgm-credit` — `BGM: Kevin MacLeod (incompetech.com), CC BY 4.0` |
+| 가공 | 2분으로 편집, 앞뒤 페이드인/아웃, 세 곡 라우드니스 통일 |
 
-원음은 CC0라 저작자 표시 의무는 없지만, 출처를 남겨 두는 편이 안전합니다.
-음원을 바꿀 때는 이 표를 함께 갱신해 주세요.
+음원을 바꾸면 `js/bgm.js`의 `TRACKS` 목록과 이 표, 푸터 표기를 함께 갱신해 주세요.
+
+`lofi-bgm.mp3`(A cup of tea — TAD, CC0, 105초)는 r28~r36에 쓰던 예전 음원입니다. r37부터 재생하지 않으며 참고용으로만 남겨 둡니다.

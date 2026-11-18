@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset: 쓰는 글자 구간만 내려받아요(정적 웨이트 9종 ~3.5MB → 수백 KB) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261118r36">
+  <link rel="stylesheet" href="css/style.css?v=20261118r37">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -173,11 +173,12 @@
       <p class="legal-foot">이 콘텐츠는 토스쇼핑 쉐어링크 활동의 일환으로, 링크를 통한 구매가 발생하면 일정 수수료를 지급받습니다.</p>
       <p class="legal-foot">이 포스팅은 네이버 쇼핑 커넥트 활동의 일환으로, 수수료를 제공받습니다.</p>
       <div class="foot-bgm" id="foot-bgm">
-        <button type="button" class="bgm-btn" id="bgm-toggle" aria-pressed="false" aria-label="잔잔한 배경음악 켜기" title="잔잔한 배경음악">
+        <button type="button" class="bgm-btn" id="bgm-toggle" aria-pressed="false" aria-label="신나는 배경음악 켜기" title="신나는 배경음악">
           <span class="bgm-eq" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="bgm-name" id="bgm-name">잔잔한 로파이 · A Cup of Tea</span>
+          <span class="bgm-name" id="bgm-name">신나는 비트 · Electro Cabello</span>
           <span class="bgm-state" id="bgm-state">OFF</span>
         </button>
+        <span class="bgm-credit" id="bgm-credit">BGM: Kevin MacLeod (incompetech.com), CC BY 4.0</span>
       </div>
       <p class="foot-meta" id="update-band" aria-label="가격 업데이트 안내">
         <span class="update-ico" aria-hidden="true">🔄</span>
@@ -280,17 +281,18 @@
     </div>
   </div>
 
-  <!-- 잔잔한 배경음악 — 푸터의 1줄 컨트롤로만 켜고 끕니다. 첫 터치에 자동으로 시작 -->
-  <audio id="bgm-audio" src="audio/lofi-bgm.mp3" loop preload="auto" playsinline aria-hidden="true"></audio>
+  <!-- 신나는 배경음악 — 푸터의 1줄 컨트롤로만 켜고 끕니다. 첫 터치에 자동으로 시작하고,
+       곡이 끝나면 Kevin MacLeod 업비트 3곡을 번갈아 이어 틉니다(js/bgm.js). -->
+  <audio id="bgm-audio" src="audio/electro-cabello.mp3" preload="auto" playsinline aria-hidden="true"></audio>
 
-  <script src="js/price.js?v=20261118r36" defer></script>
-  <script src="js/products.js?v=20261118r36" defer></script>
-  <script src="js/views.js?v=20261118r36" defer></script>
-  <script src="js/grade.js?v=20261118r36" defer></script>
-  <script src="js/protein.js?v=20261118r36" defer></script>
-  <script src="js/smart.js?v=20261118r36" defer></script>
-  <script src="js/app.js?v=20261118r36" defer></script>
-  <script src="js/push.js?v=20261118r36" defer></script>
-  <script src="js/bgm.js?v=20261118r36" defer></script>
+  <script src="js/price.js?v=20261118r37" defer></script>
+  <script src="js/products.js?v=20261118r37" defer></script>
+  <script src="js/views.js?v=20261118r37" defer></script>
+  <script src="js/grade.js?v=20261118r37" defer></script>
+  <script src="js/protein.js?v=20261118r37" defer></script>
+  <script src="js/smart.js?v=20261118r37" defer></script>
+  <script src="js/app.js?v=20261118r37" defer></script>
+  <script src="js/push.js?v=20261118r37" defer></script>
+  <script src="js/bgm.js?v=20261118r37" defer></script>
 </body>
 </html>
