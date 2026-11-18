@@ -472,6 +472,26 @@ function altShopBlock(p) {
     </ul></div>`;
 }
 
+/* 모달 안에서도 바로 구매 — 카드와 같은 3색 버튼 규칙(buyHTML)을 그대로 쓴다.
+   쿠팡 레드 · 토스 블루 · 네이버 그린, 두 곳 이상이면 플랫폼명과 가격을 함께 적는다. */
+function modalBuyBlock(p) {
+  if (typeof buyHTML !== "function" || typeof buyOptions !== "function") return "";
+  const opts = buyOptions(p);
+  if (!opts.length) return "";
+  const view = typeof cheapView === "function" ? cheapView(p) : { price: p.price, platform: platformOf(p) };
+  const head = opts.length > 1
+    ? `${opts.length}곳 가격 비교${p.priceCheckedAt ? ` · ${escapeHtml(p.priceCheckedAt)} 확인` : ""}`
+    : escapeHtml(p.priceCheckedLabel || "");
+  return `<div class="pm-buy">
+    <p class="pm-buy-head">
+      <span class="pm-buy-k">지금 사러 가기</span>
+      <strong>${wonShort(view.price)}원</strong>
+      <em>${head}</em>
+    </p>
+    ${buyHTML(p)}
+  </div>`;
+}
+
 function priceModalHTML(p, entry) {
   const hasHistory = entry && entry.status === "history" && (entry.series || []).length > 1;
   const src = hasHistory
@@ -494,6 +514,7 @@ function priceModalHTML(p, entry) {
     ${positionBlock(p, entry)}
     ${categoryBlock(p)}
     ${verdictBlock(p, entry)}
+    ${modalBuyBlock(p)}
     ${typeof alertInlineHTML === "function" ? alertInlineHTML(p) : ""}
     <p class="pm-foot">
       ${
