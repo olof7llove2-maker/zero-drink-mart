@@ -534,7 +534,13 @@ function hubPicks(n) {
     .map((p) => ({ p, k: typeof spotHash === "function" ? spotHash(`${p.id}|${dayKey}|hub`) : 0 }))
     .sort((a, b) => b.k - a.k)
     .map((x) => x.p);
-  protOrder.slice(0, 2).forEach(add);
+  let protAdded = 0;
+  protOrder.forEach((p) => {
+    if (protAdded >= 2) return;
+    if (seen.has(p.id)) return;
+    add(p);
+    protAdded += 1;
+  });
 
   /* ④ 모자라면 가격 인하 → 오늘의 할인 → 단백질 인기 순으로 채웁니다 */
   deals.forEach((x) => add(x.p));
