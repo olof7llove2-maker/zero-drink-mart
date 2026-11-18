@@ -753,23 +753,219 @@ function isSpotlightOut(p) {
   );
 }
 
-/* 할인율 높은 순 Top 5 — 사진·구매링크가 있는 상품만, 링티 제외
-   쿠팡이 켜져 있으면 뉴욕웨이를 1번 카드로 고정(토스만 켠 경우엔 할인 순 그대로) */
-function spotlightPicks(n) {
-  const limit = n || 5;
-  const pool = collapseVariants((state.data.products || []).filter(matchesSource)).filter(
-    (p) =>
-      !isSpotlightOut(p) &&
-      p.image &&
-      p.affiliateUrl &&
-      typeof p.price === "number" &&
-      typeof p.discountPct === "number" &&
-      p.discountPct > 0
+/* 아는 브랜드 — 재영 님(2026-11-18): "인지도 있거나 남자가 봤을 때 헉 하는 제품들 순으로"
+   HERO는 운동하는 사람이 바로 알아보는 단백질 주력, KNOWN은 그 밖의 대표 브랜드·부위입니다. */
+const SPOT_HERO_BRANDS = ["더단백", "테이크핏", "셀렉스", "뉴욕웨이", "신타", "옵티멈", "칼로바이"];
+const SPOT_KNOWN_BRANDS = SPOT_HERO_BRANDS.concat([
+  "하이뮨", "닥터유", "마이프로틴", "잇더핏", "플라이밀", "밀잇", "곰곰", "햇반", "스팸", "비비고", "오뚜기", "동원",
+  "하림", "풀토래", "한돈", "미트팜", "대패킹", "도드람", "더바른닭", "한강식품", "목우촌", "다향", "사조원", "케이원푸드",
+  "매일두유", "뉴케어", "아몬드브리즈", "연세두유", "베지밀", "미트리", "부채살", "삼겹살", "닭가슴살", "펩시",
+]);
+
+/* 레일 구성 — 단백질 위주: 단백질 음료·쉐이크 3 + 식단 고기 2 + 간편식 1
+   window는 '매일 섞을 상위 후보 수'입니다. 창 안에서만 섞어 품질을 지킵니다. */
+const SPOT_GROUPS = [
+  { id: "protein", parts: ["protein", "shake"], quota: 3, window: 7 },
+  { id: "meat", parts: ["meat"], quota: 2, window: 5 },
+  { id: "meal", parts: ["cheat"], quota: 1, window: 4 },
+];
+const SPOT_MEAL_CATS = ["rice", "can", "meal", "jeyuk", "snack", "ready", "bakery", "egg"];
+
+/* KST 오늘 날짜 — 로테이션 시드 (YYYY-MM-DD) */
+function spotDayKey(date) {
+  const d = date || new Date();
+  try {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(d);
+  } catch (err) {
+    const t = new Date(d.getTime() + 9 * 3600 * 1000);
+    return t.toISOString().slice(0, 10);
+  }
+}
+
+/* 날짜+상품ID 해시 → 0~1. 하루 동안은 값이 같고 날짜가 바뀌면 달라집니다. */
+function spotHash(key) {
+  const s = String(key);
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i += 1) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h / 4294967295;
+}
+
+function spotDayGap(fromKey, toKey) {
+  const a = Date.parse(`${fromKey}T00:00:00+09:00`);
+  const b = Date.parse(`${toKey}T00:00:00+09:00`);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
+  return Math.round((b - a) / 86400000);
+}
+
+/* 인지도 0~1 — popularScore + 아는 브랜드 + 리뷰 수 */
+function spotAwareness(p) {
+  const score = typeof p.popularScore === "number" ? p.popularScore : 40;
+  let v = Math.max(0, Math.min(1, (score - 40) / 62)) * 0.55;
+  const text = `${p.brand || ""} ${p.name || ""}`;
+  if (SPOT_HERO_BRANDS.some((k) => text.includes(k))) v += 0.45;
+  else if (SPOT_KNOWN_BRANDS.some((k) => text.includes(k))) v += 0.3;
+  const reviews = Number(p.reviewCount);
+  if (Number.isFinite(reviews) && reviews > 0) v += Math.min(1, Math.log10(reviews + 1) / 5) * 0.15;
+  return Math.max(0, Math.min(1, v));
+}
+
+/* 최근 관측 가격 인하 — 하루 단위 관측 기록의 마지막 두 점 비교
+   40% 넘는 급락은 옵션·묶음 구성이 바뀐 값일 수 있어 '인하'로 세지 않습니다. */
+function spotDropOf(p, dayKey) {
+  const series = dailySeries(p);
+  if (series.length < 2 || typeof p.price !== "number") return null;
+  const last = series[series.length - 1];
+  const prev = series[series.length - 2];
+  if (!(last.price < prev.price)) return null;
+  const pct = ((prev.price - last.price) / prev.price) * 100;
+  if (pct < 1.5 || pct > 40) return null;
+  const days = spotDayGap(String(last.date).slice(0, 10), dayKey);
+  if (days == null || days < 0 || days > 6) return null;
+  return { days, pct: Math.round(pct * 10) / 10, date: last.date };
+}
+
+/* 상품 하나의 오늘 점수 — 인지도·카테고리·실제 가격 메리트·신선도 */
+function spotMerit(p, dayKey) {
+  if (isSpotlightOut(p)) return null;
+  if (!String(p.brand || "").trim()) return null; /* 이름 없는 상품은 '인지도'가 없어 뺍니다 */
+  if (!p.image || !p.affiliateUrl || typeof p.price !== "number") return null;
+  const aware = spotAwareness(p);
+  if (aware < 0.5) return null; /* 웬만큼 알려진 상품만 후보 */
+  const low = lowStats(p);
+  const drop = spotDropOf(p, dayKey);
+  const disc = Math.max(0, Math.min(1, (Number(p.discountPct) || 0) / 60));
+  if (!disc && !drop && low.state !== "low" && low.state !== "near") return null;
+  const lowV = low.state === "low" ? 1 : low.state === "near" ? 0.55 : low.state === "above" ? 0.12 : 0.2;
+  const fresh = drop ? (drop.days <= 0 ? 1 : drop.days <= 2 ? 0.8 : 0.6) : 0;
+  const since = discountSince(p);
+  const age = since ? (since.days <= 3 ? 1 : since.days <= 10 ? 0.6 : 0.3) : 0.3;
+  const judge = typeof judgeOf === "function" ? judgeOf(p) : null;
+  const good = judge && judge.tier ? (judge.tier.id === "good" ? 1 : judge.tier.id === "mid" ? 0.5 : 0.15) : 0.4;
+  let wow = 0;
+  if (p.part === "shake") wow += 0.04; /* 웨이 파우더 큰 통 */
+  const g = proteinValue(p);
+  if (g != null && g >= 20) wow += 0.04; /* 한 병 단백질 20g 이상 */
+  if (/부채살|삼겹|닭가슴살|안심|등심|스테이크/.test(String(p.name || ""))) wow += 0.03;
+  const lowBonus = 0.18 * (low.state === "low" || low.state === "near" ? 1 : 0.5);
+  return (
+    0.28 * aware + 0.16 * disc + 0.12 * lowV + 0.08 * good + 0.1 * fresh + 0.06 * age + lowBonus + wow
   );
-  pool.sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0));
-  const pinned = state.sources.coupang ? pool.find((p) => p.id === HOME_PIN_ID) : null;
-  if (pinned) return [pinned].concat(pool.filter((p) => p.id !== pinned.id)).slice(0, limit);
-  return pool.slice(0, limit);
+}
+
+/* 상품 → 레일 그룹 (단백질 / 식단 고기 / 간편식). 음료·조리기구·소스는 뺍니다. */
+function spotGroupOf(p) {
+  const part = p.part || "zero";
+  if (part === "protein" || part === "shake") return "protein";
+  if (part === "meat") {
+    if (p.category === "egg" || p.category === "gadget") return null;
+    return "meat";
+  }
+  if (part === "cheat") return SPOT_MEAL_CATS.indexOf(p.category) >= 0 ? "meal" : null;
+  return null;
+}
+
+function spotBrandKey(p) {
+  return String(p.brand || "").trim() || String(p.name || "").slice(0, 8);
+}
+
+/* 한 그룹의 오늘 후보 — 점수 높은 순 */
+function spotRanked(dayKey, groupId) {
+  const rows = [];
+  (state.data.products || []).forEach((p) => {
+    if (typeof matchesSource === "function" && !matchesSource(p)) return;
+    if (spotGroupOf(p) !== groupId) return;
+    const m = spotMerit(p, dayKey);
+    if (m == null) return;
+    rows.push({ p, m });
+  });
+  rows.sort((a, b) => b.m - a.m || String(a.p.id).localeCompare(String(b.p.id)));
+  return rows;
+}
+
+/* 오늘의 6개 — 그룹 쿼터(단백질 3·고기 2·간편식 1) 안에서 날짜 시드로 매일 새로 고릅니다.
+   상위 후보 창 안에서만 섞기 때문에 엉뚱한 마이너 상품이 1번에 오지 않습니다. */
+function spotlightPicks(n) {
+  const limit = n || 6;
+  const dayKey = spotDayKey();
+  const chosen = [];
+  SPOT_GROUPS.forEach((group) => {
+    const ranked = spotRanked(dayKey, group.id);
+    if (!ranked.length) return;
+    const window = ranked.slice(0, group.window);
+    const rotated = window
+      .map((row) => ({ row, k: spotHash(`${row.p.id}|${dayKey}|${group.id}`) }))
+      .sort((a, b) => b.k - a.k)
+      .map((x) => x.row);
+    let got = 0;
+    rotated.forEach((row) => {
+      if (got >= group.quota || chosen.length >= limit) return;
+      if (chosen.some((c) => spotBrandKey(c.p) === spotBrandKey(row.p))) return; /* 같은 브랜드는 하루 한 번 */
+      chosen.push(row);
+      got += 1;
+    });
+    if (got < group.quota) {
+      ranked.forEach((row) => {
+        if (got >= group.quota || chosen.length >= limit) return;
+        if (chosen.some((c) => c.p.id === row.p.id || spotBrandKey(c.p) === spotBrandKey(row.p))) return;
+        chosen.push(row);
+        got += 1;
+      });
+    }
+  });
+  if (chosen.length < limit) {
+    const rest = [];
+    SPOT_GROUPS.forEach((g) => {
+      spotRanked(dayKey, g.id).forEach((row) => {
+        if (chosen.some((c) => c.p.id === row.p.id)) return;
+        rest.push(row);
+      });
+    });
+    rest.sort((a, b) => b.m - a.m);
+    rest.forEach((row) => {
+      if (chosen.length >= limit) return;
+      if (chosen.some((c) => spotBrandKey(c.p) === spotBrandKey(row.p))) return;
+      chosen.push(row);
+    });
+  }
+  /* 보이는 순서 — 오늘 시드로 조금씩 섞고, 첫 카드는 단백질 쪽에서 고릅니다 */
+  const shown = chosen
+    .map((row) => ({ ...row, d: row.m * (0.86 + 0.28 * spotHash(`${row.p.id}|${dayKey}|order`)) }))
+    .sort((a, b) => b.d - a.d);
+  const first = shown.find((row) => spotGroupOf(row.p) === "protein");
+  if (first) return [first.p].concat(shown.filter((row) => row !== first).map((row) => row.p)).slice(0, limit);
+  return shown.map((row) => row.p).slice(0, limit);
+}
+
+/* 카드 상태 태그 — 실제 데이터가 있을 때만 붙입니다 */
+function spotTagOf(p, dayKey) {
+  const drop = spotDropOf(p, dayKey);
+  const low = lowStats(p);
+  if (drop && drop.days <= 0) return { text: "오늘 가격↓", cls: "is-fresh" };
+  if (low.state === "low") return { text: "60일 관측 최저", cls: "is-low" };
+  if (drop) return { text: drop.days <= 2 ? "최근 가격↓" : "이번 주 가격↓", cls: "is-fresh" };
+  if (low.state === "near") return { text: "관측 최저 근처", cls: "is-low" };
+  const disc = Number(p.discountPct) || 0;
+  const score = typeof p.popularScore === "number" ? p.popularScore : 0;
+  const g = proteinValue(p);
+  if (p.part === "protein" && g != null && g >= 20) return { text: `고단백 ${g}g`, cls: "is-prot" };
+  if (p.part === "protein" || p.part === "shake") {
+    if (p.part === "shake" && score >= 85) return { text: "단백질 인기", cls: "is-prot" };
+    if (disc >= 50) return { text: "반값 특가", cls: "is-good" };
+    return { text: "단백질 인기", cls: "is-prot" };
+  }
+  if (disc >= 50) return { text: "반값 특가", cls: "is-good" };
+  if (disc >= 40) return { text: "핫딜", cls: "is-good" };
+  const judge = typeof judgeOf === "function" ? judgeOf(p) : null;
+  if (judge && judge.tier && judge.tier.id === "good") return { text: "지금 사기 좋은 가격", cls: "is-good" };
+  return { text: "오늘의 특가", cls: "is-prot" };
 }
 
 function spotUnitText(p) {
@@ -781,6 +977,8 @@ function spotUnitText(p) {
 function spotCardHTML(p) {
   const view = cheapView(p);
   const srcKey = view.platform || platformOf(p);
+  const tag = spotTagOf(p, spotDayKey());
+  const off = typeof p.discountPct === "number" && p.discountPct > 0 ? `-${p.discountPct}%` : "특가";
   const was =
     p.listPrice && p.listPrice > view.price
       ? `<s class="spot-was">${won(p.listPrice)}</s>`
@@ -810,10 +1008,10 @@ function spotCardHTML(p) {
     )} 가격 추이 보기">
       <span class="spot-photo">
         <img src="${escapeHtml(p.image)}" alt="" width="72" height="72" loading="lazy" decoding="async">
-        <span class="spot-off">-${p.discountPct}%</span>
+        <span class="spot-off">${off}</span>
       </span>
       <div class="spot-body">
-        <p class="spot-meta"><span class="spot-brand">${escapeHtml(
+        <p class="spot-meta"><span class="spot-tag ${tag.cls}">${escapeHtml(tag.text)}</span><span class="spot-brand">${escapeHtml(
           p.brand || categoryLabel(p.category)
         )}</span><span class="spot-src src-${srcKey}">${PLATFORMS[srcKey].label}</span></p>
         <h3 class="spot-name">${escapeHtml(p.name)}</h3>
@@ -828,7 +1026,7 @@ function spotCardHTML(p) {
 function renderSpotlight() {
   const box = $("home-spot");
   if (!box) return;
-  const picks = spotlightPicks(5);
+  const picks = spotlightPicks(6);
   if (!picks.length) {
     box.innerHTML = "";
     box.hidden = true;
@@ -837,7 +1035,7 @@ function renderSpotlight() {
   box.hidden = false;
   box.innerHTML = `<div class="spot-head">
       <h2 class="spot-title">🔥 오늘의 역대급 할인</h2>
-      <span class="spot-hint">좌우로 넘기기 →</span>
+      <span class="spot-hint">매일 새로 골라요 · 넘기기 →</span>
     </div>
     <div class="spot-rail">${picks.map(spotCardHTML).join("")}</div>`;
 }

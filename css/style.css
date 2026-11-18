@@ -1415,9 +1415,20 @@ body.modal-open { overflow: hidden; }
   color: rgba(255, 255, 255, 0.72); line-height: 1.2;
 }
 .spot-brand {
-  min-width: 0; max-width: 96px;
+  min-width: 0; max-width: 76px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+/* 오늘의 상태 태그 — 실제 데이터(가격 인하·관측 최저·판정)에서만 붙습니다 */
+.spot-tag {
+  flex: none;
+  font-size: 9px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.2;
+  border-radius: 999px; padding: 1px 5px 2px;
+  white-space: nowrap;
+}
+.spot-tag.is-fresh { color: #ffd3cd; background: rgba(224, 35, 31, 0.42); }
+.spot-tag.is-low { color: #b8f5d6; background: rgba(31, 138, 95, 0.42); }
+.spot-tag.is-good { color: #ffe3a8; background: rgba(214, 158, 46, 0.36); }
+.spot-tag.is-prot { color: #c9dcff; background: rgba(64, 118, 215, 0.36); }
 .spot-src {
   flex: none;
   font-size: 9.5px; font-weight: 900; letter-spacing: 0.01em;

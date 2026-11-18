@@ -501,7 +501,7 @@ function releaseModalLock() {
 /* ── 🔔 알림 허브 (상단 알림 버튼) ──────────────────────── */
 
 function alertHubHTML() {
-  const picks = typeof spotlightPicks === "function" ? spotlightPicks(6) : [];
+  const picks = typeof hubPicks === "function" ? hubPicks(6) : typeof spotlightPicks === "function" ? spotlightPicks(6) : [];
   const on = typeof pushState !== "undefined" && pushState.alerts ? pushState.alerts : {};
   /* 상품 알림만 목록에 올립니다(__hotdeal_all__ 은 맨 위 전용 카드가 따로 그립니다) */
   const ids = Object.keys(on).filter((id) => id !== HUB_HOT_ID);

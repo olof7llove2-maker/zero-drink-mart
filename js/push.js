@@ -484,3 +484,61 @@ function initPushUI() {
     if (e.key === "Escape") closeAlert();
   });
 }
+
+/* ── 알림 허브 '지금 많이 보는 상품' ───────────────────
+   고정 배열 대신 오늘의 역대급 할인 · 실제 가격 인하/저점 · 단백질 인기 상품에서
+   KST 날짜 시드로 6개를 골라 매일 바뀌게 합니다 (재영 님 2026-11-18 지시). */
+function hubPicks(n) {
+  const limit = n || 6;
+  const dayKey = typeof spotDayKey === "function" ? spotDayKey() : "";
+  const out = [];
+  const seen = new Set();
+  const usable = (p) =>
+    p && p.image && p.affiliateUrl && typeof p.price === "number" &&
+    (typeof matchesSource !== "function" || matchesSource(p));
+  const add = (p) => {
+    if (!usable(p) || out.length >= limit || seen.has(p.id)) return;
+    seen.add(p.id);
+    out.push(p);
+  };
+
+  /* ① 오늘의 역대급 할인 앞쪽 3개 */
+  const spot = typeof spotlightPicks === "function" ? spotlightPicks(limit) : [];
+  spot.slice(0, 3).forEach(add);
+
+  /* ② 실제로 가격이 내렸거나 60일 저점에 붙은 상품 */
+  const deals = (state.data.products || [])
+    .filter(usable)
+    .map((p) => {
+      const drop = typeof spotDropOf === "function" ? spotDropOf(p, dayKey) : null;
+      const low = typeof lowStats === "function" ? lowStats(p) : { state: "none" };
+      let score = 0;
+      if (drop) score = 2 + Math.min(drop.pct, 30) / 30 + (drop.days <= 0 ? 1 : 0);
+      else if (low.state === "low") score = 1.4;
+      else if (low.state === "near") score = 0.8;
+      return { p, score };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score || (b.p.popularScore || 0) - (a.p.popularScore || 0));
+  deals.slice(0, 2).forEach((x) => add(x.p));
+
+  /* ③ 단백질 인기 — 상위 10개 중 오늘 시드로 하나 */
+  const prot = (state.data.products || [])
+    .filter((p) => usable(p) && (p.part === "protein" || p.part === "shake"))
+    .sort(
+      (a, b) =>
+        (b.popularScore || 0) - (a.popularScore || 0) || (b.reviewCount || 0) - (a.reviewCount || 0)
+    )
+    .slice(0, 10);
+  if (prot.length) {
+    const pick = prot
+      .map((p) => ({ p, k: typeof spotHash === "function" ? spotHash(`${p.id}|${dayKey}|hub`) : 0 }))
+      .sort((a, b) => b.k - a.k)[0];
+    add(pick.p);
+  }
+
+  /* ④ 모자라면 오늘의 할인 → 단백질 인기 순으로 채웁니다 */
+  spot.forEach(add);
+  prot.forEach(add);
+  return out.slice(0, limit);
+}
