@@ -565,8 +565,8 @@
    "id": "toss-pepsi-jero-syugeo-pichihyang-500ml-18gae",
    "name": "펩시 제로슈거 피치향, 500ml, 18개",
    "platform": "toss",
-   "cardPrice": 9900,
-   "cardPriceCheckedAt": "2026-11-17 14:00",
+   "cardPrice": 11000,
+   "cardPriceCheckedAt": "2026-11-18 13:40",
    "cardListPrice": 28300,
    "source": "mart",
    "status": "tracking-started",
@@ -577,18 +577,24 @@
      "price": 9900,
      "ts": "2026-11-17T14:00:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 11000,
+     "ts": "2026-11-18T13:40:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 9900,
     "minDate": "2026-11-17",
-    "max": 9900,
-    "maxDate": "2026-11-17",
-    "avg": 9900,
-    "latest": 9900,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
+    "max": 11000,
+    "maxDate": "2026-11-18",
+    "avg": 10450,
+    "latest": 11000,
+    "latestDate": "2026-11-18",
+    "observations": 2,
+    "days": 2
    }
   },
   "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg": {
@@ -655,8 +661,8 @@
    "id": "toss-chefchoice-jeyuk-2kg",
    "name": "셰프초이스 제육 불고기, 2kg, 1개",
    "platform": "toss",
-   "cardPrice": 14600,
-   "cardPriceCheckedAt": "2026-11-17 12:30",
+   "cardPrice": 17500,
+   "cardPriceCheckedAt": "2026-11-18 13:40",
    "cardListPrice": 26545,
    "source": "mart",
    "status": "tracking-started",
@@ -667,18 +673,24 @@
      "price": 14600,
      "ts": "2026-11-17T12:30:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 17500,
+     "ts": "2026-11-18T13:40:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 14600,
     "minDate": "2026-11-17",
-    "max": 14600,
-    "maxDate": "2026-11-17",
-    "avg": 14600,
-    "latest": 14600,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
+    "max": 17500,
+    "maxDate": "2026-11-18",
+    "avg": 16050,
+    "latest": 17500,
+    "latestDate": "2026-11-18",
+    "observations": 2,
+    "days": 2
    }
   },
   "shake-dymatize-iso100-gourmet-chocolate-2-3kg": {
@@ -12391,9 +12403,9 @@
    "id": "toss-haedambyeol-jeju-heukdwaeji-wang-gui-1-2kg-2",
    "name": "해담별 제주 흑돼지 왕구이, 1.2kg, 2개",
    "platform": "toss",
-   "cardPrice": 13900,
-   "cardPriceCheckedAt": "2026-11-17 12:52",
-   "cardListPrice": 15900,
+   "cardPrice": 15900,
+   "cardPriceCheckedAt": "2026-11-18 13:40",
+   "cardListPrice": null,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
@@ -12403,18 +12415,24 @@
      "price": 13900,
      "ts": "2026-11-17T12:52:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 15900,
+     "ts": "2026-11-18T13:40:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 13900,
     "minDate": "2026-11-17",
-    "max": 13900,
-    "maxDate": "2026-11-17",
-    "avg": 13900,
-    "latest": 13900,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
+    "max": 15900,
+    "maxDate": "2026-11-18",
+    "avg": 14900,
+    "latest": 15900,
+    "latestDate": "2026-11-18",
+    "observations": 2,
+    "days": 2
    }
   },
   "protein-otmond-choco-250ml-36": {
@@ -13487,8 +13505,8 @@
    "id": "toss-tteutdak-roast-chicken-1kg-2",
    "name": "떴닭 로스트 치킨, 1kg, 2개",
    "platform": "toss",
-   "cardPrice": 12920,
-   "cardPriceCheckedAt": "2026-11-17 15:21",
+   "cardPrice": 14100,
+   "cardPriceCheckedAt": "2026-11-18 13:40",
    "cardListPrice": null,
    "source": "mart",
    "status": "tracking-started",
@@ -13499,18 +13517,24 @@
      "price": 12920,
      "ts": "2026-11-17T15:21:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 14100,
+     "ts": "2026-11-18T13:40:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 12920,
     "minDate": "2026-11-17",
-    "max": 12920,
-    "maxDate": "2026-11-17",
-    "avg": 12920,
-    "latest": 12920,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
+    "max": 14100,
+    "maxDate": "2026-11-18",
+    "avg": 13510,
+    "latest": 14100,
+    "latestDate": "2026-11-18",
+    "observations": 2,
+    "days": 2
    }
   },
   "meat-lamb-gome-shoulderrack-400g": {
