@@ -21,12 +21,14 @@
     f.addEventListener("load", function () {
       var w = f.contentWindow;
       var tries = 0;
+      var moves = 0;
       (function move() {
         try {
           var d = f.contentDocument;
           var el = d.getElementById(to);
           if (el && el.offsetHeight > 60) {
-            w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - 8);
+            w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - 70);
+            if (moves++ < 3) setTimeout(move, 700);
             return;
           }
         } catch (e) {}
