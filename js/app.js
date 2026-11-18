@@ -1241,22 +1241,30 @@ function renderSpotlight() {
   if (!box) return;
   const picks = spotCatPicks(spotCat, 6);
   const cat = SPOT_CATS.find((c) => c.id === spotCat) || SPOT_CATS[0];
-  if (!picks.length && cat.id === "all") {
-    box.innerHTML = "";
-    box.hidden = true;
-    return;
-  }
   box.hidden = false;
   const hint = cat.id === "all" ? "매일 새로 골라요 · 넘기기 →" : `${cat.label} 오늘 추천 · 넘기기 →`;
   const rail = picks.length
     ? `<div class="spot-rail">${picks.map(spotCardHTML).join("")}</div>`
-    : `<p class="spot-empty">이 칩은 오늘 추천할 상품이 없어요. 다른 칩을 눌러 보세요.</p>`;
+    : `<p class="spot-empty">${
+        cat.id === "all" ? "오늘은 추천할 상품이 없어요." : "이 칩은 오늘 추천할 상품이 없어요. 다른 칩을 눌러 보세요."
+      }</p>`;
+  /* r38 — 제목 오른쪽 작은 종 버튼: 누르면 기존 알림 허브(전체 초특가 + 상품별 목표가)가 열립니다.
+     id를 #alert-cta로 그대로 두어 js/smart.js의 열기·상태 갱신이 그대로 붙습니다. */
   box.innerHTML = `<div class="spot-head">
       <h2 class="spot-title">🔥 오늘의 역대급 할인</h2>
       <span class="spot-hint">${escapeHtml(hint)}</span>
+      <button type="button" class="spot-bell" id="alert-cta" aria-haspopup="dialog" aria-label="가격 내리면 알림 받기" title="가격 알림 설정">
+        <svg class="spot-bell-ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path class="bell-body" d="M12 3.4a5.3 5.3 0 0 0-5.3 5.3c0 4.1-1.2 5.4-1.8 6.1-.2.2 0 .6.3.6h13.6c.3 0 .5-.4.3-.6-.6-.7-1.8-2-1.8-6.1A5.3 5.3 0 0 0 12 3.4Z"></path>
+          <path d="M9.8 18.2a2.2 2.2 0 0 0 4.4 0"></path>
+        </svg>
+        <span class="smart-btn-lab">알림</span>
+        <span class="spot-bell-n" aria-hidden="true" hidden></span>
+      </button>
     </div>
     <div class="spot-chips" role="group" aria-label="카테고리별 추천">${SPOT_CATS.map(spotChipHTML).join("")}</div>
     ${rail}`;
+  if (typeof refreshAlertCTA === "function") refreshAlertCTA(); /* 다시 그려도 알림 상태 유지 */
 }
 
 /* 칩은 아래 카드 레일만 바꿉니다(페이지 전체 필터 아님) */

@@ -342,9 +342,23 @@ function refreshAlertCTA() {
   if (!btn) return;
   const n = alertCount();
   const hot = hubHotOn();
+  const on = n > 0 || hot;
+  /* r38 — 역대급 할인 제목 옆 작은 종 버튼은 숫자 배지만 쓰고, 라벨은 짧게 */
+  const isBell = btn.classList.contains("spot-bell");
   const lab = btn.querySelector(".smart-btn-lab");
-  btn.classList.toggle("is-on", n > 0 || hot);
-  if (lab) lab.textContent = n > 0 ? (hot ? `알림 ${n}개 + 초특가` : `알림 ${n}개 켜짐`) : hot ? "초특가 알림 켜짐" : "가격 내리면 알림";
+  const num = btn.querySelector(".spot-bell-n");
+  btn.classList.toggle("is-on", on);
+  if (isBell) {
+    if (lab) lab.textContent = on ? "알림 켜짐" : "알림";
+    if (num) {
+      num.hidden = !on;
+      num.textContent = n > 0 ? String(n) : "";
+      num.classList.toggle("is-dot", n === 0); /* 초특가 알림만 켰을 때는 점 하나 */
+    }
+  } else {
+    btn.setAttribute("aria-pressed", String(on));
+    if (lab) lab.textContent = n > 0 ? (hot ? `알림 ${n}개 + 초특가` : `알림 ${n}개 켜짐`) : hot ? "초특가 알림 켜짐" : "가격 내리면 알림";
+  }
   btn.setAttribute(
     "aria-label",
     n > 0 || hot ? `알림 켜짐${hot ? " · 새 초특가 포함" : ""} · 알림 관리` : "가격 내리면 알림 받기"

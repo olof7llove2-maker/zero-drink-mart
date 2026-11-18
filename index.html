@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset: 쓰는 글자 구간만 내려받아요(정적 웨이트 9종 ~3.5MB → 수백 KB) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261118r37">
+  <link rel="stylesheet" href="css/style.css?v=20261118r38">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -71,12 +71,9 @@
   <main id="main">
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
+      <!-- 오늘의 역대급 할인 — 제목 오른쪽 작은 🔔 종 버튼이 알림 허브를 엽니다(js/app.js).
+           r38: 아래에 있던 큰 '가격 내리면 알림' 줄(alert-row)은 없앴습니다. -->
       <section class="spot" id="home-spot" aria-label="오늘의 역대급 할인"></section>
-      <div class="alert-row">
-        <button type="button" class="qbtn qbtn-alert" id="alert-cta" aria-pressed="false">
-          <span class="qbtn-ico" aria-hidden="true">🔔</span><span class="smart-btn-lab">가격 내리면 알림</span>
-        </button>
-      </div>
       <section class="prot" id="home-protein" aria-label="단백질 음료 지금 사도 될까"></section>
       <div class="panel" data-controls="home"></div>
       <div class="shelf" id="home-list"></div>
@@ -285,14 +282,14 @@
        곡이 끝나면 Kevin MacLeod 업비트 3곡을 번갈아 이어 틉니다(js/bgm.js). -->
   <audio id="bgm-audio" src="audio/electro-cabello.mp3" preload="auto" playsinline aria-hidden="true"></audio>
 
-  <script src="js/price.js?v=20261118r37" defer></script>
-  <script src="js/products.js?v=20261118r37" defer></script>
-  <script src="js/views.js?v=20261118r37" defer></script>
-  <script src="js/grade.js?v=20261118r37" defer></script>
-  <script src="js/protein.js?v=20261118r37" defer></script>
-  <script src="js/smart.js?v=20261118r37" defer></script>
-  <script src="js/app.js?v=20261118r37" defer></script>
-  <script src="js/push.js?v=20261118r37" defer></script>
-  <script src="js/bgm.js?v=20261118r37" defer></script>
+  <script src="js/price.js?v=20261118r38" defer></script>
+  <script src="js/products.js?v=20261118r38" defer></script>
+  <script src="js/views.js?v=20261118r38" defer></script>
+  <script src="js/grade.js?v=20261118r38" defer></script>
+  <script src="js/protein.js?v=20261118r38" defer></script>
+  <script src="js/smart.js?v=20261118r38" defer></script>
+  <script src="js/app.js?v=20261118r38" defer></script>
+  <script src="js/push.js?v=20261118r38" defer></script>
+  <script src="js/bgm.js?v=20261118r38" defer></script>
 </body>
 </html>
