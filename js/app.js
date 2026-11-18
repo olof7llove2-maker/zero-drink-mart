@@ -1692,8 +1692,8 @@ function isStandalone() {
   }
 }
 function hideShortcutBanners() {
+  /* 이미 홈 화면 앱으로 열렸으면 헤더의 '홈 화면 추가' 버튼은 숨깁니다. */
   document.querySelectorAll("[data-shortcut]").forEach((btn) => (btn.hidden = true));
-  document.querySelectorAll(".quick-row").forEach((row) => row.classList.add("is-solo"));
 }
 function deviceEnv() {
   const ua = navigator.userAgent || "";
