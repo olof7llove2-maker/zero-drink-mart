@@ -2,10 +2,13 @@
    재영 님(2026-11-18): "헤더 BGM 버튼 빼고 푸터로, 잔잔한 음악이 첫 터치에 바로"
    - 유튜브 임베드를 떼고 audio/lofi-bgm.mp3(CC0, 105초 루프) 하나만 씁니다.
        · 유튜브 iframe은 iOS에서 화면에 띄워야만 재생되고, 뜨기까지 2~3초 걸려 "바로 안 나오는" 원인이었습니다.
-   - 페이지 어디든 첫 터치(pointerdown·touchstart·keydown·click)에 자동으로 시작합니다.
+   - 페이지 어디든 첫 터치(touchend·click·keydown)에 자동으로 시작합니다.
        · 브라우저 자동재생 정책상 '사용자 제스처 안에서 play()'가 조건이라, 첫 터치에 맞춰 겁니다.
+       · iOS 사파리는 touchstart·pointerdown 에서는 오디오/AudioContext 잠금을 풀지 않고
+         touchend·click 에서만 풉니다. 그래서 시작 신호는 touchend·click·keydown 만 씁니다.
+       · 그 탭에서 재생이 거부되면 듣지 않고 다음 탭에서 다시 시도합니다(armed 유지).
        · 끈 기록(localStorage ttini-bgm-off)이 있으면 자동으로 켜지 않습니다.
-   - 소리는 0 → 0.16으로 2.6초에 걸쳐 서서히 올립니다(처음에 놀라지 않게).
+   - 소리는 0 → 0.28로 0.8초에 걸쳐 올립니다(첫 탭 직후 바로 들리되 놀라지 않게).
    - iOS처럼 audio.volume이 듣지 않는 브라우저는 WebAudio 게인으로 볼륨을 맞춥니다.
    - 끄고 켜는 곳은 푸터의 1줄 컨트롤 하나뿐입니다. */
 
@@ -18,11 +21,13 @@
   var bar = document.getElementById("foot-bgm");
   if (!audio || !btn) return;
 
-  var VOLUME = 0.16; /* 잔잔하게 — 예전 0.25보다 한 단계 더 조용히 */
-  var FADE_IN = 2600;
+  var VOLUME = 0.28; /* 첫 탭 직후 바로 존재감 있게, 그래도 잔잔하게 */
+  var FADE_IN = 800;
   var FADE_OUT = 900;
   var KEY_OFF = "ttini-bgm-off";
-  var GESTURES = ["pointerdown", "touchstart", "keydown", "click"];
+  /* iOS 사파리는 touchstart/pointerdown 에서 오디오·AudioContext 잠금을 풀지 않습니다.
+     touchend·click 에서만 풀리므로, 시작 신호를 이 셋으로만 겁니다. */
+  var GESTURES = ["touchend", "click", "keydown"];
 
   var on = false;
   var starting = false;
@@ -155,7 +160,8 @@
       starting = false;
       on = false;
       paint();
-      arm(); /* 다음 터치에 다시 시도 */
+      if (readOff()) unarm();
+      else arm(); /* disarm 하지 않고 armed 유지 — 다음 탭에서 다시 시도 */
     };
     if (p && typeof p.then === "function") p.then(ok).catch(fail);
     else if (audio.paused) fail();
@@ -180,7 +186,12 @@
     /* 푸터 BGM 버튼은 직접 켜고 끄는 곳이라 자동 시작 대상에서 뺍니다 */
     var t = e && e.target;
     if (t && t.closest && t.closest("#foot-bgm")) return;
-    if (on || starting || readOff()) {
+    if (on) {
+      unarm();
+      return;
+    }
+    if (starting) return; /* 이미 시작 중 — 이 탭이 끝나기를 기다립니다 */
+    if (readOff()) {
       unarm();
       return;
     }
