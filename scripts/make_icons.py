@@ -71,7 +71,7 @@ def draw_logo(size: int, scale: float = 1.0, radius_ratio: float = 0.0) -> Image
     top = (big - height) / 2
     midy = top + height / 2
     r = bar / 2
-    split = bar * 0.30         # 세로획 가운데 틈(ㄸ)
+    split = bar * 0.62         # 세로획 가운데 틈(ㄸ)
 
     # 위 'ㄱ'
     d.rounded_rectangle([left, top, vright, midy - split / 2], radius=r, fill=WHITE)
