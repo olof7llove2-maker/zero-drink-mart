@@ -1235,29 +1235,15 @@ body.modal-open { overflow: hidden; }
 .ranklist { display: grid; grid-template-columns: 1fr; gap: 8px; }
 .seg button.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
 
-/* 핫딜 · 60일 그래프 모아보기 */
-.chartwall-wrap { margin-top: 14px; }
-.chartwall {
-  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
-  -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; padding-bottom: 4px;
+/* 핫딜 카드 — 사진·가격·버튼 아래, 그 상품의 60일 미니 그래프 */
+.spark-deal { margin-top: 7px; padding: 5px 6px 4px; }
+.spark-deal .spark-svg { height: 34px; }
+.spark-deal .spark-cap {
+  display: flex; align-items: baseline; justify-content: center; gap: 6px;
+  font-size: 9.5px; text-align: center;
 }
-.chartwall::-webkit-scrollbar { display: none; }
-.wall-card {
-  flex: 0 0 46%; max-width: 200px; scroll-snap-align: start; cursor: pointer; text-align: left;
-  display: flex; flex-direction: column; gap: 4px;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px;
-  font: inherit; color: inherit;
-}
-.wall-head { display: flex; align-items: flex-start; gap: 4px; justify-content: space-between; }
-.wall-head b { font-size: 10.5px; font-weight: 800; line-height: 1.3; letter-spacing: -0.02em;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.wall-tag { flex: none; font-size: 9px; font-weight: 900; color: var(--pap); background: var(--pap-soft); border-radius: 4px; padding: 1px 4px; }
-.wall-tag.is-low { color: #fff; background: var(--sage); }
-.wall-body { display: block; min-height: 34px; }
-.wall-none { display: grid; place-items: center; min-height: 34px; font-size: 10px; font-weight: 800; color: var(--muted-2);
-  border: 1px dashed var(--line); border-radius: 8px; }
-.wall-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; font-size: 12px; font-weight: 900; letter-spacing: -0.03em; }
-.wall-foot em { font-style: normal; font-size: 9.5px; font-weight: 700; color: var(--muted-2); }
+.spark-deal .spark-cap b { font-weight: 900; color: var(--sage-text); font-variant-numeric: tabular-nums; }
+.spark-deal .spark-cap span { font-weight: 700; color: var(--muted-2); font-variant-numeric: tabular-nums; }
 @keyframes flashSoft { 0%, 100% { box-shadow: none; } 30%, 70% { box-shadow: 0 0 0 2px var(--sage); } }
 .pc.is-flash { animation: flashSoft 1.6s ease; }
 
@@ -1265,7 +1251,6 @@ body.modal-open { overflow: hidden; }
   .cattiles { grid-template-columns: repeat(3, 1fr); }
   .cattiles .tile:last-child { grid-column: auto; flex-direction: column; }
   .cattiles .tile:last-child .tile-photo { width: auto; aspect-ratio: 16 / 10; }
-  .wall-card { flex-basis: 30%; }
 }
 @media (min-width: 860px) {
   .list > .group-head, .ranklist > .group-head { grid-column: 1 / -1; }
