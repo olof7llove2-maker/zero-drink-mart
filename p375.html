@@ -27,6 +27,8 @@
   const info = document.getElementById('info');
   const qs = new URLSearchParams(location.search);
   const sel = qs.get('sel') || '#home-list';
+  const hash = qs.get('hash') || 'home-list';
+  f.src = '/#' + hash;
   const yOff = parseInt(qs.get('y') || '-8', 10);
 
   f.addEventListener('load', () => {
@@ -46,8 +48,9 @@
       if (el) {
         const top = el.getBoundingClientRect().top + w.scrollY + yOff;
         w.scrollTo(0, Math.max(0, top));
+        d.scrollingElement.scrollTop = Math.max(0, top);
       }
-      msg += `scrollY ${w.scrollY}\n`;
+      msg += `scrollY ${w.scrollY} / doc ${d.scrollingElement.scrollTop}\n`;
       info.textContent = msg;
     }, 1800);
   });
