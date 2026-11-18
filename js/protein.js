@@ -93,7 +93,7 @@ function protCardHTML(p) {
   const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
   const fine = [
     g != null ? `1병 단백질 ${g}g` : "",
-    stale && stale.stale ? `${stale.label} 재확인 필요` : p.priceCheckedLabel || "",
+    stale ? stale.short : p.priceCheckedLabel || "",
   ]
     .filter(Boolean)
     .join(" · ");
@@ -118,7 +118,9 @@ function protCardHTML(p) {
       <p class="prot-cmp">${cmp}</p>
     </div>
     <div class="prot-buys">${typeof buyHTML === "function" ? buyHTML(p) : ""}</div>
-    ${fine ? `<p class="prot-fine">${escapeHtml(fine)}</p>` : ""}
+    ${fine ? `<p class="prot-fine" title="${escapeHtml(
+      (stale && stale.stale ? `${stale.label} · 구매 전 판매처에서 다시 확인해 주세요. ` : "") + (p.priceCheckedLabel || "")
+    )}">${escapeHtml(fine)}</p>` : ""}
   </article>`;
 }
 

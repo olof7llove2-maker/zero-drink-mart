@@ -178,6 +178,7 @@ function staleInfoOf(p) {
     hours,
     stale,
     label: stale ? `48시간+ 전 확인(${shortStamp(p.priceCheckedAt)})` : `${shortStamp(p.priceCheckedAt)} 확인`,
+    short: stale ? "48시간+ 전 확인" : `${shortStamp(p.priceCheckedAt)} 확인`,
   };
 }
 function staleBadgeHTML(p) {

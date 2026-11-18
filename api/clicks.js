@@ -75,6 +75,7 @@ module.exports = async (req, res) => {
     const top = await topItems(limit);
     return sendJson(res, 200, { ok: true, total, top });
   } catch (err) {
-    return sendJson(res, 200, { ok: false, error: "redis-error" });
+    const detail = String((err && err.message) || err).slice(0, 160);
+    return sendJson(res, 200, { ok: false, error: "redis-error", detail });
   }
 };
