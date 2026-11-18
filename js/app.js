@@ -30,9 +30,6 @@ const SORT_OPTIONS = [
 ];
 const SORT_IDS = new Set(SORT_OPTIONS.map((s) => s.id));
 
-/* 홈 1등 고정 상품 — 재영 님: "뉴욕웨이 프로틴을 제일 위에 두자" */
-const HOME_PIN_ID = "shake-newyorkwhey-light-2kg";
-
 const state = {
   data: null,
   priceHistory: null,
@@ -944,6 +941,77 @@ function spotlightPicks(n) {
   return shown.map((row) => row.p).slice(0, limit);
 }
 
+/* ── 홈 그리드 🏆 1위 ────────────────────────────────
+   재영 님(2026-11-18): "각 분야별 인지도 3위 내에 있는 것들 중 오늘 제일 나은 걸 1위로."
+   분야 = 단백질 음료·쉐이크 / 식단 고기 / 제로 음료 / 치팅·간편식.
+   분야마다 인지도 상위 3종만 후보로 두고, 그중 오늘 메리트(할인·저점·인하)가 가장 높은 1종이
+   기본 '인기·할인 순' 홈 그리드 첫 칸(🏆 1위)에 옵니다. 날짜 시드로 매일 바뀝니다. */
+const HOME_FIELDS = [
+  { id: "protein", parts: ["protein", "shake"] },
+  { id: "meat", parts: ["meat"] },
+  { id: "zero", parts: ["zero"] },
+  { id: "cheat", parts: ["cheat"] },
+];
+const HOME_FIELD_TOP = 3;
+
+function homeFieldOf(p) {
+  const part = p.part || "zero";
+  const f = HOME_FIELDS.find((x) => x.parts.indexOf(part) >= 0);
+  return f ? f.id : "";
+}
+
+/* 한 분야의 '인지도 3위 내' 대표 — 사진·제휴링크·가격이 다 있는 상품만 */
+function homeFieldTop(fieldId, pool) {
+  const rows = pool
+    .filter((p) => homeFieldOf(p) === fieldId)
+    .filter((p) => p.image && p.affiliateUrl && typeof p.price === "number")
+    .map((p) => ({ p, aware: spotAwareness(p) }));
+  rows.sort(
+    (a, b) =>
+      b.aware - a.aware ||
+      (Number(b.p.popularScore) || 0) - (Number(a.p.popularScore) || 0) ||
+      String(a.p.id).localeCompare(String(b.p.id))
+  );
+  return rows.slice(0, HOME_FIELD_TOP).map((r) => r.p);
+}
+
+/* 오늘의 홈 1위 상품 ID — 분야별 Top 3(최대 12종) 중 오늘 점수 최고.
+   점수는 spotlightPicks와 같은 잣대(인지도·할인·저점·인하)에 날짜 시드를 곱해
+   날마다 1위가 바뀌고, 하루 동안은 같은 상품으로 고정됩니다. */
+function homeChampionId() {
+  const dayKey = spotDayKey();
+  const pool = basePool().filter((p) => !isSpotlightOut(p));
+  if (!pool.length) return "";
+  const railIds = new Set(spotlightPicks(6).map((p) => p.id));
+  const rows = [];
+  HOME_FIELDS.forEach((f) => {
+    homeFieldTop(f.id, pool).forEach((p) => {
+      const merit = spotMerit(p, dayKey);
+      const aware = spotAwareness(p);
+      /* 실제 메리트가 있으면 항상 우선, 없으면 그 분야 대표 중 인지도 순 */
+      let score = merit != null ? 0.62 + merit : 0.2 * aware;
+      if (railIds.has(p.id)) score += 0.05; /* 오늘의 할인 레일과도 이어지게 */
+      score *= 0.86 + 0.28 * spotHash(`${p.id}|${dayKey}|home`);
+      rows.push({ p, score, merit, field: f.id });
+    });
+  });
+  rows.sort((a, b) => b.score - a.score || String(a.p.id).localeCompare(String(b.p.id)));
+  return rows.length ? rows[0].p.id : "";
+}
+
+/* 1위 상품이 옵션 묶음 대표로 접혀 사라지면 그 묶음의 대표 ID로 바꿔 잡습니다. */
+function homePinTarget(id, list) {
+  if (!id) return "";
+  if (list.some((p) => p.id === id)) return id;
+  const p = (state.data.products || []).find((x) => x.id === id);
+  const group = p && p.variantGroup ? state.vgroups[p.variantGroup] : null;
+  if (group && group.length > 1) {
+    const def = group.find((x) => DEFAULTS.has(x.id));
+    if (def && list.some((x) => x.id === def.id)) return def.id;
+  }
+  return "";
+}
+
 /* 카드 상태 태그 — 실제 데이터가 있을 때만 붙입니다 */
 function spotTagOf(p, dayKey) {
   const drop = spotDropOf(p, dayKey);
@@ -1045,12 +1113,17 @@ function renderHome() {
   if (typeof renderProteinSection === "function") renderProteinSection();
   const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
   let list;
+  let topId = "";
   if (goalOn) {
     /* 목적을 고르면 그 목적에 맞는 것만, 목적 기준 순서로 */
     list = goalList(state.goal);
   } else {
-    list = sortList(basePool(), state.sort);
-    if (state.sort === "popular") list = pinFirst(list, HOME_PIN_ID);
+    list = collapseVariants(sortList(basePool(), state.sort));
+    if (state.sort === "popular") {
+      /* 오늘의 1위 상품을 첫 칸으로 — 옵션 묶음 대표로 접힌 경우도 잡아 줍니다 */
+      topId = homePinTarget(homeChampionId(), list);
+      list = pinFirst(list, topId);
+    }
   }
   renderCardsInto($("home-list"), list, {
     limit: state.limit.home,
@@ -1059,7 +1132,7 @@ function renderHome() {
     twoCol: true,
   });
   const first = $("home-list") && $("home-list").querySelector(".pc");
-  if (first && !goalOn && first.dataset.id === HOME_PIN_ID) first.classList.add("is-first");
+  if (first && !goalOn && topId && first.dataset.id === topId) first.classList.add("is-first");
   const count = $("home-count");
   if (count) {
     count.textContent = goalOn
