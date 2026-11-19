@@ -1413,9 +1413,9 @@ function renderTiles() {
 
 /* r55 — 카테고리 탭 '판매처별 모아보기' 칩 (재영 님: 카톡 톡딜은 빼고 쿠팡·토스·네이버 3개만) */
 const STORE_TILES = [
-  { id: "coupang", label: "🔴 쿠팡" },
-  { id: "toss", label: "🔵 토스" },
-  { id: "naver", label: "🟢 네이버" },
+  { id: "coupang", label: "쿠팡" },
+  { id: "toss", label: "토스" },
+  { id: "naver", label: "네이버" },
 ];
 function storeKeysOf(p) {
   return buyOptions(p).map((o) => o.key);
@@ -1437,19 +1437,19 @@ function renderCategoryStores() {
    아버님 쿠팡 파트너스(AF5520784) 단축 링크 — 누르면 새 탭으로 열립니다. */
 const CAT_PROMOS = {
   meat: {
-    label: "🥩 쿠팡 로켓프레시 고기역전 기획전 보기 →",
+    label: "쿠팡 로켓프레시 고기역전 기획전 보기 →",
     href: "https://link.coupang.com/a/iLYqwMeRCm",
   },
   protein: {
-    label: "💪 쿠팡 올해는 건강 챙기세요! (단백질·저당) →",
+    label: "쿠팡 올해는 건강 챙기세요! (단백질·저당) →",
     href: "https://link.coupang.com/a/iLYxco3wHc",
   },
   gadget: {
-    label: "⚡ 쿠팡 가전디지털 블랙 프라이데이 (~11/29) →",
+    label: "쿠팡 가전디지털 블랙 프라이데이 (~11/29) →",
     href: "https://link.coupang.com/a/iLYxOpEHhk",
   },
   diet: {
-    label: "🥗 쿠팡 로켓프레시 식단관리 기획전 보기 →",
+    label: "쿠팡 로켓프레시 식단관리 기획전 보기 →",
     href: "https://link.coupang.com/a/iLYm0PH9C8",
   },
 };
