@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-19T21:10:20+09:00",
+  "generatedAt": "2026-11-19T21:13:01+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -21,12 +21,12 @@
    "쿠팡 판매가는 옵션·묶음 구성이 바뀌면 크게 오르내릴 수 있어 최고가·평균가는 참고값입니다."
   ],
   "tally": {
-   "history": 2,
+   "history": 1,
    "tracking-started": 0,
    "not-tracked": 1,
    "item-mismatch": 0,
-   "no-records": 1,
-   "error": 1
+   "no-records": 0,
+   "error": 0
   }
  },
  "products": {
@@ -626,27 +626,27 @@
    "name": "햇반 발아현미밥, 130g, 36개",
    "platform": "coupang",
    "cardPrice": 29900,
-   "cardPriceCheckedAt": "2026-11-17 14:55",
+   "cardPriceCheckedAt": "2026-11-19 21:12",
    "cardListPrice": 89280,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
+     "date": "2026-11-19",
      "price": 29900,
-     "ts": "2026-11-17T14:55:00+09:00",
+     "ts": "2026-11-19T21:12:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
     "min": 29900,
-    "minDate": "2026-11-17",
+    "minDate": "2026-11-19",
     "max": 29900,
-    "maxDate": "2026-11-17",
+    "maxDate": "2026-11-19",
     "avg": 29900,
     "latest": 29900,
-    "latestDate": "2026-11-17",
+    "latestDate": "2026-11-19",
     "observations": 1,
     "days": 1
    }
@@ -8989,7 +8989,7 @@
    "name": "클룹 애사비소다 오리지널 탄산음료, 500ml, 12개",
    "platform": "coupang",
    "cardPrice": 14000,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPriceCheckedAt": "2026-11-19 21:14",
    "cardListPrice": 36000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-8054602080",
    "couprice": {
@@ -9399,19 +9399,25 @@
      "price": 26130,
      "ts": "2026-11-19T00:04:23.822798+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 14000,
+     "ts": "2026-11-19T21:14:00+09:00",
+     "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-20T22:02:33.48413+00:00",
-   "lastObservedAt": "2026-11-19T00:04:23.822798+00:00",
+   "lastObservedAt": "2026-11-19T21:14:00+09:00",
    "stats": {
     "min": 11190,
     "minDate": "2026-09-26",
     "max": 29900,
     "maxDate": "2026-11-10",
-    "avg": 24786,
-    "latest": 26130,
+    "avg": 24620,
+    "latest": 14000,
     "latestDate": "2026-11-19",
-    "observations": 64,
+    "observations": 65,
     "days": 32
    }
   },
