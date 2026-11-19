@@ -2644,3 +2644,8 @@ main { padding: 0 var(--pad) 24px; }
   .prot-chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .prot-chip { flex: 0 0 auto; padding: 7px 16px; font-size: 12px; }
 }
+/* r46 후속4 — 좁은 화면 스팟 카드: 정가 취소선은 빼고 가격 한 줄을 지킵니다 */
+@media (max-width: 480px) {
+  .spot-was { display: none; }
+  .spot-price { flex-wrap: nowrap; }
+}
