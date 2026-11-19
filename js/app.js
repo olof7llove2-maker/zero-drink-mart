@@ -36,6 +36,8 @@ const SORT_IDS = new Set(SORT_OPTIONS.map((s) => s.id));
 
 /* r55 — 홈 '🟢 지금 사기 좋아요' 기본 노출 개수(모바일 2열 4줄 · 데스크톱 4열 2줄) */
 const HOME_LIMIT = 8;
+/* r55 — 홈 첫 진입 기본 정렬 */
+const HOME_DEFAULT_SORT = "discount";
 
 const state = {
   data: null,
@@ -2234,6 +2236,10 @@ function applyUrlState() {
   if (sort) {
     const mapped = LEGACY_SORT[sort] || sort;
     if (SORT_IDS.has(mapped)) state.sort = mapped;
+  } else if (state.tab === "home") {
+    /* r55 — 홈 첫 진입은 '할인율 높은 순' (재영 님 2026-11-19: "열자마자 역대급이 바로 보이게").
+       URL에 ?sort= 가 있거나 다른 탭으로 들어오면 그 화면의 기본(추천순)을 그대로 씁니다. */
+    state.sort = HOME_DEFAULT_SORT;
   }
   const goalParam = q.get("goal");
   if (goalParam && typeof GOAL_DEFS !== "undefined" && GOAL_DEFS.some((g) => g.id === goalParam)) state.goal = goalParam;
