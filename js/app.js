@@ -560,7 +560,7 @@ function unitLine(p, view) {
   const eachVal = view && typeof view.eachPrice === "number" ? view.eachPrice : p.eachPrice;
   const each =
     kind !== "each" && eachVal
-      ? `<span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(Math.round(eachVal))}</b>`
+      ? `<span class="pc-each"><span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(Math.round(eachVal))}</b></span>`
       : "";
   return `<p class="pc-unit"><b>${won(Math.round(v))}</b><span class="per">/${measureLabel(p).replace("당", "")}</span>${each}</p>`;
 }
