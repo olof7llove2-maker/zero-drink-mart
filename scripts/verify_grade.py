@@ -200,7 +200,7 @@ def main():
 
     # ③ 두유·저단백 분리
     lowsoy = [p for p in products if p.get("category") == "lowsoy"]
-    print(f"\n두유·저단백(lowsoy): {len(lowsoy)}종 — " + ", ".join(f"{p['name']}({p.get('protein_g_per_bottle')}g)" for p in lowsoy))
+    print(f"\n두유·저단백(lowsoy): {len(lowsoy)}종 — " + ", ".join(f"{p['name']}({p.get('protein_g_per_bottle') if p.get('protein_g_per_bottle') is not None else '?'}g)" for p in lowsoy))
 
     # ④ 단백질 레일 대상
     rail = [p for p in products if p.get("category") == "protein" and (p.get("protein_g_per_bottle") or 0) >= 10 and p.get("protein20")]

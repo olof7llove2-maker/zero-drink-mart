@@ -14622,6 +14622,96 @@
    "firstObservedAt": "2026-11-19T09:55:00+09:00",
    "latestObservedAt": "2026-11-19T09:55:00+09:00",
    "sourceUrl": "https://www.couprice.co.kr/products/x-9139983421"
+  },
+  "talkdeal-wj-acv-500ml-24": {
+   "id": "talkdeal-wj-acv-500ml-24",
+   "name": "웅진식품 애사비 12+12 (오리지널·제주청귤하귤), 500ml, 24병",
+   "platform": "talkdeal",
+   "cardPrice": 16900,
+   "cardPriceCheckedAt": "2026-11-19 19:05",
+   "cardListPrice": 29900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-19",
+     "price": 16900,
+     "ts": "2026-11-19T19:05:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 16900,
+    "minDate": "2026-11-19",
+    "max": 16900,
+    "maxDate": "2026-11-19",
+    "avg": 16900,
+    "latest": 16900,
+    "latestDate": "2026-11-19",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "talkdeal-jycu-ohsaek-soy-185ml-40": {
+   "id": "talkdeal-jycu-ohsaek-soy-185ml-40",
+   "name": "자연채움 오색칠콩두유 무가당 1+1, 185ml, 40팩",
+   "platform": "talkdeal",
+   "cardPrice": 15200,
+   "cardPriceCheckedAt": "2026-11-19 19:05",
+   "cardListPrice": 30000,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-19",
+     "price": 15200,
+     "ts": "2026-11-19T19:05:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 15200,
+    "minDate": "2026-11-19",
+    "max": 15200,
+    "maxDate": "2026-11-19",
+    "avg": 15200,
+    "latest": 15200,
+    "latestDate": "2026-11-19",
+    "observations": 1,
+    "days": 1
+   }
+  },
+  "meat-chicken-harim-jayeonsilrok-breast-1kg-3": {
+   "id": "meat-chicken-harim-jayeonsilrok-breast-1kg-3",
+   "name": "하림 자연실록 무항생제 닭가슴살 (냉동), 1kg, 3개",
+   "platform": "coupang",
+   "cardPrice": 24450,
+   "cardPriceCheckedAt": "2026-11-19 19:05",
+   "cardListPrice": 30650,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-19",
+     "price": 24450,
+     "ts": "2026-11-19T19:05:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 24450,
+    "minDate": "2026-11-19",
+    "max": 24450,
+    "maxDate": "2026-11-19",
+    "avg": 24450,
+    "latest": 24450,
+    "latestDate": "2026-11-19",
+    "observations": 1,
+    "days": 1
+   }
   }
  }
 }

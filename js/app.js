@@ -388,13 +388,15 @@ function discountSince(p) {
 
 /* ── 목록 · 정렬 ──────────────────────────────────────── */
 
-/* 플랫폼 3색: 쿠팡=레드 · 토스=파랑 · 네이버=초록 */
+/* 플랫폼 4색: 쿠팡=레드 · 토스=파랑 · 네이버=초록 · 카톡 톡딜=카카오 옐로 */
 const PLATFORMS = {
   coupang: { label: "쿠팡", mark: "❤️", cls: "is-coupang" },
   toss: { label: "토스", mark: "💙", cls: "is-toss" },
   naver: { label: "네이버", mark: "💚", cls: "is-naver" },
+  talkdeal: { label: "카톡 톡딜", mark: "💛", cls: "is-talkdeal", buyLabel: "톡딜에서 사기" },
 };
 function platformOf(p) {
+  if (p.platform === "talkdeal") return "talkdeal";
   if (p.platform === "toss") return "toss";
   if (p.platform === "naver") return "naver";
   return "coupang";
@@ -444,7 +446,8 @@ function cheapView(p) {
 function matchesSource(p) {
   const k = platformOf(p);
   if (k === "toss") return state.sources.toss;
-  if (k === "naver") return true;
+  /* 네이버 비교가·카톡 톡딜은 쿠팡/토스 출처 토글과 무관하게 항상 보여 준다 */
+  if (k === "naver" || k === "talkdeal") return true;
   return state.sources.coupang;
 }
 function normText(s) {
@@ -607,7 +610,22 @@ function flagLine(p) {
       )}">${escapeHtml(stale.short)}</span>`
     );
   }
+  /* 기간 한정 특가(톡딜·타임세일)는 끝나는 시각을 카드에 같이 적는다 */
+  const deal = dealEndBadge(p);
+  if (deal) out.push(deal);
   return out.length ? `<p class="pc-flag">${out.join("")}</p>` : "";
+}
+
+/* "⏱ 11/23 16:59까지" — dealEndsAt 이 있고 아직 안 끝난 상품만 */
+function dealEndBadge(p) {
+  if (!p || !p.dealEndsAt) return "";
+  const t = new Date(p.dealEndsAt);
+  if (Number.isNaN(t.getTime()) || t.getTime() <= Date.now()) return "";
+  const mm = t.getMonth() + 1;
+  const dd = t.getDate();
+  const hh = String(t.getHours()).padStart(2, "0");
+  const mi = String(t.getMinutes()).padStart(2, "0");
+  return `<span class="bd bd-deal" title="기간 한정 특가">⏱ ${mm}/${dd} ${hh}:${mi}까지</span>`;
 }
 
 function dealBadges(p) {
@@ -652,12 +670,12 @@ function buyHTML(p) {
   const html = opts
     .map((o, i) => {
       const meta = PLATFORMS[o.key];
-      /* 라벨 통일: 한 버튼이면 "쿠팡에서 사기", 두 버튼이면 "쿠팡 134,270" */
+      /* 라벨 통일: 한 버튼이면 "쿠팡에서 사기"(톡딜은 "톡딜에서 사기"), 두 버튼이면 "쿠팡 134,270" */
       const label = multi
         ? `<span class="bp-lab">${meta.label}</span><span class="bp-price">${Number(o.price).toLocaleString(
             "ko-KR"
           )}</span>`
-        : `<span class="buy-lab">${meta.label}에서 사기</span>`;
+        : `<span class="buy-lab">${meta.buyLabel || `${meta.label}에서 사기`}</span>`;
       const tone = i === 0 ? " is-primary" : " is-alt";
       return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}${tone}" href="${escapeHtml(
         o.url
@@ -1782,7 +1800,7 @@ function shareLinkFor(p) {
   return p ? `${SHARE_BASE}/?p=${encodeURIComponent(p.id)}` : `${SHARE_BASE}/`;
 }
 function shareTextFor(p) {
-  if (!p) return "쿠팡·토스·네이버 최저가를 모아 비교하는 띠니예요. 직접 팔지 않고 원래 판매처로 연결해요.";
+  if (!p) return "쿠팡·토스·네이버·카톡 톡딜 최저가를 모아 비교하는 띠니예요. 직접 팔지 않고 원래 판매처로 연결해요.";
   const price = p.price != null ? `${won(p.price)} · ` : "";
   const v = measureValue(p);
   const unit = v != null ? `${Math.round(v)}원 / ${measureLabel(p)}` : "";

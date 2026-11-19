@@ -257,6 +257,8 @@ function trackingBlock(p, entry) {
       ? "과거 기록을 확인하지 못했어요. 다음 수집 때 다시 확인해요."
       : p.platform === "toss"
       ? "토스에서 파는 상품이라 쿠팡 과거 관측 기록이 없어요."
+      : p.platform === "talkdeal"
+      ? "카톡 톡딜은 기간 한정 판매라 쿠팡 과거 관측 기록이 없어요."
       : "이 상품은 아직 과거 관측 기록이 없어요.";
   const max = list || now;
   const listPct = max ? Math.round((now / max) * 100) : 0;
@@ -472,7 +474,7 @@ function altShopBlock(p) {
 }
 
 /* 모달 안에서도 바로 구매 — 카드와 같은 3색 버튼 규칙(buyHTML)을 그대로 쓴다.
-   쿠팡 레드 · 토스 블루 · 네이버 그린, 두 곳 이상이면 플랫폼명과 가격을 함께 적는다. */
+   쿠팡 레드 · 토스 블루 · 네이버 그린 · 카톡 톡딜 옐로, 두 곳 이상이면 플랫폼명과 가격을 함께 적는다. */
 function modalBuyBlock(p) {
   if (typeof buyHTML !== "function" || typeof buyOptions !== "function") return "";
   const opts = buyOptions(p);

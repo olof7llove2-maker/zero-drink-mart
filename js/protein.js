@@ -115,7 +115,7 @@ function protHighBadge(g) {
 }
 
 /* 카드 1장 — 뒤에 상품 사진을 은은하게 깔고, 앞은 텍스트만.
-   탭하면 가격 추이 모달, 아래는 플랫폼 3색 구매 버튼. */
+   탭하면 가격 추이 모달, 아래는 플랫폼 색 구매 버튼. */
 function protCardHTML(p) {
   const v = protVerdict(p);
   const meta = PROT_STATE[v.id] || PROT_STATE.track;

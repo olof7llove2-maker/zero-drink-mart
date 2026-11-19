@@ -3205,3 +3205,55 @@ select.sel {
   html { scroll-behavior: auto; }
   .hdr, .tabbar, .bgm-fab { backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
+
+/* ── 19. r52 카톡 톡딜 (네 번째 판매처) ──────────────────
+   카카오 옐로(#FEE500)는 밝아서 점에 얇은 테두리를 둘러 흰 바탕에서도 보이게 합니다.
+   버튼은 다른 판매처와 같은 규칙(진한 차콜/흰 버튼)을 그대로 따릅니다. */
+.src-talkdeal::before {
+  background: #fee500;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+}
+.btn-buy.is-talkdeal {
+  background: var(--invert-bg);
+  border-color: var(--invert-line);
+  color: var(--invert-fg);
+}
+.btn-buy.is-talkdeal:hover {
+  background: var(--invert-hover);
+  border-color: var(--invert-hover);
+  color: #fff;
+  filter: none;
+}
+.btn-buy.is-primary.is-talkdeal::before,
+.btn-buy.is-alt.is-talkdeal::before {
+  background: #fee500;
+  opacity: 1;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+}
+.btn-buy.is-alt.is-talkdeal {
+  background: var(--surface);
+  border-color: #e4e4e3;
+  color: #4a4a51;
+}
+.btn-buy.is-alt.is-talkdeal:hover {
+  background: var(--surface-2);
+  filter: none;
+}
+.spot-buy.is-talkdeal {
+  background: var(--invert-bg);
+  border: 1px solid var(--invert-bg);
+  color: #fff;
+  font-weight: 700;
+}
+.spot-buy.is-talkdeal::before {
+  background: #fee500;
+  opacity: 1;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+}
+/* 기간 한정 특가(톡딜·타임세일) 마감 안내 배지 */
+.bd-deal {
+  color: #8a5a12;
+  background: var(--cocoa-soft);
+  border: 1px solid var(--cocoa-line);
+  font-weight: 700;
+}
