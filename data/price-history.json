@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-19T10:00:35+09:00",
+  "generatedAt": "2026-11-19T21:10:20+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -21,12 +21,12 @@
    "쿠팡 판매가는 옵션·묶음 구성이 바뀌면 크게 오르내릴 수 있어 최고가·평균가는 참고값입니다."
   ],
   "tally": {
-   "history": 28,
+   "history": 2,
    "tracking-started": 0,
-   "not-tracked": 126,
-   "item-mismatch": 17,
+   "not-tracked": 1,
+   "item-mismatch": 0,
    "no-records": 1,
-   "error": 31
+   "error": 1
   }
  },
  "products": {
@@ -34,28 +34,28 @@
    "id": "retort-rice-haetban-baeahyeonmi-210g-24",
    "name": "햇반 발아현미밥, 210g, 24개",
    "platform": "coupang",
-   "cardPrice": 29200,
-   "cardPriceCheckedAt": "2026-11-17 10:08",
+   "cardPrice": 29180,
+   "cardPriceCheckedAt": "2026-11-19 20:57",
    "cardListPrice": 55140,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 29200,
-     "ts": "2026-11-17T10:08:00+09:00",
+     "date": "2026-11-19",
+     "price": 29180,
+     "ts": "2026-11-19T20:57:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
-    "min": 29200,
-    "minDate": "2026-11-17",
-    "max": 29200,
-    "maxDate": "2026-11-17",
-    "avg": 29200,
-    "latest": 29200,
-    "latestDate": "2026-11-17",
+    "min": 29180,
+    "minDate": "2026-11-19",
+    "max": 29180,
+    "maxDate": "2026-11-19",
+    "avg": 29180,
+    "latest": 29180,
+    "latestDate": "2026-11-19",
     "observations": 1,
     "days": 1
    }
@@ -378,8 +378,8 @@
     "crosscheck": {
      "source60Min": 9210,
      "source60Max": 47480,
-     "sourceRecords": 190,
-     "sourceCurrent": 15740,
+     "sourceRecords": 191,
+     "sourceCurrent": 18700,
      "sourceWarnsVolatile": true
     }
    },
@@ -573,12 +573,6 @@
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 9900,
-     "ts": "2026-11-17T14:00:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-18",
      "price": 11000,
      "ts": "2026-11-18T13:40:00+09:00",
@@ -586,56 +580,46 @@
     }
    ],
    "stats": {
-    "min": 9900,
-    "minDate": "2026-11-17",
+    "min": 11000,
+    "minDate": "2026-11-18",
     "max": 11000,
     "maxDate": "2026-11-18",
-    "avg": 10450,
+    "avg": 11000,
     "latest": 11000,
     "latestDate": "2026-11-18",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-17T14:00:00+09:00",
-   "latestObservedAt": "2026-11-18T13:40:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg": {
    "id": "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg",
    "name": "칼로바이 퍼펙트 파워쉐이크 블렌드 단백질쉐이크 초코맛, 1.8kg, 1개",
    "platform": "coupang",
    "cardPrice": 41900,
-   "cardPriceCheckedAt": "2026-11-19 07:45",
+   "cardPriceCheckedAt": "2026-11-19 12:45",
    "cardListPrice": 79200,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 41900,
-     "ts": "2026-11-17T07:30:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-19",
      "price": 41900,
-     "ts": "2026-11-19T07:45:00+09:00",
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
     "min": 41900,
-    "minDate": "2026-11-17",
+    "minDate": "2026-11-19",
     "max": 41900,
-    "maxDate": "2026-11-17",
+    "maxDate": "2026-11-19",
     "avg": 41900,
     "latest": 41900,
     "latestDate": "2026-11-19",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-17T07:30:00+09:00",
-   "latestObservedAt": "2026-11-19T07:45:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "retort-rice-haetban-baeahyeonmi-130g-36": {
    "id": "retort-rice-haetban-baeahyeonmi-130g-36",
@@ -679,12 +663,6 @@
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 14600,
-     "ts": "2026-11-17T12:30:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-18",
      "price": 17500,
      "ts": "2026-11-18T13:40:00+09:00",
@@ -692,18 +670,16 @@
     }
    ],
    "stats": {
-    "min": 14600,
-    "minDate": "2026-11-17",
+    "min": 17500,
+    "minDate": "2026-11-18",
     "max": 17500,
     "maxDate": "2026-11-18",
-    "avg": 16050,
+    "avg": 17500,
     "latest": 17500,
     "latestDate": "2026-11-18",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-17T12:30:00+09:00",
-   "latestObservedAt": "2026-11-18T13:40:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "shake-dymatize-iso100-gourmet-chocolate-2-3kg": {
    "id": "shake-dymatize-iso100-gourmet-chocolate-2-3kg",
@@ -1323,8 +1299,8 @@
     "crosscheck": {
      "source60Min": 9210,
      "source60Max": 47480,
-     "sourceRecords": 190,
-     "sourceCurrent": 15740,
+     "sourceRecords": 191,
+     "sourceCurrent": 18700,
      "sourceWarnsVolatile": true
     }
    },
@@ -1603,8 +1579,8 @@
    "id": "haetaehtb-galbaesaida-jero-355ml-24gae",
    "name": "해태htb 갈배사이다 제로, 355ml, 24개",
    "platform": "coupang",
-   "cardPrice": 13260,
-   "cardPriceCheckedAt": "2026-11-18 12:50",
+   "cardPrice": 13220,
+   "cardPriceCheckedAt": "2026-11-19 21:07",
    "cardListPrice": 19900,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7604723347",
    "couprice": {
@@ -1617,8 +1593,8 @@
     "crosscheck": {
      "source60Min": 5590,
      "source60Max": 13260,
-     "sourceRecords": 21,
-     "sourceCurrent": 11280,
+     "sourceRecords": 24,
+     "sourceCurrent": 9020,
      "sourceWarnsVolatile": true
     }
    },
@@ -1759,31 +1735,49 @@
     },
     {
      "date": "2026-11-18",
-     "price": 13260,
-     "ts": "2026-11-18T12:50:00+09:00",
+     "price": 9020,
+     "ts": "2026-11-18T07:51:43.035079+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 11280,
+     "ts": "2026-11-18T08:02:52.527633+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 9020,
+     "ts": "2026-11-18T10:51:47.84038+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 13220,
+     "ts": "2026-11-19T21:07:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-22T07:47:51.371299+00:00",
-   "lastObservedAt": "2026-11-18T12:50:00+09:00",
+   "lastObservedAt": "2026-11-19T21:07:00+09:00",
    "stats": {
     "min": 5590,
     "minDate": "2026-09-29",
     "max": 13260,
     "maxDate": "2026-10-13",
-    "avg": 11948,
-    "latest": 13260,
-    "latestDate": "2026-11-18",
-    "observations": 22,
-    "days": 18
+    "avg": 11686,
+    "latest": 13220,
+    "latestDate": "2026-11-19",
+    "observations": 25,
+    "days": 19
    }
   },
   "haneulbori-500ml-20gae": {
    "id": "haneulbori-500ml-20gae",
    "name": "하늘보리, 500ml, 20개",
    "platform": "coupang",
-   "cardPrice": 14100,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPrice": 14890,
+   "cardPriceCheckedAt": "2026-11-19 21:09",
    "cardListPrice": 26000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7224339339",
    "couprice": {
@@ -1796,8 +1790,8 @@
     "crosscheck": {
      "source60Min": 12900,
      "source60Max": 18400,
-     "sourceRecords": 36,
-     "sourceCurrent": 14100,
+     "sourceRecords": 37,
+     "sourceCurrent": 14890,
      "sourceWarnsVolatile": false
     }
    },
@@ -2027,23 +2021,29 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
-     "price": 14100,
-     "ts": "2026-11-15T19:25:00+09:00",
+     "date": "2026-11-19",
+     "price": 14890,
+     "ts": "2026-11-19T01:53:41.16672+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 14890,
+     "ts": "2026-11-19T21:09:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-21T00:06:28.207639+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "lastObservedAt": "2026-11-19T21:09:00+09:00",
    "stats": {
     "min": 12900,
     "minDate": "2026-10-27",
     "max": 18400,
     "maxDate": "2026-10-18",
-    "avg": 14324,
-    "latest": 14100,
-    "latestDate": "2026-11-15",
-    "observations": 37,
+    "avg": 14359,
+    "latest": 14890,
+    "latestDate": "2026-11-19",
+    "observations": 38,
     "days": 23
    }
   },
@@ -2065,8 +2065,8 @@
     "crosscheck": {
      "source60Min": 12300,
      "source60Max": 42560,
-     "sourceRecords": 33,
-     "sourceCurrent": 29200,
+     "sourceRecords": 32,
+     "sourceCurrent": 17500,
      "sourceWarnsVolatile": true
     }
    },
@@ -2079,18 +2079,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-19",
-     "price": 17490,
-     "ts": "2026-09-18T16:50:21.659018+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-20",
-     "price": 12300,
-     "ts": "2026-09-20T02:55:44.380338+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-21",
      "price": 16440,
@@ -2278,24 +2266,24 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
-     "price": 15990,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
+     "date": "2026-11-18",
+     "price": 17500,
+     "ts": "2026-11-18T14:44:27.467851+00:00",
+     "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-18T16:50:21.659018+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "firstObservedAt": "2026-09-20T16:02:38.518738+00:00",
+   "lastObservedAt": "2026-11-18T14:44:27.467851+00:00",
    "stats": {
     "min": 12300,
-    "minDate": "2026-09-20",
+    "minDate": "2026-09-21",
     "max": 42560,
     "maxDate": "2026-10-16",
-    "avg": 21713,
-    "latest": 15990,
-    "latestDate": "2026-11-15",
-    "observations": 34,
-    "days": 20
+    "avg": 22186,
+    "latest": 17500,
+    "latestDate": "2026-11-18",
+    "observations": 32,
+    "days": 19
    }
   },
   "amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae": {
@@ -2403,12 +2391,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
-     "price": 17490,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-18",
      "price": 30230,
      "ts": "2026-11-17T17:48:44.83516+00:00",
@@ -2428,13 +2410,12 @@
     "minDate": "2026-10-09",
     "max": 32720,
     "maxDate": "2026-10-13",
-    "avg": 25937,
+    "avg": 26540,
     "latest": 17450,
     "latestDate": "2026-11-18",
-    "observations": 15,
-    "days": 14
-   },
-   "latestObservedAt": "2026-11-17T19:51:59.03843+00:00"
+    "observations": 14,
+    "days": 13
+   }
   },
   "nyukeeo-olpeurotin-gosohanmat-245ml-24gae": {
    "id": "nyukeeo-olpeurotin-gosohanmat-245ml-24gae",
@@ -3071,7 +3052,7 @@
     "crosscheck": {
      "source60Min": 7140,
      "source60Max": 32940,
-     "sourceRecords": 29,
+     "sourceRecords": 28,
      "sourceCurrent": 19890,
      "sourceWarnsVolatile": true
     }
@@ -3085,12 +3066,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-19",
-     "price": 19900,
-     "ts": "2026-09-19T02:03:44.019297+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-22",
      "price": 15750,
@@ -3266,18 +3241,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-19T02:03:44.019297+00:00",
+   "firstObservedAt": "2026-09-22T04:48:00.247651+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 7140,
     "minDate": "2026-10-05",
     "max": 32940,
     "maxDate": "2026-10-19",
-    "avg": 18321,
+    "avg": 18266,
     "latest": 14000,
     "latestDate": "2026-11-15",
-    "observations": 30,
-    "days": 15
+    "observations": 29,
+    "days": 14
    }
   },
   "peulraimil-rieolchoko-630g": {
@@ -3489,8 +3464,8 @@
     "crosscheck": {
      "source60Min": 18100,
      "source60Max": 50300,
-     "sourceRecords": 53,
-     "sourceCurrent": 27120,
+     "sourceRecords": 54,
+     "sourceCurrent": 18100,
      "sourceWarnsVolatile": true
     }
    },
@@ -3820,20 +3795,26 @@
      "price": 27120,
      "ts": "2026-11-17T18:03:02.426243+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 18100,
+     "ts": "2026-11-18T15:51:25.032204+00:00",
+     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-09-23T12:53:23.199559+00:00",
-   "lastObservedAt": "2026-11-17T18:03:02.426243+00:00",
+   "lastObservedAt": "2026-11-18T15:51:25.032204+00:00",
    "stats": {
     "min": 18100,
     "minDate": "2026-10-20",
     "max": 50300,
     "maxDate": "2026-10-27",
-    "avg": 28151,
-    "latest": 27120,
-    "latestDate": "2026-11-18",
-    "observations": 53,
-    "days": 33
+    "avg": 27964,
+    "latest": 18100,
+    "latestDate": "2026-11-19",
+    "observations": 54,
+    "days": 34
    }
   },
   "meat-pork-deungsim-slice-diet-10x200g": {
@@ -4918,7 +4899,7 @@
    "name": "더단백 드링크 초코, 250ml, 18개",
    "platform": "coupang",
    "cardPrice": 23930,
-   "cardPriceCheckedAt": "2026-11-19 07:45",
+   "cardPriceCheckedAt": "2026-11-19 12:45",
    "cardListPrice": 34800,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7411095382",
    "couprice": {
@@ -5278,12 +5259,12 @@
     {
      "date": "2026-11-19",
      "price": 23930,
-     "ts": "2026-11-19T07:45:00+09:00",
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-20T12:03:18.628735+00:00",
-   "lastObservedAt": "2026-11-19T07:45:00+09:00",
+   "lastObservedAt": "2026-11-19T12:45:00+09:00",
    "stats": {
     "min": 23070,
     "minDate": "2026-11-06",
@@ -5919,8 +5900,8 @@
     "crosscheck": {
      "source60Min": 6120,
      "source60Max": 23900,
-     "sourceRecords": 36,
-     "sourceCurrent": 12270,
+     "sourceRecords": 34,
+     "sourceCurrent": 13900,
      "sourceWarnsVolatile": true
     }
    },
@@ -5957,27 +5938,27 @@
    "name": "[동원] 보성홍차 아이스티 제로 애플 500ml 12개 + 샤인머스캣 500ml 12개, 24개",
    "platform": "coupang",
    "cardPrice": 16900,
-   "cardPriceCheckedAt": "2026-11-15 20:51",
+   "cardPriceCheckedAt": "2026-11-19 21:08",
    "cardListPrice": 52800,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "fetch-error",
    "series": [
     {
-     "date": "2026-11-15",
+     "date": "2026-11-19",
      "price": 16900,
-     "ts": "2026-11-15T20:51:00+09:00",
+     "ts": "2026-11-19T21:08:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
     "min": 16900,
-    "minDate": "2026-11-15",
+    "minDate": "2026-11-19",
     "max": 16900,
-    "maxDate": "2026-11-15",
+    "maxDate": "2026-11-19",
     "avg": 16900,
     "latest": 16900,
-    "latestDate": "2026-11-15",
+    "latestDate": "2026-11-19",
     "observations": 1,
     "days": 1
    },
@@ -6251,7 +6232,7 @@
    "name": "코카콜라 제로, 350ml, 24개",
    "platform": "coupang",
    "cardPrice": 18700,
-   "cardPriceCheckedAt": "2026-11-19 07:45",
+   "cardPriceCheckedAt": "2026-11-19 12:45",
    "cardListPrice": 25700,
    "sourceUrl": "https://www.couprice.co.kr/products/x-8174473713",
    "couprice": {
@@ -7427,12 +7408,12 @@
     {
      "date": "2026-11-19",
      "price": 18700,
-     "ts": "2026-11-19T07:45:00+09:00",
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-20T22:02:32.04339+00:00",
-   "lastObservedAt": "2026-11-19T07:45:00+09:00",
+   "lastObservedAt": "2026-11-19T12:45:00+09:00",
    "stats": {
     "min": 9210,
     "minDate": "2026-11-11",
@@ -7737,38 +7718,30 @@
    "name": "하림 IFF 닭가슴살 (냉동), 2kg, 1개",
    "platform": "coupang",
    "cardPrice": 22200,
-   "cardPriceCheckedAt": "2026-11-19 07:45",
+   "cardPriceCheckedAt": "2026-11-19 12:45",
    "cardListPrice": 22900,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 22200,
-     "ts": "2026-11-17T07:30:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-19",
      "price": 22200,
-     "ts": "2026-11-19T07:45:00+09:00",
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
     "min": 22200,
-    "minDate": "2026-11-17",
+    "minDate": "2026-11-19",
     "max": 22200,
-    "maxDate": "2026-11-17",
+    "maxDate": "2026-11-19",
     "avg": 22200,
     "latest": 22200,
     "latestDate": "2026-11-19",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-17T07:30:00+09:00",
-   "latestObservedAt": "2026-11-19T07:45:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "meat-pork-moamit-canada-samgyeopsal-1kg": {
    "id": "meat-pork-moamit-canada-samgyeopsal-1kg",
@@ -7842,24 +7815,6 @@
    "statusDetail": "fetch-error",
    "series": [
     {
-     "date": "2026-11-15",
-     "price": 53070,
-     "ts": "2026-11-15T20:00:00+09:00",
-     "src": "mart"
-    },
-    {
-     "date": "2026-11-18",
-     "price": 51170,
-     "ts": "2026-11-18T16:22:00+09:00",
-     "src": "mart"
-    },
-    {
-     "date": "2026-11-18",
-     "price": 51300,
-     "ts": "2026-11-18T18:50:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-19",
      "price": 51840,
      "ts": "2026-11-19T09:09:00+09:00",
@@ -7867,19 +7822,17 @@
     }
    ],
    "stats": {
-    "min": 51170,
-    "minDate": "2026-11-18",
-    "max": 53070,
-    "maxDate": "2026-11-15",
-    "avg": 51845,
+    "min": 51840,
+    "minDate": "2026-11-19",
+    "max": 51840,
+    "maxDate": "2026-11-19",
+    "avg": 51840,
     "latest": 51840,
     "latestDate": "2026-11-19",
-    "observations": 4,
-    "days": 3
+    "observations": 1,
+    "days": 1
    },
-   "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044",
-   "latestObservedAt": "2026-11-19T09:09:00+09:00",
-   "firstObservedAt": "2026-11-15T20:00:00+09:00"
+   "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044"
   },
   "meat-beef-ouratown-woosamgyup-1kg": {
    "id": "meat-beef-ouratown-woosamgyup-1kg",
@@ -7990,7 +7943,7 @@
      "source60Min": 15640,
      "source60Max": 38620,
      "sourceRecords": 29,
-     "sourceCurrent": 17890,
+     "sourceCurrent": 17490,
      "sourceWarnsVolatile": true
     }
    },
@@ -8116,9 +8069,9 @@
    "id": "meat-chicken-harim-jayeonsilrok-breast-400g",
    "name": "하림 자연실록 무항생제 인증 닭가슴살 (냉장), 400g, 1개",
    "platform": "coupang",
-   "cardPrice": 6900,
-   "cardPriceCheckedAt": "2026-11-19 07:45",
-   "cardListPrice": 7190,
+   "cardPrice": 6150,
+   "cardPriceCheckedAt": "2026-11-19 12:45",
+   "cardListPrice": null,
    "sourceUrl": "https://www.couprice.co.kr/products/x-162464612",
    "couprice": {
     "ids": {
@@ -8145,31 +8098,23 @@
    "statusDetail": "item-mismatch",
    "series": [
     {
-     "date": "2026-11-18",
-     "price": 6900,
-     "ts": "2026-11-18T07:45:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-19",
-     "price": 6900,
-     "ts": "2026-11-19T07:45:00+09:00",
+     "price": 6150,
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
-    "min": 6900,
-    "minDate": "2026-11-18",
-    "max": 6900,
-    "maxDate": "2026-11-18",
-    "avg": 6900,
-    "latest": 6900,
+    "min": 6150,
+    "minDate": "2026-11-19",
+    "max": 6150,
+    "maxDate": "2026-11-19",
+    "avg": 6150,
+    "latest": 6150,
     "latestDate": "2026-11-19",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-18T07:45:00+09:00",
-   "latestObservedAt": "2026-11-19T07:45:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "meat-pork-tongsamgyeop-camping-2kg": {
    "id": "meat-pork-tongsamgyeop-camping-2kg",
@@ -8588,7 +8533,7 @@
    "name": "나랑드사이다 제로, 245ml, 30개",
    "platform": "coupang",
    "cardPrice": 12770,
-   "cardPriceCheckedAt": "2026-11-19 09:12",
+   "cardPriceCheckedAt": "2026-11-19 12:45",
    "cardListPrice": 15000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7447842898",
    "couprice": {
@@ -8928,38 +8873,25 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-18",
-     "price": 12770,
-     "ts": "2026-11-18T18:50:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-19",
      "price": 12770,
-     "ts": "2026-11-19T07:45:00+09:00",
-     "src": "mart"
-    },
-    {
-     "date": "2026-11-19",
-     "price": 12770,
-     "ts": "2026-11-19T09:12:00+09:00",
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-22T10:02:43.259366+00:00",
-   "lastObservedAt": "2026-11-19T07:45:00+09:00",
+   "lastObservedAt": "2026-11-19T12:45:00+09:00",
    "stats": {
     "min": 7900,
     "minDate": "2026-09-27",
     "max": 25950,
     "maxDate": "2026-09-28",
-    "avg": 12373,
+    "avg": 12358,
     "latest": 12770,
     "latestDate": "2026-11-19",
-    "observations": 55,
-    "days": 32
-   },
-   "latestObservedAt": "2026-11-19T09:12:00+09:00"
+    "observations": 53,
+    "days": 31
+   }
   },
   "meat-pork-dodram-handon-samgyeopsal-1kg": {
    "id": "meat-pork-dodram-handon-samgyeopsal-1kg",
@@ -9495,12 +9427,6 @@
    "statusDetail": "fetch-error",
    "series": [
     {
-     "date": "2026-11-15",
-     "price": 15250,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-19",
      "price": 15250,
      "ts": "2026-11-19T09:12:00+09:00",
@@ -9509,17 +9435,16 @@
    ],
    "stats": {
     "min": 15250,
-    "minDate": "2026-11-15",
+    "minDate": "2026-11-19",
     "max": 15250,
-    "maxDate": "2026-11-15",
+    "maxDate": "2026-11-19",
     "avg": 15250,
     "latest": 15250,
     "latestDate": "2026-11-19",
-    "observations": 2,
-    "days": 2
+    "observations": 1,
+    "days": 1
    },
-   "sourceUrl": "https://www.couprice.co.kr/products/x-8180059688",
-   "latestObservedAt": "2026-11-19T09:12:00+09:00"
+   "sourceUrl": "https://www.couprice.co.kr/products/x-8180059688"
   },
   "tamsaseupakeulring-peulrein-murabel-500ml-20gae": {
    "id": "tamsaseupakeulring-peulrein-murabel-500ml-20gae",
@@ -9998,12 +9923,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
-     "price": 16280,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-18",
      "price": 17300,
      "ts": "2026-11-17T22:49:51.604961+00:00",
@@ -10023,13 +9942,12 @@
     "minDate": "2026-10-22",
     "max": 37230,
     "maxDate": "2026-10-08",
-    "avg": 17748,
+    "avg": 17794,
     "latest": 16050,
     "latestDate": "2026-11-18",
-    "observations": 33,
+    "observations": 32,
     "days": 16
-   },
-   "latestObservedAt": "2026-11-18T01:02:51.727963+00:00"
+   }
   },
   "toss-deo-biktoria-cheongpodo-remon-500ml-40gae": {
    "id": "toss-deo-biktoria-cheongpodo-remon-500ml-40gae",
@@ -10430,8 +10348,8 @@
     "crosscheck": {
      "source60Min": 13990,
      "source60Max": 33350,
-     "sourceRecords": 14,
-     "sourceCurrent": 17430,
+     "sourceRecords": 15,
+     "sourceCurrent": 17230,
      "sourceWarnsVolatile": true
     }
    },
@@ -10529,24 +10447,24 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-15",
-     "price": 17430,
-     "ts": "2026-11-15T19:25:00+09:00",
-     "src": "mart"
+     "date": "2026-11-18",
+     "price": 17230,
+     "ts": "2026-11-18T14:44:29.814791+00:00",
+     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-09-21T10:43:52.503286+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "lastObservedAt": "2026-11-18T14:44:29.814791+00:00",
    "stats": {
     "min": 13990,
     "minDate": "2026-10-10",
     "max": 33350,
     "maxDate": "2026-09-21",
-    "avg": 18653,
-    "latest": 17430,
-    "latestDate": "2026-11-15",
+    "avg": 18639,
+    "latest": 17230,
+    "latestDate": "2026-11-18",
     "observations": 15,
-    "days": 12
+    "days": 13
    }
   },
   "acv-denigris-organic-1l": {
@@ -10597,8 +10515,8 @@
     "crosscheck": {
      "source60Min": 11440,
      "source60Max": 36800,
-     "sourceRecords": 61,
-     "sourceCurrent": 15500,
+     "sourceRecords": 60,
+     "sourceCurrent": 29800,
      "sourceWarnsVolatile": true
     }
    },
@@ -10611,18 +10529,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-20",
-     "price": 15700,
-     "ts": "2026-09-19T19:43:05.203379+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-20",
-     "price": 34700,
-     "ts": "2026-09-19T21:48:00.284774+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-22",
      "price": 14310,
@@ -10976,19 +10882,25 @@
      "price": 15500,
      "ts": "2026-11-17T03:49:44.794402+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 29800,
+     "ts": "2026-11-19T01:53:49.559202+00:00",
+     "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-19T19:43:05.203379+00:00",
-   "lastObservedAt": "2026-11-17T03:49:44.794402+00:00",
+   "firstObservedAt": "2026-09-22T14:52:30.712402+00:00",
+   "lastObservedAt": "2026-11-19T01:53:49.559202+00:00",
    "stats": {
     "min": 11440,
     "minDate": "2026-11-05",
     "max": 36800,
     "maxDate": "2026-10-16",
-    "avg": 16084,
-    "latest": 15500,
-    "latestDate": "2026-11-17",
-    "observations": 61,
+    "avg": 16009,
+    "latest": 29800,
+    "latestDate": "2026-11-19",
+    "observations": 60,
     "days": 25
    }
   },
@@ -12511,12 +12423,6 @@
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 13900,
-     "ts": "2026-11-17T12:52:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-18",
      "price": 15900,
      "ts": "2026-11-18T13:40:00+09:00",
@@ -12524,18 +12430,16 @@
     }
    ],
    "stats": {
-    "min": 13900,
-    "minDate": "2026-11-17",
+    "min": 15900,
+    "minDate": "2026-11-18",
     "max": 15900,
     "maxDate": "2026-11-18",
-    "avg": 14900,
+    "avg": 15900,
     "latest": 15900,
     "latestDate": "2026-11-18",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-17T12:52:00+09:00",
-   "latestObservedAt": "2026-11-18T13:40:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "protein-otmond-choco-250ml-36": {
    "id": "protein-otmond-choco-250ml-36",
@@ -13578,38 +13482,30 @@
    "name": "곰곰 호주산 부채살 구이용 (냉장), 600g, 1팩",
    "platform": "coupang",
    "cardPrice": 22510,
-   "cardPriceCheckedAt": "2026-11-19 07:45",
+   "cardPriceCheckedAt": "2026-11-19 12:45",
    "cardListPrice": 23990,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 22510,
-     "ts": "2026-11-17T09:08:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-19",
      "price": 22510,
-     "ts": "2026-11-19T07:45:00+09:00",
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
     "min": 22510,
-    "minDate": "2026-11-17",
+    "minDate": "2026-11-19",
     "max": 22510,
-    "maxDate": "2026-11-17",
+    "maxDate": "2026-11-19",
     "avg": 22510,
     "latest": 22510,
     "latestDate": "2026-11-19",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-17T09:08:00+09:00",
-   "latestObservedAt": "2026-11-19T07:45:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "toss-tteutdak-roast-chicken-1kg-2": {
    "id": "toss-tteutdak-roast-chicken-1kg-2",
@@ -13623,12 +13519,6 @@
    "statusDetail": "not-tracked",
    "series": [
     {
-     "date": "2026-11-17",
-     "price": 12920,
-     "ts": "2026-11-17T15:21:00+09:00",
-     "src": "mart"
-    },
-    {
      "date": "2026-11-18",
      "price": 14100,
      "ts": "2026-11-18T13:40:00+09:00",
@@ -13636,18 +13526,16 @@
     }
    ],
    "stats": {
-    "min": 12920,
-    "minDate": "2026-11-17",
+    "min": 14100,
+    "minDate": "2026-11-18",
     "max": 14100,
     "maxDate": "2026-11-18",
-    "avg": 13510,
+    "avg": 14100,
     "latest": 14100,
     "latestDate": "2026-11-18",
-    "observations": 2,
-    "days": 2
-   },
-   "firstObservedAt": "2026-11-17T15:21:00+09:00",
-   "latestObservedAt": "2026-11-18T13:40:00+09:00"
+    "observations": 1,
+    "days": 1
+   }
   },
   "meat-lamb-gome-shoulderrack-400g": {
    "id": "meat-lamb-gome-shoulderrack-400g",
@@ -13899,7 +13787,7 @@
    "name": "링티 제로 복숭아맛, 24개, 500ml",
    "platform": "coupang",
    "cardPrice": 21200,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPriceCheckedAt": "2026-11-19 21:06",
    "cardListPrice": 69600,
    "sourceUrl": "https://www.couprice.co.kr/products/x-8635201145",
    "couprice": {
@@ -13924,20 +13812,20 @@
    "statusDetail": "no-records",
    "series": [
     {
-     "date": "2026-11-15",
+     "date": "2026-11-19",
      "price": 21200,
-     "ts": "2026-11-15T19:25:00+09:00",
+     "ts": "2026-11-19T21:06:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
     "min": 21200,
-    "minDate": "2026-11-15",
+    "minDate": "2026-11-19",
     "max": 21200,
-    "maxDate": "2026-11-15",
+    "maxDate": "2026-11-19",
     "avg": 21200,
     "latest": 21200,
-    "latestDate": "2026-11-15",
+    "latestDate": "2026-11-19",
     "observations": 1,
     "days": 1
    }
@@ -13947,38 +13835,30 @@
    "name": "호주산 부채살 구이용 (냉장), 600g, 1개",
    "platform": "coupang",
    "cardPrice": 24900,
-   "cardPriceCheckedAt": "2026-11-19 07:45",
+   "cardPriceCheckedAt": "2026-11-19 12:45",
    "cardListPrice": 29590,
    "source": "mart",
    "status": "tracking-started",
-   "statusDetail": "not-tracked",
+   "statusDetail": "fetch-error",
    "series": [
-    {
-     "date": "2026-11-17",
-     "price": 24900,
-     "ts": "2026-11-17T12:30:00+09:00",
-     "src": "mart"
-    },
     {
      "date": "2026-11-19",
      "price": 24900,
-     "ts": "2026-11-19T07:45:00+09:00",
+     "ts": "2026-11-19T12:45:00+09:00",
      "src": "mart"
     }
    ],
    "stats": {
     "min": 24900,
-    "minDate": "2026-11-17",
+    "minDate": "2026-11-19",
     "max": 24900,
-    "maxDate": "2026-11-17",
+    "maxDate": "2026-11-19",
     "avg": 24900,
     "latest": 24900,
     "latestDate": "2026-11-19",
-    "observations": 2,
-    "days": 2
+    "observations": 1,
+    "days": 1
    },
-   "firstObservedAt": "2026-11-17T12:30:00+09:00",
-   "latestObservedAt": "2026-11-19T07:45:00+09:00",
    "sourceUrl": "https://www.couprice.co.kr/products/x-7858546638"
   },
   "matitneunduyugt-godanbaek-duyu-190ml-24gae": {
@@ -14566,7 +14446,7 @@
    "cardListPrice": 42600,
    "source": "mart",
    "status": "tracking-started",
-   "statusDetail": "not-tracked",
+   "statusDetail": "fetch-error",
    "series": [
     {
      "date": "2026-11-19",
@@ -14586,8 +14466,6 @@
     "observations": 1,
     "days": 1
    },
-   "firstObservedAt": "2026-11-19T09:55:00+09:00",
-   "latestObservedAt": "2026-11-19T09:55:00+09:00",
    "sourceUrl": "https://www.couprice.co.kr/products/x-8518594609"
   },
   "meat-beef-miteupeullekseu-us-choice-buchaesal-900g": {
@@ -14599,7 +14477,7 @@
    "cardListPrice": 39900,
    "source": "mart",
    "status": "tracking-started",
-   "statusDetail": "not-tracked",
+   "statusDetail": "fetch-error",
    "series": [
     {
      "date": "2026-11-19",
@@ -14619,8 +14497,6 @@
     "observations": 1,
     "days": 1
    },
-   "firstObservedAt": "2026-11-19T09:55:00+09:00",
-   "latestObservedAt": "2026-11-19T09:55:00+09:00",
    "sourceUrl": "https://www.couprice.co.kr/products/x-9139983421"
   },
   "talkdeal-wj-acv-500ml-24": {
@@ -14692,7 +14568,7 @@
    "cardListPrice": 30650,
    "source": "mart",
    "status": "tracking-started",
-   "statusDetail": "not-tracked",
+   "statusDetail": "fetch-error",
    "series": [
     {
      "date": "2026-11-19",
@@ -14711,7 +14587,8 @@
     "latestDate": "2026-11-19",
     "observations": 1,
     "days": 1
-   }
+   },
+   "sourceUrl": "https://www.couprice.co.kr/products/x-8853526798"
   }
  }
 }
