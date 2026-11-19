@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-19T09:14:49+09:00",
+  "generatedAt": "2026-11-19T09:54:20+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -14555,6 +14555,72 @@
     "observations": 7,
     "days": 6
    }
+  },
+  "meat-beef-besteumil-au-buchaesal-gui-1-2kg": {
+   "id": "meat-beef-besteumil-au-buchaesal-gui-1-2kg",
+   "name": "베스트밀 호주산 부채살 1.2kg (300g×4팩) 구이용 고단백 캠핑 소고기, 300g, 4개",
+   "platform": "coupang",
+   "cardPrice": 37900,
+   "cardPriceCheckedAt": "2026-11-19 09:55",
+   "cardListPrice": 42600,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-19",
+     "price": 37900,
+     "ts": "2026-11-19T09:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 37900,
+    "minDate": "2026-11-19",
+    "max": 37900,
+    "maxDate": "2026-11-19",
+    "avg": 37900,
+    "latest": 37900,
+    "latestDate": "2026-11-19",
+    "observations": 1,
+    "days": 1
+   },
+   "firstObservedAt": "2026-11-19T09:55:00+09:00",
+   "latestObservedAt": "2026-11-19T09:55:00+09:00",
+   "sourceUrl": "https://www.couprice.co.kr/products/x-8518594609"
+  },
+  "meat-beef-miteupeullekseu-us-choice-buchaesal-900g": {
+   "id": "meat-beef-miteupeullekseu-us-choice-buchaesal-900g",
+   "name": "[미트플렉스] 미국산 소고기 초이스등급 냉장 부채살, 900g, 1개",
+   "platform": "coupang",
+   "cardPrice": 31920,
+   "cardPriceCheckedAt": "2026-11-19 09:55",
+   "cardListPrice": 39900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-19",
+     "price": 31920,
+     "ts": "2026-11-19T09:55:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 31920,
+    "minDate": "2026-11-19",
+    "max": 31920,
+    "maxDate": "2026-11-19",
+    "avg": 31920,
+    "latest": 31920,
+    "latestDate": "2026-11-19",
+    "observations": 1,
+    "days": 1
+   },
+   "firstObservedAt": "2026-11-19T09:55:00+09:00",
+   "latestObservedAt": "2026-11-19T09:55:00+09:00",
+   "sourceUrl": "https://www.couprice.co.kr/products/x-9139983421"
   }
  }
 }
