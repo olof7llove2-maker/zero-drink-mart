@@ -3291,9 +3291,7 @@ select.sel {
 }
 
 /* ── r53 (2026-11-19) ─────────────────────────────────────
-   ① 첫 진입 인트로(약 1초): 초록 T 아래로 '최저가 검색은 띠니'가 떠오릅니다.
-   ② 홈 맨 위 카테고리 바로가기 3+3 (전체·제로음료·단백질·식단고기·간편식·과일)
-   ③ 카테고리 탭 타일 6개 → 3+3 대칭 */
+   ① 첫 진입 인트로(약 1초): 초록 T 아래로 '최저가 검색은 띠니'가 떠오릅니다. */
 .splash {
   position: fixed;
   inset: 0;
@@ -3377,10 +3375,7 @@ select.sel {
   .home-head .ctl-sel { width: 100px; }
 }
 
-/* 카테고리 탭 타일: 과일까지 6개 → 3+3 */
-.cattiles { grid-template-columns: repeat(3, 1fr); }
-.cattiles .tile:last-child { grid-column: auto; flex-direction: column; }
-.cattiles .tile:last-child .tile-photo { width: auto; aspect-ratio: 16 / 10; }
+/* 카테고리 탭 타일 사진 */
 .cattiles .tile-photo img { object-fit: cover; width: 100%; height: 100%; }
 
 /* ── r55 · 카테고리 탭 '판매처별 모아보기' 칩 (🔴 쿠팡 · 🔵 토스 · 🟢 네이버) ── */

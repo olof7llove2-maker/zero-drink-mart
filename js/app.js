@@ -21,8 +21,6 @@ const PART_TILES = [
   { part: "shake", label: "단백질 쉐이크", emoji: "🥛", sub: "신타6·옵티멈·마이프로틴", image: "images/shake-bsn-syntha6-chocolate-milkshake-2-27kg.jpg" },
   { part: "meat", label: "식단 고기", emoji: "🥩", sub: "소·돼지·닭 원물", image: "images/meat-beef-au-buchaesal-steak-600g.jpg" },
   { part: "cheat", label: "치팅·간편식", emoji: "🍕", sub: "햇반·간편 닭가슴살·스팸", image: "images/retort-can-spam-classic-340g-6.jpg" },
-  /* r53 — 11월 제철 과일 (감귤·배·사과·단감·샤인머스켓) */
-  { part: "fruit", label: "과일", emoji: "🍎", sub: "감귤·배·사과·단감·샤인", image: "images/fruit-tangerine-hwanggeum-10kg.png" },
 ];
 
 const SORT_OPTIONS = [
@@ -1283,9 +1281,9 @@ function spotCardHTML(p) {
   </article>`;
 }
 
-/* ── 홈 카테고리 정의 (전체·제로음료·단백질·식단고기·간편식·과일) ──
+/* ── 홈 카테고리 정의 (전체·제로음료·단백질·식단고기·간편식) ──
    r54 — 재영 님(2026-11-19): "중복된 카테고리 버튼 2줄을 1줄로", "보기좋게 두줄로".
-   홈 맨 위 6개 버튼 하나만 남기고, 그 선택값(state.homeCat)이
+   홈 맨 위 5개 버튼 하나만 남기고, 그 선택값(state.homeCat)이
    ① 오늘의 역대급 할인 카드(가로 레일)와 ② 아래 상품 비교 리스트를 함께 필터링합니다. */
 /* r55 — 위 '오늘의 역대급 할인' 레일 노출 개수. 재영 님(2026-11-19): 5개 → 4개 */
 const SPOT_LIMIT = 4;
@@ -1296,7 +1294,6 @@ const SPOT_CATS = [
   { id: "protein", emoji: "💪", label: "단백질", parts: ["protein", "shake"] },
   { id: "meat", emoji: "🥩", label: "식단고기", parts: ["meat"] },
   { id: "meal", emoji: "🍕", label: "간편식", parts: ["cheat"] },
-  { id: "fruit", emoji: "🍎", label: "과일", parts: ["fruit"] },
 ];
 
 /* r53 — '오늘의 역대급 할인' Top 5 기준 (재영 님 2026-11-19: "인지도(리뷰 수) × 할인 매력도")
@@ -1387,7 +1384,7 @@ function spotCatPicks(cat, n) {
 }
 
 /* ── 홈 분류 선택값
-   r55 — 홈 맨 위 카테고리 버튼 6개(#home-cats)를 없애고 분류는 하단 '카테고리' 탭으로 통합했습니다.
+   r55 — 홈 맨 위 카테고리 버튼 줄(#home-cats)을 없애고 분류는 하단 '카테고리' 탭으로 통합했습니다.
    홈에서는 늘 "전체"라서 homeCatDef()는 SPOT_CATS[0](= 전체)만 돌려줍니다. */
 function homeCatDef() {
   return SPOT_CATS.find((c) => c.id === state.homeCat) || SPOT_CATS[0];
@@ -1573,8 +1570,7 @@ function renderCategoryList() {
   renderCardsInto(list, items, {
     limit: state.limit.category,
     moreKey: "category",
-    /* r53 — 과일은 하위 종류마다 1종씩이라 묶음 제목보다 한 그리드가 깔끔합니다 */
-    grouped: (state.filters || []).length === 0 && state.part !== "fruit",
+    grouped: (state.filters || []).length === 0,
     twoCol: true,
   });
 }
