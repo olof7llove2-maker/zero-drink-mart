@@ -488,6 +488,7 @@ function modalBuyBlock(p) {
       <em>${head}</em>
     </p>
     ${buyHTML(p)}
+    ${typeof mehRowHTML === "function" ? mehRowHTML(p) : ""}
   </div>`;
 }
 
@@ -509,7 +510,6 @@ function priceModalHTML(p, entry) {
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
     <p class="pm-src">가격 확인 <b>${escapeHtml(freshText)}</b>${headline ? ` · ${headline}` : ""}</p>
     ${modalBuyBlock(p)}
-    ${typeof mehRowHTML === "function" ? mehRowHTML(p) : ""}
     ${gradeBlock(p)}
     <h3 class="pm-h3">가격 비교</h3>
     ${positionBlock(p, entry)}
