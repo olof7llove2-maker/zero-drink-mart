@@ -39,6 +39,19 @@
   표시는 `isMuted()`·재생 상태를 확인한 뒤에만 켜고, 막히면 되돌려 다음 탭에서 다시 시도합니다. 끈 기록(`localStorage ttini-bgm-off`)이 있으면
   자동으로 켜지지 않고 미리 받지도 않습니다. 예전 로컬 MP3(`audio/*.mp3`, r37)는 쓰지 않고 남겨만 둡니다.
 
+## r47 — 첫 진입 페이드인 (2026-11-19)
+
+재영 님 요청(`"띠니픽 처음 들어올때 페이드인 해서 들어오게끔 만들자"`)으로, 사이트를 처음 열 때 화면이 아주 짧게 스르륵 나타나도록 했습니다. **HTML 구조·JS·데이터는 그대로**이고 `css/style.css`에 CSS만 추가했습니다.
+
+- `body` — `opacity: 0 → 1`, 0.4s `ease-out`.
+  - body에 `transform`을 걸면 `position: fixed`인 하단 탭바(`.tabbar`)·우하단 BGM 버튼(`.bgm-fab`)의 기준 상자가 body가 되어 스크롤을 따라 움직이므로, **body에는 opacity만** 겁니다.
+- `main` — `translateY(6px) → 0`, 0.5s `cubic-bezier(.22,.61,.36,1)`로 살짝 떠오르는 정도만(main 안에는 fixed 요소가 없습니다).
+- 둘 다 `animation-fill-mode: backwards` — 애니메이션이 끝나면 `transform`·`opacity`가 요소에 남지 않습니다. 탭 전환(`?tab=`)·뒤로가기에는 다시 걸리지 않고(같은 문서라 애니메이션은 한 번만), `prefers-reduced-motion: reduce`에서는 `animation: none`으로 즉시 표시됩니다.
+- FOUC 방지: `style.css`는 `index.html`의 head에서 렌더를 막고 있어 첫 페인트 전에 이미 적용됩니다. 그래서 내용이 먼저 보였다가 사라지는 깜빡임 없이 바로 페이드인으로 시작합니다.
+- `js/bgm.js`의 첫 터치 BGM·이미지 로딩·스크롤에는 손대지 않았습니다(요소를 숨기거나 `pointer-events`를 막지 않음).
+- 캐시 버전: `index.html` `?v=20261119r47` · `sw.js` `SW_BUILD = "20261119r47"`.
+- 판정 검증: `python3 scripts/verify_grade.py --check` 통과(상품 205종).
+
 ## r46 — 모던 커머스 다듬기 (2026-11-19)
 
 재영 님 승인("1,2,3 다 해봐 그리고 쿠팡파트너스 맨위 맨아래 있는거보다 그냥 좀 덜 눈에 띄게 하는법없을까")으로 화면을 무신사·오늘의집 톤으로 다듬었습니다. **데이터·판정 로직은 그대로**입니다.

@@ -70,6 +70,19 @@ b, strong { font-weight: 800; }
   clip: rect(0 0 0 0); white-space: nowrap;
 }
 
+/* ── r47: 첫 진입 페이드인 ─────────────────────────────
+   사이트를 처음 열 때만 아주 짧게 스르륵 나타납니다(탭 전환·뒤로가기에는 걸지 않음).
+   · body — opacity 0 → 1 (0.4s ease-out). body에 transform을 걸면 fixed인 하단 탭바·BGM 버튼의
+     기준 상자가 body가 되어 스크롤을 따라 움직여 버리므로, body에는 opacity만 겁니다.
+   · main — translateY(6px) → 0 (0.5s)로 살짝 떠오르는 정도만. main 안에는 fixed 요소가 없어 안전합니다.
+   style.css가 head에서 렌더를 막고 있어 첫 페인트 전에 이미 적용되므로, 내용이 먼저 번쩍 보였다가
+   사라지는 FOUC는 생기지 않습니다. fill-mode는 backwards라 애니메이션이 끝나면 transform이 남지 않고,
+   첫 터치 BGM(js/bgm.js)·이미지 로딩·스크롤은 그대로 동작합니다(요소를 숨기거나 막지 않음). */
+@keyframes tt-in-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tt-in-rise { from { transform: translateY(6px); } to { transform: translateY(0); } }
+body { animation: tt-in-fade 0.4s ease-out backwards; }
+main { animation: tt-in-rise 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) backwards; }
+
 /* ── 고지 · 헤더 ─────────────────────────────────────── */
 .legal {
   position: sticky; top: 0; z-index: 60;
@@ -1071,6 +1084,8 @@ body.modal-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  /* r47: 움직임을 줄이기로 한 사용자에게는 첫 진입 애니메이션도 끕니다 */
+  body, main { animation: none; }
   .pc.is-flash { animation: none; box-shadow: 0 0 0 2px var(--sage); }
   .toast { transition: none; }
   .bgm-eq i { animation: none !important; }
