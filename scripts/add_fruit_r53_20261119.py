@@ -148,6 +148,16 @@ PRODUCTS = [
 ]
 
 
+# 아버님 쿠팡 파트너스(AF5520784) 단축 링크 — 2026-11-19 19:11 링크 생성, 302 확인(모두 상품 페이지로 연결)
+PARTNER_LINKS = {
+    "fruit-tangerine-hwanggeum-10kg": "https://link.coupang.com/a/iNVl2dbyLc",
+    "fruit-pear-asadalcom-10kg": "https://link.coupang.com/a/iNVofN1yNg",
+    "fruit-apple-busa-10kg": "https://link.coupang.com/a/iNVpNx1F3k",
+    "fruit-persimmon-gyeongnam-10kg": "https://link.coupang.com/a/iNVrBkRk2C",
+    "fruit-shine-gomgom-2kg": "https://link.coupang.com/a/iNVsNfWJci",
+}
+
+
 def main():
     doc = json.loads(DATA.read_text(encoding="utf-8"))
 
@@ -158,6 +168,9 @@ def main():
 
     have = {p["id"] for p in doc["products"]}
     added = [p for p in PRODUCTS if p["id"] not in have]
+    for p in added:
+        if p["id"] in PARTNER_LINKS:
+            p["affiliateUrl"] = PARTNER_LINKS[p["id"]]
     doc["products"].extend(added)
 
     doc["site"]["tagline"] = "제로 음료·단백질·식단 고기·간편식·제철 과일 단가 비교"
