@@ -123,11 +123,10 @@ function protCardHTML(p) {
   const g = proteinValue(p);
   const p20 = protein20(p);
   const per1 = typeof proteinPerG === "function" ? proteinPerG(p) : null;
-  const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
   const bg = p.image
     ? `<span class="prot-bg" aria-hidden="true"><img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async"></span>`
     : "";
-  return `<article class="prot-card ${meta.cls}${stale && stale.stale ? " is-stale" : ""}">
+  return `<article class="prot-card ${meta.cls}">
     ${bg}
     <div class="prot-tap" data-chart="${escapeHtml(p.id)}" role="button" tabindex="0" aria-label="${escapeHtml(
     p.name

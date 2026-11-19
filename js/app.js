@@ -196,9 +196,9 @@ function proteinUnitHTML(p, view) {
   }</p>`;
 }
 
-/* ── 확인 시각 신선도 (48시간 룰) ────────────────────────
-   가격은 상품마다 확인한 시각이 다릅니다. 48시간이 지난 값은 숨기지 않고
-   '48시간+ 전 확인'으로 작게 알립니다. */
+/* ── 확인 시각 신선도 (48시간 룰 · 내부용) ──────────────
+   재영 님(2026-11-19): "아니면 아싸리 48시간 지남을 없애거나"
+   → '48시간+ 전 확인' 배지는 화면에서 없애고, 이 계산은 정기 점검용으로만 남깁니다. */
 const STALE_HOURS = 48;
 
 function checkedAtMs(value) {
@@ -223,12 +223,9 @@ function staleInfoOf(p) {
     short: stale ? "48시간+ 전 확인" : `${shortStamp(p.priceCheckedAt)} 확인`,
   };
 }
-function staleBadgeHTML(p) {
-  const s = staleInfoOf(p);
-  if (!s || !s.stale) return "";
-  return `<span class="bd bd-stale" title="${escapeHtml(
-    `${s.label} · ${Math.floor(s.hours / 24)}일 지난 확인값이라 지금 판매처 가격과 다를 수 있어요`
-  )}">48시간+ 전 확인</span>`;
+/* 오래된 확인값 배지는 화면에서 쓰지 않습니다(2026-11-19 재영 님). */
+function staleBadgeHTML() {
+  return "";
 }
 function reviewLabel(n) {
   if (typeof n !== "number" || !Number.isFinite(n)) return "";
@@ -598,18 +595,10 @@ function rateLine(p) {
   return `<span class="pc-rate">${star}${rv}</span>`;
 }
 
-/* r46 — 카드 한 줄 판정: 신호등 알약 + 오래된 확인값만 (나머지 배지는 덜어 냈습니다) */
+/* r46 — 카드 한 줄 판정: 신호등 알약만 (나머지 배지는 덜어 냈습니다) */
 function flagLine(p) {
   const out = [];
   if (typeof signalPillHTML === "function") out.push(signalPillHTML(p));
-  const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
-  if (stale && stale.stale) {
-    out.push(
-      `<span class="pc-note" title="${escapeHtml(
-        `${stale.label} · ${Math.floor(stale.hours / 24)}일 지난 확인값이라 지금 판매처 가격과 다를 수 있어요`
-      )}">${escapeHtml(stale.short)}</span>`
-    );
-  }
   /* 기간 한정 특가(톡딜·타임세일)는 끝나는 시각을 카드에 같이 적는다 */
   const deal = dealEndBadge(p);
   if (deal) out.push(deal);
@@ -2410,11 +2399,6 @@ function renderUpdateBand() {
       $("update-time").hidden = !latest.time;
     }
   }
-  /* 상품별 확인 시각과 48시간 초과 수는 화면에는 크게 쓰지 않고(푸터 작은 줄) title·aria-label에 담습니다 */
-  const staleN = (state.data.products || []).filter((p) => {
-    const s = staleInfoOf(p);
-    return s && s.stale;
-  }).length;
   const cyc = $("update-cycle-main");
   if (cyc) {
     cyc.textContent = "상품별 확인 시각 상이 · 오전·오후 9시 갱신";
@@ -2424,7 +2408,7 @@ function renderUpdateBand() {
     band.title = `가격 이력 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} 기준 (상품별 확인 시각 상이) · 가격은 바뀔 수 있어요`;
     band.setAttribute(
       "aria-label",
-      `가격 이력 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} 기준, 상품별 확인 시각이 달라요. 48시간 넘은 확인 ${staleN}종.`
+      `가격 이력 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} 기준, 상품별 확인 시각이 달라요.`
     );
   }
 }

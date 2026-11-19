@@ -501,7 +501,6 @@ function priceModalHTML(p, entry) {
     ? `쿠프라이스 관측 기록 · ${entry.stats.days}일 · ${entry.stats.observations}회 확인`
     : `마트 확인 기록 · ${escapeHtml(p.priceCheckedLabel || p.priceCheckedAt || "")}`;
   const st = hasHistory ? entry.stats : null;
-  const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
   const headline =
     st && p.price != null
       ? `관측 최고가 대비 <b>${Math.round(((st.max - p.price) / st.max) * 100)}%</b> 낮은 가격`
@@ -510,13 +509,6 @@ function priceModalHTML(p, entry) {
     <p class="pm-eyebrow">가격 추이 · 비교 분석</p>
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
     <p class="pm-src">${src}${headline ? ` · ${headline}` : ""}</p>
-    ${
-      stale && stale.stale
-        ? `<p class="pm-stale">⚠️ ${escapeHtml(
-            stale.label
-          )} 확인한 가격이에요 · 지금 판매처 가격과 다를 수 있으니 구매 전에 다시 확인해 주세요.</p>`
-        : ""
-    }
     ${p.note ? `<p class="pm-fine">${escapeHtml(p.note)}</p>` : ""}
     ${altShopBlock(p)}
     ${gradeBlock(p)}
