@@ -1471,10 +1471,10 @@ function storeKeysOf(p) {
 function renderCategoryStores() {
   const box = $("cat-stores");
   if (!box) return;
-  const pool = collapseVariants(basePool());
+  const pool = basePool();
   box.innerHTML = STORE_TILES.map((s) => {
     const on = state.catStore === s.id;
-    const n = pool.filter((p) => storeKeysOf(p).includes(s.id)).length;
+    const n = collapseVariants(pool.filter((p) => storeKeysOf(p).includes(s.id))).length;
     return `<button type="button" class="store-chip is-${s.id}${on ? " is-on" : ""}" data-catstore="${s.id}" aria-pressed="${on}">${escapeHtml(
       s.label
     )}<span class="n">${n}</span></button>`;
