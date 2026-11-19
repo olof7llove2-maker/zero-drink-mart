@@ -1,4 +1,4 @@
-/* 띠니픽 v5 — 5대 카테고리 · 옵션 묶음 · 미니 가격그래프
+/* 띠니 v5 — 5대 카테고리 · 옵션 묶음 · 미니 가격그래프
    데이터: js/products.js (PRODUCTS · PARTS · CATEGORIES …), data/price-history.json */
 const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
 const $ = (id) => document.getElementById(id);
@@ -306,12 +306,12 @@ function sparkSVG(p) {
   const last = series[series.length - 1];
   const lowIdx = vals.indexOf(Math.min(...vals));
   const down = last.price <= series[0].price;
-  const stroke = down ? "#1f8a5f" : "#c8442a";
+  const stroke = down ? "#34d399" : "#ff6b6b";
   return `<svg class="spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="60일 가격 추이">
-    <path d="${area}" fill="${down ? "rgba(31,138,95,0.14)" : "rgba(200,68,42,0.12)"}"/>
+    <path d="${area}" fill="${down ? "rgba(52,211,153,0.14)" : "rgba(255,107,107,0.12)"}"/>
     <path d="${line}" fill="none" stroke="${stroke}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
     <circle cx="${x(series.length - 1).toFixed(1)}" cy="${y(last.price).toFixed(1)}" r="2.2" fill="${stroke}"/>
-    <circle cx="${x(lowIdx).toFixed(1)}" cy="${y(vals[lowIdx]).toFixed(1)}" r="1.8" fill="#0f172a" opacity="0.55"/>
+    <circle cx="${x(lowIdx).toFixed(1)}" cy="${y(vals[lowIdx]).toFixed(1)}" r="1.8" fill="#1b1b21" opacity="0.75"/>
   </svg>`;
 }
 
@@ -1722,7 +1722,7 @@ function setTab(id, scroll = true) {
   state.tab = id;
   document.body.dataset.tab = id;
   document.title =
-    id === "home" ? "띠니픽 | 제로음료·단백질·고기 최저가 비교" : `${TABS.find((t) => t.id === id).label} | 띠니픽`;
+    id === "home" ? "띠니 | 제로음료·단백질·고기 최저가 비교" : `${TABS.find((t) => t.id === id).label} | 띠니`;
   TABS.forEach((t) => {
     const view = $(`view-${t.id}`);
     if (view) view.hidden = t.id !== id;
@@ -1782,15 +1782,15 @@ function shareLinkFor(p) {
   return p ? `${SHARE_BASE}/?p=${encodeURIComponent(p.id)}` : `${SHARE_BASE}/`;
 }
 function shareTextFor(p) {
-  if (!p) return "쿠팡·토스·네이버 최저가를 모아 비교하는 띠니픽이에요. 직접 팔지 않고 원래 판매처로 연결해요.";
+  if (!p) return "쿠팡·토스·네이버 최저가를 모아 비교하는 띠니예요. 직접 팔지 않고 원래 판매처로 연결해요.";
   const price = p.price != null ? `${won(p.price)} · ` : "";
   const v = measureValue(p);
   const unit = v != null ? `${Math.round(v)}원 / ${measureLabel(p)}` : "";
-  return `띠니픽에서 본 상품: ${p.name} / ${price}${unit}`.trim();
+  return `띠니에서 본 상품: ${p.name} / ${price}${unit}`.trim();
 }
 async function shareMart(p) {
   const url = shareLinkFor(p);
-  const title = p ? `띠니픽 · ${p.name}` : "띠니픽 · 최저가 비교";
+  const title = p ? `띠니 · ${p.name}` : "띠니 · 최저가 비교";
   const text = shareTextFor(p);
   if (typeof navigator.share === "function") {
     try {
@@ -1904,7 +1904,7 @@ function shortcutGuide() {
     return {
       device: "아이폰 · 아이패드 (Safari)",
       steps: ["하단 가운데 공유 버튼(□↑)을 눌러요", "목록에서 '홈 화면에 추가'를 골라요", "오른쪽 위 '추가'를 누르면 끝!"],
-      hint: "홈 화면에 '띠니픽' 아이콘으로 추가돼요.",
+      hint: "홈 화면에 '띠니' 아이콘으로 추가돼요.",
     };
   }
   if (android) {
@@ -1918,7 +1918,7 @@ function shortcutGuide() {
     return {
       device: "안드로이드 (Chrome)",
       steps: ["오른쪽 위 ⋮ 메뉴를 눌러요", "'앱 설치' 또는 '홈 화면에 추가'를 골라요", "'설치'를 누르면 끝!"],
-      hint: "설치하면 홈 화면에 '띠니픽'으로 보여요.",
+      hint: "설치하면 홈 화면에 '띠니'로 보여요.",
     };
   }
   if (mac) {

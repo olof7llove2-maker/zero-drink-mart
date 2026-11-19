@@ -1,14 +1,14 @@
 {
-  "name": "띠니픽",
-  "short_name": "띠니픽",
-  "description": "쿠팡·토스·네이버 최저가를 모아 비교하는 띠니픽 — 제로 음료·단백질·식단 고기 단가 비교",
+  "name": "띠니",
+  "short_name": "띠니",
+  "description": "쿠팡·토스·네이버 최저가를 모아 비교하는 띠니 — 제로 음료·단백질·식단 고기 단가 비교",
   "lang": "ko",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f6f3ec",
-  "theme_color": "#2FBE8C",
+  "background_color": "#0b0b0d",
+  "theme_color": "#0b0b0d",
   "icons": [
     {
       "src": "images/icon-192.png",

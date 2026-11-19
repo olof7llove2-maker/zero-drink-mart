@@ -1,4 +1,4 @@
-/* 띠니픽 — BGM: 유튜브 (JINBO, Hersh, PoPoMo 「All That You Wanted」)
+/* 띠니 — BGM: 유튜브 (JINBO, Hersh, PoPoMo 「All That You Wanted」)
    재영 님(2026-11-19): "그때처럼 걍 유툽으로 틀자"
    - POCLANOS 공식 오디오(videoId 0-DwYWZC870 · 4분 5초)를 YouTube IFrame API로 재생합니다.
      임베드·재생 가능 여부는 ttini.kr에서 직접 띄워 확인했습니다(2026-11-19).

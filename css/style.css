@@ -1,37 +1,48 @@
-/* 띠니픽 — design v3 (clean · intuitive · fresh · value) */
+/* 띠니 — design r48 (dark · monochrome · modern) */
 :root {
-  /* r46 — 화이트/라이트그레이 베이스 + 초록 한 톤 (무신사·오늘의집 톤) */
-  --bg: #fafafa;
-  --surface: #ffffff;
-  --surface-2: #f6f6f5;
-  --ink: #17171a;
-  --muted: #6f6f77;
-  --muted-2: #9d9da5;
-  --line: #ececeb;
-  --line-2: #f3f3f2;
-  --sage: #0f7a4f;
-  --sage-d: #0b6240;
-  --sage-soft: #eef7f2;
-  --sage-text: #0d6b45;
-  --pap: #d4442a;
-  --pap-soft: #fdf1ee;
-  --cocoa: #8a6a3f;
-  --cocoa-soft: #f7f0e6;
-  --blue: #2f5bd0;
-  --blue-soft: #eef2fd;
-  /* 플랫폼 3색 */
-  --coupang: #e52528;
-  --coupang-d: #c01f22;
-  --coupang-soft: #fdecec;
-  --toss: #0064ff;
-  --toss-d: #0050d6;
-  --toss-soft: #e9f1ff;
+  /* r48 — 딥 블랙 배경 + 차콜 그레이 카드 (모던·시크 다크 모드).
+     라이트 모드 토큰(r46)은 r48 섹션에서 다크로 갈아 끼웠습니다. */
+  color-scheme: dark;
+  --bg: #0b0b0d;
+  --surface: #16161a;
+  --surface-2: #1e1e24;
+  --surface-3: #24242b;
+  --ink: #f5f5f7;
+  --ink-2: #d4d4d8;
+  --muted: #a1a1aa;
+  --muted-2: #71717a;
+  --line: #26262c;
+  --line-2: #202027;
+  /* 반전(화이트 CTA) — 가장 싼 곳으로 가는 메인 버튼·선택된 칩 */
+  --invert-bg: #f7f7f8;
+  --invert-fg: #101013;
+  /* 상품 사진 판 — 쿠팡 사진은 흰 배경이 많아 밝은 뉴트럴 판 위에 정갈하게 */
+  --plate: #f4f4f5;
+  --sage: #34d399;
+  --sage-d: #22b07d;
+  --sage-soft: rgba(52, 211, 153, 0.12);
+  --sage-text: #6ee7b7;
+  --sage-line: rgba(52, 211, 153, 0.28);
+  --pap: #ff5a5f;
+  --pap-soft: rgba(255, 90, 95, 0.12);
+  --pap-line: rgba(255, 90, 95, 0.28);
+  --cocoa: #d3a86a;
+  --cocoa-soft: rgba(211, 168, 106, 0.12);
+  --blue: #7aa2ff;
+  --blue-soft: rgba(122, 162, 255, 0.12);
+  /* 플랫폼 3색 — 다크 배경에서 점·글씨로 읽히게 채도만 살짝 다듬음 */
+  --coupang: #ff5a5f;
+  --coupang-d: #e04a4f;
+  --coupang-soft: rgba(255, 90, 95, 0.14);
+  --toss: #4d8dff;
+  --toss-d: #3a78e6;
+  --toss-soft: rgba(77, 141, 255, 0.14);
   --naver: #03c75a;
   --naver-d: #02a94b;
-  --naver-soft: #e7f9ee;
-  --legal-bg: #26221d;
-  --legal-fg: #f3eee6;
-  --shadow: 0 1px 2px rgba(22, 19, 15, 0.04);
+  --naver-soft: rgba(3, 199, 90, 0.14);
+  --legal-bg: #0b0b0d;
+  --legal-fg: #a1a1aa;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   --radius: 12px;
   --max: 720px;
   --pad: 16px;
@@ -2663,4 +2674,411 @@ main { padding: 0 var(--pad) 24px; }
 @media (max-width: 480px) {
   .spot-was { display: none; }
   .spot-price { flex-wrap: nowrap; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   r48 (2026-11-19) — 🖤 블랙 & 그레이 다크 모드 리디자인
+   · 배경 #0B0B0D · 카드 #16161A · 안쪽 면 #1E1E24 · 보더 #26262C
+   · 글씨 #F5F5F7 / #A1A1AA / #71717A · 메인 CTA는 화이트(#F7F7F8) + 검정 글씨
+   · 쿠팡 상품 사진은 흰 배경이 많아, 밝은 뉴트럴 판(--plate) 위에 은은한 라운드로
+   · 신호등·할인율 빨강은 다크 배경에서 읽히게 채도만 다듬음(r48 토큰)
+   · r47 첫 진입 페이드인·js/bgm.js BGM은 그대로 동작합니다
+   ══════════════════════════════════════════════════════════ */
+
+/* ── 기본 ─────────────────────────────────────────────── */
+body { background: var(--bg); color: var(--ink); }
+::selection { background: rgba(245, 245, 247, 0.2); color: #fff; }
+.skip { background: var(--invert-bg); color: var(--invert-fg); }
+
+/* ── 헤더 ─────────────────────────────────────────────── */
+.hdr {
+  background: rgba(11, 11, 13, 0.82);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+}
+/* 로고 심볼 — 귀여운 캐릭터 대신 화이트 사각 심볼 + 모던 타이포 */
+.mark {
+  flex: none; width: 28px; height: 28px; border-radius: 8px;
+  background: var(--invert-bg); color: var(--invert-fg);
+  display: grid; place-items: center;
+  font-size: 15px; font-weight: 900; letter-spacing: -0.06em; line-height: 1;
+}
+.word strong { color: var(--ink); font-weight: 800; letter-spacing: -0.055em; }
+.word em { color: var(--muted-2); }
+.brand-badge {
+  background: transparent; border: 1px solid #2e2e36;
+  color: var(--muted); font-weight: 600; letter-spacing: 0.01em;
+}
+.topnav a { color: var(--muted); }
+.topnav a[aria-current="page"] {
+  background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-fg);
+}
+.hdr-share, .hdr-info {
+  background: var(--surface); border-color: #2a2a32; color: var(--muted);
+}
+.hdr-info:hover { border-color: #3f3f48; color: var(--ink); }
+.hdr-add {
+  background: transparent; border-color: #2a2a32; color: var(--muted);
+}
+.hdr-add:hover { border-color: #3f3f48; color: var(--ink); }
+.hdr-find { background: var(--surface-2); border-color: var(--line); }
+.hdr-find:focus-within { border-color: #3f3f48; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06); }
+.hdr-find-input { color: var(--ink); }
+.hdr-find-clear { background: #2c2c34; color: var(--muted); }
+/* 지금 사도 될까? 신호등 미니 배지 */
+.lights { background: var(--surface-2); border-color: #2c2c34; box-shadow: none; }
+.lights i:nth-child(1) { background: #34d399; }
+.lights i:nth-child(2) { background: #f5c451; }
+.lights i:nth-child(3) { background: #ff6b6b; }
+
+/* ── 검색 ─────────────────────────────────────────────── */
+.toolbar { background: var(--bg); border-bottom-color: var(--line); }
+.search-box { background: var(--surface); border-color: #2a2a32; }
+.search-box:focus-within { border-color: #3f3f48; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06); }
+.search-input { color: var(--ink); }
+.search-clear { background: #2c2c34; color: var(--muted); }
+.chip-key { background: var(--surface); border-color: var(--line); color: var(--muted); }
+.chip-key:active { background: var(--surface-3); border-color: #3f3f48; color: var(--ink); }
+.promo { background: var(--surface); border-color: var(--line); color: var(--ink); }
+.promo:active { border-color: #3f3f48; }
+.promo-link { background: var(--surface); border-color: var(--line); color: var(--muted); }
+.promos-lab { color: var(--muted-2); }
+
+/* ── 칩 · 필터 (기본은 차콜, 선택은 화이트 반전) ─────────── */
+.seg a, .seg button,
+.part-chip, .filter, .cchip, .prot-chip, .goal-chip, .spot-chip, .opt,
+.search-reset, .cat-reset, .back-btn, .more-btn, .empty-btn,
+.alert-off, .alert-chip, .prot-reset, .rec-back, .bgm-btn {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--muted);
+}
+.seg a, .seg button, .part-chip, .spot-chip, .goal-chip, .prot-chip { color: var(--ink-2); }
+.seg [aria-selected="true"], .seg [aria-current="page"],
+.seg button.is-on,
+.part-chip[aria-selected="true"],
+.filter[aria-selected="true"], .filters .filter.is-on,
+.cchip.is-on, .prot-chip.is-on,
+.goal-chip.is-on, .spot-chip.is-on, .opt.is-on {
+  background: var(--invert-bg);
+  border-color: var(--invert-bg);
+  color: var(--invert-fg);
+}
+.seg [aria-selected="true"] .n, .seg [aria-current="page"] .n { color: rgba(16, 16, 19, 0.55); }
+.part-chip[aria-selected="true"] .chip-n { color: rgba(16, 16, 19, 0.55); }
+.seg button.is-on .n { color: rgba(16, 16, 19, 0.55); }
+.cchip.is-on .chip-n, .filter.is-on[aria-selected="true"] .chip-n { opacity: 0.6; }
+.cchip.is-src.is-on { background: var(--surface-3); border-color: #3a3a44; color: var(--ink); }
+.filter { color: var(--muted); }
+.chk { border-color: var(--line); color: var(--muted); }
+.chk:has(input:checked) { background: rgba(245, 245, 247, 0.08); border-color: #3f3f48; color: var(--ink); }
+.ctl-sep { background: var(--line); }
+.cat-reset:active, .spot-chip:active, .promo:active { border-color: #3f3f48; }
+
+/* 드롭다운(정렬·필터) — 화살표도 밝은 회색으로 */
+select.sel {
+  color: var(--ink-2);
+  border-color: var(--line);
+  background: var(--surface-2)
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%23A1A1AA' stroke-width='1.6' stroke-linecap='round'/></svg>")
+    no-repeat right 8px center;
+}
+
+/* ── 카드 · 판(표면) ───────────────────────────────────── */
+.pc, .dc, .deal-card, .spot-card, .prot-card, .tile, .rec-pick, .hub-row,
+.pm-stat, .pm-block, .pm-track, .pm-buy, .compare-table, .empty, .promo,
+.spot-empty, .prot-empty {
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.compare-table th { background: var(--surface-2); color: var(--muted-2); }
+.compare-table th, .compare-table td { border-bottom-color: var(--line); }
+.empty { background: #131317; border-color: #2c2c34; color: var(--muted); }
+@media (hover: hover) {
+  .pc:hover, .tile:hover, .deal-card:hover { border-color: #33333c; }
+}
+
+/* 상품 사진 판 — 밝은 뉴트럴 + 은은한 내부 보더 */
+.pc-photo, .dc-photo, .deal-photo, .spot-photo, .gv-photo,
+.rec-photo, .hub-photo, .tile-photo {
+  background: var(--plate);
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+.pc-photo { border-bottom: 1px solid var(--line); box-shadow: none; }
+.cmp-name img { background: var(--plate); border-color: transparent; }
+
+/* 사진 위에 얹히는 순위·알림 버튼은 다크 유리알로 */
+.pc-rank {
+  background: rgba(11, 11, 13, 0.62); border-color: rgba(255, 255, 255, 0.14); color: #f5f5f7;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  box-shadow: none;
+}
+.pc-rank.is-top { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-fg); }
+.pc-fab .btn-icon, .pc-fab .pc-ico {
+  background: rgba(11, 11, 13, 0.6); border-color: rgba(255, 255, 255, 0.16); color: #f5f5f7;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.pc-fab .alert-btn.is-on, .alert-btn.is-on {
+  background: rgba(240, 180, 41, 0.9); border-color: rgba(240, 180, 41, 0.9); color: #1a1206;
+}
+
+/* ── 카드 안 글씨 ─────────────────────────────────────── */
+.pc-name, .deal-name, .dc-head, .prot-name, .spot-name, .rec-name, .hub-txt b { color: var(--ink); }
+.pc-price strong, .spot-price strong, .prot-price strong, .rec-price strong, .gv-price strong,
+.dc-row strong, .pnum-v { color: var(--ink); }
+.pc-price .was, .dc-row .was, .spot-was { color: #5f5f68; }
+.pc-unit b, .pc-prot b, .prot-p20 strong { color: var(--ink-2); }
+.pc-note, .prot-fine, .spot-hint, .pc-top, .pc-rate, .spot-meta, .deal-drop-sub { color: var(--muted-2); }
+.pc-rate b { color: #e0b982; }
+.cchip.is-good, .cchip.is-wow { color: var(--muted); }
+.pc-off { color: var(--pap); }
+.deal-drop, .dc-row .off, .prot-cmp .plus, .pm-list .plus { color: var(--pap); }
+.pc-nvtag, .pc-parttag, .rank-metric, .prot-badge.is-mid, .bd-track {
+  background: var(--surface-2); border-color: var(--line); color: var(--muted);
+}
+.pc-unit .est { background: var(--surface-2); color: var(--muted-2); }
+
+/* 판매처 점 — 어두운 배경에서도 원색이 살아 있게 */
+.src-coupang::before, .btn-buy.is-alt.is-coupang::before { background: #ff5a5f; }
+.src-toss::before, .btn-buy.is-alt.is-toss::before { background: #4d8dff; }
+.src-naver::before, .btn-buy.is-alt.is-naver::before { background: #22c55e; }
+.src { color: var(--muted-2); }
+
+/* 등급 · 판정 배지 */
+.bd-low { background: var(--sage); color: #06251a; }
+.bd-near, .bd-cheap { color: var(--sage-text); background: var(--sage-soft); border: 1px solid var(--sage-line); }
+.bd-up, .bd-since { color: #e0b982; background: var(--cocoa-soft); }
+.bd-avg { color: var(--blue); background: var(--blue-soft); }
+.bd-stale { color: #e8c27a; background: rgba(240, 180, 41, 0.1); border: 1px solid rgba(240, 180, 41, 0.24); }
+.bd-naver { color: var(--naver); background: var(--naver-soft); border: 1px solid rgba(3, 199, 90, 0.26); }
+.grade-badge.is-best { background: #12855a; color: #f5fff9; }
+.grade-badge.is-great { background: #1c7a52; color: #f5fff9; }
+.grade-badge.is-mid { background: rgba(52, 211, 153, 0.14); color: var(--sage-text); }
+.grade-badge.is-soso { background: var(--surface-3); color: var(--muted); }
+.grade-badge.is-high { background: var(--pap-soft); color: #ff8a8d; }
+.grade-note, .grade-note b { color: var(--muted-2); }
+.sig { background: var(--surface-2); border-color: var(--line); color: var(--muted); }
+.sig-good { color: var(--sage-text); background: rgba(52, 211, 153, 0.1); border-color: var(--sage-line); }
+.sig-mid { color: #f5c451; background: rgba(240, 180, 41, 0.1); border-color: rgba(240, 180, 41, 0.24); }
+.sig-wait { color: #ff8a8d; background: var(--pap-soft); border-color: var(--pap-line); }
+.sig-none { color: var(--muted-2); }
+
+/* 신호등 게이지 */
+.tl-bar i { background: #2f2f37; }
+.tl-bar b { background: var(--ink); opacity: 0.5; }
+.tl-good .tl-bar i:nth-child(1) { background: #34d399; box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.3); }
+.tl-mid .tl-bar i:nth-child(2) { background: #f5c451; box-shadow: 0 0 0 1px rgba(245, 196, 81, 0.28); }
+.tl-wait .tl-bar i:nth-child(3) { background: #ff6b6b; box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.26); }
+.tl-none .tl-bar i:nth-child(3) { background: #3a3a44; }
+.tl-good .tl-lab { color: var(--sage-text); }
+.tl-mid .tl-lab { color: #f5c451; }
+.tl-wait .tl-lab { color: #ff8a8d; }
+
+/* ── 구매 버튼 (메인 CTA = 화이트, 보조 = 다크 아웃라인) ── */
+.btn-buy, .btn-buy.is-coupang, .btn-buy.is-toss, .btn-buy.is-naver,
+.spot-buy, .spot-buy.is-coupang, .spot-buy.is-toss, .spot-buy.is-naver,
+.dc-go, .install-copy, .info-close, .pm-verdict, .alert-go {
+  background: var(--invert-bg);
+  border-color: var(--invert-bg);
+  color: var(--invert-fg);
+  box-shadow: none;
+}
+.btn-buy:hover, .dc-go:hover, .info-close:hover, .alert-go:hover { background: #fff; border-color: #fff; }
+.btn-ghost, .btn-copy,
+.btn-buy.is-alt, .btn-buy.is-alt.is-coupang, .btn-buy.is-alt.is-toss, .btn-buy.is-alt.is-naver {
+  background: transparent; border: 1px solid #2a2a32; color: var(--ink-2);
+}
+.btn-ghost:hover, .btn-buy.is-alt:hover { background: var(--surface-3); }
+.pending-label { background: var(--surface-2); border-color: var(--line); color: var(--muted-2); }
+.spot-buy.is-pending { background: var(--surface-2); border-color: var(--line); color: var(--muted-2); }
+.spot-buy.is-pending::before { display: none; }
+.spot-buy.is-coupang::before, .btn-buy.is-primary.is-coupang::before { background: #e52528; opacity: 1; }
+.spot-buy.is-toss::before, .btn-buy.is-primary.is-toss::before { background: #0064ff; opacity: 1; }
+.spot-buy.is-naver::before, .btn-buy.is-primary.is-naver::before { background: #03c75a; opacity: 1; }
+
+/* ── 알림 · 종 버튼 (호박색 톤) ────────────────────────── */
+.spot-bell.is-on, .rec-bell.is-on {
+  border-color: rgba(240, 180, 41, 0.35); background: rgba(240, 180, 41, 0.12); color: #e8c27a;
+}
+.smart-btn.is-bell { border-color: rgba(240, 180, 41, 0.28); background: rgba(240, 180, 41, 0.08); color: #e8c27a; }
+.smart-btn.is-bell.is-on { border-color: rgba(240, 180, 41, 0.45); background: rgba(240, 180, 41, 0.18); }
+.smart-btn.is-rec { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-fg); }
+.alert-inline {
+  border: 1px solid rgba(240, 180, 41, 0.28);
+  background: rgba(240, 180, 41, 0.08);
+  color: #e8c27a; box-shadow: none;
+}
+.alert-inline.is-on { border-color: rgba(240, 180, 41, 0.45); background: rgba(240, 180, 41, 0.18); color: #f5d79a; }
+.alert-note { background: #1b1b21; border: 1px dashed #2c2c34; color: var(--ink-2); }
+.alert-target input { background: var(--surface-2); border-color: #2c2c34; color: var(--ink); }
+.alert-target input:focus { background: #232329; border-color: #3f3f48; }
+.alert-kakao { background: rgba(240, 180, 41, 0.1); border-color: rgba(240, 180, 41, 0.28); color: #e8c27a; }
+
+/* ── 오늘의 역대급 할인 ───────────────────────────────── */
+.spot-title, .prot-title { color: var(--ink); }
+.spot-tag { color: var(--muted); background: var(--surface-2); border: 1px solid var(--line); }
+.spot-tag.is-fresh, .spot-tag.is-low, .spot-tag.is-good, .spot-tag.is-prot { color: var(--muted); background: var(--surface-2); }
+.spot-src { color: var(--muted-2); }
+.spot-unit { color: var(--muted); }
+.spot-empty { color: var(--muted-2); }
+
+/* 단백질 레일 — 뒤에 깔던 사진 그라데이션은 다크에서 지저분해져 끕니다 */
+.prot-bg { display: none; }
+.prot-card::after, .prot-card.is-stale::after { display: none; }
+.prot-badge { background: var(--surface-2); border-color: var(--line); color: var(--muted); }
+.prot-badge.is-hot { background: var(--sage-soft); border-color: var(--sage-line); color: var(--sage-text); }
+.prot-badge.is-high { background: var(--pap-soft); border-color: var(--pap-line); color: #ff8a8d; }
+.prot-badge.is-track { background: transparent; border: 1px dashed var(--line); color: var(--muted-2); }
+.prot-p20 { color: var(--muted); }
+.prot-p1g { color: var(--muted-2); }
+.prot-hi, .prot-hi.is-strong {
+  background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-2); box-shadow: none;
+}
+.prot-cmp .minus, .pm-list .minus { color: var(--sage-text); }
+.prot-empty { color: var(--muted); }
+
+/* 1분 결론 카드 · 꿀팁 줄 */
+.gv {
+  background:
+    linear-gradient(180deg, rgba(52, 211, 153, 0.07), rgba(22, 22, 26, 0) 62%),
+    var(--surface);
+  border-color: rgba(52, 211, 153, 0.2);
+}
+.gv-head, .gv-n, .gv-empty { color: var(--muted-2); }
+.gv-head b, .gv-name { color: var(--ink); }
+.gv-goal { background: rgba(52, 211, 153, 0.14); color: var(--sage-text); }
+.gv-why, .gv-price em { color: var(--sage-text); }
+.tip-line { background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.18); color: var(--sage-text); }
+.spark { background: linear-gradient(180deg, #1b1b21, var(--surface)); border-color: var(--line); }
+.pnum-c { background: linear-gradient(180deg, #1b1b21, var(--surface)); border-color: var(--line); }
+.pnum-few { border-color: #2c2c34; }
+
+/* ── 모달 공통 ────────────────────────────────────────── */
+.install-modal, .info-modal, .pm-modal, .alert-modal, .rec-modal, .hub-modal {
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.install-card, .info-card, .pm-card, .alert-card, .rec-card, .hub-card {
+  background: #151519;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72);
+}
+.install-x, .info-x, .pm-x, .alert-x, .rec-x, .hub-x { color: var(--muted); }
+.install-card h2, .info-title, .pm-title, .alert-title, .rec-title, .hub-title { color: var(--ink); }
+.install-device, .install-copied { color: var(--sage-text); }
+.install-hint, .info-lead, .info-sec ul, .alert-name, .alert-sub, .rec-sub,
+.hub-lead, .pm-src, .pm-fine, .rec-res-lead, .rec-fine, .hub-fine { color: var(--muted); }
+.info-lead b, .info-sec b, .info-sec h3, .hub-lead b, .rec-res-lead b { color: var(--ink); }
+.info-lead-strong {
+  background: rgba(52, 211, 153, 0.08); border-color: var(--sage-line); color: var(--sage-text);
+}
+.info-lead-strong b { color: var(--sage-text); }
+.info-fine { border-top-color: var(--line); color: var(--muted-2); }
+.install-steps li::marker, .info-sec li::marker { color: var(--sage); }
+.install-close { background: var(--surface-2); color: var(--ink); }
+.alert-off { background: transparent; border-color: #2a2a32; color: var(--muted); }
+
+/* 가격 추이 모달 */
+.pm-eyebrow { background: rgba(52, 211, 153, 0.1); color: var(--sage-text); }
+.pm-stat { background: var(--surface-2); border-color: var(--line); }
+.pm-stat .pm-k, .pm-stat em { color: var(--muted-2); }
+.pm-stat.pm-max { border-color: var(--sage-line); background: rgba(52, 211, 153, 0.07); }
+.pm-stat.pm-max strong { color: var(--sage-text); }
+.pm-stat.pm-avg { border-color: rgba(122, 162, 255, 0.28); background: rgba(122, 162, 255, 0.07); }
+.pm-stat.pm-avg strong { color: var(--blue); }
+.pm-stat.pm-min { border-color: var(--pap-line); background: var(--pap-soft); }
+.pm-stat.pm-min strong { color: var(--pap); }
+.pm-chart { background: var(--surface); border-color: var(--line); }
+.pm-legend { color: var(--muted); }
+.pm-warn { background: rgba(240, 180, 41, 0.08); border-color: rgba(240, 180, 41, 0.24); color: #e8c27a; }
+.pm-stale { background: rgba(240, 180, 41, 0.08); border-color: rgba(240, 180, 41, 0.24); color: #e8c27a; }
+.pm-track { border-style: dashed; border-color: #2c2c34; background: #131317; }
+.pm-track-start { color: var(--sage-text); }
+.pm-track p.pm-track-desc { color: var(--muted); }
+.pm-bar-track { background: #26262c; }
+.pm-bar-fill.is-list { background: #3f3f48; }
+.pm-bar-fill.is-now { background: var(--sage); }
+.pm-bar-label, .pm-bar-value { color: var(--ink-2); }
+.pm-block h4 { color: var(--sage-text); }
+.pm-list li::before { background: #4a4a54; }
+.pm-foot { color: var(--muted-2); }
+.pm-foot a { color: var(--muted); }
+.pm-buy { background: #191920; border-color: var(--line); }
+.pm-buy-k { color: var(--muted); }
+
+/* 10초 추천 모달 */
+.rec-opt { background: #1c1c22; border-color: var(--line); }
+.rec-opt:active { background: var(--surface-3); border-color: #3f3f48; }
+.rec-opt em { color: var(--muted-2); }
+.rec-step { color: var(--sage-text); }
+.rec-tag { color: var(--sage-text); background: rgba(52, 211, 153, 0.1); border: 1px solid var(--sage-line); }
+.rec-pick { background: var(--surface-2); }
+.rec-pick:first-child { border-color: rgba(52, 211, 153, 0.35); box-shadow: none; }
+.rec-best { color: #241a05; background: linear-gradient(180deg, #f7d489, #e8b25a); }
+.rec-acts .btn-icon, .rec-bell { background: var(--surface-3); border-color: var(--line); color: var(--ink-2); }
+
+/* 알림 허브 */
+.hub-row { background: #1c1c22; border-color: var(--line); }
+.hub-row:active { background: var(--surface-3); }
+.hub-row.is-on { border-color: rgba(240, 180, 41, 0.3); background: rgba(240, 180, 41, 0.07); }
+.hub-sec { color: var(--sage-text); }
+.hub-sec b { color: var(--ink); }
+
+/* 새 초특가 전체 알림 카드 — 호박빛 다크 */
+.hot-card {
+  border-color: rgba(240, 180, 41, 0.22);
+  background: linear-gradient(155deg, #1a1710 0%, #201a10 60%, #241d10 100%);
+  box-shadow: none;
+}
+.hot-card.is-on {
+  border-color: rgba(240, 180, 41, 0.38);
+  background: linear-gradient(155deg, #201a10 0%, #2a2011 62%, #2f2412 100%);
+}
+.hot-ico { background: rgba(255, 255, 255, 0.06); border-color: rgba(240, 180, 41, 0.24); }
+.hot-title { color: #f0c26a; }
+.hot-sub { color: #b49a72; }
+.hot-switch { background: #26262c; border-color: #3a3a44; }
+.hot-switch .hot-knob { background: #8a8a94; }
+.hot-switch.is-on { background: #f97316; border-color: #f97316; }
+.hot-note { color: #b49a72; }
+.hot-note.is-on { color: var(--sage-text); }
+.hot-install { background: rgba(255, 255, 255, 0.04); border-color: rgba(240, 180, 41, 0.3); color: #f0c26a; }
+.hot-install:active { background: rgba(240, 180, 41, 0.12); }
+.hot-fine { color: #8f7a5e; }
+.hot-fine b { color: #e8c27a; }
+
+/* 토스트 — 다크 위에서는 밝은 알약이 또렷합니다 */
+.toast { background: #ececf0; color: #101013; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); }
+
+/* ── 푸터 ─────────────────────────────────────────────── */
+.foot { border-top-color: var(--line); color: var(--muted-2); }
+.legal-foot { color: #8a8a93; }
+.copy { color: #5a5a63; }
+.bgm-btn.is-on { color: var(--sage-text); border-color: var(--sage-line); background: rgba(52, 211, 153, 0.08); }
+.bgm-credit { color: var(--muted-2); }
+.bgm-fab {
+  background: rgba(22, 22, 26, 0.9);
+  border-color: #2a2a32;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+.bgm-fab.is-on { background: rgba(52, 211, 153, 0.14); border-color: var(--sage-line); }
+
+/* ── 하단 탭바 ────────────────────────────────────────── */
+.tabbar {
+  background: rgba(11, 11, 13, 0.9);
+  border-top: 1px solid var(--line);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+}
+.tabbar a { color: var(--muted-2); }
+.tabbar a[aria-current="page"], .tabbar a.tab-search[aria-current="page"] { color: var(--ink); }
+.tabbar a[aria-current="page"]::after { background: var(--ink); }
+
+/* 다크에서 처음 보이는 기본 스크롤바 */
+@media (min-width: 860px) {
+  * { scrollbar-color: #3a3a44 transparent; }
 }
