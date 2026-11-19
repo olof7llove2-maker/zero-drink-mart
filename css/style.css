@@ -3206,49 +3206,49 @@ select.sel {
   .hdr, .tabbar, .bgm-fab { backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 
-/* ── 19. r52 카톡 톡딜 (네 번째 판매처) ──────────────────
-   카카오 옐로(#FEE500)는 밝아서 점에 얇은 테두리를 둘러 흰 바탕에서도 보이게 합니다.
-   버튼은 다른 판매처와 같은 규칙(진한 차콜/흰 버튼)을 그대로 따릅니다. */
+/* ── 19. 카톡 톡딜 (네 번째 판매처) · r54 카카오 옐로 버튼 ──────
+   재영 님(2026-11-19): "톡딜 버튼 카카오 노란색" — 배경 #FEE500 · 글씨 #191919,
+   호버는 한 톤 내린 #F5DC00. 노란 바탕에서는 흰 글씨가 안 보이므로 점도 짙게 갑니다. */
 .src-talkdeal::before {
   background: #fee500;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
 }
-.btn-buy.is-talkdeal {
-  background: var(--invert-bg);
-  border-color: var(--invert-line);
-  color: var(--invert-fg);
+.btn-buy.is-talkdeal,
+.btn-buy.is-primary.is-talkdeal,
+.btn-buy.is-alt.is-talkdeal {
+  background: #fee500;
+  border-color: #fee500;
+  color: #191919;
+  font-weight: 800;
+  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.08);
 }
-.btn-buy.is-talkdeal:hover {
-  background: var(--invert-hover);
-  border-color: var(--invert-hover);
-  color: #fff;
+.btn-buy.is-talkdeal:hover,
+.btn-buy.is-primary.is-talkdeal:hover,
+.btn-buy.is-alt.is-talkdeal:hover {
+  background: #f5dc00;
+  border-color: #f5dc00;
+  color: #191919;
   filter: none;
 }
+.btn-buy.is-talkdeal::before,
 .btn-buy.is-primary.is-talkdeal::before,
 .btn-buy.is-alt.is-talkdeal::before {
-  background: #fee500;
-  opacity: 1;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+  background: #191919;
+  opacity: 0.45;
+  box-shadow: none;
 }
-.btn-buy.is-alt.is-talkdeal {
-  background: var(--surface);
-  border-color: #e4e4e3;
-  color: #4a4a51;
-}
-.btn-buy.is-alt.is-talkdeal:hover {
-  background: var(--surface-2);
-  filter: none;
-}
+/* 역대급 할인 미니 카드(가로 레일)의 톡딜 버튼도 같은 노란색 */
 .spot-buy.is-talkdeal {
-  background: var(--invert-bg);
-  border: 1px solid var(--invert-bg);
-  color: #fff;
-  font-weight: 700;
-}
-.spot-buy.is-talkdeal::before {
   background: #fee500;
-  opacity: 1;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+  border: 1px solid #fee500;
+  color: #191919;
+  font-weight: 900;
+}
+.spot-buy.is-talkdeal:hover { background: #f5dc00; border-color: #f5dc00; }
+.spot-buy.is-talkdeal::before {
+  background: #191919;
+  opacity: 0.45;
+  box-shadow: none;
 }
 /* 기간 한정 특가(톡딜·타임세일) 마감 안내 배지 */
 .bd-deal {
@@ -3318,13 +3318,25 @@ select.sel {
   .splash { transition: none; }
 }
 
-/* 홈 맨 위 카테고리 바로가기 */
+/* 홈 맨 위 카테고리 바로가기 — r54: 6개를 3열 2줄(3+3)로 딱 맞춰 대칭 배치
+   (375px에서도 가로 스크롤 없이 한눈에 들어오게) */
 .home-cats {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 6px;
-  margin: 0 0 10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin: 0 0 12px;
+  max-width: 620px;
 }
-.home-cats .spot-chip { grid-column: span 2; }
+.home-cats .spot-chip {
+  grid-column: auto;
+  min-height: 40px;
+  padding: 0 6px;
+  font-size: 13px;
+}
+@media (max-width: 400px) {
+  .home-cats { gap: 6px; }
+  .home-cats .spot-chip { min-height: 38px; padding: 0 2px; font-size: 12.5px; }
+}
 
 /* 카테고리 탭 타일: 과일까지 6개 → 3+3 */
 .cattiles { grid-template-columns: repeat(3, 1fr); }

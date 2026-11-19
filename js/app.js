@@ -1257,10 +1257,10 @@ function spotCardHTML(p) {
   </article>`;
 }
 
-/* ── 오늘의 역대급 할인 — 카테고리 필터 칩 ──────────────
-   재영 님(2026-11-18): "1분 결론은 오늘의 역대급 할인에 비슷한 UI로 편입해서
-   카테고리별로 추천하는 걸로" — 칩은 아래 가로 카드만 바꾸고,
-   홈 그리드·정렬·주소(?goal=)는 건드리지 않습니다. */
+/* ── 홈 카테고리 정의 (전체·제로음료·단백질·식단고기·간편식·과일) ──
+   r54 — 재영 님(2026-11-19): "중복된 카테고리 버튼 2줄을 1줄로", "보기좋게 두줄로".
+   홈 맨 위 6개 버튼 하나만 남기고, 그 선택값(state.homeCat)이
+   ① 오늘의 역대급 할인 카드(가로 레일)와 ② 아래 상품 비교 리스트를 함께 필터링합니다. */
 const SPOT_CATS = [
   { id: "all", emoji: "🔥", label: "전체", parts: null },
   { id: "zero", emoji: "🥤", label: "제로음료", parts: ["zero"] },
@@ -1269,7 +1269,6 @@ const SPOT_CATS = [
   { id: "meal", emoji: "🍕", label: "간편식", parts: ["cheat"] },
   { id: "fruit", emoji: "🍎", label: "과일", parts: ["fruit"] },
 ];
-let spotCat = "all";
 
 /* r53 — '오늘의 역대급 할인' Top 5 기준 (재영 님 2026-11-19: "인지도(리뷰 수) × 할인 매력도")
    단백질·고기 가중치는 빼고, 리뷰가 많은 상품과 국민 브랜드가 오늘 진짜 싼지를 봅니다. */
@@ -1358,18 +1357,13 @@ function spotCatPicks(cat, n) {
   return out.slice(0, limit);
 }
 
-function spotChipHTML(c) {
-  const on = spotCat === c.id;
-  return `<button type="button" class="spot-chip${on ? " is-on" : ""}" data-spot-cat="${c.id}" aria-pressed="${on}">${c.emoji} ${escapeHtml(
-    c.label
-  )}</button>`;
-}
-
 function renderSpotlight() {
   const box = $("home-spot");
   if (!box) return;
-  const picks = spotCatPicks(spotCat, 5);
-  const cat = SPOT_CATS.find((c) => c.id === spotCat) || SPOT_CATS[0];
+  /* r54 — 홈 맨 위 카테고리 버튼과 같은 선택값을 씁니다(별도 칩 줄은 없앴습니다). */
+  const activeCat = homeCatDef().id;
+  const picks = spotCatPicks(activeCat, 5);
+  const cat = SPOT_CATS.find((c) => c.id === activeCat) || SPOT_CATS[0];
   box.hidden = false;
   const hint = cat.id === "all" ? "매일 새로 골라요 · 넘기기 →" : `${cat.label} 오늘 추천 · 넘기기 →`;
   const rail = picks.length
@@ -1391,14 +1385,12 @@ function renderSpotlight() {
         <span class="spot-bell-n" aria-hidden="true" hidden></span>
       </button>
     </div>
-    <div class="spot-chips" role="group" aria-label="카테고리별 추천">${SPOT_CATS.map(spotChipHTML).join("")}</div>
     ${rail}`;
   if (typeof refreshAlertCTA === "function") refreshAlertCTA(); /* 다시 그려도 알림 상태 유지 */
 }
 
-/* 칩은 아래 카드 레일만 바꿉니다(페이지 전체 필터 아님) */
-/* ── r53 홈 맨 위 카테고리 버튼 (전체·제로음료·단백질·식단고기·간편식·과일 3+3) ──
-   누르면 홈 비교 리스트가 그 분야만 바로 보여 줍니다(스크롤 없이 바로 필터). */
+/* ── 홈 맨 위 카테고리 버튼 (전체·제로음료·단백질·식단고기·간편식·과일)
+   r54 — 누르면 '오늘의 역대급 할인' 카드와 아래 상품 비교 리스트가 함께 그 분야로 필터링됩니다. */
 function homeCatDef() {
   return SPOT_CATS.find((c) => c.id === state.homeCat) || SPOT_CATS[0];
 }
@@ -1423,19 +1415,6 @@ function initHomeCats() {
     state.homeCat = SPOT_CATS.some((c) => c.id === id) ? id : "all";
     state.limit.home = 6;
     paint();
-  });
-}
-
-function initSpotChips() {
-  document.addEventListener("click", (e) => {
-    const chip = e.target && e.target.closest ? e.target.closest("[data-spot-cat]") : null;
-    if (!chip) return;
-    const id = chip.getAttribute("data-spot-cat");
-    if (!id || id === spotCat) return;
-    spotCat = SPOT_CATS.some((c) => c.id === id) ? id : "all";
-    renderSpotlight();
-    const again = $("home-spot") && $("home-spot").querySelector(`[data-spot-cat="${spotCat}"]`);
-    if (again) again.setAttribute("aria-pressed", "true");
   });
 }
 
@@ -2540,7 +2519,6 @@ async function init() {
   initShortcut();
   initInfo();
   initShare();
-  initSpotChips();
   initHomeCats();
   initSearch();
   initControls();
