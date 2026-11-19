@@ -133,17 +133,17 @@ PRODUCTS = [
         92,
     ),
     product(
-        "fruit-shine-gomgom-2kg",
-        "곰곰",
-        "곰곰 샤인머스켓, 2kg(2~4수), 1박스",
+        "fruit-shine-dajoeun-2kg",
+        "다조은",
+        "다조은 비파괴당도선별 샤인머스캣, 2kg(2~4수), 1박스",
         "샤인머스캣 · 2~4송이",
         "shinemuscat",
         "샤인머스켓",
-        9900, None, None, 2000, 4.5, 1431,
-        "https://www.coupang.com/vp/products/9048045854?itemId=26554607823&vendorItemId=93528402149",
-        "images/fruit-shine-gomgom-2kg.jpg",
-        "11/19 검색 확인: 9,900원(100g당 495원)·로켓프레시 내일(금) 새벽 도착·평점 4.5(리뷰 1,431개). 산지직송 9,500원(리뷰 76개)보다 400원 비싸지만 후기가 훨씬 많아요.",
-        94,
+        10650, None, None, 2000, 4.5, 45209,
+        "https://www.coupang.com/vp/products/6591493748?itemId=19703614987&vendorItemId=86808262096",
+        "images/fruit-shine-dajoeun-2kg.jpg",
+        "11/19 상품 확인: 10,650원(100g당 533원)·평점 4.5(리뷰 45,209개)·로켓프레시 내일(금) 새벽 도착. 로켓프레시는 15,000원 이상 무료배송이라 단독 주문 시 배송비가 붙을 수 있어요.",
+        95,
     ),
 ]
 
@@ -154,7 +154,7 @@ PARTNER_LINKS = {
     "fruit-pear-asadalcom-10kg": "https://link.coupang.com/a/iNVofN1yNg",
     "fruit-apple-busa-10kg": "https://link.coupang.com/a/iNVpNx1F3k",
     "fruit-persimmon-gyeongnam-10kg": "https://link.coupang.com/a/iNVrBkRk2C",
-    "fruit-shine-gomgom-2kg": "https://link.coupang.com/a/iNVsNfWJci",
+    "fruit-shine-dajoeun-2kg": "https://link.coupang.com/a/iNVE42xx92",
 }
 
 
