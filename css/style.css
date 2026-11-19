@@ -27,9 +27,9 @@
   --mark-bg: #27272e;
   --mark-line: #3f3f48;
   --mark-fg: #e4e4e7;
-  /* 상품 사진 판 — 다크 그레이 판 + 미세 보더 (사진 흰 배경 눈부심 억제) */
-  --plate: #24242a;
-  --plate-line: #2e2e36;
+  /* 상품 사진 판 — r50: 사진색에 맞춘 깔끔한 화이트 판 + 미세 보더 */
+  --plate: #ffffff;
+  --plate-line: #e8e8ec;
   --sage: #34d399;
   --sage-d: #22b07d;
   --sage-soft: rgba(52, 211, 153, 0.12);
@@ -3103,6 +3103,9 @@ select.sel {
    · 보조 버튼 → #18181D, T 심볼 → #27272E, 토스트 → 차콜 알약
    · 상품 사진 판 → #24242A + 미세 보더 #2E2E36, 사진은 brightness(.85) contrast(1.04)
    · r47 첫 진입 페이드인 · r48 '띠니' 브랜딩 · js/bgm.js BGM · 푸터 11px 파트너스 고지는 그대로
+   · r50 (2026-11-19) — 재영 님 "그냥 사진색에 맞게 흰색 쓰자": 상품 사진 판·사진만
+     화이트(#FFFFFF)로 복원하고 img filter를 걷었습니다. 버튼·칩·T 심볼·모달·토스트의
+     차콜/건메탈 톤은 위 1~5번 그대로입니다.
    ══════════════════════════════════════════════════════════ */
 
 /* ── 1. 화이트 CTA → 차콜 (최저가 구매 버튼·모달 확인/닫기·복사·설치) ──
@@ -3179,9 +3182,10 @@ select.sel {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.66);
 }
 
-/* ── 6. 상품 사진 판 → 다크 그레이 + 사진 눈부심 제거 ──
-   쿠팡 사진은 흰 배경 JPG가 많아, 판을 어둡게 깔고 사진 자체도 살짝 눌러
-   다크 카드와 한 덩어리로 보이게 합니다(상품 색은 알아볼 수 있는 선). */
+/* ── 6. 상품 사진 판 → 깔끔한 화이트 복원 (r50) ──
+   쿠팡 사진은 흰 배경 JPG가 대부분이라, 판만 어둡게 깔면 사진이 회색 네모로 떠 보입니다.
+   판과 사진만 화이트로 되돌리고, 사진 색감은 필터 없이 원본 그대로 보여 줍니다.
+   (버튼·칩·T 심볼·모달·토스트의 차콜 톤은 r49 그대로) */
 .pc-photo, .dc-photo, .deal-photo, .spot-photo, .gv-photo,
 .rec-photo, .hub-photo, .tile-photo, .cmp-name img {
   background: var(--plate);
@@ -3195,7 +3199,7 @@ select.sel {
 .pc-photo img, .dc-photo img, .deal-photo img, .spot-photo img,
 .gv-photo img, .rec-photo img, .hub-photo img, .tile-photo img,
 .cmp-name img {
-  filter: brightness(0.85) contrast(1.04);
+  filter: none;
   border-radius: 8px;
 }
 /* 작은 썸네일 판은 둥글게 잘라 사진 모서리가 판 밖으로 나가지 않게 */
