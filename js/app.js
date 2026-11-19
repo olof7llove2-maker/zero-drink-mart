@@ -635,7 +635,7 @@ function buyHTML(p, opts = {}) {
         ? `<span class="buy-lab">${meta.label} ${Number(o.price).toLocaleString("ko-KR")}원</span>`
         : `<span class="bp-lab">${meta.label}</span><span class="bp-price">${Number(o.price).toLocaleString(
             "ko-KR"
-          )}</span>`;
+          )}원</span>`;
       return `<a class="btn-buy ${meta.cls}" href="${escapeHtml(o.url)}" target="_blank" rel="noopener noreferrer" data-click-pid="${escapeHtml(
         p.id
       )}" data-click-plat="${o.key}" aria-label="${meta.label}에서 사기 ${won(o.price)}">${label}</a>`;
