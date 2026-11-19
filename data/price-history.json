@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-18T18:50:00+09:00",
+  "generatedAt": "2026-11-19T09:14:49+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -21,12 +21,12 @@
    "쿠팡 판매가는 옵션·묶음 구성이 바뀌면 크게 오르내릴 수 있어 최고가·평균가는 참고값입니다."
   ],
   "tally": {
-   "history": 29,
-   "tracking-started": 177,
-   "not-tracked": 0,
-   "item-mismatch": 0,
-   "no-records": 0,
-   "error": 0
+   "history": 28,
+   "tracking-started": 0,
+   "not-tracked": 126,
+   "item-mismatch": 17,
+   "no-records": 1,
+   "error": 31
   }
  },
  "products": {
@@ -595,14 +595,16 @@
     "latestDate": "2026-11-18",
     "observations": 2,
     "days": 2
-   }
+   },
+   "firstObservedAt": "2026-11-17T14:00:00+09:00",
+   "latestObservedAt": "2026-11-18T13:40:00+09:00"
   },
   "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg": {
    "id": "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg",
    "name": "칼로바이 퍼펙트 파워쉐이크 블렌드 단백질쉐이크 초코맛, 1.8kg, 1개",
    "platform": "coupang",
    "cardPrice": 41900,
-   "cardPriceCheckedAt": "2026-11-17 07:30",
+   "cardPriceCheckedAt": "2026-11-19 07:45",
    "cardListPrice": 79200,
    "source": "mart",
    "status": "tracking-started",
@@ -613,6 +615,12 @@
      "price": 41900,
      "ts": "2026-11-17T07:30:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 41900,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -622,10 +630,12 @@
     "maxDate": "2026-11-17",
     "avg": 41900,
     "latest": 41900,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
-   }
+    "latestDate": "2026-11-19",
+    "observations": 2,
+    "days": 2
+   },
+   "firstObservedAt": "2026-11-17T07:30:00+09:00",
+   "latestObservedAt": "2026-11-19T07:45:00+09:00"
   },
   "retort-rice-haetban-baeahyeonmi-130g-36": {
    "id": "retort-rice-haetban-baeahyeonmi-130g-36",
@@ -691,7 +701,9 @@
     "latestDate": "2026-11-18",
     "observations": 2,
     "days": 2
-   }
+   },
+   "firstObservedAt": "2026-11-17T12:30:00+09:00",
+   "latestObservedAt": "2026-11-18T13:40:00+09:00"
   },
   "shake-dymatize-iso100-gourmet-chocolate-2-3kg": {
    "id": "shake-dymatize-iso100-gourmet-chocolate-2-3kg",
@@ -1362,8 +1374,8 @@
     "crosscheck": {
      "source60Min": 9210,
      "source60Max": 47480,
-     "sourceRecords": 190,
-     "sourceCurrent": 15740,
+     "sourceRecords": 191,
+     "sourceCurrent": 18700,
      "sourceWarnsVolatile": true
     }
    },
@@ -1413,8 +1425,8 @@
     "crosscheck": {
      "source60Min": 9210,
      "source60Max": 47480,
-     "sourceRecords": 190,
-     "sourceCurrent": 15740,
+     "sourceRecords": 191,
+     "sourceCurrent": 18700,
      "sourceWarnsVolatile": true
     }
    },
@@ -1464,8 +1476,8 @@
     "crosscheck": {
      "source60Min": 9210,
      "source60Max": 47480,
-     "sourceRecords": 190,
-     "sourceCurrent": 15740,
+     "sourceRecords": 191,
+     "sourceCurrent": 18700,
      "sourceWarnsVolatile": true
     }
    },
@@ -1591,8 +1603,8 @@
    "id": "haetaehtb-galbaesaida-jero-355ml-24gae",
    "name": "해태htb 갈배사이다 제로, 355ml, 24개",
    "platform": "coupang",
-   "cardPrice": 11900,
-   "cardPriceCheckedAt": "2026-11-15 20:51",
+   "cardPrice": 13260,
+   "cardPriceCheckedAt": "2026-11-18 12:50",
    "cardListPrice": 19900,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7604723347",
    "couprice": {
@@ -1744,19 +1756,25 @@
      "price": 11280,
      "ts": "2026-11-17T22:02:39.680877+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 13260,
+     "ts": "2026-11-18T12:50:00+09:00",
+     "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-22T07:47:51.371299+00:00",
-   "lastObservedAt": "2026-11-17T22:02:39.680877+00:00",
+   "lastObservedAt": "2026-11-18T12:50:00+09:00",
    "stats": {
     "min": 5590,
     "minDate": "2026-09-29",
     "max": 13260,
     "maxDate": "2026-10-13",
-    "avg": 11886,
-    "latest": 11280,
+    "avg": 11948,
+    "latest": 13260,
     "latestDate": "2026-11-18",
-    "observations": 21,
+    "observations": 22,
     "days": 18
    }
   },
@@ -2298,8 +2316,8 @@
     "crosscheck": {
      "source60Min": 16450,
      "source60Max": 32720,
-     "sourceRecords": 12,
-     "sourceCurrent": 29420,
+     "sourceRecords": 14,
+     "sourceCurrent": 17450,
      "sourceWarnsVolatile": true
     }
    },
@@ -2389,21 +2407,34 @@
      "price": 17490,
      "ts": "2026-11-15T19:25:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 30230,
+     "ts": "2026-11-17T17:48:44.83516+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 17450,
+     "ts": "2026-11-17T19:51:59.03843+00:00",
+     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-09-21T04:55:23.015898+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "lastObservedAt": "2026-11-17T19:51:59.03843+00:00",
    "stats": {
     "min": 16450,
     "minDate": "2026-10-09",
     "max": 32720,
     "maxDate": "2026-10-13",
-    "avg": 26259,
-    "latest": 17490,
-    "latestDate": "2026-11-15",
-    "observations": 13,
-    "days": 13
-   }
+    "avg": 25937,
+    "latest": 17450,
+    "latestDate": "2026-11-18",
+    "observations": 15,
+    "days": 14
+   },
+   "latestObservedAt": "2026-11-17T19:51:59.03843+00:00"
   },
   "nyukeeo-olpeurotin-gosohanmat-245ml-24gae": {
    "id": "nyukeeo-olpeurotin-gosohanmat-245ml-24gae",
@@ -2423,7 +2454,7 @@
     "crosscheck": {
      "source60Min": 35120,
      "source60Max": 114920,
-     "sourceRecords": 86,
+     "sourceRecords": 85,
      "sourceCurrent": 41320,
      "sourceWarnsVolatile": true
     }
@@ -2437,12 +2468,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-19",
-     "price": 63240,
-     "ts": "2026-09-19T04:46:01.93879+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-21",
      "price": 41320,
@@ -2954,18 +2979,18 @@
      "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-19T04:46:01.93879+00:00",
+   "firstObservedAt": "2026-09-20T22:02:33.172368+00:00",
    "lastObservedAt": "2026-11-17T10:02:41.354065+00:00",
    "stats": {
     "min": 35120,
     "minDate": "2026-09-21",
     "max": 114920,
     "maxDate": "2026-10-10",
-    "avg": 42118,
+    "avg": 41869,
     "latest": 41320,
     "latestDate": "2026-11-17",
-    "observations": 86,
-    "days": 28
+    "observations": 85,
+    "days": 27
    }
   },
   "kalobai-peopekteu-pawosweikeu-choko-250ml-24gae": {
@@ -3046,7 +3071,7 @@
     "crosscheck": {
      "source60Min": 7140,
      "source60Max": 32940,
-     "sourceRecords": 32,
+     "sourceRecords": 29,
      "sourceCurrent": 19890,
      "sourceWarnsVolatile": true
     }
@@ -3060,24 +3085,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-18",
-     "price": 16200,
-     "ts": "2026-09-18T04:03:10.0557+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 19900,
-     "ts": "2026-09-18T22:02:23.089247+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 15520,
-     "ts": "2026-09-18T22:48:26.796292+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-19",
      "price": 19900,
@@ -3259,18 +3266,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-18T04:03:10.0557+00:00",
+   "firstObservedAt": "2026-09-19T02:03:44.019297+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 7140,
     "minDate": "2026-10-05",
     "max": 32940,
     "maxDate": "2026-10-19",
-    "avg": 18219,
+    "avg": 18321,
     "latest": 14000,
     "latestDate": "2026-11-15",
-    "observations": 33,
-    "days": 16
+    "observations": 30,
+    "days": 15
    }
   },
   "peulraimil-rieolchoko-630g": {
@@ -3321,7 +3328,7 @@
     "crosscheck": {
      "source60Min": 13890,
      "source60Max": 31900,
-     "sourceRecords": 20,
+     "sourceRecords": 19,
      "sourceCurrent": 23290,
      "sourceWarnsVolatile": true
     }
@@ -3335,12 +3342,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-18",
-     "price": 23200,
-     "ts": "2026-09-18T01:58:33.730802+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-21",
      "price": 24250,
@@ -3456,18 +3457,18 @@
      "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-18T01:58:33.730802+00:00",
+   "firstObservedAt": "2026-09-20T20:43:09.989164+00:00",
    "lastObservedAt": "2026-11-16T07:10:33.422914+00:00",
    "stats": {
     "min": 13890,
     "minDate": "2026-11-13",
     "max": 31900,
     "maxDate": "2026-10-14",
-    "avg": 22766,
+    "avg": 22743,
     "latest": 23290,
     "latestDate": "2026-11-16",
-    "observations": 20,
-    "days": 20
+    "observations": 19,
+    "days": 19
    }
   },
   "deodanbaek-deuringkeu-dakeuchoko-330ml-12gae": {
@@ -4445,8 +4446,8 @@
     "crosscheck": {
      "source60Min": 21560,
      "source60Max": 46160,
-     "sourceRecords": 72,
-     "sourceCurrent": 23930,
+     "sourceRecords": 73,
+     "sourceCurrent": 23920,
      "sourceWarnsVolatile": false
     }
    },
@@ -4890,20 +4891,26 @@
      "price": 23930,
      "ts": "2026-11-17T02:03:03.643076+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 23920,
+     "ts": "2026-11-18T14:02:09.873597+00:00",
+     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-10-15T10:03:15.041685+00:00",
-   "lastObservedAt": "2026-11-17T02:03:03.643076+00:00",
+   "lastObservedAt": "2026-11-18T14:02:09.873597+00:00",
    "stats": {
     "min": 21560,
     "minDate": "2026-10-23",
     "max": 46160,
     "maxDate": "2026-11-05",
-    "avg": 23832,
-    "latest": 23930,
-    "latestDate": "2026-11-17",
-    "observations": 72,
-    "days": 26
+    "avg": 23833,
+    "latest": 23920,
+    "latestDate": "2026-11-18",
+    "observations": 73,
+    "days": 27
    }
   },
   "deodanbaek-deuringkeu-choko-250ml-18gae": {
@@ -4911,7 +4918,7 @@
    "name": "더단백 드링크 초코, 250ml, 18개",
    "platform": "coupang",
    "cardPrice": 23930,
-   "cardPriceCheckedAt": "2026-11-17 21:02",
+   "cardPriceCheckedAt": "2026-11-19 07:45",
    "cardListPrice": 34800,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7411095382",
    "couprice": {
@@ -4924,7 +4931,7 @@
     "crosscheck": {
      "source60Min": 23070,
      "source60Max": 47200,
-     "sourceRecords": 51,
+     "sourceRecords": 55,
      "sourceCurrent": 23930,
      "sourceWarnsVolatile": true
     }
@@ -4938,12 +4945,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-19",
-     "price": 24240,
-     "ts": "2026-09-19T14:02:35.419935+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-20",
      "price": 24250,
@@ -5243,20 +5244,56 @@
      "price": 23930,
      "ts": "2026-11-17T12:02:56.988573+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 24380,
+     "ts": "2026-11-17T16:02:39.458208+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 23930,
+     "ts": "2026-11-18T02:03:01.04691+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 24110,
+     "ts": "2026-11-18T04:02:43.280774+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 24380,
+     "ts": "2026-11-18T06:03:14.449795+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 23930,
+     "ts": "2026-11-18T10:02:46.374119+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 23930,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-19T14:02:35.419935+00:00",
-   "lastObservedAt": "2026-11-17T12:02:56.988573+00:00",
+   "firstObservedAt": "2026-09-20T12:03:18.628735+00:00",
+   "lastObservedAt": "2026-11-19T07:45:00+09:00",
    "stats": {
     "min": 23070,
     "minDate": "2026-11-06",
     "max": 47200,
     "maxDate": "2026-11-11",
-    "avg": 25487,
+    "avg": 25362,
     "latest": 23930,
-    "latestDate": "2026-11-17",
-    "observations": 51,
-    "days": 27
+    "latestDate": "2026-11-19",
+    "observations": 56,
+    "days": 28
    }
   },
   "monster-ultra": {
@@ -5277,7 +5314,7 @@
     "crosscheck": {
      "source60Min": 10370,
      "source60Max": 59780,
-     "sourceRecords": 84,
+     "sourceRecords": 82,
      "sourceCurrent": 30330,
      "sourceWarnsVolatile": true
     }
@@ -5291,18 +5328,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-18",
-     "price": 31280,
-     "ts": "2026-09-17T22:48:15.793476+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-18",
-     "price": 30780,
-     "ts": "2026-09-18T00:05:17.278276+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-20",
      "price": 31280,
@@ -5802,18 +5827,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-17T22:48:15.793476+00:00",
+   "firstObservedAt": "2026-09-19T16:48:42.054737+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 10370,
     "minDate": "2026-10-07",
     "max": 59780,
     "maxDate": "2026-11-07",
-    "avg": 32039,
+    "avg": 32063,
     "latest": 30330,
     "latestDate": "2026-11-15",
-    "observations": 85,
-    "days": 34
+    "observations": 83,
+    "days": 33
    }
   },
   "meat-pork-moamit-canada-moksal-1kg": {
@@ -5894,7 +5919,7 @@
     "crosscheck": {
      "source60Min": 6120,
      "source60Max": 23900,
-     "sourceRecords": 38,
+     "sourceRecords": 36,
      "sourceCurrent": 12270,
      "sourceWarnsVolatile": true
     }
@@ -6066,8 +6091,8 @@
     "crosscheck": {
      "source60Min": 11890,
      "source60Max": 16390,
-     "sourceRecords": 46,
-     "sourceCurrent": 14500,
+     "sourceRecords": 47,
+     "sourceCurrent": 16260,
      "sourceWarnsVolatile": false
     }
    },
@@ -6226,7 +6251,7 @@
    "name": "코카콜라 제로, 350ml, 24개",
    "platform": "coupang",
    "cardPrice": 18700,
-   "cardPriceCheckedAt": "2026-11-17 07:30",
+   "cardPriceCheckedAt": "2026-11-19 07:45",
    "cardListPrice": 25700,
    "sourceUrl": "https://www.couprice.co.kr/products/x-8174473713",
    "couprice": {
@@ -6239,8 +6264,8 @@
     "crosscheck": {
      "source60Min": 9210,
      "source60Max": 47480,
-     "sourceRecords": 190,
-     "sourceCurrent": 15740,
+     "sourceRecords": 191,
+     "sourceCurrent": 18700,
      "sourceWarnsVolatile": true
     }
    },
@@ -7392,20 +7417,32 @@
      "price": 15740,
      "ts": "2026-11-17T20:52:01.888066+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 18700,
+     "ts": "2026-11-18T18:02:16.186129+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 18700,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-20T22:02:32.04339+00:00",
-   "lastObservedAt": "2026-11-17T20:52:01.888066+00:00",
+   "lastObservedAt": "2026-11-19T07:45:00+09:00",
    "stats": {
     "min": 9210,
     "minDate": "2026-11-11",
     "max": 47480,
     "maxDate": "2026-10-16",
-    "avg": 18537,
-    "latest": 15740,
-    "latestDate": "2026-11-18",
-    "observations": 190,
-    "days": 46
+    "avg": 18538,
+    "latest": 18700,
+    "latestDate": "2026-11-19",
+    "observations": 192,
+    "days": 47
    }
   },
   "meat-pork-handon-hindleg-2kg": {
@@ -7700,7 +7737,7 @@
    "name": "하림 IFF 닭가슴살 (냉동), 2kg, 1개",
    "platform": "coupang",
    "cardPrice": 22200,
-   "cardPriceCheckedAt": "2026-11-17 07:30",
+   "cardPriceCheckedAt": "2026-11-19 07:45",
    "cardListPrice": 22900,
    "source": "mart",
    "status": "tracking-started",
@@ -7711,6 +7748,12 @@
      "price": 22200,
      "ts": "2026-11-17T07:30:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 22200,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -7720,10 +7763,12 @@
     "maxDate": "2026-11-17",
     "avg": 22200,
     "latest": 22200,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
-   }
+    "latestDate": "2026-11-19",
+    "observations": 2,
+    "days": 2
+   },
+   "firstObservedAt": "2026-11-17T07:30:00+09:00",
+   "latestObservedAt": "2026-11-19T07:45:00+09:00"
   },
   "meat-pork-moamit-canada-samgyeopsal-1kg": {
    "id": "meat-pork-moamit-canada-samgyeopsal-1kg",
@@ -7789,8 +7834,8 @@
    "id": "deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae",
    "name": "더단백 40g 고함량 드링크 더블초코, 350ml, 20개",
    "platform": "coupang",
-   "cardPrice": 51300,
-   "cardPriceCheckedAt": "2026-11-18 18:50",
+   "cardPrice": 51840,
+   "cardPriceCheckedAt": "2026-11-19 09:09",
    "cardListPrice": 78000,
    "source": "mart",
    "status": "tracking-started",
@@ -7813,6 +7858,12 @@
      "price": 51300,
      "ts": "2026-11-18T18:50:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 51840,
+     "ts": "2026-11-19T09:09:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -7820,14 +7871,15 @@
     "minDate": "2026-11-18",
     "max": 53070,
     "maxDate": "2026-11-15",
-    "avg": 51847,
-    "latest": 51300,
-    "latestDate": "2026-11-18",
-    "observations": 3,
-    "days": 2
+    "avg": 51845,
+    "latest": 51840,
+    "latestDate": "2026-11-19",
+    "observations": 4,
+    "days": 3
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044",
-   "lastObservedAt": "2026-11-18T18:50:00+09:00"
+   "latestObservedAt": "2026-11-19T09:09:00+09:00",
+   "firstObservedAt": "2026-11-15T20:00:00+09:00"
   },
   "meat-beef-ouratown-woosamgyup-1kg": {
    "id": "meat-beef-ouratown-woosamgyup-1kg",
@@ -7937,7 +7989,7 @@
     "crosscheck": {
      "source60Min": 15640,
      "source60Max": 38620,
-     "sourceRecords": 31,
+     "sourceRecords": 29,
      "sourceCurrent": 17890,
      "sourceWarnsVolatile": true
     }
@@ -8065,7 +8117,7 @@
    "name": "하림 자연실록 무항생제 인증 닭가슴살 (냉장), 400g, 1개",
    "platform": "coupang",
    "cardPrice": 6900,
-   "cardPriceCheckedAt": "2026-11-18 07:45",
+   "cardPriceCheckedAt": "2026-11-19 07:45",
    "cardListPrice": 7190,
    "sourceUrl": "https://www.couprice.co.kr/products/x-162464612",
    "couprice": {
@@ -8097,6 +8149,12 @@
      "price": 6900,
      "ts": "2026-11-18T07:45:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 6900,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -8106,10 +8164,12 @@
     "maxDate": "2026-11-18",
     "avg": 6900,
     "latest": 6900,
-    "latestDate": "2026-11-18",
-    "observations": 1,
-    "days": 1
-   }
+    "latestDate": "2026-11-19",
+    "observations": 2,
+    "days": 2
+   },
+   "firstObservedAt": "2026-11-18T07:45:00+09:00",
+   "latestObservedAt": "2026-11-19T07:45:00+09:00"
   },
   "meat-pork-tongsamgyeop-camping-2kg": {
    "id": "meat-pork-tongsamgyeop-camping-2kg",
@@ -8159,8 +8219,8 @@
     "crosscheck": {
      "source60Min": 12340,
      "source60Max": 39700,
-     "sourceRecords": 26,
-     "sourceCurrent": 20250,
+     "sourceRecords": 27,
+     "sourceCurrent": 20800,
      "sourceWarnsVolatile": true
     }
    },
@@ -8528,7 +8588,7 @@
    "name": "나랑드사이다 제로, 245ml, 30개",
    "platform": "coupang",
    "cardPrice": 12770,
-   "cardPriceCheckedAt": "2026-11-18 18:50",
+   "cardPriceCheckedAt": "2026-11-19 09:12",
    "cardListPrice": 15000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7447842898",
    "couprice": {
@@ -8872,21 +8932,34 @@
      "price": 12770,
      "ts": "2026-11-18T18:50:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 12770,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 12770,
+     "ts": "2026-11-19T09:12:00+09:00",
+     "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-22T10:02:43.259366+00:00",
-   "lastObservedAt": "2026-11-18T18:50:00+09:00",
+   "lastObservedAt": "2026-11-19T07:45:00+09:00",
    "stats": {
     "min": 7900,
     "minDate": "2026-09-27",
     "max": 25950,
     "maxDate": "2026-09-28",
-    "avg": 12358,
+    "avg": 12373,
     "latest": 12770,
-    "latestDate": "2026-11-18",
-    "observations": 53,
-    "days": 31
-   }
+    "latestDate": "2026-11-19",
+    "observations": 55,
+    "days": 32
+   },
+   "latestObservedAt": "2026-11-19T09:12:00+09:00"
   },
   "meat-pork-dodram-handon-samgyeopsal-1kg": {
    "id": "meat-pork-dodram-handon-samgyeopsal-1kg",
@@ -8997,8 +9070,8 @@
     "crosscheck": {
      "source60Min": 11190,
      "source60Max": 29900,
-     "sourceRecords": 61,
-     "sourceCurrent": 26340,
+     "sourceRecords": 64,
+     "sourceCurrent": 26130,
      "sourceWarnsVolatile": true
     }
    },
@@ -9376,20 +9449,38 @@
      "price": 26340,
      "ts": "2026-11-16T20:51:49.488934+00:00",
      "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 26260,
+     "ts": "2026-11-18T01:53:48.57218+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 26210,
+     "ts": "2026-11-18T11:51:53.064646+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 26130,
+     "ts": "2026-11-19T00:04:23.822798+00:00",
+     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-09-20T22:02:33.48413+00:00",
-   "lastObservedAt": "2026-11-16T20:51:49.488934+00:00",
+   "lastObservedAt": "2026-11-19T00:04:23.822798+00:00",
    "stats": {
     "min": 11190,
     "minDate": "2026-09-26",
     "max": 29900,
     "maxDate": "2026-11-10",
-    "avg": 24716,
-    "latest": 26340,
-    "latestDate": "2026-11-17",
-    "observations": 61,
-    "days": 30
+    "avg": 24786,
+    "latest": 26130,
+    "latestDate": "2026-11-19",
+    "observations": 64,
+    "days": 32
    }
   },
   "narangdeusaida-jero-500ml-24gae": {
@@ -9397,7 +9488,7 @@
    "name": "나랑드사이다 제로, 500ml, 24개",
    "platform": "coupang",
    "cardPrice": 15250,
-   "cardPriceCheckedAt": "2026-11-15 19:25",
+   "cardPriceCheckedAt": "2026-11-19 09:12",
    "cardListPrice": 18600,
    "source": "mart",
    "status": "tracking-started",
@@ -9408,6 +9499,12 @@
      "price": 15250,
      "ts": "2026-11-15T19:25:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 15250,
+     "ts": "2026-11-19T09:12:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -9417,11 +9514,12 @@
     "maxDate": "2026-11-15",
     "avg": 15250,
     "latest": 15250,
-    "latestDate": "2026-11-15",
-    "observations": 1,
-    "days": 1
+    "latestDate": "2026-11-19",
+    "observations": 2,
+    "days": 2
    },
-   "sourceUrl": "https://www.couprice.co.kr/products/x-8180059688"
+   "sourceUrl": "https://www.couprice.co.kr/products/x-8180059688",
+   "latestObservedAt": "2026-11-19T09:12:00+09:00"
   },
   "tamsaseupakeulring-peulrein-murabel-500ml-20gae": {
    "id": "tamsaseupakeulring-peulrein-murabel-500ml-20gae",
@@ -9705,8 +9803,8 @@
     "crosscheck": {
      "source60Min": 7700,
      "source60Max": 37230,
-     "sourceRecords": 30,
-     "sourceCurrent": 11030,
+     "sourceRecords": 32,
+     "sourceCurrent": 16050,
      "sourceWarnsVolatile": true
     }
    },
@@ -9904,21 +10002,34 @@
      "price": 16280,
      "ts": "2026-11-15T19:25:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 17300,
+     "ts": "2026-11-17T22:49:51.604961+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-18",
+     "price": 16050,
+     "ts": "2026-11-18T01:02:51.727963+00:00",
+     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-10-04T22:02:46.950158+00:00",
-   "lastObservedAt": "2026-11-15T19:25:00+09:00",
+   "lastObservedAt": "2026-11-18T01:02:51.727963+00:00",
    "stats": {
     "min": 7700,
     "minDate": "2026-10-22",
     "max": 37230,
     "maxDate": "2026-10-08",
-    "avg": 17817,
-    "latest": 16280,
-    "latestDate": "2026-11-15",
-    "observations": 31,
-    "days": 15
-   }
+    "avg": 17748,
+    "latest": 16050,
+    "latestDate": "2026-11-18",
+    "observations": 33,
+    "days": 16
+   },
+   "latestObservedAt": "2026-11-18T01:02:51.727963+00:00"
   },
   "toss-deo-biktoria-cheongpodo-remon-500ml-40gae": {
    "id": "toss-deo-biktoria-cheongpodo-remon-500ml-40gae",
@@ -9998,8 +10109,8 @@
     "crosscheck": {
      "source60Min": 11190,
      "source60Max": 29900,
-     "sourceRecords": 61,
-     "sourceCurrent": 26340,
+     "sourceRecords": 64,
+     "sourceCurrent": 26130,
      "sourceWarnsVolatile": true
     }
    },
@@ -10317,9 +10428,9 @@
     },
     "sameItem": true,
     "crosscheck": {
-     "source60Min": 12900,
+     "source60Min": 13990,
      "source60Max": 33350,
-     "sourceRecords": 15,
+     "sourceRecords": 14,
      "sourceCurrent": 17430,
      "sourceWarnsVolatile": true
     }
@@ -10333,12 +10444,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-19",
-     "price": 12900,
-     "ts": "2026-09-18T16:50:21.30821+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-21",
      "price": 33350,
@@ -10430,18 +10535,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-18T16:50:21.30821+00:00",
+   "firstObservedAt": "2026-09-21T10:43:52.503286+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
-    "min": 12900,
-    "minDate": "2026-09-19",
+    "min": 13990,
+    "minDate": "2026-10-10",
     "max": 33350,
     "maxDate": "2026-09-21",
-    "avg": 18293,
+    "avg": 18653,
     "latest": 17430,
     "latestDate": "2026-11-15",
-    "observations": 16,
-    "days": 13
+    "observations": 15,
+    "days": 12
    }
   },
   "acv-denigris-organic-1l": {
@@ -11413,7 +11518,7 @@
     "crosscheck": {
      "source60Min": 15500,
      "source60Max": 32640,
-     "sourceRecords": 92,
+     "sourceRecords": 88,
      "sourceCurrent": 29900,
      "sourceWarnsVolatile": true
     }
@@ -11427,30 +11532,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-19",
-     "price": 32480,
-     "ts": "2026-09-19T02:03:39.448915+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 29580,
-     "ts": "2026-09-19T04:02:59.916835+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 32480,
-     "ts": "2026-09-19T10:02:39.359703+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-20",
-     "price": 29580,
-     "ts": "2026-09-19T18:02:54.798287+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-20",
      "price": 32480,
@@ -11980,18 +12061,18 @@
      "src": "couprice"
     }
    ],
-   "firstObservedAt": "2026-09-19T02:03:39.448915+00:00",
+   "firstObservedAt": "2026-09-20T04:02:56.170727+00:00",
    "lastObservedAt": "2026-11-15T20:02:39.776807+00:00",
    "stats": {
     "min": 15500,
     "minDate": "2026-09-23",
     "max": 32640,
     "maxDate": "2026-10-19",
-    "avg": 30394,
+    "avg": 30365,
     "latest": 29900,
     "latestDate": "2026-11-16",
-    "observations": 92,
-    "days": 38
+    "observations": 88,
+    "days": 37
    }
   },
   "selrekseu-peuropit-moka-chokolrit-250ml-18gae": {
@@ -12452,7 +12533,9 @@
     "latestDate": "2026-11-18",
     "observations": 2,
     "days": 2
-   }
+   },
+   "firstObservedAt": "2026-11-17T12:52:00+09:00",
+   "latestObservedAt": "2026-11-18T13:40:00+09:00"
   },
   "protein-otmond-choco-250ml-36": {
    "id": "protein-otmond-choco-250ml-36",
@@ -13010,8 +13093,8 @@
     "crosscheck": {
      "source60Min": 9690,
      "source60Max": 50920,
-     "sourceRecords": 14,
-     "sourceCurrent": 25710,
+     "sourceRecords": 15,
+     "sourceCurrent": 39480,
      "sourceWarnsVolatile": true
     }
    },
@@ -13061,8 +13144,8 @@
     "crosscheck": {
      "source60Min": 13900,
      "source60Max": 49880,
-     "sourceRecords": 10,
-     "sourceCurrent": 25200,
+     "sourceRecords": 11,
+     "sourceCurrent": 24500,
      "sourceWarnsVolatile": true
     }
    },
@@ -13495,7 +13578,7 @@
    "name": "곰곰 호주산 부채살 구이용 (냉장), 600g, 1팩",
    "platform": "coupang",
    "cardPrice": 22510,
-   "cardPriceCheckedAt": "2026-11-17 09:08",
+   "cardPriceCheckedAt": "2026-11-19 07:45",
    "cardListPrice": 23990,
    "source": "mart",
    "status": "tracking-started",
@@ -13506,6 +13589,12 @@
      "price": 22510,
      "ts": "2026-11-17T09:08:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 22510,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -13515,10 +13604,12 @@
     "maxDate": "2026-11-17",
     "avg": 22510,
     "latest": 22510,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
-   }
+    "latestDate": "2026-11-19",
+    "observations": 2,
+    "days": 2
+   },
+   "firstObservedAt": "2026-11-17T09:08:00+09:00",
+   "latestObservedAt": "2026-11-19T07:45:00+09:00"
   },
   "toss-tteutdak-roast-chicken-1kg-2": {
    "id": "toss-tteutdak-roast-chicken-1kg-2",
@@ -13554,7 +13645,9 @@
     "latestDate": "2026-11-18",
     "observations": 2,
     "days": 2
-   }
+   },
+   "firstObservedAt": "2026-11-17T15:21:00+09:00",
+   "latestObservedAt": "2026-11-18T13:40:00+09:00"
   },
   "meat-lamb-gome-shoulderrack-400g": {
    "id": "meat-lamb-gome-shoulderrack-400g",
@@ -13604,9 +13697,9 @@
     "crosscheck": {
      "source60Min": 11930,
      "source60Max": 19800,
-     "sourceRecords": 13,
+     "sourceRecords": 12,
      "sourceCurrent": 19200,
-     "sourceWarnsVolatile": true
+     "sourceWarnsVolatile": false
     }
    },
    "coupang": {
@@ -13618,12 +13711,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-19",
-     "price": 19740,
-     "ts": "2026-09-18T19:44:41.147393+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-24",
      "price": 11930,
@@ -13703,18 +13790,18 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-09-18T19:44:41.147393+00:00",
+   "firstObservedAt": "2026-09-24T07:01:39.702295+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
     "min": 11930,
     "minDate": "2026-09-24",
     "max": 19800,
     "maxDate": "2026-10-15",
-    "avg": 18150,
+    "avg": 18028,
     "latest": 19200,
     "latestDate": "2026-11-15",
-    "observations": 14,
-    "days": 14
+    "observations": 13,
+    "days": 13
    }
   },
   "acv-bragg-organic-946ml-2": {
@@ -13860,7 +13947,7 @@
    "name": "호주산 부채살 스테이크용 (냉장), 600g, 1개",
    "platform": "coupang",
    "cardPrice": 24900,
-   "cardPriceCheckedAt": "2026-11-17 12:30",
+   "cardPriceCheckedAt": "2026-11-19 07:45",
    "cardListPrice": null,
    "source": "mart",
    "status": "tracking-started",
@@ -13871,6 +13958,12 @@
      "price": 24900,
      "ts": "2026-11-17T12:30:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-19",
+     "price": 24900,
+     "ts": "2026-11-19T07:45:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -13880,10 +13973,12 @@
     "maxDate": "2026-11-17",
     "avg": 24900,
     "latest": 24900,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
-   }
+    "latestDate": "2026-11-19",
+    "observations": 2,
+    "days": 2
+   },
+   "firstObservedAt": "2026-11-17T12:30:00+09:00",
+   "latestObservedAt": "2026-11-19T07:45:00+09:00"
   },
   "matitneunduyugt-godanbaek-duyu-190ml-24gae": {
    "id": "matitneunduyugt-godanbaek-duyu-190ml-24gae",
@@ -14228,7 +14323,7 @@
    "cardListPrice": null,
    "source": "mart",
    "status": "tracking-started",
-   "statusDetail": "no-records",
+   "statusDetail": "fetch-error",
    "series": [
     {
      "date": "2026-11-18",
@@ -14259,7 +14354,7 @@
    "cardListPrice": 13270,
    "source": "mart",
    "status": "tracking-started",
-   "statusDetail": "no-records",
+   "statusDetail": "fetch-error",
    "series": [
     {
      "date": "2026-11-18",
@@ -14401,9 +14496,45 @@
     "vendorItemId": "94917160218"
    },
    "source": "couprice+mart",
-   "status": "tracking-started",
-   "statusDetail": "option-mixed",
+   "status": "history",
+   "statusDetail": "ok",
    "series": [
+    {
+     "date": "2026-10-13",
+     "price": 45500,
+     "ts": "2026-10-12T18:03:15.790131+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-10-17",
+     "price": 21500,
+     "ts": "2026-10-16T22:53:55.605224+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-10-17",
+     "price": 45500,
+     "ts": "2026-10-17T04:56:19.448686+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-01",
+     "price": 42410,
+     "ts": "2026-11-01T07:43:39.684976+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-10",
+     "price": 19900,
+     "ts": "2026-11-10T10:51:35.084285+00:00",
+     "src": "couprice"
+    },
+    {
+     "date": "2026-11-15",
+     "price": 42410,
+     "ts": "2026-11-14T19:43:36.033258+00:00",
+     "src": "couprice"
+    },
     {
      "date": "2026-11-18",
      "price": 42410,
@@ -14411,1135 +14542,19 @@
      "src": "mart"
     }
    ],
-   "firstObservedAt": "2026-11-18T18:50:00+09:00",
+   "firstObservedAt": "2026-10-12T18:03:15.790131+00:00",
    "lastObservedAt": "2026-11-18T18:50:00+09:00",
    "stats": {
-    "min": 42410,
-    "minDate": "2026-11-18",
-    "max": 42410,
-    "maxDate": "2026-11-18",
-    "avg": 42410,
+    "min": 19900,
+    "minDate": "2026-11-10",
+    "max": 45500,
+    "maxDate": "2026-10-13",
+    "avg": 37090,
     "latest": 42410,
     "latestDate": "2026-11-18",
-    "observations": 1,
-    "days": 1
-   },
-   "statusNote": "쿠프라이스 60일 기록에 같은 상품번호의 1kg 옵션(19,900원)이 섞여 있어 3kg 카드의 과거 값으로 쓰지 않았어요. 마트가 직접 확인한 값만 남깁니다."
-  },
-  "pepsi-zero-lime-355": {
-   "id": "pepsi-zero-lime-355",
-   "name": "펩시 콜라 제로슈가 라임향, 355ml, 24개",
-   "platform": "coupang",
-   "cardPrice": 15060,
-   "cardPriceCheckedAt": "2026-11-17 07:30",
-   "cardListPrice": 16900,
-   "sourceUrl": "https://www.couprice.co.kr/products/x-8323333308",
-   "couprice": {
-    "ids": {
-     "productId": "8323333308",
-     "itemId": "23084951781",
-     "vendorItemId": "86532415890"
-    },
-    "sameItem": true,
-    "crosscheck": {
-     "source60Min": 10320,
-     "source60Max": 32900,
-     "sourceRecords": 89,
-     "sourceCurrent": 15060,
-     "sourceWarnsVolatile": true
-    }
-   },
-   "coupang": {
-    "productId": "8323333308",
-    "itemId": "23084951781",
-    "vendorItemId": "86532415890"
-   },
-   "source": "couprice+mart",
-   "status": "history",
-   "statusDetail": "ok",
-   "series": [
-    {
-     "date": "2026-09-18",
-     "price": 15820,
-     "ts": "2026-09-18T10:02:47.996187+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-18",
-     "price": 16820,
-     "ts": "2026-09-18T12:03:29.472345+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 16820,
-     "ts": "2026-09-18T16:02:27.759719+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 15980,
-     "ts": "2026-09-19T08:51:49.788829+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 16820,
-     "ts": "2026-09-21T00:06:22.912877+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 15400,
-     "ts": "2026-09-21T04:03:30.261515+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 21000,
-     "ts": "2026-09-21T06:05:08.941094+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 16820,
-     "ts": "2026-09-21T08:03:39.717311+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-22",
-     "price": 16430,
-     "ts": "2026-09-22T04:03:15.267266+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-22",
-     "price": 16420,
-     "ts": "2026-09-22T06:04:14.061925+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-24",
-     "price": 15980,
-     "ts": "2026-09-24T02:04:39.305974+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-28",
-     "price": 15590,
-     "ts": "2026-09-28T02:11:28.042637+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-28",
-     "price": 14810,
-     "ts": "2026-09-28T04:03:47.430439+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-28",
-     "price": 15590,
-     "ts": "2026-09-28T12:04:00.310013+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-02",
-     "price": 16850,
-     "ts": "2026-10-02T14:03:02.345472+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-03",
-     "price": 32900,
-     "ts": "2026-10-03T13:26:36.157924+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-03",
-     "price": 16850,
-     "ts": "2026-10-03T13:27:29.484198+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-04",
-     "price": 32900,
-     "ts": "2026-10-04T11:17:40.814486+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-04",
-     "price": 16850,
-     "ts": "2026-10-04T13:44:38.253477+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-06",
-     "price": 20400,
-     "ts": "2026-10-06T06:04:28.396181+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-06",
-     "price": 16850,
-     "ts": "2026-10-06T08:03:57.409591+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-08",
-     "price": 16530,
-     "ts": "2026-10-08T12:03:53.857311+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-09",
-     "price": 16530,
-     "ts": "2026-10-08T18:03:12.376319+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-09",
-     "price": 16850,
-     "ts": "2026-10-09T00:06:37.788487+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-10",
-     "price": 10320,
-     "ts": "2026-10-10T08:03:24.988377+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-10",
-     "price": 16850,
-     "ts": "2026-10-10T10:02:50.742406+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-12",
-     "price": 16150,
-     "ts": "2026-10-12T02:25:46.05207+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-15",
-     "price": 17000,
-     "ts": "2026-10-15T01:18:29.376042+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-15",
-     "price": 22390,
-     "ts": "2026-10-15T14:56:13.705468+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-16",
-     "price": 16150,
-     "ts": "2026-10-15T18:03:47.703862+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-16",
-     "price": 22390,
-     "ts": "2026-10-15T22:53:27.060123+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-16",
-     "price": 16150,
-     "ts": "2026-10-16T06:04:14.047096+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-19",
-     "price": 16600,
-     "ts": "2026-10-18T18:03:07.402492+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-19",
-     "price": 16150,
-     "ts": "2026-10-19T04:04:01.436786+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-20",
-     "price": 32900,
-     "ts": "2026-10-19T21:54:01.323684+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-20",
-     "price": 16150,
-     "ts": "2026-10-19T22:02:57.481993+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-20",
-     "price": 16900,
-     "ts": "2026-10-20T11:55:51.803829+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-21",
-     "price": 16150,
-     "ts": "2026-10-20T18:03:26.266854+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-21",
-     "price": 16900,
-     "ts": "2026-10-20T23:53:59.523837+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-21",
-     "price": 32300,
-     "ts": "2026-10-21T03:03:03.541896+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-21",
-     "price": 16150,
-     "ts": "2026-10-21T04:03:33.207399+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-21",
-     "price": 17000,
-     "ts": "2026-10-21T13:56:11.878625+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-22",
-     "price": 16150,
-     "ts": "2026-10-21T16:02:52.340313+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-22",
-     "price": 15830,
-     "ts": "2026-10-22T06:04:15.034222+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-23",
-     "price": 22900,
-     "ts": "2026-10-22T16:58:07.092838+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-23",
-     "price": 15830,
-     "ts": "2026-10-22T22:03:00.299435+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-23",
-     "price": 17000,
-     "ts": "2026-10-23T04:01:35.643009+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-23",
-     "price": 15480,
-     "ts": "2026-10-23T04:03:32.966638+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-23",
-     "price": 15830,
-     "ts": "2026-10-23T06:04:11.152215+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 16440,
-     "ts": "2026-10-23T22:02:49.939249+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 17000,
-     "ts": "2026-10-23T23:53:33.702365+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 16440,
-     "ts": "2026-10-24T00:05:33.551693+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 32900,
-     "ts": "2026-10-24T01:19:00.060173+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 16440,
-     "ts": "2026-10-24T02:05:15.210538+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 32900,
-     "ts": "2026-10-24T03:00:32.655823+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 21000,
-     "ts": "2026-10-24T04:03:15.355758+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 16440,
-     "ts": "2026-10-24T14:02:44.327212+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-25",
-     "price": 16600,
-     "ts": "2026-10-24T18:03:10.226765+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-26",
-     "price": 15860,
-     "ts": "2026-10-25T16:02:54.299867+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-26",
-     "price": 17000,
-     "ts": "2026-10-26T12:01:03.631622+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-26",
-     "price": 15860,
-     "ts": "2026-10-26T13:03:08.848044+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-28",
-     "price": 16340,
-     "ts": "2026-10-28T12:03:32.84495+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-29",
-     "price": 16440,
-     "ts": "2026-10-28T18:03:03.639016+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-29",
-     "price": 31730,
-     "ts": "2026-10-28T19:51:59.80769+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-29",
-     "price": 16440,
-     "ts": "2026-10-28T20:02:48.448806+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-29",
-     "price": 17000,
-     "ts": "2026-10-29T13:51:51.376263+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-30",
-     "price": 32300,
-     "ts": "2026-10-30T03:53:03.130098+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-31",
-     "price": 16530,
-     "ts": "2026-10-31T10:02:28.327312+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-01",
-     "price": 16600,
-     "ts": "2026-11-01T06:52:54.996832+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-01",
-     "price": 16900,
-     "ts": "2026-11-01T14:02:41.617102+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-02",
-     "price": 15620,
-     "ts": "2026-11-02T04:51:35.792033+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-03",
-     "price": 32700,
-     "ts": "2026-11-02T20:51:27.73853+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-03",
-     "price": 16700,
-     "ts": "2026-11-03T02:02:44.879153+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-06",
-     "price": 16260,
-     "ts": "2026-11-05T18:02:23.655343+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-06",
-     "price": 15620,
-     "ts": "2026-11-06T10:51:29.559339+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-07",
-     "price": 16700,
-     "ts": "2026-11-06T18:02:27.870039+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-09",
-     "price": 14700,
-     "ts": "2026-11-09T04:02:45.427324+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-09",
-     "price": 16700,
-     "ts": "2026-11-09T06:04:12.92358+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-09",
-     "price": 16110,
-     "ts": "2026-11-09T14:02:13.915708+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-10",
-     "price": 16700,
-     "ts": "2026-11-09T16:02:22.341844+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-11",
-     "price": 16330,
-     "ts": "2026-11-11T06:02:57.879724+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-11",
-     "price": 16700,
-     "ts": "2026-11-11T08:02:40.188006+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-11",
-     "price": 16060,
-     "ts": "2026-11-11T12:02:58.444857+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-12",
-     "price": 16700,
-     "ts": "2026-11-12T04:02:36.821384+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-13",
-     "price": 15800,
-     "ts": "2026-11-13T06:03:00.758351+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-13",
-     "price": 16700,
-     "ts": "2026-11-13T14:02:32.751118+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-14",
-     "price": 15860,
-     "ts": "2026-11-13T18:02:13.074195+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-16",
-     "price": 16050,
-     "ts": "2026-11-16T06:04:40.6431+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-16",
-     "price": 15060,
-     "ts": "2026-11-16T08:09:53.840936+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-17",
-     "price": 15060,
-     "ts": "2026-11-17T07:30:00+09:00",
-     "src": "mart"
-    }
-   ],
-   "firstObservedAt": "2026-09-18T10:02:47.996187+00:00",
-   "lastObservedAt": "2026-11-16T08:09:53.840936+00:00",
-   "stats": {
-    "min": 10320,
-    "minDate": "2026-10-10",
-    "max": 32900,
-    "maxDate": "2026-10-03",
-    "avg": 18230,
-    "latest": 15060,
-    "latestDate": "2026-11-17",
-    "observations": 90,
-    "days": 41
+    "observations": 7,
+    "days": 6
    }
-  },
-  "maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae": {
-   "id": "maimil-nyupeurotin-deuringkeu-orijineol-190ml-30gae",
-   "name": "마이밀 뉴프로틴 드링크 오리지널, 190ml, 30개",
-   "platform": "coupang",
-   "cardPrice": 30500,
-   "cardPriceCheckedAt": "2026-11-15 19:51",
-   "cardListPrice": null,
-   "sourceUrl": "https://www.couprice.co.kr/products/x-7621201792",
-   "couprice": {
-    "ids": {
-     "productId": "7621201792",
-     "itemId": "20206126483",
-     "vendorItemId": "85138139639"
-    },
-    "sameItem": true,
-    "crosscheck": {
-     "source60Min": 25400,
-     "source60Max": 66400,
-     "sourceRecords": 75,
-     "sourceCurrent": 30500,
-     "sourceWarnsVolatile": true
-    }
-   },
-   "coupang": {
-    "productId": "7621201792",
-    "itemId": "20206126483",
-    "vendorItemId": "85138139639"
-   },
-   "source": "couprice+mart",
-   "status": "history",
-   "statusDetail": "ok",
-   "series": [
-    {
-     "date": "2026-09-18",
-     "price": 63400,
-     "ts": "2026-09-18T02:03:42.909143+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-18",
-     "price": 56400,
-     "ts": "2026-09-18T04:03:14.160182+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-18",
-     "price": 34120,
-     "ts": "2026-09-18T06:03:51.368876+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 58400,
-     "ts": "2026-09-18T22:02:19.339685+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 63400,
-     "ts": "2026-09-19T02:03:39.589447+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 59400,
-     "ts": "2026-09-19T04:03:00.019105+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
-     "price": 58400,
-     "ts": "2026-09-19T14:02:39.128873+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-20",
-     "price": 63400,
-     "ts": "2026-09-19T16:02:12.742104+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-20",
-     "price": 34120,
-     "ts": "2026-09-19T20:02:31.382807+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-20",
-     "price": 58780,
-     "ts": "2026-09-20T04:02:56.051423+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 58400,
-     "ts": "2026-09-20T16:02:33.194124+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 58780,
-     "ts": "2026-09-20T18:02:57.442727+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 58400,
-     "ts": "2026-09-20T20:02:41.107292+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 58780,
-     "ts": "2026-09-21T02:07:13.909958+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 58400,
-     "ts": "2026-09-21T10:03:05.114572+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-21",
-     "price": 34120,
-     "ts": "2026-09-21T12:03:29.353749+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-22",
-     "price": 58780,
-     "ts": "2026-09-21T18:03:08.360933+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-22",
-     "price": 34120,
-     "ts": "2026-09-21T20:02:32.068165+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-22",
-     "price": 58400,
-     "ts": "2026-09-22T00:06:19.524767+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-22",
-     "price": 58780,
-     "ts": "2026-09-22T04:03:18.643671+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-22",
-     "price": 34120,
-     "ts": "2026-09-22T08:03:27.819473+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-23",
-     "price": 34560,
-     "ts": "2026-09-22T16:02:33.242932+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-23",
-     "price": 34620,
-     "ts": "2026-09-23T00:05:59.615142+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-23",
-     "price": 34120,
-     "ts": "2026-09-23T06:03:54.869284+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-24",
-     "price": 58780,
-     "ts": "2026-09-23T16:03:06.866464+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-24",
-     "price": 34120,
-     "ts": "2026-09-24T04:03:10.564566+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-25",
-     "price": 58780,
-     "ts": "2026-09-24T18:03:25.951031+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-25",
-     "price": 34120,
-     "ts": "2026-09-25T04:03:12.556806+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-25",
-     "price": 58780,
-     "ts": "2026-09-25T12:03:59.82023+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-26",
-     "price": 34120,
-     "ts": "2026-09-26T08:03:47.338848+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-27",
-     "price": 58780,
-     "ts": "2026-09-27T00:06:55.964028+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-27",
-     "price": 34120,
-     "ts": "2026-09-27T10:02:57.689892+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-27",
-     "price": 58780,
-     "ts": "2026-09-27T12:03:54.22978+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-27",
-     "price": 34120,
-     "ts": "2026-09-27T14:02:40.136707+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-29",
-     "price": 63400,
-     "ts": "2026-09-28T22:02:36.008429+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-29",
-     "price": 34900,
-     "ts": "2026-09-29T06:04:21.687803+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-04",
-     "price": 31410,
-     "ts": "2026-10-04T07:55:15.703882+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-05",
-     "price": 66400,
-     "ts": "2026-10-05T00:06:48.565304+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-05",
-     "price": 33640,
-     "ts": "2026-10-05T06:09:40.355726+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-05",
-     "price": 31410,
-     "ts": "2026-10-05T12:04:20.883849+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-06",
-     "price": 66400,
-     "ts": "2026-10-05T20:03:08.315461+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-06",
-     "price": 31410,
-     "ts": "2026-10-06T00:06:20.029376+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-06",
-     "price": 31770,
-     "ts": "2026-10-06T12:03:58.404872+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-07",
-     "price": 34900,
-     "ts": "2026-10-07T04:05:33.31497+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-11",
-     "price": 66400,
-     "ts": "2026-10-11T00:07:26.055401+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-11",
-     "price": 34900,
-     "ts": "2026-10-11T08:03:41.495427+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-12",
-     "price": 34400,
-     "ts": "2026-10-12T08:21:41.118702+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-20",
-     "price": 35890,
-     "ts": "2026-10-19T22:02:58.92836+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-23",
-     "price": 29600,
-     "ts": "2026-10-23T08:03:37.459486+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-25",
-     "price": 28770,
-     "ts": "2026-10-25T06:03:52.362875+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-26",
-     "price": 29600,
-     "ts": "2026-10-25T16:02:57.162747+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-26",
-     "price": 33500,
-     "ts": "2026-10-26T10:07:24.909911+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-27",
-     "price": 35890,
-     "ts": "2026-10-26T16:08:34.782461+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-02",
-     "price": 31770,
-     "ts": "2026-11-02T04:02:30.114613+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-03",
-     "price": 35890,
-     "ts": "2026-11-02T20:02:20.303709+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-04",
-     "price": 34900,
-     "ts": "2026-11-04T11:32:02.506717+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-05",
-     "price": 35890,
-     "ts": "2026-11-04T20:02:25.858904+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-05",
-     "price": 35050,
-     "ts": "2026-11-05T06:03:18.171391+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-05",
-     "price": 35890,
-     "ts": "2026-11-05T08:02:51.417254+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-08",
-     "price": 34830,
-     "ts": "2026-11-07T20:02:08.915622+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-08",
-     "price": 35890,
-     "ts": "2026-11-08T00:04:56.155068+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-09",
-     "price": 34900,
-     "ts": "2026-11-08T20:02:31.924224+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-09",
-     "price": 33640,
-     "ts": "2026-11-09T02:02:47.570444+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-09",
-     "price": 32900,
-     "ts": "2026-11-09T04:02:48.303168+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-10",
-     "price": 33520,
-     "ts": "2026-11-09T18:02:56.009116+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-10",
-     "price": 34620,
-     "ts": "2026-11-10T00:04:33.172004+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-11",
-     "price": 30500,
-     "ts": "2026-11-11T04:02:36.788053+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-13",
-     "price": 61000,
-     "ts": "2026-11-12T22:02:28.137282+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-13",
-     "price": 30500,
-     "ts": "2026-11-13T00:04:53.651623+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-13",
-     "price": 61000,
-     "ts": "2026-11-13T04:02:57.298568+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-14",
-     "price": 30500,
-     "ts": "2026-11-13T22:02:34.531183+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-16",
-     "price": 25400,
-     "ts": "2026-11-16T04:03:06.666023+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-16",
-     "price": 30500,
-     "ts": "2026-11-16T06:04:44.388882+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-16",
-     "price": 61000,
-     "ts": "2026-11-16T09:02:41.305212+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-16",
-     "price": 30500,
-     "ts": "2026-11-16T10:02:43.287089+00:00",
-     "src": "couprice"
-    }
-   ],
-   "firstObservedAt": "2026-09-18T02:03:42.909143+00:00",
-   "lastObservedAt": "2026-11-16T10:02:43.287089+00:00",
-   "stats": {
-    "min": 25400,
-    "minDate": "2026-11-16",
-    "max": 66400,
-    "maxDate": "2026-10-05",
-    "avg": 43385,
-    "latest": 30500,
-    "latestDate": "2026-11-16",
-    "observations": 75,
-    "days": 33
-   }
-  },
-  "keeowel-baelreonseun-godanbaek-bananamat-200ml-60gae": {
-   "id": "keeowel-baelreonseun-godanbaek-bananamat-200ml-60gae",
-   "name": "케어웰 밸런스N 고단백 바나나맛, 200ml, 60개",
-   "platform": "coupang",
-   "cardPrice": 85530,
-   "cardPriceCheckedAt": "2026-11-15 20:51",
-   "cardListPrice": 102410,
-   "source": "mart",
-   "status": "tracking-started",
-   "statusDetail": "fetch-error",
-   "series": [
-    {
-     "date": "2026-11-15",
-     "price": 85530,
-     "ts": "2026-11-15T20:51:00+09:00",
-     "src": "mart"
-    }
-   ],
-   "stats": {
-    "min": 85530,
-    "minDate": "2026-11-15",
-    "max": 85530,
-    "maxDate": "2026-11-15",
-    "avg": 85530,
-    "latest": 85530,
-    "latestDate": "2026-11-15",
-    "observations": 1,
-    "days": 1
-   },
-   "sourceUrl": "https://www.couprice.co.kr/products/x-6332981118"
   }
  }
 }
