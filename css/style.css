@@ -3199,8 +3199,7 @@ select.sel {
   border-radius: 8px;
 }
 /* 작은 썸네일 판은 둥글게 잘라 사진 모서리가 판 밖으로 나가지 않게 */
-.spot-photo, .gv-photo, .rec-photo, .hub-photo, .tile-photo,
-.dc-photo, .deal-photo { border-radius: 8px; overflow: hidden; }
+.spot-photo, .gv-photo, .rec-photo, .hub-photo { border-radius: 8px; overflow: hidden; }
 /* 큰 사진 판은 여백을 컨테이너로 옮겨, 사진 네모 자체의 모서리를 둥글립니다 */
 .pc-photo { padding: 13px; }
 .pc-photo img { padding: 0; }
