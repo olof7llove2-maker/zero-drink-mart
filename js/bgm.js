@@ -210,14 +210,34 @@
       return;
     }
     try {
-      if (firstSound || state() === 0) player.seekTo(0, true);
       player.setVolume(0);
       player.unMute();
       player.playVideo();
     } catch (err) {}
+    /* 첫 소리 때는 곡을 처음부터 — 미리 재생이 앞서 있으면 되감습니다.
+       기기에 따라 unMute 직후의 seekTo가 무시되므로 한 번 더 확인해 되감습니다. */
+    if (firstSound || state() === 0) rewind();
     ramp(VOLUME, FADE_IN);
     clearTimeout(verifyTimer);
     verifyTimer = setTimeout(checkSound, VERIFY_MS);
+  }
+
+  function rewind() {
+    try {
+      player.seekTo(0, true);
+    } catch (err) {}
+    setTimeout(function () {
+      if (!want || !player) return;
+      var t = -1;
+      try {
+        t = player.getCurrentTime();
+      } catch (err) {}
+      if (t > 3) {
+        try {
+          player.seekTo(0, true);
+        } catch (err) {}
+      }
+    }, 450);
   }
 
   /* 실제로 소리가 나는지 확인 — 안 되면 표시를 되돌리고 다음 탭에서 다시 시도합니다. */
