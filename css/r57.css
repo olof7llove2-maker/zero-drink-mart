@@ -352,7 +352,7 @@ main { max-width: var(--frame); margin: 0 auto; background: var(--bg); min-heigh
 .promos-lab { font-size: 13px; font-weight: 700; color: var(--ink-2); margin-bottom: 8px; }
 .promo-grid { display: flex; flex-direction: column; gap: 8px; }
 .promo {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px;
   background: var(--card); border-radius: var(--r-md); padding: 12px 14px;
   min-height: 56px;
 }
