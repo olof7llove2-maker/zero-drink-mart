@@ -3382,3 +3382,19 @@ select.sel {
 .cattiles .tile:last-child { grid-column: auto; flex-direction: column; }
 .cattiles .tile:last-child .tile-photo { width: auto; aspect-ratio: 16 / 10; }
 .cattiles .tile-photo img { object-fit: cover; width: 100%; height: 100%; }
+
+/* ── r55 · 카테고리 탭 '판매처별 모아보기' 칩 (🔴 쿠팡 · 🔵 토스 · 🟢 네이버) ── */
+.cat-stores { margin: 2px 0 16px; }
+.cat-stores .store-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  flex: none; cursor: pointer; white-space: nowrap;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
+  border-radius: 999px; padding: 8px 13px;
+  font-family: inherit; font-size: 12.5px; font-weight: 700; letter-spacing: -0.02em;
+}
+.cat-stores .store-chip .n { font-size: 11px; font-weight: 600; color: var(--muted-2); }
+.cat-stores .store-chip.is-on { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-fg, #101013); }
+.cat-stores .store-chip.is-on .n { color: rgba(16, 16, 19, 0.62); }
+.cat-stores .store-chip.is-coupang { border-color: #f3d6d6; }
+.cat-stores .store-chip.is-toss { border-color: #d6e2ff; }
+.cat-stores .store-chip.is-naver { border-color: #d3ecdd; }

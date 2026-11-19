@@ -54,6 +54,7 @@ const state = {
   goal: "all",
   homeCat: "all", /* r53 — 홈 맨 위 카테고리 버튼 선택값 */
   rankMode: "popular", /* r55 — 랭킹 기준: "popular"(인기·구매 순) | "discount"(할인율 순) */
+  catStore: "", /* r55 — 카테고리 탭 판매처 모아보기: "" | "coupang" | "toss" | "naver" */
   query: "",
   highlightId: null,
   limit: { home: 8, category: 30, hotdeal: 30 },
@@ -1458,6 +1459,28 @@ function renderTiles() {
   }).join("");
 }
 
+/* r55 — 카테고리 탭 '판매처별 모아보기' 칩 (재영 님: 카톡 톡딜은 빼고 쿠팡·토스·네이버 3개만) */
+const STORE_TILES = [
+  { id: "coupang", label: "🔴 쿠팡" },
+  { id: "toss", label: "🔵 토스" },
+  { id: "naver", label: "🟢 네이버" },
+];
+function storeKeysOf(p) {
+  return buyOptions(p).map((o) => o.key);
+}
+function renderCategoryStores() {
+  const box = $("cat-stores");
+  if (!box) return;
+  const pool = collapseVariants(basePool());
+  box.innerHTML = STORE_TILES.map((s) => {
+    const on = state.catStore === s.id;
+    const n = pool.filter((p) => storeKeysOf(p).includes(s.id)).length;
+    return `<button type="button" class="store-chip is-${s.id}${on ? " is-on" : ""}" data-catstore="${s.id}" aria-pressed="${on}">${escapeHtml(
+      s.label
+    )}<span class="n">${n}</span></button>`;
+  }).join("");
+}
+
 /* ── 카테고리 안쪽 1줄 쿠팡 기획전 (홈에는 절대 안 띄움) ─────────
    아버님 쿠팡 파트너스(AF5520784) 단축 링크 — 누르면 새 탭으로 열립니다. */
 const CAT_PROMOS = {
@@ -1499,14 +1522,35 @@ function renderCategoryList() {
   const wrap = $("cat-browse");
   const tiles = $("cattiles");
   const list = $("cat-list");
+  const filtersWrap = document.querySelector("#view-category .filters-wrap");
   if (!list) return;
-  const browsing = state.part !== "all";
+  renderCategoryStores();
+  const storeMode = !!state.catStore;
+  const browsing = state.part !== "all" || storeMode;
   if (tiles) tiles.hidden = browsing;
   if (wrap) wrap.hidden = !browsing;
   if (!browsing) {
     list.innerHTML = "";
     return;
   }
+
+  /* r55 — 판매처별 모아보기: 그 판매처 링크가 붙은 상품만 (홈은 그대로, 이 탭에서만) */
+  if (storeMode) {
+    const def = STORE_TILES.find((s) => s.id === state.catStore) || STORE_TILES[0];
+    let items = basePool().filter((p) => storeKeysOf(p).includes(def.id) && matchesPick(p));
+    items = sortList(items, state.sort);
+    const head = $("cat-head");
+    if (head) {
+      head.innerHTML = `<h2>${escapeHtml(def.label)}에서 살 수 있는 상품</h2><span>${collapseVariants(items).length}개 · ${escapeHtml(
+        sortHint()
+      )}</span>`;
+    }
+    if (filtersWrap) filtersWrap.hidden = true;
+    renderCardsInto(list, items, { limit: state.limit.category, moreKey: "category", twoCol: true, showPart: true });
+    return;
+  }
+  if (filtersWrap) filtersWrap.hidden = false;
+
   let items = basePool().filter(
     (p) => partOf(p) === state.part && matchesListFilters(p) && matchesPick(p)
   );
@@ -2234,6 +2278,7 @@ function initControls() {
     }
     const tile = e.target.closest("[data-part-tile]");
     if (tile) {
+      state.catStore = "";
       state.part = tile.getAttribute("data-part-tile");
       clearFilters();
       state.limit.category = 30;
@@ -2241,9 +2286,22 @@ function initControls() {
       window.scrollTo({ top: 0, behavior: "auto" });
       return;
     }
+    const storeChip = e.target.closest("[data-catstore]");
+    if (storeChip) {
+      const id = storeChip.getAttribute("data-catstore");
+      state.catStore = state.catStore === id ? "" : id;
+      if (state.catStore) {
+        state.part = "all";
+        clearFilters();
+      }
+      state.limit.category = 30;
+      paint();
+      return;
+    }
     const back = e.target.closest("[data-backpart]");
     if (back) {
       state.part = "all";
+      state.catStore = "";
       clearFilters();
       paint();
       window.scrollTo({ top: 0, behavior: "auto" });
