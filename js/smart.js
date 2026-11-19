@@ -25,7 +25,8 @@ const KIND_DEFS = [
 const TL_LEVELS = {
   good: { label: "지금 사기 좋아요", short: "지금 사기 좋은 가격", dot: "🟢" },
   mid: { label: "무난한 가격", short: "무난한 가격", dot: "🟡" },
-  wait: { label: "조금 비싸요", short: "지금은 조금 비싼 편", dot: "🔴" },
+  wait: { label: "조금 비싸요", short: "지금은 조금 비싼 편", dot: "🟠" },
+  high: { label: "비싸요", short: "지금은 비싼 편", dot: "🔴" },
   none: { label: "가격 기록 모으는 중", short: "가격 기록을 모으는 중", dot: "⚪" },
 };
 

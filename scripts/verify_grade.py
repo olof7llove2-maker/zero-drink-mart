@@ -3,8 +3,8 @@
 
 판정 규칙(화면과 같은 식)
 - 평소가 = 이 상품의 관측 가격(data/price-history.json) 중간값. 관측 14일·5회 이상만 인정.
-- 5단계: −20%↓ 역대급 · −12%↓ 대박급 · −5%↓ 중박급 · +3%까지 쏘쏘 · 그 위 비쌈
-- 3단계(신호등): −5%↓ 지금 사기 좋아요 · +3%까지 무난한 가격 · 그 위 조금 비싸요
+- 5단계: −20%↓ 역대급 · −12%↓ 대박급 · −5%↓ 중박급 · +3%까지 쏘쏘 · 그 위 비쌈\n- r55: 정가 대비 70% 이상 할인이면 60일 이력과 무관하게 역대급
+- 4단계(신호등): −5%↓ 지금 사기 좋아요 · +3%까지 무난한 가격 · +8%까지 조금 비싸요 · 그 위 비싸요
 - 단백질 레일: −5%↓ 핫딜 · +3%까지 보통 · 그 위 비쌈 · 기록 부족은 기록중
 - 기록이 14일 미만이면 판정·5단계 배지 없이 정가 할인·30일 최저로 3단계 톤만.
 - 참고 시세(같은 용기)는 판정에 쓰지 않습니다. 단백질 음료는 단백질 20g당 가격끼리 견줍니다.
@@ -28,10 +28,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MIN_DAYS = 14
 
-TIERS = [("good", -5), ("mid", 3), ("wait", float("inf"))]
-TIER_LABEL = {"good": "지금 사기 좋아요", "mid": "무난한 가격", "wait": "조금 비싸요"}
-BADGE_TIER = {"역대급": "good", "대박급": "good", "중박급": "good", "쏘쏘": "mid", "비쌈": "wait"}
-PROT_LABEL = {"good": "핫딜", "mid": "보통", "wait": "비쌈"}
+TIERS = [("good", -5), ("mid", 3), ("wait", 8), ("high", float("inf"))]
+TIER_LABEL = {"good": "지금 사기 좋아요", "mid": "무난한 가격", "wait": "조금 비싸요", "high": "비싸요"}
+BADGE_TIER = {"역대급": {"good"}, "대박급": {"good"}, "중박급": {"good"}, "쏘쏘": {"mid"}, "비쌈": {"wait", "high"}}
+PROT_LABEL = {"good": "핫딜", "mid": "보통", "wait": "비쌈", "high": "비쌈"}
+DEEP_CUT_PCT = 70  # r55 — 정가 대비 70% 이상이면 이력과 무관하게 역대급
 
 
 def container_of(p):
@@ -110,13 +111,24 @@ def baseline_of(p, history):
     return {"median": statistics.median(prices), "days": days, "observations": obs}
 
 
+def deep_cut(p, out):
+    """r55 — 정가 대비 70% 이상 할인은 이력·점수와 무관하게 역대급."""
+    disc = p.get("discountPct")
+    if isinstance(disc, (int, float)) and disc >= DEEP_CUT_PCT:
+        out["tier"] = "good"
+        out["badge"] = "역대급"
+        out["deepCut"] = True
+    return out
+
+
 def judge(p, history):
     if p.get("price") is None:
         return {"basis": "none", "tier": None, "badge": None, "pct": None}
     base = baseline_of(p, history)
     if base:
         pct = (p["price"] / base["median"] - 1) * 100
-        return {"basis": "history", "tier": tier_of(pct), "badge": grade_of(pct), "pct": pct, "base": base}
+        out = {"basis": "history", "tier": tier_of(pct), "badge": grade_of(pct), "pct": pct, "base": base}
+        return deep_cut(p, out)
     disc = p.get("discountPct")
     l30 = None if (p.get("id") and "#" in p["id"]) else p.get("lowest30d")
     if disc is None and l30 is None:
@@ -129,7 +141,7 @@ def judge(p, history):
         score -= 14
     score = max(6, min(92, score))
     tier = "good" if score >= 70 else ("mid" if score >= 44 else "wait")
-    return {"basis": "discount", "tier": tier, "badge": None, "pct": None}
+    return deep_cut(p, {"basis": "discount", "tier": tier, "badge": None, "pct": None})
 
 
 def load_js_blocks():
@@ -163,9 +175,9 @@ def main():
     for p in products:
         j = judge(p, history)
         tier, badge = j["tier"], j["badge"]
-        if badge and BADGE_TIER[badge] != tier:
+        if badge and tier not in BADGE_TIER[badge]:
             problems.append(f"{p['id']}: 5단계 {badge} ↔ 3단계 {TIER_LABEL.get(tier)}")
-        if j["basis"] != "history" and badge:
+        if j["basis"] != "history" and badge and not j.get("deepCut"):
             problems.append(f"{p['id']}: 기록 부족인데 5단계 배지 {badge}")
         if p.get("category") == "protein":
             g = p.get("protein_g_per_bottle")

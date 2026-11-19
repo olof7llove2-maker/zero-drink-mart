@@ -207,11 +207,16 @@ function signedPct(pct) {
 
 const VERDICT_MIN_DAYS = GRADE_MIN_DAYS;
 
+/* r55 — '조금 비싸요(🟠)'와 '비싸요(🔴)'를 나눠 5단계로 (재영 님 2026-11-19) */
 const VERDICT_TIERS = [
   { id: "good", label: "지금 사기 좋아요", short: "지금 사기 좋은 가격", dot: "🟢", max: -5 },
   { id: "mid", label: "무난한 가격", short: "무난한 가격", dot: "🟡", max: 3 },
-  { id: "wait", label: "조금 비싸요", short: "지금은 조금 비싼 편", dot: "🔴", max: Infinity },
+  { id: "wait", label: "조금 비싸요", short: "지금은 조금 비싼 편", dot: "🟠", max: 8 },
+  { id: "high", label: "비싸요", short: "지금은 비싼 편", dot: "🔴", max: Infinity },
 ];
+
+/* r55 — 정가 대비 70% 이상 할인이면 60일 이력과 무관하게 '역대급' (재영 님 2026-11-19) */
+const DEEP_CUT_PCT = 70;
 const VERDICT_NONE = { id: "none", label: "가격 기록 모으는 중", short: "가격 기록을 모으는 중", dot: "⚪", max: null };
 
 function verdictTierOf(pct) {
@@ -288,6 +293,17 @@ function marketRefOf(p) {
   };
 }
 
+/* r55 — 정가 대비 70% 이상이면 이력·점수와 무관하게 역대급으로 올립니다. */
+function applyDeepCut(p, out) {
+  const disc = Number(p && p.discountPct);
+  if (!Number.isFinite(disc) || disc < DEEP_CUT_PCT) return out;
+  out.tier = VERDICT_TIERS[0];
+  out.badge = GRADE_BANDS[0];
+  out.deepCut = true;
+  out.why = `정가 대비 ${disc}% 할인 — 역대급${out.pct != null ? ` (60일 평소가 ${signedPct(out.pct)})` : ""}`;
+  return out;
+}
+
 /* 통일 판정 — 모든 화면이 이 값만 씁니다. */
 function judgeOf(p) {
   const out = { pct: null, tier: VERDICT_NONE, badge: null, base: null, ref: null, why: "", basis: "none", days: 0 };
@@ -305,7 +321,7 @@ function judgeOf(p) {
     out.tier = verdictTierOf(pct);
     out.badge = gradeOf(pct);
     out.why = `내 60일 평소가 ${won(Math.round(out.base.median))} 대비 ${signedPct(pct)}`;
-    return out;
+    return applyDeepCut(p, out);
   }
   /* 기록이 14일 미만 — 5단계 배지 없이 정가 할인·30일 최저로만 톤을 정합니다 */
   const disc = typeof p.discountPct === "number" && Number.isFinite(p.discountPct) ? p.discountPct : null;
@@ -327,7 +343,7 @@ function judgeOf(p) {
   if (at30) bits.push("30일 최저와 같은 수준");
   else if (l30 != null) bits.push(`30일 최저 ${won(l30)}보다 높아요`);
   out.why = bits.join(" · ") || "가격을 모으는 중이에요.";
-  return out;
+  return applyDeepCut(p, out);
 }
 
 /* 참고 시세 한 줄 — 판정 단어 없이 숫자만 */
