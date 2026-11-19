@@ -343,7 +343,7 @@ function categoryBlock(p) {
     cmp.rank
   }번째로 낮아요</b>.</li>`;
   const line = `<li>카테고리 평균 <b>${wonShort(Math.round(cmp.avg))}원/${u}</b> · 이 상품 <b>${wonShort(
-    cmp.value
+    Math.round(cmp.value)
   )}원/${u}</b> (평균보다 ${cheaper ? `${wonShort(cmp.diffWon)}원 낮음` : `${wonShort(-cmp.diffWon)}원 높음`})</li>`;
   const each = p.unitEach ? `<li>${escapeHtml(p.unitEach)}</li>` : "";
   let meatLine = "";
@@ -352,7 +352,7 @@ function categoryBlock(p) {
     if (mc && mc.count >= 3) {
       meatLine = `<li>식단 고기 <b>${mc.count}개 전체</b> 100g당 평균 <b>${wonShort(
         Math.round(mc.avg)
-      )}원</b> · 이 상품 <b>${wonShort(mc.value)}원</b> → ${
+      )}원</b> · 이 상품 <b>${wonShort(Math.round(mc.value))}원</b> → ${
         mc.diffWon >= 0
           ? `<b class="minus">100g당 ${wonShort(mc.diffWon)}원 저렴</b>`
           : `<b class="plus">100g당 ${wonShort(-mc.diffWon)}원 비쌈</b>`
@@ -475,9 +475,8 @@ function modalBuyBlock(p) {
   const opts = buyOptions(p);
   if (!opts.length) return "";
   const view = typeof cheapView === "function" ? cheapView(p) : { price: p.price, platform: platformOf(p) };
-  const head = opts.length > 1
-    ? `${opts.length}곳 가격 비교${p.priceCheckedAt ? ` · ${escapeHtml(shortStamp(p.priceCheckedAt))} 확인` : ""}`
-    : escapeHtml(p.priceCheckedLabel || "");
+  /* r57 — 위 '가격 확인' 줄과 같은 시각을 두 번 적지 않습니다(B8 중복 정리) */
+  const head = opts.length > 1 ? `${opts.length}곳 가격 비교` : "가격은 바뀔 수 있어요";
   return `<div class="pm-buy">
     <p class="pm-buy-head">
       <span class="pm-buy-k">지금 사러 가기</span>
