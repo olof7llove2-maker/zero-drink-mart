@@ -1397,9 +1397,11 @@ function renderHomeHead() {
   if (!box) return;
   const sel = box.querySelector("[data-sortsel]");
   if (!sel) return;
-  sel.innerHTML = SORT_OPTIONS.map(
-    (o) => `<option value="${o.id}"${state.sort === o.id ? " selected" : ""}>${o.label}</option>`
-  ).join("");
+  sel.innerHTML =
+    SORT_OPTIONS.map(
+      (o) => `<option value="${o.id}"${state.pick !== "wow" && state.sort === o.id ? " selected" : ""}>${o.label}</option>`
+    ).join("") +
+    `<option value="pick:wow"${state.pick === "wow" ? " selected" : ""}>🔥 역대급만 보기</option>`;
 }
 
 function renderHome() {
@@ -2257,7 +2259,20 @@ function initControls() {
     const sel = e.target && e.target.closest ? e.target.closest("[data-sortsel]") : null;
     if (!sel) return;
     const id = sel.value;
-    if (!SORT_IDS.has(id) || id === state.sort) return;
+    /* r55 — '🔥 역대급만 보기'는 정렬이 아니라 판정 필터(state.pick)입니다. */
+    if (id && id.indexOf("pick:") === 0) {
+      state.pick = id.slice(5);
+      state.limit.home = HOME_LIMIT;
+      state.limit.category = 30;
+      paint();
+      return;
+    }
+    if (!SORT_IDS.has(id)) return;
+    if (state.pick) state.pick = "";
+    if (id === state.sort) {
+      paint();
+      return;
+    }
     state.sort = id;
     state.goal = "all";
     state.limit.home = HOME_LIMIT;
