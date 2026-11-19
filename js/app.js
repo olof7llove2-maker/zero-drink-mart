@@ -30,12 +30,19 @@ const PART_TILES = [
   { part: "cheat", label: "치팅·간편식", emoji: "🍕", sub: "햇반·간편 닭가슴살·스팸", image: "images/retort-can-spam-classic-340g-6.jpg" },
 ];
 
-/* r57 — 정렬은 3개만(추천순·할인율·단가). 나머지 기준은 랭킹·카테고리에서 봅니다. */
+/* r58 — 정렬은 소비자가 실제로 고르는 5기준으로 정리(재영 님 2026-11-19).
+   기본은 '할인율 높은 순' — 열자마자 특가가 먼저 보이게.
+   화면에는 짧은 이름(할인순 ▾)만 두고, 누르면 아래 시트에서 긴 설명과 함께 고릅니다. */
 const SORT_OPTIONS = [
-  { id: "popular", label: "추천순" },
-  { id: "discount", label: "할인율 높은 순" },
-  { id: "basis", label: "단가 낮은 순" },
+  { id: "discount", label: "할인율 높은 순", short: "할인순", desc: "정가에서 많이 빠진 순" },
+  { id: "popular", label: "인기·리뷰 많은 순", short: "인기순", desc: "리뷰·구매가 많은 순" },
+  { id: "basis", label: "단가 낮은 순 (100ml·g)", short: "단가순", desc: "100ml·g당 가격이 싼 순" },
+  { id: "price", label: "가격 낮은 순", short: "가격순", desc: "한 번에 내는 금액이 적은 순" },
+  { id: "recent", label: "방금·최근 확인 순", short: "확인순", desc: "가격을 최근에 확인한 순" },
 ];
+function sortOptionOf(id) {
+  return SORT_OPTIONS.find((o) => o.id === id) || SORT_OPTIONS[0];
+}
 const SORT_IDS = new Set(SORT_OPTIONS.map((s) => s.id));
 
 /* r55 — 홈 '🟢 지금 사기 좋아요' 기본 노출 개수(모바일 2열 4줄 · 데스크톱 4열 2줄) */
@@ -130,8 +137,9 @@ function matchesPick(p) {
   if (!state.pick) return true;
   const j = typeof judgeOf === "function" ? judgeOf(p) : null;
   if (!j || !j.tier || j.tier.id === "none") return false;
-  if (state.pick === "good") return j.tier.id === "good";
-  if (state.pick === "wow") return !!j.badge && j.badge.id === "역대급";
+  const badge = typeof verdictBadgeOf === "function" ? verdictBadgeOf(j) : null;
+  if (state.pick === "good") return badge ? badge.id === "good" : j.tier.id === "good";
+  if (state.pick === "wow") return badge ? badge.id === "best" : !!j.badge && j.badge.id === "역대급";
   return true;
 }
 
@@ -494,6 +502,7 @@ function sortValue(p, key) {
   }
   if (key === "discount") return typeof p.discountPct === "number" ? p.discountPct : null;
   if (key === "price") return typeof cheapView(p).price === "number" ? cheapView(p).price : null;
+  if (key === "recent") return checkedAtMs(p.priceCheckedAt);
   if (key === "low") {
     const s = lowStats(p);
     if (s.state === "low" || s.state === "near" || s.state === "above") return s.pct;
@@ -503,7 +512,7 @@ function sortValue(p, key) {
 }
 function sortList(list, key) {
   const k = key || state.sort;
-  const desc = k === "popular" || k === "discount";
+  const desc = k === "popular" || k === "discount" || k === "recent";
   return list
     .map((p, i) => ({ p, i, v: sortValue(p, k) }))
     .sort((a, b) => {
@@ -676,7 +685,9 @@ function cardEl(p, opts = {}) {
         <p class="pc-flag">${pill}${deal}</p>
       </div>
       ${optionRow(p)}
-      <div class="pc-acts">${buyHTML(p, { card: true })}</div>
+      <div class="pc-acts">${buyHTML(p, { card: true })}${
+        typeof mehBtnHTML === "function" ? mehBtnHTML(p) : ""
+      }</div>
     </div>`;
   return el;
 }
@@ -755,41 +766,42 @@ function renderCardsInto(target, list, opts = {}) {
 
 function sortHint() {
   const map = {
-    popular: "추천순",
+    popular: "인기·리뷰 많은 순",
     basis: "단가 낮은 순",
     discount: "할인율 높은 순",
     low: "저점 가까운 순",
     price: "가격 낮은 순",
+    recent: "방금·최근 확인 순",
   };
   return map[state.sort] || "";
 }
 
 /* ── 컨트롤 (한 줄 칩) ────────────────────────────────── */
 
-/* ── 컨트롤 (r54 — 왼쪽 토글 2개 + 오른쪽 정렬 드롭다운 한 줄) ──
-   재영 님(2026-11-19): "상품 비교 카드 위 필터/정렬 줄을 깔끔한 1줄로" —
-   왼쪽에 🔥 역대급 · 🟢 지금 사기 좋아요 두 토글만, 오른쪽에 '추천순' 드롭다운 하나.
-   기존 정렬 칩과 쿠팡/토스 칩은 모바일에서 옆으로 잘려서 없뎃습니다. */
+/* ── 컨트롤 (r58 — 왼쪽 상태 칩 2개 + 오른쪽 작은 '할인순 ▾' 정렬 버튼 한 줄) ──
+   재영 님(2026-11-19): "큰 회색 셀렉트 박스는 없애고 터지감 좋은 한 줄 UI로",
+   "전체 특가 옆 알림은 개뜬금없어" — 알림은 헤더 오른쪽으로 옮겼습니다. */
 function ctlBarHTML(extra = "") {
   const goalOn = state.tab === "home" && state.goal && state.goal !== "all";
-  const opts = SORT_OPTIONS.map(
-    (o) => `<option value="${o.id}"${!goalOn && state.sort === o.id ? " selected" : ""}>${o.label}</option>`
-  ).join("");
+  const cur = sortOptionOf(goalOn ? "popular" : state.sort);
   return `<div class="ctlbar">
       <div class="ctl-picks">${pickChipsHTML()}</div>
-      <span class="ctl-sort"><select class="ctl-sel" data-sortsel aria-label="정렬 방식">${opts}</select></span>
+      <button type="button" class="ctl-sortbtn" data-sortopen aria-haspopup="dialog" aria-label="정렬 방식 바꾸기 (지금 ${escapeHtml(
+        cur.label
+      )})"><span>${escapeHtml(cur.short)}</span><i aria-hidden="true">▾</i></button>
       ${extra}
     </div>`;
 }
 
 /* r39 — 목록 필터 맨 앞의 빠른 필터 칩 두 개(하나만 켜지는 토글)
-   r54 — 순서를 '역대급 → 지금 사기 좋아요'로 바꾸고 두 개만 남깁니다. */
+   r54 — 순서를 '역대급 → 지금 사기 좋아요'로 바꾸고 두 개만 남깁니다.
+   r58 — 배지와 같은 3단계 말투로 맞춥니다: 🔥 역대 최저 / 🟢 지금 사기 좋아요 */
 function pickChipsHTML() {
   const mk = (id, label, cls) => {
     const on = state.pick === id;
     return `<button type="button" class="cchip ${cls}${on ? " is-on" : ""}" data-pick="${id}" aria-pressed="${on}">${label}</button>`;
   };
-  return mk("wow", "역대 최저", "is-wow") + mk("good", "추천가", "is-good");
+  return mk("wow", "🔥 역대 최저", "is-wow") + mk("good", "🟢 지금 사기 좋아요", "is-good");
 }
 
 function renderControls() {
@@ -1341,17 +1353,54 @@ function homeCatDef() {
   return SPOT_CATS.find((c) => c.id === state.homeCat) || SPOT_CATS[0];
 }
 
-/* r55 — 아래 목록 섹션 헤더의 '추천순 ▾' 드롭다운을 지금 정렬값으로 채웁니다. */
+/* r58 — 목록 섹션 헤더는 제목만 남기고, 정렬 표시는 컨트롤 줄의 '할인순 ▾' 버튼이 맡습니다. */
 function renderHomeHead() {
   const box = $("home-head");
   if (!box) return;
   const sel = box.querySelector("[data-sortsel]");
   if (!sel) return;
-  sel.innerHTML =
-    SORT_OPTIONS.map(
-      (o) => `<option value="${o.id}"${state.pick !== "wow" && state.sort === o.id ? " selected" : ""}>${o.label}</option>`
-    ).join("") +
-    `<option value="pick:wow"${state.pick === "wow" ? " selected" : ""}>🔥 역대급만</option>`;
+  sel.innerHTML = SORT_OPTIONS.map(
+    (o) => `<option value="${o.id}"${state.sort === o.id ? " selected" : ""}>${o.label}</option>`
+  ).join("");
+}
+
+/* r58 — 정렬 시트: 5개 기준을 긴 이름·한 줄 설명과 함께 보여 주고, 지금 고른 것에 체크 */
+function renderSortSheet() {
+  const list = $("sort-list");
+  if (!list) return;
+  const goalOn = state.tab === "home" && state.goal && state.goal !== "all";
+  const cur = goalOn ? "popular" : state.sort;
+  list.innerHTML = SORT_OPTIONS.map((o) => {
+    const on = o.id === cur;
+    return `<button type="button" class="sort-opt${on ? " is-on" : ""}" data-sortpick="${o.id}" aria-pressed="${on}">
+        <span class="sort-opt-main"><b>${escapeHtml(o.label)}</b><em>${escapeHtml(o.desc)}</em></span>
+        <span class="sort-opt-check" aria-hidden="true">${on ? "✓" : ""}</span>
+      </button>`;
+  }).join("");
+}
+function openSortSheet() {
+  const modal = $("sort-modal");
+  if (!modal) return;
+  renderSortSheet();
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  const first = modal.querySelector(".sort-opt.is-on") || modal.querySelector(".sort-opt");
+  if (first) first.focus({ preventScroll: true });
+}
+function closeSortSheet() {
+  const modal = $("sort-modal");
+  if (!modal || modal.hidden) return;
+  modal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+function setSort(id) {
+  if (!SORT_IDS.has(id)) return;
+  if (state.pick) state.pick = "";
+  state.sort = id;
+  state.goal = "all";
+  state.limit.home = HOME_LIMIT;
+  state.limit.category = 30;
+  paint();
 }
 
 function renderHome() {
@@ -1397,10 +1446,26 @@ function renderTiles() {
   const box = $("cattiles");
   if (!box) return;
   const pool = basePool();
-  box.innerHTML = PART_TILES.map((t) => {
-    /* r57 — 개수는 목록과 같은 기준(묶음 접기)으로 셀니다(A5). */
-    const n = collapseVariants(pool.filter((p) => partOf(p) === t.part)).length;
-    return `<button type="button" class="tile" data-part-tile="${t.part}">
+  /* r58 — 맨 위에 '전체' 칸을 명시적으로 놓고, 그 아래 5개 분야(재영 님 2026-11-19) */
+  const total = collapseVariants(pool).length;
+  const totalBox = $("cat-total");
+  if (totalBox) totalBox.textContent = `${total}개`;
+  const allTile = `<button type="button" class="tile is-all${state.part === "all" ? " is-on" : ""}" data-part-tile="all">
+      <span class="tile-photo is-all" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"></rect></svg>
+      </span>
+      <span class="tile-body">
+        <span class="tile-name">전체</span>
+        <span class="tile-sub">모든 상품 보기</span>
+      </span>
+      <span class="tile-n">${total}개</span>
+    </button>`;
+  box.innerHTML =
+    allTile +
+    PART_TILES.map((t) => {
+      /* r57 — 개수는 목록과 같은 기준(묶음 접기)으로 셀니다(A5). */
+      const n = collapseVariants(pool.filter((p) => partOf(p) === t.part)).length;
+      return `<button type="button" class="tile" data-part-tile="${t.part}">
       <span class="tile-photo"><img src="${escapeHtml(t.image)}" alt="" loading="lazy" decoding="async"></span>
       <span class="tile-body">
         <span class="tile-name">${escapeHtml(t.label)}</span>
@@ -1408,7 +1473,7 @@ function renderTiles() {
       </span>
       <span class="tile-n">${n}개</span>
     </button>`;
-  }).join("");
+    }).join("");
 }
 
 /* r55 — 카테고리 탭 '판매처별 모아보기' 칩 (재영 님: 카톡 톡딜은 빼고 쿠팡·토스·네이버 3개만) */
@@ -1424,7 +1489,12 @@ function renderCategoryStores() {
   const box = $("cat-stores");
   if (!box) return;
   const pool = basePool();
-  box.innerHTML = STORE_TILES.map((s) => {
+  /* r58 — 판매처 앞에 '전체'를 먼저 두고, 카테고리 영역 밑의 작은 서브 필터로 내립니다 */
+  const total = collapseVariants(pool).length;
+  const allChip = `<button type="button" class="store-chip is-all${state.catStore ? "" : " is-on"}" data-catstore="all" aria-pressed="${
+    !state.catStore
+  }">전체<span class="n">${total}</span></button>`;
+  box.innerHTML = allChip + STORE_TILES.map((s) => {
     const on = state.catStore === s.id;
     const n = collapseVariants(pool.filter((p) => storeKeysOf(p).includes(s.id))).length;
     return `<button type="button" class="store-chip is-${s.id}${on ? " is-on" : ""}" data-catstore="${s.id}" aria-pressed="${on}">${escapeHtml(
@@ -1480,6 +1550,9 @@ function renderCategoryList() {
   const storeMode = !!state.catStore;
   const browsing = state.part !== "all" || storeMode;
   if (tiles) tiles.hidden = browsing;
+  /* r58 — 판매처 서브 필터는 카테고리 영역(전체+5분야) 밑에서만 보입니다 */
+  const storeWrap = $("cat-stores-wrap");
+  if (storeWrap) storeWrap.hidden = browsing;
   if (wrap) wrap.hidden = !browsing;
   if (!browsing) {
     list.innerHTML = "";
@@ -2203,30 +2276,27 @@ function applyUrlState() {
 /* ── 이벤트 ──────────────────────────────────────────── */
 
 function initControls() {
-  /* r54 — 정렬은 드롭다운 하나로 */
-  document.addEventListener("change", (e) => {
-    const sel = e.target && e.target.closest ? e.target.closest("[data-sortsel]") : null;
-    if (!sel) return;
-    const id = sel.value;
-    /* r55 — '🔥 역대급만 보기'는 정렬이 아니라 판정 필터(state.pick)입니다. */
-    if (id && id.indexOf("pick:") === 0) {
-      state.pick = id.slice(5);
-      state.limit.home = HOME_LIMIT;
-      state.limit.category = 30;
-      paint();
+  /* r58 — 정렬은 작은 '할인순 ▾' 버튼 + 시트 하나로 (큰 셀렉트 박스 삭제) */
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-sortopen]")) {
+      openSortSheet();
       return;
     }
-    if (!SORT_IDS.has(id)) return;
-    if (state.pick) state.pick = "";
-    if (id === state.sort) {
-      paint();
+    const pickBtn = e.target.closest("[data-sortpick]");
+    if (pickBtn) {
+      closeSortSheet();
+      setSort(pickBtn.getAttribute("data-sortpick"));
       return;
     }
-    state.sort = id;
-    state.goal = "all";
-    state.limit.home = HOME_LIMIT;
-    state.limit.category = 30;
-    paint();
+    if (e.target.closest("#sort-x")) {
+      closeSortSheet();
+      return;
+    }
+    const sm = $("sort-modal");
+    if (sm && !sm.hidden && e.target === sm) closeSortSheet();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSortSheet();
   });
   document.addEventListener("click", (e) => {
     const srcBtn = e.target.closest("[data-src]");
@@ -2253,7 +2323,8 @@ function initControls() {
     const storeChip = e.target.closest("[data-catstore]");
     if (storeChip) {
       const id = storeChip.getAttribute("data-catstore");
-      state.catStore = state.catStore === id ? "" : id;
+      /* r58 — '전체' 칩은 판매처 필터를 끄는 것입니다 */
+      state.catStore = id === "all" || state.catStore === id ? "" : id;
       if (state.catStore) {
         state.part = "all";
         clearFilters();

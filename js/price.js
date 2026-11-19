@@ -400,13 +400,17 @@ function verdictBlock(p, entry) {
   return `<div class="pm-verdict">${escapeHtml(bits.join(" · "))}</div>`;
 }
 
-/* r57 — 카드와 같은 3단계 배지(역대 최저·추천가·보통)로 통일. 판정 근거는 judgeOf() 하나. */
+/* r57 — 카드와 같은 배지로 통일. 판정 근거는 judgeOf() 하나.
+   r58 — 3단계(🔥 역대 최저 · 🟢 지금 사기 좋아요 · 🟡 아쉬워요)로 grade.js의 verdictBadgeOf()를 그대로 씁니다. */
 function pillLabelOf(j) {
+  if (typeof verdictBadgeOf === "function") {
+    const b = verdictBadgeOf(j);
+    return { label: b.label, cls: b.cls };
+  }
   const id = j && j.badge ? j.badge.id : "";
-  if (id === "역대급" || id === "대박급") return { label: "역대 최저", cls: "is-best" };
-  if (j && j.tier && j.tier.id === "good") return { label: "추천가", cls: "is-great" };
-  if (j && j.tier && (j.tier.id === "wait" || j.tier.id === "high")) return { label: "비싼 편", cls: "" };
-  return { label: "보통", cls: "" };
+  if (id === "역대급" || id === "대박급") return { label: "🔥 역대 최저", cls: "is-best" };
+  if (j && j.tier && j.tier.id === "good") return { label: "🟢 지금 사기 좋아요", cls: "is-good" };
+  return { label: "🟡 아쉬워요", cls: "is-meh" };
 }
 
 function gradeBlock(p) {
@@ -505,6 +509,7 @@ function priceModalHTML(p, entry) {
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
     <p class="pm-src">가격 확인 <b>${escapeHtml(freshText)}</b>${headline ? ` · ${headline}` : ""}</p>
     ${modalBuyBlock(p)}
+    ${typeof mehRowHTML === "function" ? mehRowHTML(p) : ""}
     ${gradeBlock(p)}
     <h3 class="pm-h3">가격 비교</h3>
     ${positionBlock(p, entry)}

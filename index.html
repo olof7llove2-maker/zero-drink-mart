@@ -35,9 +35,9 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261119r57">
+  <link rel="stylesheet" href="css/style.css?v=20261119r58">
   <!-- r57 — 모바일 앱 프레임 · 토스 UI 톤 (이 파일이 style.css 뒤에서 전체를 다시 칠합니다) -->
-  <link rel="stylesheet" href="css/r57.css?v=20261119r57">
+  <link rel="stylesheet" href="css/r57.css?v=20261119r58">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -79,6 +79,14 @@
         <button type="button" class="hdr-find-clear" id="hdr-find-clear" aria-label="검색어 지우기" hidden>✕</button>
       </form>
       <nav class="topnav" id="topnav" aria-label="주요 메뉴" hidden></nav>
+      <!-- r58 — '전체 특가' 옆에 있던 알림 버튼을 헤더 오른쪽으로 조용히 옮겼습니다(재영 님 2026-11-19). -->
+      <button type="button" class="hdr-bell" id="alert-cta" aria-haspopup="dialog" aria-label="가격 내리면 알림 받기" title="가격 알림">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path class="bell-body" d="M12 3.4a5.3 5.3 0 0 0-5.3 5.3c0 4.1-1.2 5.4-1.8 6.1-.2.2 0 .6.3.6h13.6c.3 0 .5-.4.3-.6-.6-.7-1.8-2-1.8-6.1A5.3 5.3 0 0 0 12 3.4Z"></path>
+          <path d="M9.8 18.2a2.2 2.2 0 0 0 4.4 0"></path>
+        </svg>
+        <span class="spot-bell-n" aria-hidden="true" hidden></span>
+      </button>
       <button type="button" class="hdr-info" id="info-open" aria-label="띠니 이용 안내" title="띠니 이용 안내">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <circle cx="12" cy="12" r="9"></circle>
@@ -93,21 +101,11 @@
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
       <div class="home-hero">
-        <h1>운동하는 사람의 최저가 마트</h1>
+        <h1>식단이 필요할 때! 최저가 비교</h1>
         <p>쿠팡·토스·네이버·톡딜 가격을 모아 단가로 비교해요</p>
       </div>
       <div class="sec-head home-head" id="home-head">
         <h2 class="home-head-title">전체 특가<span class="home-head-n" id="home-count"></span></h2>
-        <span class="home-head-tools">
-          <button type="button" class="spot-bell" id="alert-cta" aria-haspopup="dialog" aria-label="가격 내리면 알림 받기" title="가격 알림 설정">
-            <svg class="spot-bell-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path class="bell-body" d="M12 3.4a5.3 5.3 0 0 0-5.3 5.3c0 4.1-1.2 5.4-1.8 6.1-.2.2 0 .6.3.6h13.6c.3 0 .5-.4.3-.6-.6-.7-1.8-2-1.8-6.1A5.3 5.3 0 0 0 12 3.4Z"></path>
-              <path d="M9.8 18.2a2.2 2.2 0 0 0 4.4 0"></path>
-            </svg>
-            <span class="smart-btn-lab">알림</span>
-            <span class="spot-bell-n" aria-hidden="true" hidden></span>
-          </button>
-        </span>
       </div>
       <div class="panel" data-controls="home"></div>
       <div class="shelf" id="home-list"></div>
@@ -166,8 +164,15 @@
     <!-- ── 카테고리 ───────────────────────────────────── -->
     <section class="view" id="view-category" data-view="category" hidden>
       <p class="promo-bar" id="cat-promo" hidden></p>
+      <div class="sec-head cat-top" id="cat-top">
+        <h2 class="home-head-title">카테고리<span class="home-head-n" id="cat-total"></span></h2>
+        <span class="sec-sub">제로·단백질·고기·간편식</span>
+      </div>
       <div class="cattiles" id="cattiles"></div>
-      <nav class="seg cat-stores" id="cat-stores" aria-label="판매처별 모아보기"></nav>
+      <div class="cat-stores-wrap" id="cat-stores-wrap">
+        <span class="cat-sub-lab">판매처</span>
+        <nav class="seg cat-stores" id="cat-stores" aria-label="판매처별 모아보기"></nav>
+      </div>
       <div id="cat-browse" hidden>
         <button type="button" class="back-btn" data-backpart>← 카테고리 전체</button>
         <div class="cat-head" id="cat-head"></div>
@@ -254,13 +259,24 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+  <!-- r58 — 정렬 선택 시트(큰 회색 셀렉트 박스 대신 작은 '할인순 ▾' 버튼으로 열립니다) -->
+  <div class="sort-modal" id="sort-modal" hidden>
+    <div class="sort-card" role="dialog" aria-modal="true" aria-labelledby="sort-title">
+      <div class="sort-head">
+        <h2 class="sort-title" id="sort-title">정렬</h2>
+        <button type="button" class="sort-x" id="sort-x" aria-label="닫기">✕</button>
+      </div>
+      <div class="sort-list" id="sort-list"></div>
+    </div>
+  </div>
+
   <!-- ── 띠니 안내 ───────────────────────────────────── -->
   <div class="info-modal" id="info-modal" hidden>
     <div class="info-card" role="dialog" aria-modal="true" aria-labelledby="info-title">
       <button type="button" class="info-x" id="info-x" aria-label="닫기">✕</button>
       <h2 class="info-title" id="info-title">띠니 이용 안내</h2>
       <div class="info-scroll">
-        <p class="info-lead">운동하는 사람을 위한 <b>최저가 비교 마트</b>예요. 같은 값이면 단가로, 같은 단백질이면 함량으로 비교해요.</p>
+        <p class="info-lead">식단이 필요할 때 쓰는 <b>최저가 비교 마트</b>예요. 같은 값이면 단가로, 같은 단백질이면 함량으로 비교해요.</p>
         <p class="info-lead info-lead-strong">띠니는 직접 파는 가게가 아니에요. 쿠팡·토스·네이버·카톡 톡딜에서 <b>가장 싼 곳을 골라 링크로 보내 드리는</b> 곳이에요. 결제·배송은 그 판매처에서 해요.</p>
         <section class="info-sec">
           <h3>가격·단가 비교 기준</h3>
@@ -268,17 +284,17 @@
             <li><b>제로 음료·단백질 음료</b>는 100ml당, <b>고기·단백질 쉐이크</b>는 100g당 가격으로 비교해요. 단백질 함량이 다르면 <b>단백질 20g당</b> 가격도 함께 적어요.</li>
             <li>같은 상품이라도 <b>쿠팡·토스·네이버·카톡 톡딜</b> 판매처 가격을 카드 한 장에 같이 보여 드려요.</li>
             <li><b>카톡 톡딜</b>은 기간 한정 특가라, 끝나면 일반 판매가로 돌아가요. 카드에 마감 시각을 함께 적어 드려요.</li>
-            <li>할인율은 정가 대비, 단가는 1병·1팩 기준으로 계산해요.</li>
+            <li>할인율은 정가 대비, 단가는 100ml·100g 기준으로 계산해요(단백질은 20g당도 함께).</li>
           </ul>
         </section>
         <section class="info-sec">
           <h3>가격 배지 3단계</h3>
           <ul>
-            <li><b>역대 최저</b> — 60일 관측 가격의 바닥가 수준이거나 정가 대비 크게 싸요.</li>
-            <li><b>추천가</b> — 평소 시세보다 저렴해요. 지금 사도 괜찮은 가격이에요.</li>
-            <li><b>보통</b> — 평소 시세 수준이에요. 급하지 않으면 기다려도 돼요.</li>
+            <li><b>🔥 역대 최저</b> — 60일 관측 가격의 바닥가 수준이거나, 정가에서 70% 넘게 빠졌어요.</li>
+            <li><b>🟢 지금 사기 좋아요</b> — 60일 평소가보다 5% 이상 싸요. 기록이 짧은 상품은 정가 할인율·30일 최저가로 따져요.</li>
+            <li><b>🟡 아쉬워요</b> — 평소 시세와 비슷하거나 조금 비싸요. 급하지 않으면 기다려도 돼요.</li>
             <li><b>기록 중</b> — 가격 기록이 아직 14일·5회에 못 미쳐 판정하지 않았어요.</li>
-            <li><b>평소가</b>는 이 상품의 60일 관측 가격 중간값이에요.</li>
+            <li><b>평소가</b>는 이 상품의 60일 관측 가격 중간값이에요. 배지 옆 금액은 평소가와 견준 차이예요.</li>
           </ul>
         </section>
         <section class="info-sec">
@@ -325,14 +341,15 @@
   <!-- 배경음악 — 유튜브 임베드(1px, 접근성 트리에서 숨김) -->
   <div class="bgm-yt" aria-hidden="true"><div id="bgm-yt"></div></div>
 
-  <script src="js/price.js?v=20261119r57" defer></script>
-  <script src="js/products.js?v=20261119r57" defer></script>
-  <script src="js/views.js?v=20261119r57" defer></script>
-  <script src="js/grade.js?v=20261119r57" defer></script>
-  <script src="js/protein.js?v=20261119r57" defer></script>
-  <script src="js/smart.js?v=20261119r57" defer></script>
-  <script src="js/app.js?v=20261119r57" defer></script>
-  <script src="js/push.js?v=20261119r57" defer></script>
-  <script src="js/bgm.js?v=20261119r57" defer></script>
+  <script src="js/price.js?v=20261119r58" defer></script>
+  <script src="js/products.js?v=20261119r58" defer></script>
+  <script src="js/views.js?v=20261119r58" defer></script>
+  <script src="js/grade.js?v=20261119r58" defer></script>
+  <script src="js/protein.js?v=20261119r58" defer></script>
+  <script src="js/smart.js?v=20261119r58" defer></script>
+  <script src="js/vote.js?v=20261119r58" defer></script>
+  <script src="js/app.js?v=20261119r58" defer></script>
+  <script src="js/push.js?v=20261119r58" defer></script>
+  <script src="js/bgm.js?v=20261119r58" defer></script>
 </body>
 </html>

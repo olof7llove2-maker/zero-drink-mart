@@ -207,12 +207,14 @@ function signedPct(pct) {
 
 const VERDICT_MIN_DAYS = GRADE_MIN_DAYS;
 
-/* r55 — '조금 비싸요(🟠)'와 '비싸요(🔴)'를 나눠 5단계로 (재영 님 2026-11-19) */
+/* r55 — '조금 비싸요(🟠)'와 '비싸요(🔴)'를 나눠 5단계로 (재영 님 2026-11-19)
+   r58 — 화면에는 3단계만 보여 줍니다: 🔥 역대 최저 · 🟢 지금 사기 좋아요 · 🟡 아쉬워요.
+   내부 구간(max)은 그대로 두고 이름만 '아쉬워요'로 묶었습니다(재영 님 2026-11-19: "나머지는 아쉬워요로 분류해"). */
 const VERDICT_TIERS = [
   { id: "good", label: "지금 사기 좋아요", short: "지금 사기 좋은 가격", dot: "🟢", max: -5 },
-  { id: "mid", label: "무난한 가격", short: "무난한 가격", dot: "🟡", max: 3 },
-  { id: "wait", label: "조금 비싸요", short: "지금은 조금 비싼 편", dot: "🟠", max: 8 },
-  { id: "high", label: "비싸요", short: "지금은 비싼 편", dot: "🔴", max: Infinity },
+  { id: "mid", label: "아쉬워요", short: "아쉬워요", dot: "🟡", max: 3 },
+  { id: "wait", label: "아쉬워요", short: "아쉬워요", dot: "🟡", max: 8 },
+  { id: "high", label: "아쉬워요", short: "아쉬워요", dot: "🟡", max: Infinity },
 ];
 
 /* r55 — 정가 대비 70% 이상 할인이면 60일 이력과 무관하게 '역대급' (재영 님 2026-11-19) */
@@ -222,6 +224,22 @@ const VERDICT_NONE = { id: "none", label: "가격 기록 모으는 중", short: 
 function verdictTierOf(pct) {
   if (pct == null || !Number.isFinite(pct)) return VERDICT_NONE;
   return VERDICT_TIERS.find((t) => pct <= t.max) || VERDICT_TIERS[VERDICT_TIERS.length - 1];
+}
+
+/* r58 — 화면 배지 3단계(재영 님 2026-11-19). 카드·상세 시트·필터 칩이 모두 이 함수 하나를 씁니다.
+   ① 🔥 역대 최저   — 60일 바닥가 수준(대박급 포함) 또는 정가 70%↑ 할인
+   ② 🟢 지금 사기 좋아요 — 평소가보다 5% 이상 싸거나(기록 짧은 상품은 정가 할인·30일 최저로 판정)
+   ③ 🟡 아쉬워요   — 그 밖의 가격(보통·조금 비쌈·비쌈을 하나로)
+   기록이 아예 없으면 '기록 중'만 회색으로 조용히 붙입니다. */
+function verdictBadgeOf(j) {
+  const tier = j && j.tier ? j.tier.id : "none";
+  const band = j && j.badge ? j.badge.id : "";
+  if (band === "역대급" || band === "대박급") {
+    return { id: "best", label: "🔥 역대 최저", cls: "is-best" };
+  }
+  if (tier === "good") return { id: "good", label: "🟢 지금 사기 좋아요", cls: "is-good" };
+  if (tier === "none" || !j) return { id: "none", label: "기록 중", cls: "is-none" };
+  return { id: "meh", label: "🟡 아쉬워요", cls: "is-meh" };
 }
 
 /* 이 상품의 평소가(관측 가격 중간값) — 14일·5회 이상만 */

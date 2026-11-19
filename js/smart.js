@@ -21,13 +21,14 @@ const KIND_DEFS = [
   { id: "meal", emoji: "🍗", label: "든든한 고기·간편식", parts: ["meat", "cheat"] },
 ];
 
-/* 판정 문구·색은 js/grade.js 의 VERDICT_TIERS 하나를 그대로 씁니다(화면마다 말이 달라지지 않게). */
+/* 판정 문구·색은 js/grade.js 의 VERDICT_TIERS 하나를 그대로 씁니다(화면마다 말이 달라지지 않게).
+   r58 — 화면 말투는 3단계로: 🟢 지금 사기 좋아요 / 🟡 아쉬워요 (기록 없으면 기록 중). */
 const TL_LEVELS = {
   good: { label: "지금 사기 좋아요", short: "지금 사기 좋은 가격", dot: "🟢" },
-  mid: { label: "무난한 가격", short: "무난한 가격", dot: "🟡" },
-  wait: { label: "조금 비싸요", short: "지금은 조금 비싼 편", dot: "🟠" },
-  high: { label: "비싸요", short: "지금은 비싼 편", dot: "🔴" },
-  none: { label: "가격 기록 모으는 중", short: "가격 기록을 모으는 중", dot: "⚪" },
+  mid: { label: "아쉬워요", short: "아쉬워요", dot: "🟡" },
+  wait: { label: "아쉬워요", short: "아쉬워요", dot: "🟡" },
+  high: { label: "아쉬워요", short: "아쉬워요", dot: "🟡" },
+  none: { label: "기록 중", short: "가격 기록을 모으는 중", dot: "⚪" },
 };
 
 /* 카테고리별 한 줄 꿀팁 씨앗 — 스펙이 아니라 '언제 쓰면 좋은지' */
@@ -97,20 +98,15 @@ function signalBarHTML(p) {
   </p>`;
 }
 
-/* r57 — 카드 배지는 토스식 알약 3단계로 단순화했습니다.
-   역대 최저 / 추천가 / 보통 / 기록 중 (비싼 가격은 회색 '비싼 편'으로 조용히).
-   판정은 여전히 grade.js의 judgeOf() 하나만 씁니다 — 카드·모달이 같은 값을 씁니다. */
+/* r57 — 카드 배지는 토스식 알약으로 단순화했습니다.
+   r58 — 3단계로 통일: 🔥 역대 최저 / 🟢 지금 사기 좋아요 / 🟡 아쉬워요 (+ 기록 중).
+   판정은 여전히 grade.js의 judgeOf()·verdictBadgeOf() 하나만 씁니다 — 카드·상세가 같은 값을 씁니다. */
 function signalPillHTML(p) {
-  const s = signalOf(p);
   const j = typeof judgeOf === "function" ? judgeOf(p) : null;
-  const badge = j && j.badge ? j.badge.id : "";
+  const pill = typeof verdictBadgeOf === "function" ? verdictBadgeOf(j) : null;
+  const label = pill ? pill.label : "기록 중";
+  const cls = pill ? pill.cls : "is-none";
   const why = j && j.why ? j.why : "";
-  let label = "보통";
-  let cls = "sig-soso";
-  if (s.level === "none") { label = "기록 중"; cls = "sig-none"; }
-  else if (badge === "역대급" || badge === "대박급") { label = "역대 최저"; cls = "sig-best"; }
-  else if (s.level === "good") { label = "추천가"; cls = "sig-good"; }
-  else if (s.level === "wait" || s.level === "high") { label = "비싼 편"; cls = "sig-high"; }
   const title = why ? `${label} — ${why}` : label;
   return `<span class="sig ${cls}" title="${escapeHtml(title)}">${label}</span>`;
 }
@@ -362,8 +358,9 @@ function refreshAlertCTA() {
   const n = alertCount();
   const hot = hubHotOn();
   const on = n > 0 || hot;
-  /* r38 — 역대급 할인 제목 옆 작은 종 버튼은 숫자 배지만 쓰고, 라벨은 짧게 */
-  const isBell = btn.classList.contains("spot-bell");
+  /* r38 — 역대급 할인 제목 옆 작은 종 버튼은 숫자 배지만 쓰고, 라벨은 짧게
+     r58 — 종은 헤더 오른쪽 동그란 버튼(.hdr-bell)으로 옮겼고, 숫자 배지는 그대로 것입니다. */
+  const isBell = btn.classList.contains("spot-bell") || btn.classList.contains("hdr-bell");
   const lab = btn.querySelector(".smart-btn-lab");
   const num = btn.querySelector(".spot-bell-n");
   btn.classList.toggle("is-on", on);
