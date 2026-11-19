@@ -1405,7 +1405,6 @@ function renderHomeHead() {
 }
 
 function renderHome() {
-  if (typeof renderProteinSection === "function") renderProteinSection();
   renderHomeHead();
   const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
   let list;
