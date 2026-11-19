@@ -10,6 +10,17 @@
 </style>
 </head>
 <body>
-<iframe id="f" src="https://ttini.kr/?v=r55m375" scrolling="no"></iframe>
+<iframe id="f" scrolling="no"></iframe>
+<script>
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var h = p.get("h");
+    var f = document.getElementById("f");
+    if (h) f.style.height = h + "px";
+    p.delete("h");
+    var qs = p.toString();
+    f.src = "https://ttini.kr/" + (qs ? "?" + qs : "?v=r55m375");
+  })();
+</script>
 </body>
 </html>
