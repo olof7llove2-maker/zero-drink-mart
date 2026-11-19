@@ -306,12 +306,12 @@ function sparkSVG(p) {
   const last = series[series.length - 1];
   const lowIdx = vals.indexOf(Math.min(...vals));
   const down = last.price <= series[0].price;
-  const stroke = down ? "#34d399" : "#ff6b6b";
+  const stroke = down ? "#16a34a" : "#f04438";
   return `<svg class="spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="60일 가격 추이">
     <path d="${area}" fill="${down ? "rgba(52,211,153,0.14)" : "rgba(255,107,107,0.12)"}"/>
     <path d="${line}" fill="none" stroke="${stroke}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
     <circle cx="${x(series.length - 1).toFixed(1)}" cy="${y(last.price).toFixed(1)}" r="2.2" fill="${stroke}"/>
-    <circle cx="${x(lowIdx).toFixed(1)}" cy="${y(vals[lowIdx]).toFixed(1)}" r="1.8" fill="#1b1b21" opacity="0.75"/>
+    <circle cx="${x(lowIdx).toFixed(1)}" cy="${y(vals[lowIdx]).toFixed(1)}" r="1.8" fill="#1c1917" opacity="0.7"/>
   </svg>`;
 }
 

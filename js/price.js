@@ -148,41 +148,41 @@ function priceChartSVG(entry, cardPrice) {
     .map((f) => {
       const v = lo + span * f;
       const yy = py(v);
-      return `<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W - padR}" y2="${yy.toFixed(1)}" stroke="#2e2e36" stroke-width="1"/>
-        <text x="${padL - 6}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="#8e8e97">${wonShort(Math.round(v))}</text>`;
+      return `<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W - padR}" y2="${yy.toFixed(1)}" stroke="#ece9e3" stroke-width="1"/>
+        <text x="${padL - 6}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="#8c867f">${wonShort(Math.round(v))}</text>`;
     })
     .join("");
 
   const avgY = st.avg != null ? py(st.avg) : null;
   const avgLine =
     avgY != null
-      ? `<line x1="${padL}" y1="${avgY.toFixed(1)}" x2="${W - padR}" y2="${avgY.toFixed(1)}" stroke="#7aa2ff" stroke-width="1.3" stroke-dasharray="4 3"/>
-         <text x="${W - padR}" y="${(avgY - 4).toFixed(1)}" text-anchor="end" font-size="8.5" fill="#7aa2ff">평균 ${wonShort(st.avg)}</text>`
+      ? `<line x1="${padL}" y1="${avgY.toFixed(1)}" x2="${W - padR}" y2="${avgY.toFixed(1)}" stroke="#2563eb" stroke-width="1.3" stroke-dasharray="4 3"/>
+         <text x="${W - padR}" y="${(avgY - 4).toFixed(1)}" text-anchor="end" font-size="8.5" fill="#2563eb">평균 ${wonShort(st.avg)}</text>`
       : "";
 
   const maxPoint = series.reduce((a, b) => (b.price > a.price ? b : a), series[0]);
   const minPoint = series.reduce((a, b) => (b.price < a.price ? b : a), series[0]);
   const markers = `
-    <circle cx="${px(maxPoint.ts).toFixed(1)}" cy="${py(maxPoint.price).toFixed(1)}" r="3.4" fill="#34d399" stroke="#16161a" stroke-width="1.4"/>
-    <circle cx="${px(minPoint.ts).toFixed(1)}" cy="${py(minPoint.price).toFixed(1)}" r="3.4" fill="#ff6b6b" stroke="#16161a" stroke-width="1.4"/>
-    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3" fill="#f5f5f7" stroke="#16161a" stroke-width="1.4"/>`;
+    <circle cx="${px(maxPoint.ts).toFixed(1)}" cy="${py(maxPoint.price).toFixed(1)}" r="3.4" fill="#16a34a" stroke="#ffffff" stroke-width="1.4"/>
+    <circle cx="${px(minPoint.ts).toFixed(1)}" cy="${py(minPoint.price).toFixed(1)}" r="3.4" fill="#f04438" stroke="#ffffff" stroke-width="1.4"/>
+    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3" fill="#1c1917" stroke="#ffffff" stroke-width="1.4"/>`;
 
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHtml(
     entry.name || "상품"
   )} 가격 추이 그래프">
     <defs>
       <linearGradient id="pmGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#34d399" stop-opacity="0.18"/>
-        <stop offset="100%" stop-color="#34d399" stop-opacity="0.01"/>
+        <stop offset="0%" stop-color="#16a34a" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="#16a34a" stop-opacity="0.01"/>
       </linearGradient>
     </defs>
     ${grid}
     <path d="${area}" fill="url(#pmGrad)"/>
-    <path d="${line}" fill="none" stroke="#34d399" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="${line}" fill="none" stroke="#15803d" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
     ${avgLine}
     ${markers}
-    <text x="${padL}" y="${H - 8}" font-size="9" fill="#8e8e97">${mdLabel(series[0].date)}</text>
-    <text x="${W - padR}" y="${H - 8}" text-anchor="end" font-size="9" fill="#8e8e97">${mdLabel(
+    <text x="${padL}" y="${H - 8}" font-size="9" fill="#8c867f">${mdLabel(series[0].date)}</text>
+    <text x="${W - padR}" y="${H - 8}" text-anchor="end" font-size="9" fill="#8c867f">${mdLabel(
       series[series.length - 1].date
     )}</text>
   </svg>`;
@@ -225,10 +225,10 @@ function historyBlock(p, entry) {
     <div class="pm-chart">
       ${priceChartSVG(entry, price)}
       <div class="pm-legend">
-        <span><i style="background:#34d399"></i>판매가</span>
-        <span><i style="background:#7aa2ff"></i>평균가(점선)</span>
-        <span><b class="pm-dot" style="background:#34d399"></b>최고가</span>
-        <span><b class="pm-dot" style="background:#ff6b6b"></b>최저가</span>
+        <span><i style="background:#15803d"></i>판매가</span>
+        <span><i style="background:#2563eb"></i>평균가(점선)</span>
+        <span><b class="pm-dot" style="background:#16a34a"></b>최고가</span>
+        <span><b class="pm-dot" style="background:#f04438"></b>최저가</span>
       </div>
     </div>
     <p class="pm-fine">${mdLabel(first)} ~ ${mdLabel(
