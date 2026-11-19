@@ -35,10 +35,29 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset: 쓰는 글자 구간만 내려받아요(정적 웨이트 9종 ~3.5MB → 수백 KB) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261119r52">
+  <link rel="stylesheet" href="css/style.css?v=20261119r53">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
+
+  <!-- r53 — 첫 진입 인트로(약 1초): 초록 T 아래로 '최저가 검색은 띠니'가 떠오르고 부드럽게 사라집니다 -->
+  <div class="splash" id="splash" aria-hidden="true">
+    <div class="splash-in">
+      <span class="splash-mark">T</span>
+      <span class="splash-copy">최저가 검색은 띠니</span>
+    </div>
+  </div>
+  <script>
+    /* r53 — 인트로는 약 1초만. 움직임 줄이기 설정이면 바로 넘어갑니다. */
+    (function () {
+      var el = document.getElementById("splash");
+      if (!el) return;
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) { el.parentNode.removeChild(el); return; }
+      setTimeout(function () { el.classList.add("is-out"); }, 760);
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 1080);
+    })();
+  </script>
 
   <!-- r46: 맨 위 검은 파트너스 고지 바를 없앴습니다. 고지는 푸터 맨 아래 한 줄로만(규정상 유지). -->
   <header class="hdr">
@@ -80,13 +99,16 @@
   <main id="main">
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
+      <!-- r53 — 홈 맨 위 카테고리 바로가기 3+3 (전체·제로음료·단백질·식단고기·간편식·과일) -->
+      <div class="spot-chips home-cats" id="home-cats" role="group" aria-label="카테고리 바로가기"></div>
       <!-- 오늘의 역대급 할인 — 제목 오른쪽 작은 🔔 종 버튼이 알림 허브를 엽니다(js/app.js).
            r38: 아래에 있던 큰 '가격 내리면 알림' 줄(alert-row)은 없앴습니다. -->
       <section class="spot" id="home-spot" aria-label="오늘의 역대급 할인"></section>
-      <section class="prot" id="home-protein" aria-label="단백질 음료 지금 사도 될까"></section>
       <div class="panel" data-controls="home"></div>
       <div class="shelf" id="home-list"></div>
       <h2 class="visually-hidden">전체 상품 <span id="home-count"></span></h2>
+      <!-- r53 — 단백질 음료 섹션은 홈 맨 밑(푸터 위)으로 이동 -->
+      <section class="prot" id="home-protein" aria-label="단백질 음료 지금 사도 될까"></section>
     </section>
 
     <!-- ── 검색 ───────────────────────────────────────── -->
@@ -305,14 +327,14 @@
        재생합니다. 첫 터치나 우하단 🔇 버튼에서 unMute() + playVideo()로 바로 소리가 납니다(js/bgm.js). -->
   <div class="bgm-yt" aria-hidden="true"><div id="bgm-yt"></div></div>
 
-  <script src="js/price.js?v=20261119r52" defer></script>
-  <script src="js/products.js?v=20261119r52" defer></script>
-  <script src="js/views.js?v=20261119r52" defer></script>
-  <script src="js/grade.js?v=20261119r52" defer></script>
-  <script src="js/protein.js?v=20261119r52" defer></script>
-  <script src="js/smart.js?v=20261119r52" defer></script>
-  <script src="js/app.js?v=20261119r52" defer></script>
-  <script src="js/push.js?v=20261119r52" defer></script>
-  <script src="js/bgm.js?v=20261119r52" defer></script>
+  <script src="js/price.js?v=20261119r53" defer></script>
+  <script src="js/products.js?v=20261119r53" defer></script>
+  <script src="js/views.js?v=20261119r53" defer></script>
+  <script src="js/grade.js?v=20261119r53" defer></script>
+  <script src="js/protein.js?v=20261119r53" defer></script>
+  <script src="js/smart.js?v=20261119r53" defer></script>
+  <script src="js/app.js?v=20261119r53" defer></script>
+  <script src="js/push.js?v=20261119r53" defer></script>
+  <script src="js/bgm.js?v=20261119r53" defer></script>
 </body>
 </html>

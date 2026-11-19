@@ -3257,3 +3257,77 @@ select.sel {
   border: 1px solid var(--cocoa-line);
   font-weight: 700;
 }
+
+/* ── r53 (2026-11-19) ─────────────────────────────────────
+   ① 첫 진입 인트로(약 1초): 초록 T 아래로 '최저가 검색은 띠니'가 떠오릅니다.
+   ② 홈 맨 위 카테고리 바로가기 3+3 (전체·제로음료·단백질·식단고기·간편식·과일)
+   ③ 카테고리 탭 타일 6개 → 3+3 대칭 */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #f7f7f5;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.splash.is-out { opacity: 0; }
+.splash-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transform: translateY(-6px);
+}
+.splash-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 17px;
+  background: var(--sage);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  box-shadow: 0 6px 18px rgba(22, 163, 74, 0.22);
+  animation: splashMark 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.splash-copy {
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #23231f;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: splashRise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+@keyframes splashMark {
+  from { opacity: 0; transform: translateY(-8px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes splashRise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .splash-mark, .splash-copy { animation: none; opacity: 1; transform: none; }
+  .splash { transition: none; }
+}
+
+/* 홈 맨 위 카테고리 바로가기 */
+.home-cats {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.home-cats .spot-chip { grid-column: span 2; }
+
+/* 카테고리 탭 타일: 과일까지 6개 → 3+3 */
+.cattiles { grid-template-columns: repeat(3, 1fr); }
+.cattiles .tile:last-child { grid-column: auto; flex-direction: column; }
+.cattiles .tile:last-child .tile-photo { width: auto; aspect-ratio: 16 / 10; }
+.cattiles .tile-photo img { object-fit: cover; width: 100%; height: 100%; }

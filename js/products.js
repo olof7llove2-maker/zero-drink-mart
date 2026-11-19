@@ -9,7 +9,7 @@
 
 const SITE = {
   "name": "띠니",
-  "tagline": "제로 음료·단백질·식단 고기·간편식 단가 비교",
+  "tagline": "제로 음료·단백질·식단 고기·간편식·제철 과일 단가 비교",
   "disclosure": "이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
   "priceNote": "가격은 바뀔 수 있어요",
   "sourceNote": "쿠팡·토스쇼핑 판매가는 직접 확인한 값이고, 네이버는 쇼핑커넥트로 발급받은 가격이에요. 카톡 톡딜은 톡딜이 끝나는 시각까지의 가격이라, 끝나면 일반 판매가로 돌아가요. 구성(수량)이 다른 상품은 몇 개입인지 함께 적었어요.",
@@ -204,6 +204,36 @@ const CATEGORIES = [
     "label": "프리미엄",
     "icon": "👑",
     "part": "meat"
+  },
+  {
+    "id": "tangerine",
+    "label": "감귤",
+    "icon": "🍊",
+    "part": "fruit"
+  },
+  {
+    "id": "pear",
+    "label": "배",
+    "icon": "🍐",
+    "part": "fruit"
+  },
+  {
+    "id": "apple",
+    "label": "사과",
+    "icon": "🍏",
+    "part": "fruit"
+  },
+  {
+    "id": "persimmon",
+    "label": "단감·홍시",
+    "icon": "🟠",
+    "part": "fruit"
+  },
+  {
+    "id": "shinemuscat",
+    "label": "샤인머스켓",
+    "icon": "🍇",
+    "part": "fruit"
   }
 ];
 
@@ -546,6 +576,66 @@ const PARTS = [
         "icon": "🥯",
         "cats": [
           "bakery"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fruit",
+    "label": "🍎 과일",
+    "icon": "🍎",
+    "desc": "100g당 가격 낮은 순",
+    "note": "제철 과일을 100g당 가격으로 비교해요. 박스 중량 기준이라 실제 과일 무게는 조금 적을 수 있어요.",
+    "filters": [
+      {
+        "id": "all",
+        "label": "전체",
+        "cats": [
+          "tangerine",
+          "pear",
+          "apple",
+          "persimmon",
+          "shinemuscat"
+        ]
+      },
+      {
+        "id": "tangerine",
+        "label": "감귤",
+        "icon": "🍊",
+        "cats": [
+          "tangerine"
+        ]
+      },
+      {
+        "id": "pear",
+        "label": "배",
+        "icon": "🍐",
+        "cats": [
+          "pear"
+        ]
+      },
+      {
+        "id": "apple",
+        "label": "사과",
+        "icon": "🍏",
+        "cats": [
+          "apple"
+        ]
+      },
+      {
+        "id": "persimmon",
+        "label": "단감·홍시",
+        "icon": "🟠",
+        "cats": [
+          "persimmon"
+        ]
+      },
+      {
+        "id": "shinemuscat",
+        "label": "샤인머스켓",
+        "icon": "🍇",
+        "cats": [
+          "shinemuscat"
         ]
       }
     ]
@@ -9201,5 +9291,164 @@ const PRODUCTS = [
     "shipNote": "무료배송 · 모레(토) 11/21 도착 예정 · 20% 특가 11/20 11:00 종료",
     "note": "쿠팡 24,450원(정가 30,650원, 20% 할인)에 1kg 3팩 총 3kg이라 100g당 815원·1팩(1kg)당 8,150원이에요. 아버님 쿠팡 파트너스 단축 링크로 연결했어요. 무료배송(롯데택배)이고 모레(토) 11/21 도착 예정, 판매자는 주식회사 함백유통(판매자평가 89%)이에요. 6,200원 특가가 11/20(금) 11:00쯤 끝나요. 평점 4.7·리뷰 266개. 마트 자연실록 400g(100g당 1,538원)보다 47%, 하림 IFF 2kg(1,110원)보다 27% 싸지만 케이원푸드 냉장 2kg(633원)보다는 비싸요.",
     "popularScore": 36.9
+  },
+  {
+    "id": "fruit-tangerine-hwanggeum-10kg",
+    "brand": "황금농원",
+    "name": "황금농원 서귀포 고당도 조생 귤 10kg, 중대과(L-2L), 1박스",
+    "kind": "제주 노지감귤 · 중대과",
+    "category": "tangerine",
+    "part": "fruit",
+    "price": 10580,
+    "discountPct": 79,
+    "weightG": 10000,
+    "packCount": 1,
+    "rating": 4.0,
+    "reviewCount": 73105,
+    "url": "https://www.coupang.com/vp/products/9085072640?itemId=20525732619&vendorItemId=5574386645",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9085072640?itemId=20525732619&vendorItemId=5574386645",
+    "image": "images/fruit-tangerine-hwanggeum-10kg.png",
+    "platform": "coupang",
+    "note": "11/19 상품페이지 확인: 10,580원(정가 51,900원·79%)·무료배송·모레(토) 도착·상품평 73,105개. 박스에 담아 보내 실제 과일 무게는 조금 적어요.",
+    "priceCheckedAt": "2026-11-19 19:05",
+    "priceCheckedLabel": "11/19 19:05 쿠팡 기준",
+    "group": "감귤",
+    "measure": "per100g",
+    "perValue": 105.8,
+    "per100g": 106,
+    "unitPrice": "100g당 106원",
+    "eachPrice": 10580,
+    "eachLabel": "박스",
+    "unitEach": "1박스당 10,580원",
+    "protein20": null,
+    "popularScore": 96,
+    "listPrice": 51900
+  },
+  {
+    "id": "fruit-pear-asadalcom-10kg",
+    "brand": "오렌지씨",
+    "name": "아삭달콤 가정용 배 실속형배 신고배 국내산, 10kg, 1박스",
+    "kind": "신고배 · 가정용 실속형",
+    "category": "pear",
+    "part": "fruit",
+    "price": 14520,
+    "discountPct": 79,
+    "weightG": 10000,
+    "packCount": 1,
+    "rating": 4.0,
+    "reviewCount": 1295,
+    "url": "https://www.coupang.com/vp/products/8299999522?itemId=23943046763&vendorItemId=90964878678",
+    "affiliateUrl": "https://www.coupang.com/vp/products/8299999522?itemId=23943046763&vendorItemId=90964878678",
+    "image": "images/fruit-pear-asadalcom-10kg.jpg",
+    "platform": "coupang",
+    "note": "11/19 상품페이지 확인: 14,520원(정가 72,500원·79%)·무료배송·모레(토) 도착·상품평 1,295개. 3kg 9,800원·5kg 10,890원 옵션도 있어요(박스 포함 중량).",
+    "priceCheckedAt": "2026-11-19 19:05",
+    "priceCheckedLabel": "11/19 19:05 쿠팡 기준",
+    "group": "배",
+    "measure": "per100g",
+    "perValue": 145.2,
+    "per100g": 145,
+    "unitPrice": "100g당 145원",
+    "eachPrice": 14520,
+    "eachLabel": "박스",
+    "unitEach": "1박스당 14,520원",
+    "protein20": null,
+    "popularScore": 88,
+    "listPrice": 72500
+  },
+  {
+    "id": "fruit-apple-busa-10kg",
+    "brand": "국내산",
+    "name": "국내산 고당도 햇 부사사과, 10kg, 1박스",
+    "kind": "부사 · 햇사과",
+    "category": "apple",
+    "part": "fruit",
+    "price": 16900,
+    "discountPct": 66,
+    "weightG": 10000,
+    "packCount": 1,
+    "rating": 4.5,
+    "reviewCount": 109,
+    "url": "https://www.coupang.com/vp/products/9812066038?itemId=29385382194&vendorItemId=96296903251",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9812066038?itemId=29385382194&vendorItemId=96296903251",
+    "image": "images/fruit-apple-busa-10kg.png",
+    "platform": "coupang",
+    "note": "11/19 검색·상품 확인: 16,900원(정가 50,000원·66%)·무료배송·11/26 도착 예정·100g당 169원·평점 4.5. 당일수확 농협선별(10kg 26,910원)보다 1만 원 싼 가정용 등급이에요.",
+    "priceCheckedAt": "2026-11-19 19:05",
+    "priceCheckedLabel": "11/19 19:05 쿠팡 기준",
+    "group": "사과",
+    "measure": "per100g",
+    "perValue": 169.0,
+    "per100g": 169,
+    "unitPrice": "100g당 169원",
+    "eachPrice": 16900,
+    "eachLabel": "박스",
+    "unitEach": "1박스당 16,900원",
+    "protein20": null,
+    "popularScore": 90,
+    "listPrice": 50000
+  },
+  {
+    "id": "fruit-persimmon-gyeongnam-10kg",
+    "brand": "효담농산",
+    "name": "맛있으면 단감 아삭달콤 경남 햇 단감, 10kg(40-80과내외) 혼합, 1박스",
+    "kind": "부유·진영 단감 · 경남 밀양",
+    "category": "persimmon",
+    "part": "fruit",
+    "price": 11810,
+    "discountPct": 69,
+    "weightG": 10000,
+    "packCount": 1,
+    "rating": 4.0,
+    "reviewCount": 4054,
+    "url": "https://www.coupang.com/vp/products/9202379376?vendorItemId=83431870663",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9202379376?vendorItemId=83431870663",
+    "image": "images/fruit-persimmon-gyeongnam-10kg.jpg",
+    "platform": "coupang",
+    "note": "11/19 상품페이지 확인: 11,810원(정가 39,000원·69%)·무료배송·11/24(화) 도착 예정·상품평 4,054개·원산지 경남 밀양. 가정용이라 검은 점·상처가 있을 수 있어요.",
+    "priceCheckedAt": "2026-11-19 19:05",
+    "priceCheckedLabel": "11/19 19:05 쿠팡 기준",
+    "group": "단감·홍시",
+    "measure": "per100g",
+    "perValue": 118.1,
+    "per100g": 118,
+    "unitPrice": "100g당 118원",
+    "eachPrice": 11810,
+    "eachLabel": "박스",
+    "unitEach": "1박스당 11,810원",
+    "protein20": null,
+    "popularScore": 92,
+    "listPrice": 39000
+  },
+  {
+    "id": "fruit-shine-gomgom-2kg",
+    "brand": "곰곰",
+    "name": "곰곰 샤인머스켓, 2kg(2~4수), 1박스",
+    "kind": "샤인머스캣 · 2~4송이",
+    "category": "shinemuscat",
+    "part": "fruit",
+    "price": 9900,
+    "discountPct": null,
+    "weightG": 2000,
+    "packCount": 1,
+    "rating": 4.5,
+    "reviewCount": 1431,
+    "url": "https://www.coupang.com/vp/products/9048045854?itemId=26554607823&vendorItemId=93528402149",
+    "affiliateUrl": "https://www.coupang.com/vp/products/9048045854?itemId=26554607823&vendorItemId=93528402149",
+    "image": "images/fruit-shine-gomgom-2kg.jpg",
+    "platform": "coupang",
+    "note": "11/19 검색 확인: 9,900원(100g당 495원)·로켓프레시 내일(금) 새벽 도착·평점 4.5(리뷰 1,431개). 산지직송 9,500원(리뷰 76개)보다 400원 비싸지만 후기가 훨씬 많아요.",
+    "priceCheckedAt": "2026-11-19 19:05",
+    "priceCheckedLabel": "11/19 19:05 쿠팡 기준",
+    "group": "샤인머스켓",
+    "measure": "per100g",
+    "perValue": 495.0,
+    "per100g": 495,
+    "unitPrice": "100g당 495원",
+    "eachPrice": 9900,
+    "eachLabel": "박스",
+    "unitEach": "1박스당 9,900원",
+    "protein20": null,
+    "popularScore": 94
   }
 ];

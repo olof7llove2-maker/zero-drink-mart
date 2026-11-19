@@ -19,6 +19,8 @@ const PART_TILES = [
   { part: "shake", label: "단백질 쉐이크", emoji: "🥛", sub: "신타6·옵티멈·마이프로틴", image: "images/shake-bsn-syntha6-chocolate-milkshake-2-27kg.jpg" },
   { part: "meat", label: "식단 고기", emoji: "🥩", sub: "소·돼지·닭 원물", image: "images/meat-beef-au-buchaesal-steak-600g.jpg" },
   { part: "cheat", label: "치팅·간편식", emoji: "🍕", sub: "햇반·간편 닭가슴살·스팸", image: "images/retort-can-spam-classic-340g-6.jpg" },
+  /* r53 — 11월 제철 과일 (감귤·배·사과·단감·샤인머스켓) */
+  { part: "fruit", label: "과일", emoji: "🍎", sub: "감귤·배·사과·단감·샤인", image: "images/fruit-tangerine-hwanggeum-10kg.png" },
 ];
 
 const SORT_OPTIONS = [
@@ -45,9 +47,10 @@ const state = {
   sources: { coupang: true, toss: true },
   sort: "popular",
   goal: "all",
+  homeCat: "all", /* r53 — 홈 맨 위 카테고리 버튼 선택값 */
   query: "",
   highlightId: null,
-  limit: { home: 24, category: 30, hotdeal: 30 },
+  limit: { home: 6, category: 30, hotdeal: 30 },
 };
 
 function escapeHtml(s) {
@@ -1264,14 +1267,69 @@ const SPOT_CATS = [
   { id: "protein", emoji: "💪", label: "단백질", parts: ["protein", "shake"] },
   { id: "meat", emoji: "🥩", label: "식단고기", parts: ["meat"] },
   { id: "meal", emoji: "🍕", label: "간편식", parts: ["cheat"] },
+  { id: "fruit", emoji: "🍎", label: "과일", parts: ["fruit"] },
 ];
 let spotCat = "all";
+
+/* r53 — '오늘의 역대급 할인' Top 5 기준 (재영 님 2026-11-19: "인지도(리뷰 수) × 할인 매력도")
+   단백질·고기 가중치는 빼고, 리뷰가 많은 상품과 국민 브랜드가 오늘 진짜 싼지를 봅니다. */
+const NATIONAL_BRANDS = [
+  "코카콜라", "코크", "펩시", "나랑드", "몬스터", "핫식스", "레드불", "삼다수", "제주삼다수", "아이시스", "트레비", "칠성",
+  "게토레이", "파워에이드", "하림", "동원", "오뚜기", "CJ", "햇반", "비비고", "스팸", "종가", "청정원", "풀무원", "대상",
+  "매일", "매일유업", "남양", "빙그레", "서울우유", "웅진", "농심", "롯데", "곰곰", "더단백", "셀렉스", "테이크핏", "칼로바이",
+  "옵티멈", "뉴욕웨이", "신타", "명인이만든", "미트팜", "도드람", "목우촌", "마이프로틴", "하이뮨", "아몬드브리즈", "베지밀",
+];
+
+/* 리뷰 수 인지도 — 10만 개 이상이면 1.0, 리뷰가 없어도 국민 브랜드면 0.6 */
+function reviewAwarenessOf(p) {
+  const n = Number(p.reviewCount || p.reviews || 0);
+  const byReview = n > 0 ? Math.min(1, Math.log10(n + 1) / 5) : 0;
+  const text = `${p.brand || ""} ${p.name || ""}`;
+  const known = NATIONAL_BRANDS.some((k) => text.includes(k));
+  if (byReview > 0) return Math.min(1, byReview + (known ? 0.12 : 0));
+  return known ? 0.6 : 0.2;
+}
+
+/* 할인 매력도 — 할인율·60일 저점·판정을 함께 */
+function discountAppealOf(p) {
+  const disc = Math.max(0, Math.min(1, (Number(p.discountPct) || 0) / 50));
+  const low = lowStats(p);
+  const lowV = low.state === "low" ? 1 : low.state === "near" ? 0.7 : low.state === "above" ? 0.3 : 0.5;
+  const judge = typeof judgeOf === "function" ? judgeOf(p) : null;
+  const good = judge && judge.tier ? (judge.tier.id === "good" ? 1 : judge.tier.id === "mid" ? 0.55 : 0.2) : 0.5;
+  return 0.5 * disc + 0.25 * lowV + 0.25 * good;
+}
+
+/* 오늘의 Top 5 — 인지도 62% + 할인 매력도 38%, 같은 브랜드는 한 번만 */
+function spotTopPicks(n) {
+  const limit = n || 5;
+  const rows = [];
+  (state.data.products || []).forEach((p) => {
+    if (isSpotlightOut(p)) return;
+    if (typeof matchesSource === "function" && !matchesSource(p)) return;
+    if (!p.image || !p.affiliateUrl || typeof p.price !== "number") return;
+    if (!String(p.brand || "").trim()) return;
+    const aware = reviewAwarenessOf(p);
+    const appeal = discountAppealOf(p);
+    if (appeal <= 0.25) return; /* 할인 매력이 없는 상품은 빠집니다 */
+    rows.push({ p, score: 0.62 * aware + 0.38 * appeal, aware });
+  });
+  rows.sort((a, b) => b.score - a.score || b.aware - a.aware || String(a.p.id).localeCompare(String(b.p.id)));
+  const out = [];
+  rows.forEach((r) => {
+    if (out.length >= limit) return;
+    if (out.some((p) => spotBrandKey(p) === spotBrandKey(r.p))) return;
+    out.push(r.p);
+  });
+  if (out.length < limit) rows.forEach((r) => { if (out.length < limit && out.indexOf(r.p) < 0) out.push(r.p); });
+  return out.slice(0, limit);
+}
 
 /* 카테고리 안의 오늘 추천 — 메리트 점수(할인·저점·인하) 우선, 같으면 인지도 순.
    날짜 시드로 조금씩 섞어 매일 같은 칩이 1번에 오지 않게 합니다. */
 function spotCatPicks(cat, n) {
   const limit = n || 6;
-  if (cat === "all") return spotlightPicks(limit);
+  if (cat === "all") return spotTopPicks(limit);
   const def = SPOT_CATS.find((c) => c.id === cat);
   if (!def || !def.parts) return spotlightPicks(limit);
   const dayKey = spotDayKey();
@@ -1310,7 +1368,7 @@ function spotChipHTML(c) {
 function renderSpotlight() {
   const box = $("home-spot");
   if (!box) return;
-  const picks = spotCatPicks(spotCat, 6);
+  const picks = spotCatPicks(spotCat, 5);
   const cat = SPOT_CATS.find((c) => c.id === spotCat) || SPOT_CATS[0];
   box.hidden = false;
   const hint = cat.id === "all" ? "매일 새로 골라요 · 넘기기 →" : `${cat.label} 오늘 추천 · 넘기기 →`;
@@ -1339,6 +1397,35 @@ function renderSpotlight() {
 }
 
 /* 칩은 아래 카드 레일만 바꿉니다(페이지 전체 필터 아님) */
+/* ── r53 홈 맨 위 카테고리 버튼 (전체·제로음료·단백질·식단고기·간편식·과일 3+3) ──
+   누르면 홈 비교 리스트가 그 분야만 바로 보여 줍니다(스크롤 없이 바로 필터). */
+function homeCatDef() {
+  return SPOT_CATS.find((c) => c.id === state.homeCat) || SPOT_CATS[0];
+}
+
+function renderHomeCats() {
+  const box = $("home-cats");
+  if (!box) return;
+  box.innerHTML = SPOT_CATS.map((c) => {
+    const on = homeCatDef().id === c.id;
+    return `<button type="button" class="spot-chip${on ? " is-on" : ""}" data-home-cat="${c.id}" aria-pressed="${on}">${c.emoji} ${escapeHtml(
+      c.label
+    )}</button>`;
+  }).join("");
+}
+
+function initHomeCats() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target && e.target.closest ? e.target.closest("[data-home-cat]") : null;
+    if (!btn) return;
+    const id = btn.getAttribute("data-home-cat");
+    if (!id || id === state.homeCat) return;
+    state.homeCat = SPOT_CATS.some((c) => c.id === id) ? id : "all";
+    state.limit.home = 6;
+    paint();
+  });
+}
+
 function initSpotChips() {
   document.addEventListener("click", (e) => {
     const chip = e.target && e.target.closest ? e.target.closest("[data-spot-cat]") : null;
@@ -1353,6 +1440,7 @@ function initSpotChips() {
 }
 
 function renderHome() {
+  renderHomeCats();
   renderSpotlight();
   if (typeof renderProteinSection === "function") renderProteinSection();
   const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
@@ -1369,8 +1457,12 @@ function renderHome() {
       list = pinFirst(list, topId);
     }
   }
+  /* r53 — 홈 맨 위 카테고리 버튼으로 고른 분야만 보여 줍니다(버튼이 없으면 전체). */
+  const hcat = homeCatDef();
+  if (hcat.parts) list = list.filter((p) => hcat.parts.indexOf(partOf(p)) >= 0);
+  const catFiltered = !!hcat.parts || (state.filters || []).length > 0 || !!state.pick || !!state.query || goalOn;
   renderCardsInto($("home-list"), list, {
-    limit: state.limit.home,
+    limit: catFiltered ? 0 : state.limit.home,
     moreKey: "home",
     showPart: true,
     twoCol: true,
@@ -1673,7 +1765,7 @@ function resetAllFilters() {
   state.goal = "all";
   state.sources = { coupang: true, toss: true };
   state.highlightId = null;
-  state.limit = { home: 24, category: 30, hotdeal: 30 };
+  state.limit = { home: 6, category: 30, hotdeal: 30 };
   const input = $("search-input");
   if (input) input.value = "";
   const hdr = $("hdr-find-input");
@@ -2140,7 +2232,7 @@ function initControls() {
     if (sortBtn) {
       state.sort = sortBtn.getAttribute("data-sort");
       state.goal = "all";
-      state.limit.home = 24;
+      state.limit.home = 6;
       state.limit.category = 30;
       paint();
       return;
@@ -2184,7 +2276,7 @@ function initControls() {
     if (pickBtn) {
       const id = pickBtn.getAttribute("data-pick");
       state.pick = state.pick === id ? "" : id;
-      state.limit.home = 24;
+      state.limit.home = 6;
       state.limit.category = 30;
       state.limit.hotdeal = 30;
       paint();
@@ -2448,6 +2540,7 @@ async function init() {
   initInfo();
   initShare();
   initSpotChips();
+  initHomeCats();
   initSearch();
   initControls();
   initClickTracking();
