@@ -84,7 +84,8 @@
       fab.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기");
       fab.title = on ? "배경음악 끄기" : "배경음악 켜기";
     }
-    if (fabIco) fabIco.textContent = on ? "🔊" : "🔇";
+    if (fabIco) fabIco.textContent = on ? "♪" : "♪";
+    if (fabIco) fabIco.style.opacity = on ? "1" : "0.55";
   }
 
   /* 플레이어를 아예 못 쓰는 상황이면 죽은 버튼을 남기지 않습니다 */
@@ -170,6 +171,15 @@
 
   function onReady() {
     ready = true;
+    /* r57 — 숨은 유튜브 플레이어는 화면에도, 스크린리더에도 보이지 않게 (aria-hidden + 포커스 제외) */
+    try {
+      var fr = host.querySelector("iframe");
+      if (fr) {
+        fr.setAttribute("aria-hidden", "true");
+        fr.setAttribute("tabindex", "-1");
+        fr.setAttribute("title", "");
+      }
+    } catch (err) {}
     try {
       player.setVolume(0);
       player.mute();

@@ -341,7 +341,7 @@ function judgeOf(p) {
   const bits = [];
   if (disc != null) bits.push(`정가 대비 ${disc}% 할인`);
   if (at30) bits.push("30일 최저와 같은 수준");
-  else if (l30 != null) bits.push(`30일 최저 ${won(l30)}보다 높아요`);
+  /* r57 (A4) — 초록 '추천가' 배지와 말이 엇갈리던 "30일 최저보다 높아요" 문구는 뺐습니다. */
   out.why = bits.join(" · ") || "가격을 모으는 중이에요.";
   return applyDeepCut(p, out);
 }
