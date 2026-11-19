@@ -173,7 +173,7 @@
     ready = true;
     /* r57 — 숨은 유튜브 플레이어는 화면에도, 스크린리더에도 보이지 않게 (aria-hidden + 포커스 제외) */
     try {
-      var fr = host.querySelector("iframe");
+      var fr = (player && player.getIframe) ? player.getIframe() : host.querySelector("iframe");
       if (fr) {
         fr.setAttribute("aria-hidden", "true");
         fr.setAttribute("tabindex", "-1");
