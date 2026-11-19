@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-19T09:54:20+09:00",
+  "generatedAt": "2026-11-19T10:00:35+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -13944,11 +13944,11 @@
   },
   "meat-beef-au-buchaesal-steak-600g": {
    "id": "meat-beef-au-buchaesal-steak-600g",
-   "name": "호주산 부채살 스테이크용 (냉장), 600g, 1개",
+   "name": "호주산 부채살 구이용 (냉장), 600g, 1개",
    "platform": "coupang",
    "cardPrice": 24900,
    "cardPriceCheckedAt": "2026-11-19 07:45",
-   "cardListPrice": null,
+   "cardListPrice": 29590,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
@@ -13978,7 +13978,8 @@
     "days": 2
    },
    "firstObservedAt": "2026-11-17T12:30:00+09:00",
-   "latestObservedAt": "2026-11-19T07:45:00+09:00"
+   "latestObservedAt": "2026-11-19T07:45:00+09:00",
+   "sourceUrl": "https://www.couprice.co.kr/products/x-7858546638"
   },
   "matitneunduyugt-godanbaek-duyu-190ml-24gae": {
    "id": "matitneunduyugt-godanbaek-duyu-190ml-24gae",
