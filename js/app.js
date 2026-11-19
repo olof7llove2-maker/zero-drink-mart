@@ -1401,7 +1401,7 @@ function renderHomeHead() {
     SORT_OPTIONS.map(
       (o) => `<option value="${o.id}"${state.pick !== "wow" && state.sort === o.id ? " selected" : ""}>${o.label}</option>`
     ).join("") +
-    `<option value="pick:wow"${state.pick === "wow" ? " selected" : ""}>🔥 역대급만 보기</option>`;
+    `<option value="pick:wow"${state.pick === "wow" ? " selected" : ""}>🔥 역대급만</option>`;
 }
 
 function renderHome() {
