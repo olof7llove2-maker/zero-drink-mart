@@ -1564,7 +1564,8 @@ function renderCategoryList() {
   renderCardsInto(list, items, {
     limit: state.limit.category,
     moreKey: "category",
-    grouped: (state.filters || []).length === 0,
+    /* r53 — 과일은 하위 종류마다 1종씩이라 묶음 제목보다 한 그리드가 깔끔합니다 */
+    grouped: (state.filters || []).length === 0 && state.part !== "fruit",
     twoCol: true,
   });
 }
