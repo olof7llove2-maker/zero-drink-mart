@@ -96,6 +96,14 @@ function signalBarHTML(p) {
   </p>`;
 }
 
+/* r46 — 카드용 신호등 알약: 색은 점 하나로만, 글자는 작게. 같은 판정(signalOf)을 씁니다. */
+function signalPillHTML(p) {
+  const s = signalOf(p);
+  const meta = TL_LEVELS[s.level] || TL_LEVELS.none;
+  const title = `지금 사도 되나: ${meta.label} — ${s.why}`;
+  return `<span class="sig sig-${s.level}" title="${escapeHtml(title)}"><i aria-hidden="true">${meta.dot}</i>${meta.label}</span>`;
+}
+
 /* ── ④ 한 줄 꿀팁 ─────────────────────────────────────── */
 
 function tipOf(p) {

@@ -124,12 +124,6 @@ function protCardHTML(p) {
   const p20 = protein20(p);
   const per1 = typeof proteinPerG === "function" ? proteinPerG(p) : null;
   const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
-  const fine = [
-    g != null ? `1병 단백질 ${g}g` : "",
-    stale ? stale.short : p.priceCheckedLabel || "",
-  ]
-    .filter(Boolean)
-    .join(" · ");
   const bg = p.image
     ? `<span class="prot-bg" aria-hidden="true"><img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async"></span>`
     : "";
@@ -150,9 +144,6 @@ function protCardHTML(p) {
   }</p>
     </div>
     <div class="prot-buys">${typeof buyHTML === "function" ? buyHTML(p) : ""}</div>
-    ${fine ? `<p class="prot-fine" title="${escapeHtml(
-      (stale && stale.stale ? `${stale.label} · 구매 전 판매처에서 다시 확인해 주세요. ` : "") + (p.priceCheckedLabel || "")
-    )}">${escapeHtml(fine)}</p>` : ""}
   </article>`;
 }
 
