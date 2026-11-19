@@ -1225,6 +1225,31 @@ body.modal-open { overflow: hidden; }
 
 /* 한 줄 컨트롤 칩 */
 .panel { padding: 8px 10px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); margin: 8px 0 6px; }
+/* r54 — 필터 바 한 줄: 왼쪽 토클 2개(역대급·지금 사기 좋아요) + 오른쪽 정렬 드롭다운
+   375px에서도 가로 스크롤·잘림 없이 한 줄에 들어가도록 폭을 부족하게 잡습니다. */
+.ctlbar {
+  display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; min-width: 0;
+}
+.ctl-picks { display: flex; align-items: center; gap: 5px; min-width: 0; }
+.ctl-picks .cchip { padding: 6px 9px; font-size: 11px; }
+.ctl-sort { position: relative; display: inline-flex; align-items: center; margin-left: auto; flex: none; }
+.ctl-sort::after {
+  content: "▾"; position: absolute; right: 9px; font-size: 9px; color: var(--muted-2);
+  pointer-events: none; line-height: 1;
+}
+.ctl-sel {
+  appearance: none; -webkit-appearance: none;
+  width: 112px; padding: 6px 18px 6px 10px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  color: var(--ink); font-family: inherit; font-size: 11px; font-weight: 800; letter-spacing: -0.02em;
+  text-overflow: ellipsis; cursor: pointer;
+}
+.ctl-sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+@media (max-width: 400px) {
+  .ctlbar { gap: 6px; }
+  .ctl-picks .cchip { padding: 6px 8px; font-size: 10.5px; }
+  .ctl-sel { width: 106px; font-size: 10.5px; }
+}
 .ctlbar-scroll {
   display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
   -webkit-overflow-scrolling: touch; align-items: center;

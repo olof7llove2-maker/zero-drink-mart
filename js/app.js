@@ -24,9 +24,9 @@ const PART_TILES = [
 ];
 
 const SORT_OPTIONS = [
-  { id: "popular", label: "🔥 인기·할인 순" },
-  { id: "basis", label: "단가 낮은 순" },
+  { id: "popular", label: "추천순" },
   { id: "discount", label: "할인율 높은 순" },
+  { id: "basis", label: "단가 낮은 순" },
   { id: "low", label: "저점 가까운 순" },
   { id: "price", label: "가격 낮은 순" },
 ];
@@ -797,7 +797,7 @@ function renderCardsInto(target, list, opts = {}) {
 
 function sortHint() {
   const map = {
-    popular: "인기·할인 순",
+    popular: "추천순",
     basis: "단가 낮은 순",
     discount: "할인율 높은 순",
     low: "저점 가까운 순",
@@ -808,25 +808,30 @@ function sortHint() {
 
 /* ── 컨트롤 (한 줄 칩) ────────────────────────────────── */
 
+/* ── 컨트롤 (r54 — 왼쪽 토글 2개 + 오른쪽 정렬 드롭다운 한 줄) ──
+   재영 님(2026-11-19): "상품 비교 카드 위 필터/정렬 줄을 깔끔한 1줄로" —
+   왼쪽에 🔥 역대급 · 🟢 지금 사기 좋아요 두 토글만, 오른쪽에 '추천순' 드롭다운 하나.
+   기존 정렬 칩과 쿠팡/토스 칩은 모바일에서 옆으로 잘려서 없뎃습니다. */
 function ctlBarHTML(extra = "") {
   const goalOn = state.tab === "home" && state.goal && state.goal !== "all";
-  const chips = SORT_OPTIONS.map(
-    (o) =>
-      `<button type="button" class="cchip${!goalOn && state.sort === o.id ? " is-on" : ""}" data-sort="${o.id}">${o.label}</button>`
+  const opts = SORT_OPTIONS.map(
+    (o) => `<option value="${o.id}"${!goalOn && state.sort === o.id ? " selected" : ""}>${o.label}</option>`
   ).join("");
-  const srcs =
-    `<button type="button" class="cchip is-src${state.sources.coupang ? " is-on" : ""}" data-src="coupang">쿠팡</button>` +
-    `<button type="button" class="cchip is-src${state.sources.toss ? " is-on" : ""}" data-src="toss">토스</button>`;
-  return `<div class="ctlbar-scroll">${pickChipsHTML()}<span class="ctl-sep"></span>${chips}<span class="ctl-sep"></span>${srcs}${extra}</div>`;
+  return `<div class="ctlbar">
+      <div class="ctl-picks">${pickChipsHTML()}</div>
+      <span class="ctl-sort"><select class="ctl-sel" data-sortsel aria-label="정렬 방식">${opts}</select></span>
+      ${extra}
+    </div>`;
 }
 
-/* r39 — 목록 필터 맨 앞의 빠른 필터 칩 두 개(하나만 켜지는 토글) */
+/* r39 — 목록 필터 맨 앞의 빠른 필터 칩 두 개(하나만 켜지는 토글)
+   r54 — 순서를 '역대급 → 지금 사기 좋아요'로 바꾸고 두 개만 남깁니다. */
 function pickChipsHTML() {
   const mk = (id, label, cls) => {
     const on = state.pick === id;
     return `<button type="button" class="cchip ${cls}${on ? " is-on" : ""}" data-pick="${id}" aria-pressed="${on}">${label}</button>`;
   };
-  return mk("good", "🟢 지금 사기 좋아요", "is-good") + mk("wow", "🔥 역대급", "is-wow");
+  return mk("wow", "🔥 역대급", "is-wow") + mk("good", "🟢 지금 사기 좋아요", "is-good");
 }
 
 function renderControls() {
@@ -2207,16 +2212,19 @@ function applyUrlState() {
 /* ── 이벤트 ──────────────────────────────────────────── */
 
 function initControls() {
+  /* r54 — 정렬은 드롭다운 하나로 */
+  document.addEventListener("change", (e) => {
+    const sel = e.target && e.target.closest ? e.target.closest("[data-sortsel]") : null;
+    if (!sel) return;
+    const id = sel.value;
+    if (!SORT_IDS.has(id) || id === state.sort) return;
+    state.sort = id;
+    state.goal = "all";
+    state.limit.home = 6;
+    state.limit.category = 30;
+    paint();
+  });
   document.addEventListener("click", (e) => {
-    const sortBtn = e.target.closest("[data-sort]");
-    if (sortBtn) {
-      state.sort = sortBtn.getAttribute("data-sort");
-      state.goal = "all";
-      state.limit.home = 6;
-      state.limit.category = 30;
-      paint();
-      return;
-    }
     const srcBtn = e.target.closest("[data-src]");
     if (srcBtn) {
       const key = srcBtn.getAttribute("data-src");
