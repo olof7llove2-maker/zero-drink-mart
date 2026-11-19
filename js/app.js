@@ -1266,6 +1266,10 @@ function spotCardHTML(p) {
    r54 — 재영 님(2026-11-19): "중복된 카테고리 버튼 2줄을 1줄로", "보기좋게 두줄로".
    홈 맨 위 6개 버튼 하나만 남기고, 그 선택값(state.homeCat)이
    ① 오늘의 역대급 할인 카드(가로 레일)와 ② 아래 상품 비교 리스트를 함께 필터링합니다. */
+/* r55 — 지금 홈 위 '오늘의 역대급 할인' 레일에 실제로 걸린 상품 ID.
+   renderSpotlight()가 매번 채우고, renderHome()이 아래 목록에서 이 상품들을 뺍니다. */
+let SPOT_SHOWN_IDS = [];
+
 const SPOT_CATS = [
   { id: "all", emoji: "🔥", label: "전체", parts: null },
   { id: "zero", emoji: "🥤", label: "제로음료", parts: ["zero"] },
@@ -1368,6 +1372,7 @@ function renderSpotlight() {
   /* r54 — 홈 맨 위 카테고리 버튼과 같은 선택값을 씁니다(별도 칩 줄은 없앴습니다). */
   const activeCat = homeCatDef().id;
   const picks = spotCatPicks(activeCat, 5);
+  SPOT_SHOWN_IDS = picks.map((p) => p.id); /* r55 — 아래 목록에서 겹치지 않게 뺄 상품 */
   const cat = SPOT_CATS.find((c) => c.id === activeCat) || SPOT_CATS[0];
   box.hidden = false;
   const hint = cat.id === "all" ? "매일 새로 골라요 · 넘기기 →" : `${cat.label} 오늘 추천 · 넘기기 →`;
@@ -1394,39 +1399,42 @@ function renderSpotlight() {
   if (typeof refreshAlertCTA === "function") refreshAlertCTA(); /* 다시 그려도 알림 상태 유지 */
 }
 
-/* ── 홈 맨 위 카테고리 버튼 (전체·제로음료·단백질·식단고기·간편식·과일)
-   r54 — 누르면 '오늘의 역대급 할인' 카드와 아래 상품 비교 리스트가 함께 그 분야로 필터링됩니다. */
+/* ── 홈 분류 선택값
+   r55 — 홈 맨 위 카테고리 버튼 6개(#home-cats)를 없애고 분류는 하단 '카테고리' 탭으로 통합했습니다.
+   홈에서는 늘 "전체"라서 homeCatDef()는 SPOT_CATS[0](= 전체)만 돌려줍니다. */
 function homeCatDef() {
   return SPOT_CATS.find((c) => c.id === state.homeCat) || SPOT_CATS[0];
 }
 
-function renderHomeCats() {
-  const box = $("home-cats");
+/* r55 — 아래 목록 섹션 헤더의 '추천순 ▾' 드롭다운을 지금 정렬값으로 채웁니다. */
+function renderHomeHead() {
+  const box = $("home-head");
   if (!box) return;
-  box.innerHTML = SPOT_CATS.map((c) => {
-    const on = homeCatDef().id === c.id;
-    return `<button type="button" class="spot-chip${on ? " is-on" : ""}" data-home-cat="${c.id}" aria-pressed="${on}">${c.emoji} ${escapeHtml(
-      c.label
-    )}</button>`;
-  }).join("");
+  const sel = box.querySelector("[data-sortsel]");
+  if (!sel) return;
+  sel.innerHTML = SORT_OPTIONS.map(
+    (o) => `<option value="${o.id}"${state.sort === o.id ? " selected" : ""}>${o.label}</option>`
+  ).join("");
 }
 
-function initHomeCats() {
-  document.addEventListener("click", (e) => {
-    const btn = e.target && e.target.closest ? e.target.closest("[data-home-cat]") : null;
-    if (!btn) return;
-    const id = btn.getAttribute("data-home-cat");
-    if (!id || id === state.homeCat) return;
-    state.homeCat = SPOT_CATS.some((c) => c.id === id) ? id : "all";
-    state.limit.home = 6;
-    paint();
+/* r55 — 위 '오늘의 역대급 할인' 카드에 이미 나온 상품(과 같은 옵션 묶음)은 아래 목록에서 뺍니다.
+   같은 상품이 한 화면에 두 번 겹쳐 보이지 않게 하는 화면 처리일 뿐이고,
+   상품 데이터·카테고리 탭·검색 결과는 그대로라 거기서는 정상적으로 찾을 수 있습니다. */
+function withoutSpotPicks(list) {
+  if (!SPOT_SHOWN_IDS.length) return list;
+  const ids = new Set(SPOT_SHOWN_IDS);
+  const groups = new Set();
+  (state.data.products || []).forEach((p) => {
+    if (ids.has(p.id) && p.variantGroup) groups.add(p.variantGroup);
   });
+  const out = list.filter((p) => !ids.has(p.id) && !(p.variantGroup && groups.has(p.variantGroup)));
+  return out.length ? out : list; /* 목록이 통째로 비는 아주 작은 분류에서는 겹침 제거를 포기 */
 }
 
 function renderHome() {
-  renderHomeCats();
-  renderSpotlight();
+  renderSpotlight(); /* 위 역대급 Top 5 — 걸린 상품 ID를 SPOT_SHOWN_IDS 에 남깁니다 */
   if (typeof renderProteinSection === "function") renderProteinSection();
+  renderHomeHead();
   const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
   let list;
   let topId = "";
@@ -1435,15 +1443,16 @@ function renderHome() {
     list = goalList(state.goal).filter(matchesPick);
   } else {
     list = collapseVariants(sortList(basePool(), state.sort)).filter(matchesPick);
-    if (state.sort === "popular") {
-      /* 오늘의 1위 상품을 첫 칸으로 — 옵션 묶음 대표로 접힌 경우도 잡아 줍니다 */
-      topId = homePinTarget(homeChampionId(), list);
-      list = pinFirst(list, topId);
-    }
   }
-  /* r53 — 홈 맨 위 카테고리 버튼으로 고른 분야만 보여 줍니다(버튼이 없으면 전체). */
   const hcat = homeCatDef();
   if (hcat.parts) list = list.filter((p) => hcat.parts.indexOf(partOf(p)) >= 0);
+  /* r55 — 위 '오늘의 역대급 할인'에 나온 상품은 아래 '지금 사기 좋아요' 목록에서 뺍니다. */
+  list = withoutSpotPicks(list);
+  if (!goalOn && state.sort === "popular") {
+    /* 오늘의 1위 상품을 첫 칸으로 — 옵션 묶음 대표로 접힌 경우도 잡아 줍니다 */
+    topId = homePinTarget(homeChampionId(), list);
+    list = pinFirst(list, topId);
+  }
   const catFiltered = !!hcat.parts || (state.filters || []).length > 0 || !!state.pick || !!state.query || goalOn;
   renderCardsInto($("home-list"), list, {
     limit: catFiltered ? 0 : state.limit.home,
@@ -2527,7 +2536,6 @@ async function init() {
   initShortcut();
   initInfo();
   initShare();
-  initHomeCats();
   initSearch();
   initControls();
   initClickTracking();

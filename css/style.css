@@ -3343,24 +3343,31 @@ select.sel {
   .splash { transition: none; }
 }
 
-/* 홈 맨 위 카테고리 바로가기 — r54: 6개를 3열 2줄(3+3)로 딱 맞춰 대칭 배치
-   (375px에서도 가로 스크롤 없이 한눈에 들어오게) */
-.home-cats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-  margin: 0 0 12px;
-  max-width: 620px;
+/* r55 — 홈 맨 위 카테고리 6개 줄(#home-cats)은 없앱니다(분류는 하단 '카테고리' 탭).
+   대신 역대급 Top 5 바로 아래 '🟢 지금 사기 좋아요' 섹션 헤더 + 오른쪽 '추천순 ▾' 드롭다운 한 줄. */
+.home-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 18px 0 10px;
 }
-.home-cats .spot-chip {
-  grid-column: auto;
-  min-height: 40px;
-  padding: 0 6px;
-  font-size: 13px;
+.home-head-title {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
 }
+.home-head-n { font-size: 11px; font-weight: 500; color: var(--muted-2); }
+.home-head .ctl-sort { margin-left: auto; }
 @media (max-width: 400px) {
-  .home-cats { gap: 6px; }
-  .home-cats .spot-chip { min-height: 38px; padding: 0 2px; font-size: 12.5px; }
+  .home-head { gap: 6px; }
+  .home-head-title { font-size: 15px; }
+  .home-head .ctl-sel { width: 100px; }
 }
 
 /* 카테고리 탭 타일: 과일까지 6개 → 3+3 */
