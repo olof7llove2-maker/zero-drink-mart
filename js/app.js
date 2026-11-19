@@ -9,8 +9,10 @@ const TABS = [
   { id: "category", label: "카테고리", icon: "🗂️" },
   { id: "search", label: "검색", icon: "🔍" },
   { id: "ranking", label: "랭킹", icon: "🏆" },
-  { id: "hotdeal", label: "핫딜", icon: "🔥" },
 ];
+/* r55 — '핫딜' 탭 제거(재영 님 2026-11-19: "핫딜칸은 걍없애도 되겟어").
+   홈 최상단 '🔥 오늘의 역대급 할인'과 역할이 겹쳐서 없앴고, 예전 주소(?tab=hotdeal)는 홈으로 보냅니다. */
+const LEGACY_TABS = { hotdeal: "home" };
 
 /* 카테고리 탭 대표 사진 — 재영 님이 고른 대표 상품 */
 const PART_TILES = [
@@ -51,6 +53,7 @@ const state = {
   sort: "popular",
   goal: "all",
   homeCat: "all", /* r53 — 홈 맨 위 카테고리 버튼 선택값 */
+  rankMode: "popular", /* r55 — 랭킹 기준: "popular"(인기·구매 순) | "discount"(할인율 순) */
   query: "",
   highlightId: null,
   limit: { home: 8, category: 30, hotdeal: 30 },
@@ -855,6 +858,18 @@ function pinFirst(list, id) {
   return out;
 }
 
+/* r55 — 여러 상품 ID를 적힌 순서대로 목록 맨 앞에 세웁니다(없는 ID는 건너뜀). */
+function pinListFirst(list, ids) {
+  if (!ids || !ids.length) return list;
+  const front = [];
+  const rest = list.slice();
+  ids.forEach((id) => {
+    const i = rest.findIndex((p) => p.id === id);
+    if (i >= 0) front.push(rest.splice(i, 1)[0]);
+  });
+  return front.concat(rest);
+}
+
 /* ── 🔥 오늘의 역대급 할인 (가로 스와이프) ─────────────── */
 
 /* 스포트라이트 제외 브랜드 — 재영 님: "링티는 빼줘" */
@@ -1272,10 +1287,6 @@ function spotCardHTML(p) {
 /* r55 — 위 '오늘의 역대급 할인' 레일 노출 개수. 재영 님(2026-11-19): 5개 → 4개 */
 const SPOT_LIMIT = 4;
 
-/* r55 — 지금 홈 위 '오늘의 역대급 할인' 레일에 실제로 걸린 상품 ID.
-   renderSpotlight()가 매번 채우고, renderHome()이 아래 목록에서 이 상품들을 뺍니다. */
-let SPOT_SHOWN_IDS = [];
-
 const SPOT_CATS = [
   { id: "all", emoji: "🔥", label: "전체", parts: null },
   { id: "zero", emoji: "🥤", label: "제로음료", parts: ["zero"] },
@@ -1372,39 +1383,6 @@ function spotCatPicks(cat, n) {
   return out.slice(0, limit);
 }
 
-function renderSpotlight() {
-  const box = $("home-spot");
-  if (!box) return;
-  /* r54 — 홈 맨 위 카테고리 버튼과 같은 선택값을 씁니다(별도 칩 줄은 없앴습니다). */
-  const activeCat = homeCatDef().id;
-  const picks = spotCatPicks(activeCat, SPOT_LIMIT);
-  SPOT_SHOWN_IDS = picks.map((p) => p.id); /* r55 — 아래 목록에서 겹치지 않게 뺄 상품 */
-  const cat = SPOT_CATS.find((c) => c.id === activeCat) || SPOT_CATS[0];
-  box.hidden = false;
-  const hint = cat.id === "all" ? "매일 새로 골라요 · 넘기기 →" : `${cat.label} 오늘 추천 · 넘기기 →`;
-  const rail = picks.length
-    ? `<div class="spot-rail">${picks.map(spotCardHTML).join("")}</div>`
-    : `<p class="spot-empty">${
-        cat.id === "all" ? "오늘은 추천할 상품이 없어요." : "이 칩은 오늘 추천할 상품이 없어요. 다른 칩을 눌러 보세요."
-      }</p>`;
-  /* r38 — 제목 오른쪽 작은 종 버튼: 누르면 기존 알림 허브(전체 초특가 + 상품별 목표가)가 열립니다.
-     id를 #alert-cta로 그대로 두어 js/smart.js의 열기·상태 갱신이 그대로 붙습니다. */
-  box.innerHTML = `<div class="spot-head">
-      <h2 class="spot-title">🔥 오늘의 역대급 할인</h2>
-      <span class="spot-hint">${escapeHtml(hint)}</span>
-      <button type="button" class="spot-bell" id="alert-cta" aria-haspopup="dialog" aria-label="가격 내리면 알림 받기" title="가격 알림 설정">
-        <svg class="spot-bell-ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path class="bell-body" d="M12 3.4a5.3 5.3 0 0 0-5.3 5.3c0 4.1-1.2 5.4-1.8 6.1-.2.2 0 .6.3.6h13.6c.3 0 .5-.4.3-.6-.6-.7-1.8-2-1.8-6.1A5.3 5.3 0 0 0 12 3.4Z"></path>
-          <path d="M9.8 18.2a2.2 2.2 0 0 0 4.4 0"></path>
-        </svg>
-        <span class="smart-btn-lab">알림</span>
-        <span class="spot-bell-n" aria-hidden="true" hidden></span>
-      </button>
-    </div>
-    ${rail}`;
-  if (typeof refreshAlertCTA === "function") refreshAlertCTA(); /* 다시 그려도 알림 상태 유지 */
-}
-
 /* ── 홈 분류 선택값
    r55 — 홈 맨 위 카테고리 버튼 6개(#home-cats)를 없애고 분류는 하단 '카테고리' 탭으로 통합했습니다.
    홈에서는 늘 "전체"라서 homeCatDef()는 SPOT_CATS[0](= 전체)만 돌려줍니다. */
@@ -1423,22 +1401,7 @@ function renderHomeHead() {
   ).join("");
 }
 
-/* r55 — 위 '오늘의 역대급 할인' 카드에 이미 나온 상품(과 같은 옵션 묶음)은 아래 목록에서 뺍니다.
-   같은 상품이 한 화면에 두 번 겹쳐 보이지 않게 하는 화면 처리일 뿐이고,
-   상품 데이터·카테고리 탭·검색 결과는 그대로라 거기서는 정상적으로 찾을 수 있습니다. */
-function withoutSpotPicks(list) {
-  if (!SPOT_SHOWN_IDS.length) return list;
-  const ids = new Set(SPOT_SHOWN_IDS);
-  const groups = new Set();
-  (state.data.products || []).forEach((p) => {
-    if (ids.has(p.id) && p.variantGroup) groups.add(p.variantGroup);
-  });
-  const out = list.filter((p) => !ids.has(p.id) && !(p.variantGroup && groups.has(p.variantGroup)));
-  return out.length ? out : list; /* 목록이 통째로 비는 아주 작은 분류에서는 겹침 제거를 포기 */
-}
-
 function renderHome() {
-  renderSpotlight(); /* 위 역대급 할인(4개) — 걸린 상품 ID를 SPOT_SHOWN_IDS 에 남깁니다 */
   if (typeof renderProteinSection === "function") renderProteinSection();
   renderHomeHead();
   const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
@@ -1452,12 +1415,12 @@ function renderHome() {
   }
   const hcat = homeCatDef();
   if (hcat.parts) list = list.filter((p) => hcat.parts.indexOf(partOf(p)) >= 0);
-  /* r55 — 위 '오늘의 역대급 할인'에 나온 상품은 아래 '지금 사기 좋아요' 목록에서 뺍니다. */
-  list = withoutSpotPicks(list);
   if (!goalOn && state.sort === "popular") {
-    /* 오늘의 1위 상품을 첫 칸으로 — 옵션 묶음 대표로 접힌 경우도 잡아 줍니다 */
-    topId = homePinTarget(homeChampionId(), list);
-    list = pinFirst(list, topId);
+    /* r55 — 홈이 한 섹션으로 합쳐지면서, '오늘의 역대급 할인' 상위 4개(인지도×할인)가
+       추천순일 때 목록 맨 위 4칸에 자연스럽게 오도록 그 순서대로 앞에 세웁니다. */
+    const todayTop = spotTopPicks(SPOT_LIMIT).map((p) => homePinTarget(p.id, list) || p.id);
+    list = pinListFirst(list, todayTop);
+    topId = todayTop.find((id) => list.some((p) => p.id === id)) || homePinTarget(homeChampionId(), list);
   }
   const catFiltered = !!hcat.parts || (state.filters || []).length > 0 || !!state.pick || !!state.query || goalOn;
   renderCardsInto($("home-list"), list, {
@@ -1622,6 +1585,22 @@ function renderFilters() {
 }
 
 /* ── 랭킹 ────────────────────────────────────────────── */
+/* r55 — 랭킹 기본 기준을 '할인율' → '인기·구매 순'으로 바꾸고, 할인율 순도 기준 칩으로 남깁니다.
+   재영 님(2026-11-19): "랭킹에 할인율보다 구매율로 하자" / "할인율도 두고" */
+const RANK_MODES = [
+  { id: "popular", label: "🏆 인기·구매 순" },
+  { id: "discount", label: "🔥 할인율 순" },
+];
+
+/* 인기·구매 점수 — 리뷰 수(구매 인기) 70% + 사이트 인기 점수 20% + 할인·가성비 보정 10%.
+   리뷰가 아예 없는 상품도 인기 점수·할인율로 뒤에 붙을 수 있게 합니다. */
+function popularityOf(p) {
+  const reviews = Number(p.reviewCount || 0);
+  const rev = reviews > 0 ? Math.min(1, Math.log10(reviews + 1) / 6) : 0;
+  const pop = typeof p.popularScore === "number" ? Math.max(0, Math.min(1, p.popularScore / 100)) : 0;
+  const disc = Math.max(0, Math.min(1, (Number(p.discountPct) || 0) / 60));
+  return 0.7 * rev + 0.2 * pop + 0.1 * disc;
+}
 
 function rankParts() {
   return [{ id: "all", label: "전체" }].concat(
@@ -1640,14 +1619,45 @@ function renderRanking() {
       )
       .join("");
   }
+  /* 랭킹 기준 칩 — 기본은 인기·구매 순 */
+  const modeBox = $("rank-mode");
+  if (modeBox) {
+    modeBox.innerHTML = RANK_MODES.map(
+      (m) =>
+        `<button type="button" class="${state.rankMode === m.id ? "is-on" : ""}" data-rankmode="${m.id}" aria-pressed="${
+          state.rankMode === m.id
+        }">${m.label}</button>`
+    ).join("");
+  }
+
   const pool = basePool().filter((p) => (state.rankPart === "all" ? true : partOf(p) === state.rankPart) && !isGadget(p));
   const items = collapseVariants(pool);
 
-  const disc = items
-    .filter((p) => typeof p.discountPct === "number" && p.discountPct > 0)
-    .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
-    .slice(0, 5);
-  renderRankBlock("rank-discount", disc, "할인");
+  /* ① 기본: 인기·구매 순(리뷰·인기 점수 위주) / ② 기준 칩으로 할인율 순 */
+  const mainTitle = $("rank-main-title");
+  const mainSub = $("rank-main-sub");
+  if (state.rankMode === "discount") {
+    const disc = items
+      .filter((p) => typeof p.discountPct === "number" && p.discountPct > 0)
+      .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
+      .slice(0, 5);
+    if (mainTitle) mainTitle.textContent = "🔥 할인율 TOP 5";
+    if (mainSub) mainSub.textContent = "정가 대비";
+    renderRankBlock("rank-main", disc, "할인");
+  } else {
+    const popular = items
+      .slice()
+      .sort(
+        (a, b) =>
+          popularityOf(b) - popularityOf(a) ||
+          (Number(b.reviewCount) || 0) - (Number(a.reviewCount) || 0) ||
+          (Number(b.discountPct) || 0) - (Number(a.discountPct) || 0)
+      )
+      .slice(0, 10);
+    if (mainTitle) mainTitle.textContent = "🏆 인기·구매 TOP 10";
+    if (mainSub) mainSub.textContent = "리뷰·구매 인기 기준";
+    renderRankBlock("rank-main", popular, "인기");
+  }
 
   /* 단가 최저: 같은 단위(100ml/100g/개) 안에서만 견준다 */
   const kinds = {};
@@ -1663,7 +1673,13 @@ function renderRanking() {
     .slice(0, 5);
   renderRankBlock("rank-unit", unitItems, "단가");
   const note = $("rank-note");
-  if (note) note.textContent = `단가 최저는 ${MEASURE_LABEL[unit]} 기준으로 비교했어요 · 값이 같으면 가격이 낮은 순.`;
+  if (note) {
+    const basis =
+      state.rankMode === "discount"
+        ? "할인율 순은 정가 대비 할인율이 큰 순서예요."
+        : "인기·구매 순은 리뷰 수(구매 인기) 70% · 사이트 인기 20% · 할인·가성비 10%로 매겼어요.";
+    note.textContent = `${basis} 단가 최저는 ${MEASURE_LABEL[unit]} 기준 · 값이 같으면 가격이 낮은 순.`;
+  }
 }
 
 function renderRankBlock(id, items, mode) {
@@ -1682,42 +1698,6 @@ function renderRankBlock(id, items, mode) {
     }
     box.appendChild(el);
   });
-}
-
-/* ── 핫딜 ────────────────────────────────────────────── */
-
-function renderHotdeal() {
-  const ctl = $("hot-ctl");
-  if (ctl) {
-    ctl.innerHTML = ctlBarHTML(
-      `<button type="button" class="cchip is-src${state.dealLow ? " is-on" : ""}" data-deallow="1">60일 저점만</button>`
-    );
-  }
-  const pool = collapseVariants(basePool()).filter(matchesPick);
-  let list = pool.filter((p) => typeof p.discountPct === "number" && p.discountPct > 0);
-  if (state.dealLow) {
-    list = pool.filter((p) => {
-      const s = lowStats(p);
-      return s.state === "low" || s.state === "near" || (s.state === "above" && s.pct <= 5);
-    });
-  }
-  const lowPct = (p) => {
-    const s = lowStats(p);
-    return s.pct == null ? 99 : s.pct;
-  };
-  list.sort((a, b) =>
-    state.dealLow ? lowPct(a) - lowPct(b) : b.discountPct - a.discountPct
-  );
-  const dealLimit = state.limit.hotdeal || 30;
-  /* 카드마다 사진·가격·버튼 아래에 그 상품의 60일 최저·보통가를 숫자로 붙입니다 */
-  renderCardsInto($("deal-list"), list, { limit: dealLimit, moreKey: "hotdeal", showPart: true, dealNum: true });
-  const note = $("deal-note");
-  if (note) {
-    const shownN = Math.min(dealLimit, list.length);
-    note.textContent = state.dealLow
-      ? `60일 관측 최저에 붙은 상품만 · ${list.length}개 중 ${shownN}개.`
-      : `할인율 높은 순 · ${list.length}개 중 ${shownN}개.`;
-  }
 }
 
 /* ── 검색 ────────────────────────────────────────────── */
@@ -2184,7 +2164,8 @@ function syncUrl() {
 function applyUrlState() {
   const q = new URLSearchParams(location.search);
   const tab = q.get("tab");
-  if (tab && TABS.some((t) => t.id === tab)) state.tab = tab;
+  const tabId = LEGACY_TABS[tab] || tab;
+  if (tabId && TABS.some((t) => t.id === tabId)) state.tab = tabId;
   const src = q.get("src");
   if (src) {
     const set = new Set(src.split(",").map((s) => s.trim()).filter(Boolean));
@@ -2248,13 +2229,6 @@ function initControls() {
         state.sources[key] = true;
         showToast("출처는 하나 이상 골라야 해요");
       }
-      paint();
-      return;
-    }
-    const dealLow = e.target.closest("[data-deallow]");
-    if (dealLow) {
-      state.dealLow = !state.dealLow;
-      state.limit.hotdeal = 30;
       paint();
       return;
     }
@@ -2325,12 +2299,20 @@ function initControls() {
       paint();
       return;
     }
+    const rm = e.target.closest("[data-rankmode]");
+    if (rm) {
+      const id = rm.getAttribute("data-rankmode");
+      if (id === "popular" || id === "discount") {
+        state.rankMode = id;
+        paint();
+      }
+      return;
+    }
     const more = e.target.closest("[data-more]");
     if (more) {
       const key = more.getAttribute("data-more");
       if (key === "home") state.limit.home += 24;
       else if (key === "category") state.limit.category += 30;
-      else if (key === "hotdeal") state.limit.hotdeal = (state.limit.hotdeal || 30) + 30;
       paint();
       return;
     }
@@ -2435,7 +2417,6 @@ function paint() {
     renderCategoryList();
   } else if (state.tab === "search") renderSearchView();
   else if (state.tab === "ranking") renderRanking();
-  else renderHotdeal();
   if (typeof refreshAlertButtons === "function") refreshAlertButtons();
 }
 

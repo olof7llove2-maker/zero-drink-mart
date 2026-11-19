@@ -170,17 +170,18 @@ main { animation: tt-in-rise 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) backwards; }
 
 .topnav { display: none; margin-left: auto; gap: 2px; }
 
-/* r39 — PC·태블릿(>=900px) 헤더 상시 검색창. 모바일에서는 숨기고 검색 탭을 그대로 씁니다. */
+/* r39 — PC·태블릿(>=900px) 헤더 상시 검색창. 모바일에서는 숨기고 검색 탭을 그대로 씁니다.
+   r55 — PC에서 검색창이 좁게 붕 떠 보이던 것: 최대 폭을 520px로 넓히고 flex로 가운데 공간을 채웁니다. */
 .hdr-find {
   display: none;
 }
 @media (min-width: 900px) {
   .hdr-find {
-    display: flex; align-items: center; gap: 7px;
-    flex: 1 1 170px; max-width: 320px; min-width: 150px;
-    margin-left: 6px;
+    display: flex; align-items: center; gap: 8px;
+    flex: 1 1 360px; max-width: 520px; min-width: 220px;
+    margin-left: 14px; margin-right: 14px;
     background: var(--surface); border: 1px solid var(--line);
-    border-radius: 999px; padding: 6px 11px;
+    border-radius: 999px; padding: 7px 14px;
   }
   .hdr-find:focus-within { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(47, 107, 79, 0.1); }
   .hdr-find-input {
@@ -1394,6 +1395,7 @@ body.modal-open { overflow: hidden; }
 .rankblock { margin-top: 14px; }
 .rankblock .sec-head { margin-bottom: 6px; }
 .ranklist { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.rank-mode { margin-top: 10px; }
 .seg button.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
 
 /* 핫딜 카드 — 사진·가격·버튼 아래, 그 상품의 60일 최저·보통가 숫자 요약 (그래프 없이) */
@@ -2996,7 +2998,12 @@ select.sel {
 .sig-good { color: var(--sage-text); background: var(--sage-soft); border-color: var(--sage-line); }
 .sig-mid { color: var(--cocoa); background: var(--cocoa-soft); border-color: var(--cocoa-line); }
 .sig-wait { color: #b42318; background: var(--pap-soft); border-color: var(--pap-line); }
+.sig-best { color: #fff; background: #b42318; border-color: #b42318; font-weight: 800; }
 .sig-none { color: var(--muted-2); }
+
+/* r55 — 홈 섹션 헤더 오른쪽: 🔔 알림 + 추천순 드롭다운 */
+.home-head-tools { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; flex: none; }
+.home-head-tools .ctl-sort { margin-left: 0; }
 
 /* 신호등 게이지 */
 .tl-bar i { background: #e7e4df; }

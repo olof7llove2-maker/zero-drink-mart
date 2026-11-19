@@ -99,16 +99,22 @@
   <main id="main">
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
-      <!-- r55 — 홈 맨 위 카테고리 6개 줄(#home-cats)을 없앴습니다. 분류는 하단 '카테고리' 탭으로 통합.
-           홈은 헤더 바로 아래 🔥 오늘의 역대급 할인 → 🟢 지금 사기 좋아요 순으로 곧바로 펼쳐집니다. -->
-      <!-- 오늘의 역대급 할인 — 제목 오른쪽 작은 🔔 종 버튼이 알림 허브를 엽니다(js/app.js).
-           r38: 아래에 있던 큰 '가격 내리면 알림' 줄(alert-row)은 없앴습니다. -->
-      <section class="spot" id="home-spot" aria-label="오늘의 역대급 할인"></section>
-      <!-- r55 — 아래 2열 목록 섹션 헤더: 왼쪽 '🟢 지금 사기 좋아요'(+개수), 오른쪽 '추천순 ▾' 정렬 드롭다운 한 줄.
-           위 역대급 Top 5에 이미 나온 상품은 이 목록에서 빠집니다(js/app.js withoutSpotPicks). -->
+      <!-- r55 — 홈은 한 섹션으로 통합: 🔥 오늘의 역대급 할인 = 2열 상품 카드(기본 8개 + 더 보기).
+           맨 위 카테고리 6개 줄(#home-cats)과 가로 레일(#home-spot)·아래 목록의 이중 구조는 없앴습니다.
+           오른쪽 작은 🔔 알림 버튼은 알림 허브를 엽니다(js/smart.js). -->
       <div class="sec-head home-head" id="home-head">
-        <h2 class="home-head-title">🟢 지금 사기 좋아요<span class="home-head-n" id="home-count"></span></h2>
-        <span class="ctl-sort"><select class="ctl-sel" data-sortsel aria-label="정렬 방식"></select></span>
+        <h2 class="home-head-title">🔥 오늘의 역대급 할인<span class="home-head-n" id="home-count"></span></h2>
+        <span class="home-head-tools">
+          <button type="button" class="spot-bell" id="alert-cta" aria-haspopup="dialog" aria-label="가격 내리면 알림 받기" title="가격 알림 설정">
+            <svg class="spot-bell-ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path class="bell-body" d="M12 3.4a5.3 5.3 0 0 0-5.3 5.3c0 4.1-1.2 5.4-1.8 6.1-.2.2 0 .6.3.6h13.6c.3 0 .5-.4.3-.6-.6-.7-1.8-2-1.8-6.1A5.3 5.3 0 0 0 12 3.4Z"></path>
+              <path d="M9.8 18.2a2.2 2.2 0 0 0 4.4 0"></path>
+            </svg>
+            <span class="smart-btn-lab">알림</span>
+            <span class="spot-bell-n" aria-hidden="true" hidden></span>
+          </button>
+          <span class="ctl-sort"><select class="ctl-sel" data-sortsel aria-label="정렬 방식"></select></span>
+        </span>
       </div>
       <div class="shelf" id="home-list"></div>
       <!-- r53 — 단백질 음료 섹션은 홈 맨 밑(푸터 위)으로 이동 -->
@@ -186,22 +192,17 @@
     <!-- ── 랭킹 ───────────────────────────────────────── -->
     <section class="view" id="view-ranking" data-view="ranking" hidden>
       <nav class="seg" id="rank-parts" aria-label="부문"></nav>
+      <!-- r55 — 랭킹 기준: 기본 '인기·구매 순', '할인율 순'도 함께 보기 -->
+      <nav class="seg rank-mode" id="rank-mode" aria-label="랭킹 기준"></nav>
       <section class="rankblock">
-        <div class="sec-head"><h2>🔥 할인율 TOP 5</h2><span class="sec-sub">정가 대비</span></div>
-        <div class="ranklist" id="rank-discount"></div>
+        <div class="sec-head"><h2 id="rank-main-title">🏆 인기·구매 TOP 10</h2><span class="sec-sub" id="rank-main-sub">리뷰·구매 인기 기준</span></div>
+        <div class="ranklist" id="rank-main"></div>
       </section>
       <section class="rankblock">
         <div class="sec-head"><h2>💰 단가 최저 TOP 5</h2><span class="sec-sub">같은 단위끼리</span></div>
         <div class="ranklist" id="rank-unit"></div>
       </section>
       <p class="rank-note" id="rank-note"></p>
-    </section>
-
-    <!-- ── 핫딜 ───────────────────────────────────────── -->
-    <section class="view" id="view-hotdeal" data-view="hotdeal" hidden>
-      <div class="panel" id="hot-ctl" data-controls="hotdeal"></div>
-      <div class="sec-head"><h2>🔥 할인 상품</h2><span class="sec-sub" id="deal-note"></span></div>
-      <div class="deal-list" id="deal-list"></div>
     </section>
 
     <footer class="foot">
