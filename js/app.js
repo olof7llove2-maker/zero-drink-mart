@@ -591,8 +591,23 @@ function subLine(p) {
 function rateLine(p) {
   if (p.rating == null && p.reviewCount == null) return "";
   const star = p.rating != null ? `★ ${Number(p.rating).toFixed(1)}` : "";
-  const rv = p.reviewCount != null ? `${star ? " " : ""}리뷰 ${reviewLabel(p.reviewCount)}` : "";
+  const rv = p.reviewCount != null ? `<span class="rv">${star ? " · " : ""}리뷰 ${reviewLabel(p.reviewCount)}</span>` : "";
   return `<span class="pc-rate">${star}${rv}</span>`;
+}
+
+/* r46 — 카드 한 줄 판정: 신호등 알약 + 오래된 확인값만 (나머지 배지는 덜어 냈습니다) */
+function flagLine(p) {
+  const out = [];
+  if (typeof signalPillHTML === "function") out.push(signalPillHTML(p));
+  const stale = typeof staleInfoOf === "function" ? staleInfoOf(p) : null;
+  if (stale && stale.stale) {
+    out.push(
+      `<span class="pc-note" title="${escapeHtml(
+        `${stale.label} · ${Math.floor(stale.hours / 24)}일 지난 확인값이라 지금 판매처 가격과 다를 수 있어요`
+      )}">${escapeHtml(stale.short)}</span>`
+    );
+  }
+  return out.length ? `<p class="pc-flag">${out.join("")}</p>` : "";
 }
 
 function dealBadges(p) {
@@ -629,21 +644,22 @@ function optionRow(p) {
     .join("")}</div>`;
 }
 
-/* 구매 버튼: 한 카드에 플랫폼별 버튼을 나란히 (쿠팡 레드 · 토스 파랑 · 네이버 초록) */
+/* 구매 버튼 (r46): 가장 싼 곳은 검정 버튼, 다른 곳은 흰 버튼. 플랫폼은 이름 + 작은 색 점으로만 구분 */
 function buyHTML(p) {
   const opts = buyOptions(p);
   if (!opts.length) return `<span class="pending-label">링크 준비 중</span>`;
   const multi = opts.length > 1;
   const html = opts
-    .map((o) => {
+    .map((o, i) => {
       const meta = PLATFORMS[o.key];
-      /* 라벨 통일: 한 버튼이면 "쿠팡/토스/네이버", 두 버튼이면 "네이버 24,580" */
+      /* 라벨 통일: 한 버튼이면 "쿠팡에서 사기", 두 버튼이면 "쿠팡 134,270" */
       const label = multi
         ? `<span class="bp-lab">${meta.label}</span><span class="bp-price">${Number(o.price).toLocaleString(
             "ko-KR"
           )}</span>`
-        : `<span class="buy-lab">${meta.label}</span>`;
-      return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}" href="${escapeHtml(
+        : `<span class="buy-lab">${meta.label}에서 사기</span>`;
+      const tone = i === 0 ? " is-primary" : " is-alt";
+      return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}${tone}" href="${escapeHtml(
         o.url
       )}" target="_blank" rel="noopener noreferrer" data-click-pid="${escapeHtml(p.id)}" data-click-plat="${
         o.key
@@ -668,12 +684,16 @@ function cardEl(p, opts = {}) {
   const photo = p.image
     ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">`
     : `<span class="photo-blank">사진 준비 중</span>`;
-  const was = p.listPrice && p.listPrice > p.price ? `<span class="was">${won(p.listPrice)}</span>` : "";
+  const was = p.listPrice && p.listPrice > p.price ? `<s class="was">${won(p.listPrice)}</s>` : "";
+  /* r46 다이어트: 사진 · 이름 · 가격·단가 · 신호등 · 구매 버튼만.
+     가격 추이는 사진을 누르면 열립니다(자잘한 그래프·꿀팁·5단계 배지·중복 배지는 카드에서 뻈습니다). */
   el.innerHTML = `
     ${rank}
-    <div class="pc-left">
-      <div class="pc-photo">${photo}${offBadge(p)}</div>
-      ${opts.dealNum ? "" : sparkBlock(p)}
+    <div class="pc-photo">
+      <button type="button" class="pc-photo-btn" data-chart="${escapeHtml(p.id)}" aria-label="${escapeHtml(
+    p.name
+  )} 가격 추이 보기">${photo}</button>
+      <div class="pc-fab">${typeof alertIconHTML === "function" ? alertIconHTML(p) : ""}</div>
     </div>
     <div class="pc-body">
       <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>
@@ -682,22 +702,13 @@ function cardEl(p, opts = {}) {
         ${rateLine(p)}</p>
       <h3 class="pc-name">${escapeHtml(p.name)}</h3>
       ${optionRow(p)}
-      <div class="pc-price"><strong>${won(view.price)}</strong>${
+      <div class="pc-price">${offBadge(p)}<strong>${won(view.price)}</strong>${was}${
         view.platform === "naver" ? `<span class="pc-nvtag">네이버 비교가</span>` : ""
-      }${was}</div>
+      }</div>
       ${unitLine(p, view)}
       ${proteinUnitHTML(p, view)}
-      <p class="pc-sub">${escapeHtml(subLine(p))}</p>
-      ${typeof tipLineHTML === "function" ? tipLineHTML(p) : ""}
-      ${typeof signalBarHTML === "function" ? signalBarHTML(p) : ""}
-      ${typeof gradeLineHTML === "function" ? gradeLineHTML(p) : ""}
-      <div class="pc-deal">${dealBadges(p)}</div>
-      <div class="pc-acts${multiBuy ? " is-pair" : ""}">
-        ${typeof alertIconHTML === "function" ? alertIconHTML(p) : ""}
-        <button type="button" class="btn-ghost" data-chart="${escapeHtml(p.id)}">📊 <span class="ghost-lab">추이</span></button>
-        ${buyHTML(p)}
-      </div>
-      ${opts.dealNum ? dealNumBlock(p) : ""}
+      ${flagLine(p)}
+      <div class="pc-acts${multiBuy ? " is-pair" : ""}">${buyHTML(p)}</div>
     </div>`;
   return el;
 }
@@ -1222,14 +1233,13 @@ function spotCardHTML(p) {
     )} 가격 추이 보기">
       <span class="spot-photo">
         <img src="${escapeHtml(p.image)}" alt="" width="72" height="72" loading="lazy" decoding="async">
-        <span class="spot-off">${off}</span>
       </span>
       <div class="spot-body">
         <p class="spot-meta"><span class="spot-tag ${tag.cls}">${escapeHtml(tag.text)}</span><span class="spot-brand">${escapeHtml(
           p.brand || categoryLabel(p.category)
         )}</span><span class="spot-src src-${srcKey}">${PLATFORMS[srcKey].label}</span></p>
         <h3 class="spot-name">${escapeHtml(p.name)}</h3>
-        <p class="spot-price"><strong>${won(view.price)}</strong>${was}</p>
+        <p class="spot-price">${p.discountPct > 0 ? `<span class="pc-off">${off}</span>` : ""}<strong>${won(view.price)}</strong>${was}</p>
         ${unit ? `<p class="spot-unit">${escapeHtml(unit)}</p>` : ""}
       </div>
     </div>
