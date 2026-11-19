@@ -44,9 +44,6 @@ for rad, strength in ((520, 0.42), (420, 0.36), (320, 0.30), (220, 0.24), (120, 
     col = tuple(int(BG[c] + (GREEN_LT[c] - BG[c]) * strength) for c in range(3))
     d.ellipse((W - 60 - rad, -300 - rad, W - 60 + rad, -300 + rad), fill=col)
 
-# 오른쪽 아래 코랄 점 — 입맛 도는 포인트
-d.ellipse((W - 210, H - 238, W - 150, H - 178), fill=(253, 226, 221))
-
 # 하단 브랜드 띠
 d.rectangle((0, H - 14, W, H), fill=GREEN)
 
