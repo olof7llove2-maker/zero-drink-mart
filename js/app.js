@@ -4,11 +4,18 @@ const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
 const $ = (id) => document.getElementById(id);
 const SHARE_BASE = "https://ttini.kr";
 
+/* r57 — 이모지 대신 라인 SVG 아이콘(토스 톤). 색은 CSS가 currentColor로 정합니다. */
+const TAB_ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"></path><path d="M9.5 20.5v-6h5v6"></path></svg>',
+  category: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"></rect></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.6"></circle><path d="m16.2 16.2 4.3 4.3"></path></svg>',
+  ranking: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 20V13"></path><path d="M12 20V4.5"></path><path d="M19 20v-9.5"></path></svg>',
+};
 const TABS = [
-  { id: "home", label: "홈", icon: "🏠" },
-  { id: "category", label: "카테고리", icon: "🗂️" },
-  { id: "search", label: "검색", icon: "🔍" },
-  { id: "ranking", label: "랭킹", icon: "🏆" },
+  { id: "home", label: "홈", icon: TAB_ICONS.home },
+  { id: "category", label: "카테고리", icon: TAB_ICONS.category },
+  { id: "search", label: "검색", icon: TAB_ICONS.search },
+  { id: "ranking", label: "랭킹", icon: TAB_ICONS.ranking },
 ];
 /* r55 — '핫딜' 탭 제거(재영 님 2026-11-19: "핫딜칸은 걍없애도 되겟어").
    홈 최상단 '🔥 오늘의 역대급 할인'과 역할이 겹쳐서 없앴고, 예전 주소(?tab=hotdeal)는 홈으로 보냅니다. */
@@ -23,12 +30,11 @@ const PART_TILES = [
   { part: "cheat", label: "치팅·간편식", emoji: "🍕", sub: "햇반·간편 닭가슴살·스팸", image: "images/retort-can-spam-classic-340g-6.jpg" },
 ];
 
+/* r57 — 정렬은 3개만(추천순·할인율·단가). 나머지 기준은 랭킹·카테고리에서 봅니다. */
 const SORT_OPTIONS = [
   { id: "popular", label: "추천순" },
   { id: "discount", label: "할인율 높은 순" },
   { id: "basis", label: "단가 낮은 순" },
-  { id: "low", label: "저점 가까운 순" },
-  { id: "price", label: "가격 낮은 순" },
 ];
 const SORT_IDS = new Set(SORT_OPTIONS.map((s) => s.id));
 
@@ -559,8 +565,22 @@ function collapseVariants(list) {
 
 function offBadge(p) {
   if (typeof p.discountPct !== "number" || p.discountPct <= 0) return "";
-  const hot = p.discountPct >= 40 ? " is-hot" : "";
-  return `<span class="pc-off${hot}">-${p.discountPct}%</span>`;
+  return `<span class="pc-off">-${p.discountPct}%</span>`;
+}
+
+/* r57 — 카드·모달에 쓰는 '실제 확인 시점' 표기 (A1).
+   상품마다 확인 시각이 다르므로 오늘/1일 전/3일 전으로 정직하게 적습니다. */
+function freshLabelOf(p) {
+  const t = checkedAtMs(p && p.priceCheckedAt);
+  if (!t) return null;
+  const diff = Math.max(0, Date.now() - t);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor(diff / 3600000);
+  let text;
+  if (days <= 0) text = hours <= 0 ? "방금 확인" : "오늘 확인";
+  else if (days === 1) text = "1일 전 확인";
+  else text = `${days}일 전 확인`;
+  return { text, days, stale: days >= 3, full: shortStamp(p.priceCheckedAt) };
 }
 
 function unitLine(p, view) {
@@ -570,52 +590,12 @@ function unitLine(p, view) {
   const eachVal = view && typeof view.eachPrice === "number" ? view.eachPrice : p.eachPrice;
   const each =
     kind !== "each" && eachVal
-      ? `<span class="pc-each"><span class="dot">·</span>1${escapeHtml(p.eachLabel || "개")}당 <b>${won(Math.round(eachVal))}</b></span>`
+      ? `<span class="pc-each"> · 1${escapeHtml(p.eachLabel || "개")}당 <b>${won(Math.round(eachVal))}</b></span>`
       : "";
   return `<p class="pc-unit"><b>${won(Math.round(v))}</b><span class="per">/${measureLabel(p).replace("당", "")}</span>${each}</p>`;
 }
 
-function subLine(p) {
-  const bits = [];
-  if (partOf(p) === "protein" || p.category === "shake") {
-    const src = p.proteinSourceDetail || p.proteinSource;
-    if (src) bits.push(`🧬 ${src}`);
-    const g = proteinValue(p);
-    if (g != null) bits.push(`${p.proteinBasis || (p.category === "shake" ? "1회" : "병당")} 단백질 ${g}g`);
-    const k = kcalLabel(p);
-    if (k) bits.push(k);
-    if (p.sugarPerServing != null) bits.push(`당류 ${p.sugarPerServing}g`);
-    if (!bits.length && p.kind) bits.push(p.kind);
-  } else if (isGadget(p)) {
-    if (p.kind) bits.push(p.kind);
-  } else {
-    if (p.kind && p.category !== "rice" && p.category !== "can") bits.push(p.kind);
-    if (p.weightG) bits.push(p.weightG >= 1000 ? `${p.weightG / 1000}kg` : `${p.weightG}g`);
-    if (p.volumeMl) bits.push(`${p.volumeMl}ml`);
-    if (p.packCount && !p.variantGroup) bits.push(`${p.packCount}개`);
-    if (typeof p.proteinPer100g === "number") bits.push(`단백질 ${p.proteinPer100g}g/100g`);
-  }
-  return bits.filter(Boolean).join(" · ");
-}
-
-function rateLine(p) {
-  if (p.rating == null && p.reviewCount == null) return "";
-  const star = p.rating != null ? `★ ${Number(p.rating).toFixed(1)}` : "";
-  const rv = p.reviewCount != null ? `<span class="rv">${star ? " · " : ""}리뷰 ${reviewLabel(p.reviewCount)}</span>` : "";
-  return `<span class="pc-rate">${star}${rv}</span>`;
-}
-
-/* r46 — 카드 한 줄 판정: 신호등 알약만 (나머지 배지는 덜어 냈습니다) */
-function flagLine(p) {
-  const out = [];
-  if (typeof signalPillHTML === "function") out.push(signalPillHTML(p));
-  /* 기간 한정 특가(톡딜·타임세일)는 끝나는 시각을 카드에 같이 적는다 */
-  const deal = dealEndBadge(p);
-  if (deal) out.push(deal);
-  return out.length ? `<p class="pc-flag">${out.join("")}</p>` : "";
-}
-
-/* "⏱ 11/23 16:59까지" — dealEndsAt 이 있고 아직 안 끝난 상품만 */
+/* r57 — 기간 한정 특가(톡딜·타임세일) 마감 시각 */
 function dealEndBadge(p) {
   if (!p || !p.dealEndsAt) return "";
   const t = new Date(p.dealEndsAt);
@@ -624,28 +604,7 @@ function dealEndBadge(p) {
   const dd = t.getDate();
   const hh = String(t.getHours()).padStart(2, "0");
   const mi = String(t.getMinutes()).padStart(2, "0");
-  return `<span class="bd bd-deal" title="기간 한정 특가">⏱ ${mm}/${dd} ${hh}:${mi}까지</span>`;
-}
-
-function dealBadges(p) {
-  const out = [];
-  const s = lowStats(p);
-  if (s.state === "low") out.push(`<span class="bd bd-low">60일 관측 최저</span>`);
-  else if (s.state === "near") out.push(`<span class="bd bd-near">저점 +${s.pct}%</span>`);
-  else if (s.state === "above" && s.pct <= 12) out.push(`<span class="bd bd-up">저점 +${s.pct}%</span>`);
-  const since = discountSince(p);
-  if (since) out.push(`<span class="bd bd-since">${since.date}부터 할인 · ${since.days}일째</span>`);
-  if (p.shipNote) out.push(`<span class="bd bd-track">${escapeHtml(p.shipNote)}</span>`);
-  const nv = naverAlt(p);
-  if (nv && samePack(p, nv) && nvCost(nv) < p.price) {
-    out.push(`<span class="bd bd-naver">💚 네이버가 ${won(p.price - nvCost(nv))} 싸요</span>`);
-  } else if (nv && !samePack(p, nv)) {
-    out.push(`<span class="bd bd-naver">💚 네이버는 ${escapeHtml(nvPackLabel(nv))} ${won(nv.price)}</span>`);
-  } else if (nv && nv.shippingExtra) {
-    out.push(`<span class="bd bd-naver">💚 네이버 ${won(nv.price)} + 배송 ${won(nv.shippingExtra)}</span>`);
-  }
-  out.push(staleBadgeHTML(p));
-  return out.join("");
+  return `<span class="bd bd-deal">${mm}/${dd} ${hh}:${mi}까지</span>`;
 }
 
 function optionRow(p) {
@@ -661,71 +620,63 @@ function optionRow(p) {
     .join("")}</div>`;
 }
 
-/* 구매 버튼 (r46): 가장 싼 곳은 검정 버튼, 다른 곳은 흰 버튼. 플랫폼은 이름 + 작은 색 점으로만 구분 */
-function buyHTML(p) {
-  const opts = buyOptions(p);
-  if (!opts.length) return `<span class="pending-label">링크 준비 중</span>`;
-  const multi = opts.length > 1;
-  const html = opts
-    .map((o, i) => {
+/* 구매 버튼 — 판매처 고유색 유지, 높이·모서리 통일(r57).
+   카드에서는 가장 싼 한 곳만 크게, 상세 모달에서는 판매처 전부를 같은 크기로 보여 줍니다. */
+function buyHTML(p, opts = {}) {
+  const all = buyOptions(p);
+  if (!all.length) return `<span class="pending-label">링크 준비 중</span>`;
+  const cardMode = !!opts.card;
+  const list = cardMode ? all.slice(0, 1) : all;
+  const rest = all.length - list.length;
+  return `<div class="pc-buys${list.length > 1 ? " is-multi" : ""}">${list
+    .map((o) => {
       const meta = PLATFORMS[o.key];
-      /* 라벨 통일: 한 버튼이면 "쿠팡에서 사기"(톡딜은 "톡딜에서 사기"), 두 버튼이면 "쿠팡 134,270" */
-      const label = multi
-        ? `<span class="bp-lab">${meta.label}</span><span class="bp-price">${Number(o.price).toLocaleString(
+      const label = cardMode
+        ? `<span class="buy-lab">${meta.label} ${Number(o.price).toLocaleString("ko-KR")}원</span>`
+        : `<span class="bp-lab">${meta.label}</span><span class="bp-price">${Number(o.price).toLocaleString(
             "ko-KR"
-          )}</span>`
-        : `<span class="buy-lab">${meta.buyLabel || `${meta.label}에서 사기`}</span>`;
-      const tone = i === 0 ? " is-primary" : " is-alt";
-      return `<a class="btn-buy ${meta.cls}${multi ? " is-pair" : ""}${tone}" href="${escapeHtml(
-        o.url
-      )}" target="_blank" rel="noopener noreferrer" data-click-pid="${escapeHtml(p.id)}" data-click-plat="${
-        o.key
-      }" aria-label="${meta.label}에서 사기 ${won(o.price)}">${label}</a>`;
+          )}</span>`;
+      return `<a class="btn-buy ${meta.cls}" href="${escapeHtml(o.url)}" target="_blank" rel="noopener noreferrer" data-click-pid="${escapeHtml(
+        p.id
+      )}" data-click-plat="${o.key}" aria-label="${meta.label}에서 사기 ${won(o.price)}">${label}</a>`;
     })
-    .join("");
-  return `<div class="pc-buys${multi ? " is-multi" : ""}">${html}</div>`;
+    .join("")}${cardMode && rest > 0 ? `<span class="buy-more">${rest}곳 더</span>` : ""}</div>`;
 }
 
+/* r57 — 토스 톤 카드: 사진 · 브랜드 · 상품명(2줄) · 가격 · 단가 · 배지 하나 · 확인 시점 · 구매 버튼.
+   제목·가격을 누르면 상세 모달이 열리고, 알림은 상세 모달 안의 큰 버튼으로 옮겼습니다. */
 function cardEl(p, opts = {}) {
   const el = document.createElement("article");
-  el.className = "pc";
+  el.className = "pc" + (opts.rank ? " is-rank" : "");
   el.dataset.id = p.id;
   el.__opts = opts;
   const view = cheapView(p);
-  const buys = buyOptions(p);
-  const multiBuy = buys.length > 1;
-  const srcKey = platformOf(p);
-  const rank = opts.rank
-    ? `<span class="pc-rank${opts.rank <= 3 ? " is-top" : ""}">${opts.rank}</span>`
-    : "";
+  const rank = opts.rank ? `<span class="pc-rank${opts.rank <= 3 ? " is-top" : ""}">${opts.rank}</span>` : "";
   const photo = p.image
     ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">`
     : `<span class="photo-blank">사진 준비 중</span>`;
   const was = p.listPrice && p.listPrice > p.price ? `<s class="was">${won(p.listPrice)}</s>` : "";
-  /* r46 다이어트: 사진 · 이름 · 가격·단가 · 신호등 · 구매 버튼만.
-     가격 추이는 사진을 누르면 열립니다(자잘한 그래프·꿀팁·5단계 배지·중복 배지는 카드에서 뻈습니다). */
+  const nvTag = view.platform === "naver" ? `<span class="pc-nvtag">네이버</span>` : "";
+  const pill = typeof signalPillHTML === "function" ? signalPillHTML(p) : "";
+  const deal = dealEndBadge(p);
+  const fresh = freshLabelOf(p);
+  const freshHTML = fresh
+    ? `<span class="fresh${fresh.stale ? " is-stale" : ""}" title="${escapeHtml(fresh.full)} 확인">${fresh.text}</span>`
+    : "";
+  const label = `${p.name} 상세 보기`;
   el.innerHTML = `
     ${rank}
-    <div class="pc-photo">
-      <button type="button" class="pc-photo-btn" data-chart="${escapeHtml(p.id)}" aria-label="${escapeHtml(
-    p.name
-  )} 가격 추이 보기">${photo}</button>
-      <div class="pc-fab">${typeof alertIconHTML === "function" ? alertIconHTML(p) : ""}</div>
-    </div>
+    <button type="button" class="pc-photo" data-chart="${escapeHtml(p.id)}" aria-label="${escapeHtml(label)}">${photo}</button>
     <div class="pc-body">
-      <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>
-        <span class="src src-${srcKey}">${PLATFORMS[srcKey].label}</span>
-        ${opts.showPart ? `<span class="pc-parttag">${escapeHtml((partById(partOf(p)) || {}).label || "")}</span>` : ""}
-        ${rateLine(p)}</p>
-      <h3 class="pc-name">${escapeHtml(p.name)}</h3>
+      <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>${freshHTML}</p>
+      <div class="pc-main" data-chart="${escapeHtml(p.id)}" role="button" tabindex="0" aria-label="${escapeHtml(label)}">
+        <h3 class="pc-name">${escapeHtml(p.name)}</h3>
+        <div class="pc-price">${offBadge(p)}<strong>${won(view.price)}</strong>${was}${nvTag}</div>
+        ${unitLine(p, view)}
+        <p class="pc-flag">${pill}${deal}</p>
+      </div>
       ${optionRow(p)}
-      <div class="pc-price">${offBadge(p)}<strong>${won(view.price)}</strong>${was}${
-        view.platform === "naver" ? `<span class="pc-nvtag">네이버 비교가</span>` : ""
-      }</div>
-      ${unitLine(p, view)}
-      ${proteinUnitHTML(p, view)}
-      ${flagLine(p)}
-      <div class="pc-acts${multiBuy ? " is-pair" : ""}">${buyHTML(p)}</div>
+      <div class="pc-acts">${buyHTML(p, { card: true })}</div>
     </div>`;
   return el;
 }
@@ -838,7 +789,7 @@ function pickChipsHTML() {
     const on = state.pick === id;
     return `<button type="button" class="cchip ${cls}${on ? " is-on" : ""}" data-pick="${id}" aria-pressed="${on}">${label}</button>`;
   };
-  return mk("wow", "🔥 역대급", "is-wow") + mk("good", "🟢 지금 사기 좋아요", "is-good");
+  return mk("wow", "역대 최저", "is-wow") + mk("good", "추천가", "is-good");
 }
 
 function renderControls() {
@@ -1447,14 +1398,15 @@ function renderTiles() {
   if (!box) return;
   const pool = basePool();
   box.innerHTML = PART_TILES.map((t) => {
-    const n = pool.filter((p) => partOf(p) === t.part).length;
+    /* r57 — 개수는 목록과 같은 기준(묶음 접기)으로 셀니다(A5). */
+    const n = collapseVariants(pool.filter((p) => partOf(p) === t.part)).length;
     return `<button type="button" class="tile" data-part-tile="${t.part}">
       <span class="tile-photo"><img src="${escapeHtml(t.image)}" alt="" loading="lazy" decoding="async"></span>
       <span class="tile-body">
-        <span class="tile-name">${t.emoji} ${escapeHtml(t.label)}</span>
+        <span class="tile-name">${escapeHtml(t.label)}</span>
         <span class="tile-sub">${escapeHtml(t.sub)}</span>
-        <span class="tile-n">${n}개</span>
       </span>
+      <span class="tile-n">${n}개</span>
     </button>`;
   }).join("");
 }
@@ -1656,9 +1608,9 @@ function renderRanking() {
     parts.innerHTML = rankParts()
       .map(
         (p) =>
-          `<button type="button" class="${p.id === state.rankPart ? "is-on" : ""}" data-rankpart="${p.id}">${escapeHtml(
-            p.label
-          )}</button>`
+          `<button type="button" class="${p.id === state.rankPart ? "is-on" : ""}" data-rankpart="${p.id}" aria-pressed="${
+            p.id === state.rankPart
+          }">${escapeHtml(p.label)}</button>`
       )
       .join("");
   }
@@ -1684,7 +1636,7 @@ function renderRanking() {
       .filter((p) => typeof p.discountPct === "number" && p.discountPct > 0)
       .sort((a, b) => b.discountPct - a.discountPct || (a.perValue || 0) - (b.perValue || 0))
       .slice(0, 5);
-    if (mainTitle) mainTitle.textContent = "🔥 할인율 TOP 5";
+    if (mainTitle) mainTitle.textContent = "할인율 TOP 5";
     if (mainSub) mainSub.textContent = "정가 대비";
     renderRankBlock("rank-main", disc, "할인");
   } else {
@@ -1697,8 +1649,8 @@ function renderRanking() {
           (Number(b.discountPct) || 0) - (Number(a.discountPct) || 0)
       )
       .slice(0, 10);
-    if (mainTitle) mainTitle.textContent = "🏆 인기·구매 TOP 10";
-    if (mainSub) mainSub.textContent = "리뷰·구매 인기 기준";
+    if (mainTitle) mainTitle.textContent = "인기 TOP 10";
+    if (mainSub) mainSub.textContent = "리뷰·구매 기준";
     renderRankBlock("rank-main", popular, "인기");
   }
 
@@ -1735,10 +1687,6 @@ function renderRankBlock(id, items, mode) {
   }
   items.forEach((p, i) => {
     const el = cardEl(p, { rank: i + 1, showPart: state.rankPart === "all" });
-    if (mode === "단가") {
-      const badge = el.querySelector(".pc-price");
-      if (badge) badge.insertAdjacentHTML("beforeend", `<span class="rank-metric">${won(Math.round(measureValue(p)))}/${measureLabel(p).replace("당", "")}</span>`);
-    }
     box.appendChild(el);
   });
 }
@@ -2540,25 +2488,27 @@ function latestChecked() {
 }
 function renderUpdateBand() {
   const latest = latestChecked();
+  /* r57 (A1) — '오늘 19:05 기준'처럼 전체 가격이 방금 갱신된 것처럼 보이던 문구를 없앴습니다.
+     가장 최근에 확인한 상품의 시각만 적고, 상품마다 다르다는 사실을 함께 적습니다. */
   if (latest && $("update-date-big")) {
     const wd = WEEKDAY_KO[new Date(latest.y, latest.mo - 1, latest.d).getDay()] || "";
     $("update-date-big").textContent = `${latest.mo}/${latest.d}`;
     if ($("update-weekday")) $("update-weekday").textContent = wd ? `(${wd})` : "";
     if ($("update-time")) {
-      $("update-time").textContent = latest.time || "";
+      $("update-time").textContent = latest.time ? ` ${latest.time}` : "";
       $("update-time").hidden = !latest.time;
     }
   }
   const cyc = $("update-cycle-main");
   if (cyc) {
-    cyc.textContent = "상품별 확인 시각 상이 · 오전·오후 9시 갱신";
+    cyc.textContent = "상품마다 확인한 시각이 달라요 · 카드에 표시돼요";
   }
   const band = $("update-band");
   if (band && latest) {
-    band.title = `가격 이력 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} 기준 (상품별 확인 시각 상이) · 가격은 바뀔 수 있어요`;
+    band.title = `가장 최근 확인 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} · 상품마다 확인 시각이 달라요`;
     band.setAttribute(
       "aria-label",
-      `가격 이력 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""} 기준, 상품별 확인 시각이 달라요.`
+      `가장 최근 확인 ${latest.mo}/${latest.d}${latest.time ? ` ${latest.time}` : ""}, 상품마다 확인 시각이 달라요.`
     );
   }
 }
@@ -2612,7 +2562,7 @@ async function init() {
   if (typeof buildMarketIndex === "function") buildMarketIndex(state.data.products, state.data.categories);
   if (typeof initPushUI === "function") initPushUI();
   if (typeof initPush === "function") initPush();
-  state.rankPart = state.rankPart || "zero";
+  state.rankPart = state.rankPart || "all";
   applyUrlState();
   renderUpdateBand();
   renderNav();

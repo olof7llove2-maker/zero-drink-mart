@@ -97,20 +97,22 @@ function signalBarHTML(p) {
   </p>`;
 }
 
-/* r46 — 카드용 신호등 알약: 색은 점 하나로만, 글자는 작게. 같은 판정(signalOf)을 씁니다.
-   r55 — 홈이 한 목록으로 합쳐져 카드마다 '🔥 역대급'과 '🟢 지금 사기 좋아요'가 한눈에 갈리도록,
-   관측 이력이 쌓인 상품의 5단계 등급(역대급·대박급)은 그 등급을 앞세워 보여 줍니다. */
+/* r57 — 카드 배지는 토스식 알약 3단계로 단순화했습니다.
+   역대 최저 / 추천가 / 보통 / 기록 중 (비싼 가격은 회색 '비싼 편'으로 조용히).
+   판정은 여전히 grade.js의 judgeOf() 하나만 씁니다 — 카드·모달이 같은 값을 씁니다. */
 function signalPillHTML(p) {
   const s = signalOf(p);
-  const meta = TL_LEVELS[s.level] || TL_LEVELS.none;
   const j = typeof judgeOf === "function" ? judgeOf(p) : null;
   const badge = j && j.badge ? j.badge.id : "";
-  if (badge === "역대급" || badge === "대박급") {
-    const why = j && j.why ? j.why : meta.label;
-    return `<span class="sig sig-best" title="지금 사도 되나: ${escapeHtml(badge)} — ${escapeHtml(why)}"><i aria-hidden="true">🔥</i>${badge}</span>`;
-  }
-  const title = `지금 사도 되나: ${meta.label} — ${s.why}`;
-  return `<span class="sig sig-${s.level}" title="${escapeHtml(title)}"><i aria-hidden="true">${meta.dot}</i>${meta.label}</span>`;
+  const why = j && j.why ? j.why : "";
+  let label = "보통";
+  let cls = "sig-soso";
+  if (s.level === "none") { label = "기록 중"; cls = "sig-none"; }
+  else if (badge === "역대급" || badge === "대박급") { label = "역대 최저"; cls = "sig-best"; }
+  else if (s.level === "good") { label = "추천가"; cls = "sig-good"; }
+  else if (s.level === "wait" || s.level === "high") { label = "비싼 편"; cls = "sig-high"; }
+  const title = why ? `${label} — ${why}` : label;
+  return `<span class="sig ${cls}" title="${escapeHtml(title)}">${label}</span>`;
 }
 
 /* ── ④ 한 줄 꿀팁 ─────────────────────────────────────── */

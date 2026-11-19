@@ -341,7 +341,7 @@ function categoryBlock(p) {
   const cheaper = cmp.diffWon >= 0;
   const head = `<li><b>${escapeHtml(catName)}</b> ${cmp.count}개 중 ${u}당 가격이 <b>${
     cmp.rank
-  }번째로 낮아요</b>(상위 ${cmp.topPct}%).</li>`;
+  }번째로 낮아요</b>.</li>`;
   const line = `<li>카테고리 평균 <b>${wonShort(Math.round(cmp.avg))}원/${u}</b> · 이 상품 <b>${wonShort(
     cmp.value
   )}원/${u}</b> (평균보다 ${cheaper ? `${wonShort(cmp.diffWon)}원 낮음` : `${wonShort(-cmp.diffWon)}원 높음`})</li>`;
@@ -400,47 +400,42 @@ function verdictBlock(p, entry) {
   return `<div class="pm-verdict">${escapeHtml(bits.join(" · "))}</div>`;
 }
 
-/* 5단계 등급 — 카드·단백질 레일과 같은 통일 판정(judgeOf)을 씁니다 */
+/* r57 — 카드와 같은 3단계 배지(역대 최저·추천가·보통)로 통일. 판정 근거는 judgeOf() 하나. */
+function pillLabelOf(j) {
+  const id = j && j.badge ? j.badge.id : "";
+  if (id === "역대급" || id === "대박급") return { label: "역대 최저", cls: "is-best" };
+  if (j && j.tier && j.tier.id === "good") return { label: "추천가", cls: "is-great" };
+  if (j && j.tier && (j.tier.id === "wait" || j.tier.id === "high")) return { label: "비싼 편", cls: "" };
+  return { label: "보통", cls: "" };
+}
+
 function gradeBlock(p) {
   if (typeof judgeOf !== "function") return "";
   if (p.category === "gadget") {
     return `<div class="pm-block"><h4>지금 사도 될까?</h4><ul class="pm-list"><li>조리기구는 중량이 없어 개당 가격으로만 비교했어요.</li></ul></div>`;
   }
   const j = judgeOf(p);
+  const pill = pillLabelOf(j);
   const rows = [];
-  let badge = "";
-  if (j.badge && j.base) {
-    badge = `<div class="grade-line" style="margin:2px 0 8px"><span class="grade-badge ${j.badge.cls}">${
-      j.badge.id
-    }</span><span class="grade-note">${escapeHtml(j.tier.label)}</span></div>`;
+  if (j.base) {
     rows.push(
-      `평소가는 이 상품의 관측 가격 ${j.base.observations}회 확인값의 중간값 <b>${won(
-        Math.round(j.base.median)
-      )}</b>(${j.base.days}일 기록)이고, 지금은 그 대비 <b>${signedPct(j.pct)}</b>이에요.`
+      `60일 평소가 <b>${won(Math.round(j.base.median))}</b>(관측 ${j.base.days}일·${j.base.observations}회 중간값) 대비 <b>${signedPct(j.pct)}</b>이에요.`
     );
-    rows.push(escapeHtml(j.badge.verdict));
   } else if (j.basis === "discount") {
-    badge = `<div class="grade-line" style="margin:2px 0 8px"><span class="grade-note"><b>${escapeHtml(
-      j.tier.label
-    )}</b> · ${escapeHtml(j.why)}</span></div>`;
-    rows.push(
-      `가격 기록이 ${GRADE_MIN_DAYS}일·관측 5회에 못 미쳐 5단계 등급 대신 정가 할인·오픈 30일 최저로만 봤어요. 기록이 쌓이면 5단계로 바뀌어요.`
-    );
+    rows.push(`가격 기록이 ${GRADE_MIN_DAYS}일·5회에 못 미쳐, 정가 할인과 30일 최저로만 봤어요. 기록이 쌓이면 평소가와 비교해 드려요.`);
   } else {
-    badge = `<div class="grade-line" style="margin:2px 0 8px"><span class="grade-note">${escapeHtml(
-      j.why || "가격 기록이 아직 없어 판정하지 않았어요."
-    )}</span></div>`;
+    rows.push(escapeHtml(j.why || "가격 기록이 아직 없어 판정하지 않았어요."));
   }
   if (j.ref) {
     rows.push(
-      `참고 — ${escapeHtml(j.ref.label)} <b>${j.ref.amount || won(Math.round(j.ref.value))}</b> (표본 ${
-        j.ref.sample
-      }개) 대비 <b>${signedPct(j.ref.pct)}</b>. 같은 용기 안에서만 견준 숫자이고, 위 판정에는 쓰지 않았어요.`
+      `참고 — ${escapeHtml(j.ref.label)} <b>${j.ref.amount || won(Math.round(j.ref.value))}</b> (표본 ${j.ref.sample}개) 대비 <b>${signedPct(
+        j.ref.pct
+      )}</b>. 판정에는 쓰지 않았어요.`
     );
   }
-  return `<div class="pm-block"><h4>지금 사도 될까?</h4>${badge}<ul class="pm-list">${rows
-    .map((r) => `<li>${r}</li>`)
-    .join("")}</ul></div>`;
+  return `<div class="pm-block"><h4>지금 사도 될까?</h4>
+    <div class="grade-line"><span class="grade-badge ${pill.cls}">${pill.label}</span></div>
+    <ul class="pm-list" style="margin-top:8px">${rows.map((r) => `<li>${r}</li>`).join("")}</ul></div>`;
 }
 
 /* 다른 판매처(네이버 쇼핑커넥트) — 구성이 다르면 수량을 같이 적는다 */
@@ -495,37 +490,36 @@ function modalBuyBlock(p) {
 
 /* 확인 시각 표기는 app.js의 shortStamp()를 씁니다 (11/17 14:55 형식). */
 
+/* r57 — 상세 시트: 가격·구매를 맨 위로, 판정은 한 번만(B8), 확인 시점은 정직하게(A1) */
 function priceModalHTML(p, entry) {
   const hasHistory = entry && entry.status === "history" && (entry.series || []).length > 1;
-  const src = hasHistory
-    ? `쿠프라이스 관측 기록 · ${entry.stats.days}일 · ${entry.stats.observations}회 확인`
-    : `마트 확인 기록 · ${escapeHtml(p.priceCheckedLabel || p.priceCheckedAt || "")}`;
+  const fresh = typeof freshLabelOf === "function" ? freshLabelOf(p) : null;
+  const stamp = p.priceCheckedLabel || (p.priceCheckedAt ? shortStamp(p.priceCheckedAt) : "");
+  const freshText = fresh ? `${fresh.text}${fresh.days >= 1 ? ` · ${shortStamp(p.priceCheckedAt)}` : ""}` : stamp;
   const st = hasHistory ? entry.stats : null;
   const headline =
     st && p.price != null
       ? `관측 최고가 대비 <b>${Math.round(((st.max - p.price) / st.max) * 100)}%</b> 낮은 가격`
       : "";
   return `
-    <p class="pm-eyebrow">가격 추이 · 비교 분석</p>
+    <p class="pm-eyebrow">${escapeHtml(categoryLabel(p.category))} · ${escapeHtml(PLATFORMS[platformOf(p)].label)}</p>
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
-    <p class="pm-src">${src}${headline ? ` · ${headline}` : ""}</p>
-    ${p.note ? `<p class="pm-fine">${escapeHtml(p.note)}</p>` : ""}
-    ${altShopBlock(p)}
+    <p class="pm-src">가격 확인 <b>${escapeHtml(freshText)}</b>${headline ? ` · ${headline}` : ""}</p>
+    ${modalBuyBlock(p)}
     ${gradeBlock(p)}
-    ${hasHistory ? historyBlock(p, entry) : trackingBlock(p, entry)}
-    <h3 class="pm-h3">비교 분석</h3>
+    <h3 class="pm-h3">가격 비교</h3>
     ${positionBlock(p, entry)}
     ${categoryBlock(p)}
-    ${verdictBlock(p, entry)}
-    ${modalBuyBlock(p)}
+    ${altShopBlock(p)}
+    ${hasHistory ? historyBlock(p, entry) : trackingBlock(p, entry)}
     ${typeof alertInlineHTML === "function" ? alertInlineHTML(p) : ""}
     <p class="pm-foot">
       ${
         hasHistory
           ? `과거 가격은 <a href="https://www.couprice.co.kr" target="_blank" rel="noopener noreferrer">쿠프라이스</a>가 쿠팡 판매가를 확인해 남긴 기록이에요. 확인 사이에 바뀐 가격은 반영되지 않고, 옵션·쿠폰·배송비에 따라 실제 결제 금액은 달라질 수 있어요.`
-          : `이 상품은 아직 과거 관측 기록이 없어 오늘 확인한 가격만 있어요. 기록이 쌓이면 실제 꺾은선 그래프로 바뀌어요.`
+          : `과거 관측 기록이 아직 없어 이번에 확인한 가격만 있어요. 기록이 쌓이면 가격 흐름으로 바뀌어요.`
       }
-      가격은 바뀔 수 있으니 구매 전 판매처에서 확인해 주세요.
+      구매 전 판매처에서 가격을 한 번 더 확인해 주세요.
     </p>`;
 }
 

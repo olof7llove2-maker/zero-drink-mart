@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>띠니 | 제로음료·단백질·고기 최저가 비교</title>
-  <meta name="description" content="띠니는 직접 팔지 않고, 쿠팡·토스·네이버·카톡 톡딜 최저가를 모아 비교하는 곳이에요. 제로 음료는 100ml당, 단백질·고기는 100g당·단백질 20g당 가격으로 비교하고 구매는 원래 판매처로 연결해요.">
-  <meta name="theme-color" content="#F7F7F5">
+  <meta name="description" content="띠니는 직접 팔지 않고, 쿠팡·토스·네이버·카톡 톡딜 최저가를 모아 비교하는 곳이에요. 제로 음료는 100ml당, 단백질·고기는 100g당 가격으로 비교하고 구매는 원래 판매처로 연결해요.">
+  <meta name="theme-color" content="#F2F4F6">
   <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://ttini.kr/">
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -33,14 +33,16 @@
   <meta name="twitter:image" content="https://ttini.kr/images/og-image.png">
   <meta name="twitter:image:alt" content="띠니 — 쿠팡·토스·네이버·톡딜 최저가 비교, 1병·100g당 가격">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <!-- Pretendard 가변 폰트 + dynamic subset: 쓰는 글자 구간만 내려받아요(정적 웨이트 9종 ~3.5MB → 수백 KB) -->
+  <!-- Pretendard 가변 폰트 + dynamic subset -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261119r56">
+  <link rel="stylesheet" href="css/style.css?v=20261119r57">
+  <!-- r57 — 모바일 앱 프레임 · 토스 UI 톤 (이 파일이 style.css 뒤에서 전체를 다시 칠합니다) -->
+  <link rel="stylesheet" href="css/r57.css?v=20261119r57">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
 
-  <!-- r53 — 첫 진입 인트로(약 1초): 초록 T 아래로 '최저가 검색은 띠니'가 떠오르고 부드럽게 사라집니다 -->
+  <!-- r53 — 첫 진입 인트로(약 1초) -->
   <div class="splash" id="splash" aria-hidden="true">
     <div class="splash-in">
       <span class="splash-mark">T</span>
@@ -48,7 +50,6 @@
     </div>
   </div>
   <script>
-    /* r53 — 인트로는 약 1초만. 움직임 줄이기 설정이면 바로 넘어갑니다. */
     (function () {
       var el = document.getElementById("splash");
       if (!el) return;
@@ -59,77 +60,69 @@
     })();
   </script>
 
-  <!-- r46: 맨 위 검은 파트너스 고지 바를 없앴습니다. 고지는 푸터 맨 아래 한 줄로만(규정상 유지). -->
+  <!-- r57 — 헤더는 로고 + 이용안내 하나만. 검색은 하단 탭, 공유·홈화면 추가는 푸터로 내렸습니다. -->
   <header class="hdr">
     <div class="hdr-in">
       <a class="brand" href="#home" data-goto="home" aria-label="띠니 홈">
-        <!-- r49: 귀여운 캐릭터 아이콘 대신 모던 타이포 심볼(차콜 사각 + T) -->
         <span class="mark" aria-hidden="true">T</span>
         <span class="word">
           <span class="brand-line">
             <strong>띠니</strong>
-            <!-- r39: 직접 파는 쇼핑몰로 오해하지 않게 '최저가 비교'를 이름 옆에 항상 붙임 -->
             <span class="brand-badge">최저가 비교</span>
           </span>
-          <em><span class="sub-a">제로·식단 최저가 비교</span><span class="sub-b"> · 쿠팡·토스·네이버·톡딜 링크 연결</span></em>
+          <em>제로·식단 최저가 비교 · 쿠팡·토스·네이버·톡딜</em>
         </span>
       </a>
-      <!-- r39: PC·태블릿 넓은 화면(>=900px)에서는 검색창을 헤더에 항상 열어 둔다.
-           375px 모바일에서는 CSS로 숨기고 기존 하단 검색 탭을 그대로 씁니다. -->
-      <form class="hdr-find" id="hdr-find" role="search" action="#search" autocomplete="off">
-        <span class="hdr-find-ico" aria-hidden="true">🔍</span>
-        <input class="hdr-find-input" id="hdr-find-input" type="search" inputmode="search" autocomplete="off"
-               placeholder="상품·브랜드 검색" aria-label="상품 검색">
+      <!-- r57 — 예전 PC 전용 헤더 검색창/메뉴는 화면에서 감췄습니다(모바일 앱 프레임). 스크립트 호환용으로만 둡니다. -->
+      <form class="hdr-find" id="hdr-find" role="search" action="#search" autocomplete="off" hidden>
+        <input class="hdr-find-input" id="hdr-find-input" type="search" autocomplete="off" placeholder="상품·브랜드 검색" aria-label="상품 검색">
         <button type="button" class="hdr-find-clear" id="hdr-find-clear" aria-label="검색어 지우기" hidden>✕</button>
       </form>
-      <nav class="topnav" id="topnav" aria-label="주요 메뉴"></nav>
-      <button type="button" class="hdr-share" data-share aria-label="띠니 공유하기">🔗</button>
-      <button type="button" class="hdr-info" id="info-open" aria-label="이용 안내" title="띠니 이용 안내">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
-          <path d="M14 3v5h5"></path>
-          <path d="M9 12.5h6M9 16h4"></path>
+      <nav class="topnav" id="topnav" aria-label="주요 메뉴" hidden></nav>
+      <button type="button" class="hdr-info" id="info-open" aria-label="띠니 이용 안내" title="띠니 이용 안내">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 11v5.5"></path>
+          <circle cx="12" cy="7.9" r="0.9" fill="currentColor" stroke="none"></circle>
         </svg>
       </button>
-      <!-- 홈 화면 추가 — 로고 아래 큰 버튼을 없애고 헤더 맨 오른쪽에 작게 -->
-      <button type="button" class="hdr-add" data-shortcut aria-label="홈 화면에 띠니 추가" title="홈 화면에 추가">📲 추가</button>
     </div>
   </header>
 
   <main id="main">
     <!-- ── 홈 ─────────────────────────────────────────── -->
     <section class="view" id="view-home" data-view="home">
-      <!-- r55 — 홈은 한 섹션으로 통합: 🔥 오늘의 역대급 할인 = 2열 상품 카드(기본 8개 + 더 보기).
-           맨 위 카테고리 바로가기 줄(#home-cats)과 가로 레일(#home-spot)·아래 목록의 이중 구조는 없앴습니다.
-           오른쪽 작은 🔔 알림 버튼은 알림 허브를 엽니다(js/smart.js). -->
+      <div class="home-hero">
+        <h1>운동하는 사람의 최저가 마트</h1>
+        <p>쿠팡·토스·네이버·톡딜 가격을 모아 단가로 비교해요</p>
+      </div>
       <div class="sec-head home-head" id="home-head">
-        <h2 class="home-head-title">오늘의 역대급 할인<span class="home-head-n" id="home-count"></span></h2>
+        <h2 class="home-head-title">전체 특가<span class="home-head-n" id="home-count"></span></h2>
         <span class="home-head-tools">
           <button type="button" class="spot-bell" id="alert-cta" aria-haspopup="dialog" aria-label="가격 내리면 알림 받기" title="가격 알림 설정">
-            <svg class="spot-bell-ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <svg class="spot-bell-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
               <path class="bell-body" d="M12 3.4a5.3 5.3 0 0 0-5.3 5.3c0 4.1-1.2 5.4-1.8 6.1-.2.2 0 .6.3.6h13.6c.3 0 .5-.4.3-.6-.6-.7-1.8-2-1.8-6.1A5.3 5.3 0 0 0 12 3.4Z"></path>
               <path d="M9.8 18.2a2.2 2.2 0 0 0 4.4 0"></path>
             </svg>
             <span class="smart-btn-lab">알림</span>
             <span class="spot-bell-n" aria-hidden="true" hidden></span>
           </button>
-          <span class="ctl-sort"><select class="ctl-sel" data-sortsel aria-label="정렬 방식"></select></span>
         </span>
       </div>
-      <!-- r55 — 두 등급 차이 한 줄 안내 (🔥 역대급 = 60일 바닥가 · 🟢 지금 사기 좋아요 = 평소보다 저렴) -->
-      <div class="home-legend" id="home-legend" aria-label="가격 등급 안내">
-        <span class="lg-row"><span class="lg">🔥 <b>역대급</b>(바닥가·70%↑)</span><span class="lg">🟢 <b>지금 사기 좋아요</b>(평균↓)</span><span class="lg">🟡 <b>무난한 가격</b></span></span>
-        <span class="lg-row"><span class="lg">🟠 <b>조금 비싸요</b></span><span class="lg">🔴 <b>비싸요</b></span></span>
-      </div>
+      <div class="panel" data-controls="home"></div>
       <div class="shelf" id="home-list"></div>
-      <!-- r55 — '단백질 음료 지금 사도 될까?' 섹션은 홈에서 뺐습니다(카테고리 > 단백질 음료에 그대로). -->
     </section>
 
     <!-- ── 검색 ───────────────────────────────────────── -->
     <section class="view view-search" id="view-search" data-view="search" hidden>
       <div class="toolbar" id="toolbar">
         <div class="search-box">
-          <span class="search-ico" aria-hidden="true">🔍</span>
+          <span class="search-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <circle cx="11" cy="11" r="6.4"></circle>
+              <path d="m16 16 4 4"></path>
+            </svg>
+          </span>
           <input class="search-input" id="search-input" type="search" inputmode="search" autocomplete="off"
                  placeholder="상품명·브랜드 검색 (펩시, 셀렉스, 햇반)" aria-label="상품 검색">
           <button type="button" class="search-clear" id="search-clear" aria-label="검색어 지우기" hidden>✕</button>
@@ -148,24 +141,18 @@
         <button type="button" class="chip-key" data-keyword="제육">제육</button>
         <button type="button" class="chip-key" data-keyword="베이글">베이글</button>
       </div>
-      <!-- 쿠팡 파트너스 공식 기획전 3칸 — 아버님 파트너스(AF5520784) 링크 -->
+      <!-- 쿠팡 파트너스 공식 기획전 — 아버님 파트너스(AF5520784) 링크 -->
       <div class="promos" id="search-promos" aria-label="쿠팡 공식 기획전">
         <p class="promos-lab">쿠팡 기획전</p>
         <div class="promo-grid">
           <a class="promo" href="https://link.coupang.com/a/iLYm0PH9C8" target="_blank" rel="noopener noreferrer">
-            <span class="promo-emoji" aria-hidden="true">🥗</span>
-            <span class="promo-title"><span>로켓프레시</span><span>식단관리</span></span>
-            <span class="promo-sub">닭가슴살·샐러드·저당</span>
+            <span class="promo-title"><span>로켓프레시 식단관리</span><span class="promo-sub">닭가슴살·샐러드·저당</span></span>
           </a>
           <a class="promo" href="https://link.coupang.com/a/iLYqwMeRCm" target="_blank" rel="noopener noreferrer">
-            <span class="promo-emoji" aria-hidden="true">🥩</span>
-            <span class="promo-title"><span>로켓프레시</span><span>고기역전</span></span>
-            <span class="promo-sub">삼겹·목살·닭안심</span>
+            <span class="promo-title"><span>로켓프레시 고기역전</span><span class="promo-sub">삼겹·목살·닭안심</span></span>
           </a>
           <a class="promo" href="https://link.coupang.com/a/iLYxOpEHhk" target="_blank" rel="noopener noreferrer">
-            <span class="promo-emoji" aria-hidden="true">⚡</span>
-            <span class="promo-title"><span>가전</span><span>블랙프라이데이</span></span>
-            <span class="promo-sub">~11/29 · 에어프라이어</span>
+            <span class="promo-title"><span>가전 블랙프라이데이</span><span class="promo-sub">~11/29 · 에어프라이어</span></span>
           </a>
         </div>
       </div>
@@ -180,12 +167,10 @@
     <section class="view" id="view-category" data-view="category" hidden>
       <p class="promo-bar" id="cat-promo" hidden></p>
       <div class="cattiles" id="cattiles"></div>
-      <!-- r55 — 판매처별 모아보기 (🔴 쿠팡 · 🔵 토스 · 🟢 네이버). 홈에는 두지 않고 이 탭에서만 동작 -->
       <nav class="seg cat-stores" id="cat-stores" aria-label="판매처별 모아보기"></nav>
       <div id="cat-browse" hidden>
         <button type="button" class="back-btn" data-backpart>← 카테고리 전체</button>
         <div class="cat-head" id="cat-head"></div>
-        <!-- r39: 종류·보관 다중 체크 필터 (예: 소고기+닭고기 · 냉장) -->
         <div class="filters-wrap">
           <div class="filter-row"><span class="filter-lab">종류</span><nav class="filters" id="part-filters" aria-label="종류"></nav></div>
           <div class="filter-row" id="store-row" hidden><span class="filter-lab">보관</span><nav class="filters" id="store-filters" aria-label="보관"></nav></div>
@@ -197,24 +182,36 @@
 
     <!-- ── 랭킹 ───────────────────────────────────────── -->
     <section class="view" id="view-ranking" data-view="ranking" hidden>
+      <div class="home-hero">
+        <h1>랭킹</h1>
+        <p>리뷰·구매 인기와 단가를 기준으로 정리했어요</p>
+      </div>
       <nav class="seg" id="rank-parts" aria-label="부문"></nav>
-      <!-- r55 — 랭킹 기준: 기본 '인기·구매 순', '할인율 순'도 함께 보기 -->
       <nav class="seg rank-mode" id="rank-mode" aria-label="랭킹 기준"></nav>
       <section class="rankblock">
-        <div class="sec-head"><h2 id="rank-main-title">🏆 인기·구매 TOP 10</h2><span class="sec-sub" id="rank-main-sub">리뷰·구매 인기 기준</span></div>
+        <div class="sec-head"><h2 id="rank-main-title">인기 TOP 10</h2><span class="sec-sub" id="rank-main-sub">리뷰·구매 기준</span></div>
         <div class="ranklist" id="rank-main"></div>
       </section>
       <section class="rankblock">
-        <div class="sec-head"><h2>💰 단가 최저 TOP 5</h2><span class="sec-sub">같은 단위끼리</span></div>
+        <div class="sec-head"><h2>단가 최저 TOP 5</h2><span class="sec-sub">같은 단위끼리</span></div>
         <div class="ranklist" id="rank-unit"></div>
       </section>
       <p class="rank-note" id="rank-note"></p>
     </section>
 
     <footer class="foot">
-      <!-- r46: 파트너스 고지는 규정상 남기되, 푸터 맨 아래 한 줄로만 작고 연하게 -->
       <p class="legal-foot">이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 토스쇼핑 쉐어링크·네이버 쇼핑 커넥트 활동으로도 수수료를 받을 수 있어요.</p>
       <p class="legal-foot">띠니는 직접 상품을 판매하지 않는 최저가 비교 사이트예요. 구매·배송·교환·환불은 링크를 누른 판매처(쿠팡·토스·네이버·카톡 톡딜)에서 이뤄지고, 가격은 확인한 시각 기준이라 바뀔 수 있어요. 건강·효능을 약속하지 않아요.</p>
+      <!-- r57 — '오늘 19:05 기준' 같은 인상 문구를 없애고, 상품마다 확인 시각이 다르다는 사실을 그대로 적습니다(A1). -->
+      <div class="foot-meta" id="update-band" aria-label="가격 확인 시각 안내">
+        <span class="update-date"><em class="update-k">최근 확인</em><strong id="update-date-big">–</strong><span class="update-weekday" id="update-weekday"></span><span class="update-time" id="update-time"></span></span>
+        <span class="update-cycle-main" id="update-cycle-main">상품마다 확인한 시각이 달라요 · 카드에 표시돼요</span>
+        <span class="view-stat" id="view-stat" hidden aria-label="사이트 조회수">오늘 <b id="view-today">–</b> · 누적 <b id="view-total">–</b></span>
+      </div>
+      <div class="foot-shortcuts">
+        <button type="button" data-share>공유하기</button>
+        <button type="button" data-shortcut>홈 화면에 추가</button>
+      </div>
       <div class="foot-bgm" id="foot-bgm">
         <button type="button" class="bgm-btn" id="bgm-toggle" aria-pressed="false" aria-label="배경음악 켜기" title="배경음악">
           <span class="bgm-eq" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -223,23 +220,14 @@
         </button>
         <span class="bgm-credit" id="bgm-credit">BGM: JINBO, Hersh, PoPoMo — All That You Wanted (POCLANOS)</span>
       </div>
-      <p class="foot-meta" id="update-band" aria-label="가격 업데이트 안내">
-        <span class="update-ico" aria-hidden="true">🔄</span>
-        <span class="update-date"><em class="update-k">가격 이력</em><strong id="update-date-big">11/18</strong><span class="update-weekday" id="update-weekday">(수)</span><span class="update-time" id="update-time">13:40</span><em class="update-k">기준</em></span>
-        <span class="update-cycle-main" id="update-cycle-main">상품별 확인 시각 상이 · 오전·오후 9시 갱신</span>
-        <span class="view-stat" id="view-stat" hidden aria-label="사이트 조회수">👀 오늘 <b id="view-today">–</b> · 누적 <b id="view-total">–</b></span>
-      </p>
       <p class="copy">TTINI · 띠니</p>
     </footer>
   </main>
 
   <nav class="tabbar" id="tabbar" aria-label="주요 메뉴"></nav>
 
-  <!-- r39: 화면 우하단 BGM 즉시 음소거/재생 — 스크롤과 상관없이 바로 끌 수 있게.
-       푸터 BGM 한 줄과 같은 상태를 씁니다(js/bgm.js). 첫 터치를 기다리지 않고 여기를 눌러도
-       유튜브 플레이어의 unMute() + playVideo()가 바로 걸립니다. -->
   <button type="button" class="bgm-fab" id="bgm-fab" aria-pressed="false" aria-label="배경음악 켜기" title="배경음악 켜기/끄기">
-    <span class="bgm-fab-ico" id="bgm-fab-ico" aria-hidden="true">🔇</span>
+    <span class="bgm-fab-ico" id="bgm-fab-ico" aria-hidden="true">♪</span>
   </button>
 
   <div class="install-modal" id="install-modal" hidden>
@@ -266,46 +254,45 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <!-- ── ? 띠니 안내 (홈에서 뺀 설명을 모아 둔 곳) ───── -->
+  <!-- ── 띠니 안내 ───────────────────────────────────── -->
   <div class="info-modal" id="info-modal" hidden>
     <div class="info-card" role="dialog" aria-modal="true" aria-labelledby="info-title">
       <button type="button" class="info-x" id="info-x" aria-label="닫기">✕</button>
       <h2 class="info-title" id="info-title">띠니 이용 안내</h2>
-      <p class="info-lead">운동하는 사람을 위한 <b>최저가 비교 마트</b>예요. 같은 값이면 단가로, 같은 단백질이면 20g당 가격으로 비교해요.</p>
-      <p class="info-lead info-lead-strong">띠니는 직접 파는 가게가 아니에요. 쿠팡·토스·네이버·카톡 톡딜에서 <b>가장 싼 곳을 골라 링크로 보내 드리는</b> 곳이에요. 결제·배송은 그 판매처에서 해요.</p>
       <div class="info-scroll">
+        <p class="info-lead">운동하는 사람을 위한 <b>최저가 비교 마트</b>예요. 같은 값이면 단가로, 같은 단백질이면 함량으로 비교해요.</p>
+        <p class="info-lead info-lead-strong">띠니는 직접 파는 가게가 아니에요. 쿠팡·토스·네이버·카톡 톡딜에서 <b>가장 싼 곳을 골라 링크로 보내 드리는</b> 곳이에요. 결제·배송은 그 판매처에서 해요.</p>
         <section class="info-sec">
-          <h3>① 가격·단가 비교 기준</h3>
+          <h3>가격·단가 비교 기준</h3>
           <ul>
-            <li><b>제로 음료</b>는 100ml당, <b>고기</b>는 100g당, <b>단백질 음료</b>는 단백질 20g당 가격으로 비교해요.</li>
+            <li><b>제로 음료·단백질 음료</b>는 100ml당, <b>고기·단백질 쉐이크</b>는 100g당 가격으로 비교해요. 단백질 함량이 다르면 <b>단백질 20g당</b> 가격도 함께 적어요.</li>
             <li>같은 상품이라도 <b>쿠팡·토스·네이버·카톡 톡딜</b> 판매처 가격을 카드 한 장에 같이 보여 드려요.</li>
             <li><b>카톡 톡딜</b>은 기간 한정 특가라, 끝나면 일반 판매가로 돌아가요. 카드에 마감 시각을 함께 적어 드려요.</li>
             <li>할인율은 정가 대비, 단가는 1병·1팩 기준으로 계산해요.</li>
           </ul>
         </section>
         <section class="info-sec">
-          <h3>② 신호등 판정 기준</h3>
+          <h3>가격 배지 3단계</h3>
           <ul>
-            <li>🔥 <b>역대급</b> — 60일 관측 가격의 바닥가 수준이거나 정가 대비 70% 이상 싸요.</li>
-            <li>🟢 <b>지금 사기 좋아요</b> — 평소보다 저렴해요(평소가보다 5% 이상 싸요)</li>
-            <li>🟡 <b>무난한 가격</b> — 평소 가격 수준(평소가에서 3% 오른 정도까지)</li>
-            <li>🟠 <b>조금 비싸요</b> — 평소가보다 3~8% 높아요</li>
-            <li>🔴 <b>비싸요</b> — 평소가보다 8% 넘게 높아요</li>
-            <li><b>평소가</b>는 이 상품의 60일 관측 가격 중간값이에요. 기록이 14일 미만이면 <b>기록 중</b>으로 표시해요.</li>
+            <li><b>역대 최저</b> — 60일 관측 가격의 바닥가 수준이거나 정가 대비 크게 싸요.</li>
+            <li><b>추천가</b> — 평소 시세보다 저렴해요. 지금 사도 괜찮은 가격이에요.</li>
+            <li><b>보통</b> — 평소 시세 수준이에요. 급하지 않으면 기다려도 돼요.</li>
+            <li><b>기록 중</b> — 가격 기록이 아직 14일·5회에 못 미쳐 판정하지 않았어요.</li>
+            <li><b>평소가</b>는 이 상품의 60일 관측 가격 중간값이에요.</li>
           </ul>
         </section>
         <section class="info-sec">
-          <h3>③ 가격 갱신 주기</h3>
+          <h3>가격 확인 시각</h3>
           <ul>
-            <li><b>매일 오전·오후 9시</b>에 전체 상품 가격을 새로 받아요.</li>
-            <li>핵심 상품은 <b>하루 4번</b>(07:30·12:30·18:30·22:30) 타임세일을 따로 살펴요.</li>
-            <li>카드마다 <b>마지막으로 확인한 시각</b>이 표시되고, 가격은 바뀔 수 있어요.</li>
+            <li>가격은 <b>상품마다 확인한 시각이 달라요</b>. 카드와 상세 화면에 <b>오늘 / N일 전 확인</b>으로 적혀 있어요.</li>
+            <li>전체 상품은 오전·오후 9시에 새로 받고, 핵심 상품은 하루 4번 타임세일을 따로 살펴요.</li>
+            <li>확인한 뒤에 바뀐 가격은 반영되지 않으니, 구매 전 판매처에서 한 번 더 확인해 주세요.</li>
           </ul>
         </section>
         <section class="info-sec">
-          <h3>④ 가격 알림</h3>
+          <h3>가격 알림</h3>
           <ul>
-            <li>상품 카드의 🔔을 눌러 <b>목표가</b>를 정하면, 그 가격 이하로 내려갈 때 <b>딱 한 번</b> 알려 드려요.</li>
+            <li>상세 화면의 <b>가격 알림</b>에서 목표가를 정하면, 그 가격 이하로 내려갈 때 <b>딱 한 번</b> 알려 드려요.</li>
             <li>전화번호·이메일은 받지 않고 <b>브라우저 구독</b>으로만 보내요.</li>
             <li>아이폰은 <b>홈 화면에 추가</b>한 뒤에 알림을 켤 수 있어요(iOS 16.4 이상).</li>
           </ul>
@@ -316,11 +303,11 @@
     </div>
   </div>
 
-  <!-- ── 🔔 알림 허브 ───────────────────────────────── -->
+  <!-- ── 가격 알림 허브 ─────────────────────────────── -->
   <div class="hub-modal" id="hub-modal" hidden>
     <div class="hub-card" role="dialog" aria-modal="true" aria-labelledby="hub-title">
       <button type="button" class="hub-x" id="hub-x" aria-label="닫기">✕</button>
-      <h2 class="hub-title" id="hub-title">🔔 가격 내리면 알림 받기</h2>
+      <h2 class="hub-title" id="hub-title">가격 내리면 알림 받기</h2>
       <div class="hub-scroll" id="hub-body"></div>
     </div>
   </div>
@@ -329,25 +316,23 @@
   <div class="alert-modal" id="alert-modal" hidden>
     <div class="alert-card" role="dialog" aria-modal="true" aria-labelledby="alert-title">
       <button type="button" class="alert-x" id="alert-x" aria-label="닫기">✕</button>
-      <h2 class="alert-title" id="alert-title">🔔 가격 알림</h2>
+      <h2 class="alert-title" id="alert-title">가격 알림</h2>
       <p class="alert-name" id="alert-name"></p>
       <div id="alert-body"></div>
     </div>
   </div>
 
-  <!-- 배경음악 — 유튜브 임베드(JINBO, Hersh, PoPoMo 「All That You Wanted」, POCLANOS 공식 오디오).
-       아이폰은 화면 밖·display:none 플레이어의 소리를 막아서, 화면 안에 1px로 깔아 두고 그 안에서
-       재생합니다. 첫 터치나 우하단 🔇 버튼에서 unMute() + playVideo()로 바로 소리가 납니다(js/bgm.js). -->
+  <!-- 배경음악 — 유튜브 임베드(1px, 접근성 트리에서 숨김) -->
   <div class="bgm-yt" aria-hidden="true"><div id="bgm-yt"></div></div>
 
-  <script src="js/price.js?v=20261119r56" defer></script>
-  <script src="js/products.js?v=20261119r56" defer></script>
-  <script src="js/views.js?v=20261119r56" defer></script>
-  <script src="js/grade.js?v=20261119r56" defer></script>
-  <script src="js/protein.js?v=20261119r56" defer></script>
-  <script src="js/smart.js?v=20261119r56" defer></script>
-  <script src="js/app.js?v=20261119r56" defer></script>
-  <script src="js/push.js?v=20261119r56" defer></script>
-  <script src="js/bgm.js?v=20261119r56" defer></script>
+  <script src="js/price.js?v=20261119r57" defer></script>
+  <script src="js/products.js?v=20261119r57" defer></script>
+  <script src="js/views.js?v=20261119r57" defer></script>
+  <script src="js/grade.js?v=20261119r57" defer></script>
+  <script src="js/protein.js?v=20261119r57" defer></script>
+  <script src="js/smart.js?v=20261119r57" defer></script>
+  <script src="js/app.js?v=20261119r57" defer></script>
+  <script src="js/push.js?v=20261119r57" defer></script>
+  <script src="js/bgm.js?v=20261119r57" defer></script>
 </body>
 </html>
