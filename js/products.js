@@ -1623,9 +1623,16 @@ const PRODUCTS = [
     "unitPrice": "100g당 945원",
     "eachPrice": null,
     "unitEach": null,
-    "protein20": null,
+    "protein20": 1360,
     "listPrice": 42955,
-    "popularScore": 82.85
+    "popularScore": 82.85,
+    "cut": "삼겹살",
+    "proteinPer100g": 13.9,
+    "fatPer100g": 33.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)",
+    "pricePer20gProtein": 1360
   },
   {
     "id": "seupeuraiteu-jero-saida-500ml-24gae",
@@ -1745,8 +1752,15 @@ const PRODUCTS = [
     "per100g": 745,
     "perValue": 745.0,
     "unitPrice": "100g당 745원",
-    "protein20": null,
-    "popularScore": 76.38
+    "protein20": 648,
+    "popularScore": 76.38,
+    "cut": "닭안심살",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.5,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.5g (부위 기준)",
+    "pricePer20gProtein": 648
   },
   {
     "id": "meat-pork-gomgom-daepae-samgyeop-1kg-2",
@@ -1777,8 +1791,15 @@ const PRODUCTS = [
     "eachPrice": 9900,
     "eachLabel": "팩",
     "unitEach": "1팩당 9,900원",
-    "protein20": null,
-    "popularScore": 76.28
+    "protein20": 1424,
+    "popularScore": 76.28,
+    "cut": "삼겹살",
+    "proteinPer100g": 13.9,
+    "fatPer100g": 33.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)",
+    "pricePer20gProtein": 1424
   },
   {
     "id": "retort-rice-haetban-baekmi-210g-24#36",
@@ -2110,8 +2131,15 @@ const PRODUCTS = [
     "per100g": 750,
     "perValue": 750.0,
     "unitPrice": "100g당 750원",
-    "protein20": null,
-    "popularScore": 75.25
+    "protein20": 652,
+    "popularScore": 75.25,
+    "cut": "닭가슴살",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.3g (부위 기준)",
+    "pricePer20gProtein": 652
   },
   {
     "id": "meat-chicken-pultorae-fresh-breast-2kg",
@@ -2139,8 +2167,15 @@ const PRODUCTS = [
     "per100g": 775,
     "perValue": 775.0,
     "unitPrice": "100g당 775원",
-    "protein20": null,
-    "popularScore": 75.18
+    "protein20": 674,
+    "popularScore": 75.18,
+    "cut": "닭가슴살",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.3g (부위 기준)",
+    "pricePer20gProtein": 674
   },
   {
     "id": "meat-pork-daepaeking-jeongsamgyeop-2kg",
@@ -2168,8 +2203,15 @@ const PRODUCTS = [
     "per100g": 1021,
     "perValue": 1021.0,
     "unitPrice": "100g당 1,021원",
-    "protein20": null,
-    "popularScore": 74.58
+    "protein20": 1469,
+    "popularScore": 74.58,
+    "cut": "삼겹살",
+    "proteinPer100g": 13.9,
+    "fatPer100g": 33.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)",
+    "pricePer20gProtein": 1469
   },
   {
     "id": "kokakolra-jero-190ml-30gae#90",
@@ -2424,8 +2466,15 @@ const PRODUCTS = [
     "per100g": 971,
     "perValue": 971.0,
     "unitPrice": "100g당 971원",
-    "protein20": null,
-    "popularScore": 73.09
+    "protein20": 1397,
+    "popularScore": 73.09,
+    "cut": "삼겹살",
+    "proteinPer100g": 13.9,
+    "fatPer100g": 33.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)",
+    "pricePer20gProtein": 1397
   },
   {
     "id": "meat-chicken-sajowon-tenderloin-1kg-2",
@@ -2454,10 +2503,17 @@ const PRODUCTS = [
     "eachPrice": 7650,
     "eachLabel": "팩",
     "unitEach": "1팩당 7,650원",
-    "protein20": null,
+    "protein20": 665,
     "popularScore": 72.27,
     "listPrice": null,
-    "discountPct": null
+    "discountPct": null,
+    "cut": "닭안심살",
+    "proteinPer100g": 23.0,
+    "fatPer100g": 1.5,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.5g (부위 기준)",
+    "pricePer20gProtein": 665
   },
   {
     "id": "haetaehtb-galbaesaida-jero-355ml-24gae",
@@ -3083,8 +3139,15 @@ const PRODUCTS = [
     "per100g": 1093,
     "perValue": 1092.7,
     "unitPrice": "100g당 1,093원",
-    "protein20": null,
-    "popularScore": 68.48
+    "protein20": 1573,
+    "popularScore": 68.48,
+    "cut": "삼겹살",
+    "proteinPer100g": 13.9,
+    "fatPer100g": 33.3,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~13.9g · 지방 ~33.3g (부위 기준)",
+    "pricePer20gProtein": 1573
   },
   {
     "id": "pawoeideu-jero-600ml-20gae",
@@ -5331,8 +5394,15 @@ const PRODUCTS = [
     "eachPrice": 13450,
     "eachLabel": "팩",
     "unitEach": "1팩당 13,450원",
-    "protein20": null,
-    "popularScore": 55.89
+    "protein20": 2637,
+    "popularScore": 55.89,
+    "cut": "부채살",
+    "proteinPer100g": 20.4,
+    "fatPer100g": 6.9,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.4g · 지방 ~6.9g (부위 기준)",
+    "pricePer20gProtein": 2637
   },
   {
     "id": "narangd-cider-zero",
@@ -5460,8 +5530,8 @@ const PRODUCTS = [
     "measure": "per100g",
     "perValue": 2111.7,
     "eachPrice": null,
-    "protein20": 2346,
-    "pricePer20gProtein": 2346,
+    "protein20": 2347,
+    "pricePer20gProtein": 2347,
     "popularScore": 55.08
   },
   {
@@ -6219,8 +6289,15 @@ const PRODUCTS = [
     "per100g": 2763,
     "perValue": 2763.0,
     "unitPrice": "100g당 2,763원",
-    "protein20": null,
-    "popularScore": 47.44
+    "protein20": 2709,
+    "popularScore": 47.44,
+    "cut": "부채살",
+    "proteinPer100g": 20.4,
+    "fatPer100g": 6.9,
+    "nutritionBasis": "부위 기준 참고치",
+    "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품성분표·USDA 부위 표준값 참고치예요",
+    "nutritionLabel": "100g당 단백질 ~20.4g · 지방 ~6.9g (부위 기준)",
+    "pricePer20gProtein": 2709
   },
   {
     "id": "chorokmaesil-seupakeulring-jero-kaen-350ml-24gae",
@@ -6804,8 +6881,8 @@ const PRODUCTS = [
     "measure": "per100g",
     "perValue": 2487.5,
     "eachPrice": null,
-    "protein20": 2926,
-    "pricePer20gProtein": 2926,
+    "protein20": 2927,
+    "pricePer20gProtein": 2927,
     "popularScore": 43.23
   },
   {
@@ -7911,8 +7988,8 @@ const PRODUCTS = [
     "measure": "per100g",
     "perValue": 4997.5,
     "eachPrice": null,
-    "protein20": 5432,
-    "pricePer20gProtein": 5432,
+    "protein20": 5433,
+    "pricePer20gProtein": 5433,
     "popularScore": 37.2
   },
   {
@@ -9196,8 +9273,8 @@ const PRODUCTS = [
     "nutritionBasis": "부위 기준 참고치",
     "nutritionNote": "제품 영양성분표가 없는 원물이라 국가표준식품분석표·USDA 부위 표준값 참고치예요",
     "nutritionLabel": "100g당 단백질 ~23.0g · 지방 ~1.3g (부위 기준)",
-    "protein20": 3543,
-    "pricePer20gProtein": 3543,
+    "protein20": 709,
+    "pricePer20gProtein": 709,
     "dealEndsAt": "2026-11-20T11:00:00+09:00",
     "shipNote": "무료배송 · 모레(토) 11/21 도착 예정 · 20% 특가 11/20 11:00 종료",
     "note": "쿠팡 24,450원(정가 30,650원, 20% 할인)에 1kg 3팩 총 3kg이라 100g당 815원·1팩(1kg)당 8,150원이에요. 아버님 쿠팡 파트너스 단축 링크로 연결했어요. 무료배송(롯데택배)이고 모레(토) 11/21 도착 예정, 판매자는 주식회사 함백유통(판매자평가 89%)이에요. 6,200원 특가가 11/20(금) 11:00쯤 끝나요. 평점 4.7·리뷰 266개. 마트 자연실록 400g(100g당 1,538원)보다 47%, 하림 IFF 2kg(1,110원)보다 27% 싸지만 케이원푸드 냉장 2kg(633원)보다는 비싸요.",

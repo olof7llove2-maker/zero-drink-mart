@@ -35,9 +35,9 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261119r58">
+  <link rel="stylesheet" href="css/style.css?v=20261119r59">
   <!-- r57 — 모바일 앱 프레임 · 토스 UI 톤 (이 파일이 style.css 뒤에서 전체를 다시 칠합니다) -->
-  <link rel="stylesheet" href="css/r57.css?v=20261119r58">
+  <link rel="stylesheet" href="css/r57.css?v=20261119r59">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -127,17 +127,25 @@
         </div>
       </div>
       <p class="search-lead" id="search-lead">찾고 싶은 상품·브랜드를 넣어 보세요. 단가 낮은 순으로 모아 드려요.</p>
-      <div class="search-chips" id="search-chips" aria-label="많이 찾는 검색어">
-        <button type="button" class="chip-key" data-keyword="펩시">펩시</button>
-        <button type="button" class="chip-key" data-keyword="코카콜라">코카콜라</button>
-        <button type="button" class="chip-key" data-keyword="나랑드">나랑드</button>
-        <button type="button" class="chip-key" data-keyword="더단백">더단백</button>
-        <button type="button" class="chip-key" data-keyword="신타">신타</button>
-        <button type="button" class="chip-key" data-keyword="햇반">햇반</button>
-        <button type="button" class="chip-key" data-keyword="스팸">스팸</button>
-        <button type="button" class="chip-key" data-keyword="닭가슴살">닭가슴살</button>
-        <button type="button" class="chip-key" data-keyword="제육">제육</button>
-        <button type="button" class="chip-key" data-keyword="베이글">베이글</button>
+      <!-- r59 — 최근 검색어(이 브라우저에만 저장 · 개별/전체 삭제) -->
+      <div class="search-recent" id="search-recent" hidden>
+        <div class="search-lab-row">
+          <span class="search-lab">최근 검색어</span>
+          <button type="button" class="search-recent-clear" id="search-recent-clear">전체 삭제</button>
+        </div>
+        <div class="search-recent-list" id="search-recent-list"></div>
+      </div>
+      <!-- r59 — 추천 검색어 -->
+      <div class="search-rec" id="search-rec">
+        <div class="search-lab-row"><span class="search-lab">추천 검색어</span></div>
+        <div class="search-chips" id="search-chips" aria-label="추천 검색어">
+          <button type="button" class="chip-key" data-keyword="제로콜라">제로콜라</button>
+          <button type="button" class="chip-key" data-keyword="닭가슴살">닭가슴살</button>
+          <button type="button" class="chip-key" data-keyword="프로틴">프로틴</button>
+          <button type="button" class="chip-key" data-keyword="애사비">애사비</button>
+          <button type="button" class="chip-key" data-keyword="생수">생수</button>
+          <button type="button" class="chip-key" data-keyword="햇반">햇반</button>
+        </div>
       </div>
       <!-- 쿠팡 파트너스 공식 기획전 — 아버님 파트너스(AF5520784) 링크 -->
       <div class="promos" id="search-promos" aria-label="쿠팡 공식 기획전">
@@ -341,15 +349,15 @@
   <!-- 배경음악 — 유튜브 임베드(1px, 접근성 트리에서 숨김) -->
   <div class="bgm-yt" aria-hidden="true"><div id="bgm-yt"></div></div>
 
-  <script src="js/price.js?v=20261119r58" defer></script>
-  <script src="js/products.js?v=20261119r58" defer></script>
-  <script src="js/views.js?v=20261119r58" defer></script>
-  <script src="js/grade.js?v=20261119r58" defer></script>
-  <script src="js/protein.js?v=20261119r58" defer></script>
-  <script src="js/smart.js?v=20261119r58" defer></script>
-  <script src="js/vote.js?v=20261119r58" defer></script>
-  <script src="js/app.js?v=20261119r58" defer></script>
-  <script src="js/push.js?v=20261119r58" defer></script>
-  <script src="js/bgm.js?v=20261119r58" defer></script>
+  <script src="js/price.js?v=20261119r59" defer></script>
+  <script src="js/products.js?v=20261119r59" defer></script>
+  <script src="js/views.js?v=20261119r59" defer></script>
+  <script src="js/grade.js?v=20261119r59" defer></script>
+  <script src="js/protein.js?v=20261119r59" defer></script>
+  <script src="js/smart.js?v=20261119r59" defer></script>
+  <script src="js/vote.js?v=20261119r59" defer></script>
+  <script src="js/app.js?v=20261119r59" defer></script>
+  <script src="js/push.js?v=20261119r59" defer></script>
+  <script src="js/bgm.js?v=20261119r59" defer></script>
 </body>
 </html>

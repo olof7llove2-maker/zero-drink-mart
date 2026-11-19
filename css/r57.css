@@ -738,3 +738,72 @@ main { max-width: var(--frame); margin: 0 auto; background: var(--bg); min-heigh
 
 /* 구형 클래스 정리(r53 이전 잔재) */
 .tip-line, .grade-line[style], .prot-rail, .hot-card, .rec-pick, .spark, .chart-btn { }
+
+/* ══════════════════════════════════════════════════════════
+   r59 — 상세 시트 썸네일 · 단백질 20g당 · 최근 검색어 · 알림 목록 관리
+   ══════════════════════════════════════════════════════════ */
+
+/* 상세 바텀시트 상단: 상품 사진(88px 둥근 썸네일) + 분류·판매처·확인 시각 */
+.pm-hero { display: flex; align-items: center; gap: 12px; padding: 8px 44px 4px 0; }
+.pm-thumb {
+  width: 88px; height: 88px; flex: none; border-radius: 16px; overflow: hidden;
+  background: #fff; border: 1px solid var(--line-2); display: grid; place-items: center;
+}
+.pm-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.pm-thumb.is-blank { background: #f7f8fa; color: var(--ink-3); font-size: 18px; font-weight: 800; }
+.pm-hero-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pm-hero-meta .pm-eyebrow { padding-top: 0; }
+.pm-hero-brand { font-size: 14px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+.pm-hero-meta .pm-src { margin-top: 2px; font-size: 11.5px; line-height: 1.45; }
+
+/* 단가 요약 — '100g/100ml당 · 단백질 20g당' 한 줄 */
+.pm-units {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px;
+  margin-top: 8px; font-size: 12.5px; color: var(--ink-3);
+}
+.pm-units b { color: var(--ink); font-weight: 800; }
+.pm-unit-sep { color: #d5d9de; }
+.pm-unit-p20 b { color: #039e46; }
+.pm-unit-p20 em { font-style: normal; font-size: 10.5px; color: var(--ink-3); margin-left: 3px; }
+
+/* 카드 단가 아래 — 고기·단백질 음료·쉐이크 공통 한 줄 */
+.pc-prot20 { margin-top: 2px; font-size: 11.5px; font-weight: 600; color: #039e46; }
+.pc-prot20 b { font-weight: 800; }
+.pc-prot20-n { margin-left: 3px; font-size: 10px; font-weight: 500; color: var(--ink-3); }
+
+/* 검색 탭 — 최근 검색어 · 추천 검색어 */
+.search-lab-row { display: flex; align-items: center; justify-content: space-between; padding: 2px var(--pad) 6px; }
+.search-lab { font-size: 12px; font-weight: 700; color: var(--ink-2); }
+.search-recent-clear { font-size: 11.5px; font-weight: 500; color: var(--ink-3); }
+.search-recent { margin-bottom: 2px; }
+.search-recent-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 var(--pad) 12px; }
+.chip-recent {
+  display: inline-flex; align-items: center; height: 34px; max-width: 100%;
+  border-radius: 10px; background: var(--card); border: 1px solid var(--line); overflow: hidden;
+}
+.chip-recent-go {
+  height: 100%; padding: 0 4px 0 12px; font-size: 13px; font-weight: 600; color: var(--ink-2);
+  max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.chip-recent-x { height: 100%; padding: 0 10px 0 4px; font-size: 11px; color: var(--ink-3); }
+.chip-recent-x:active, .chip-recent-go:active { background: var(--line-2); }
+.search-rec .search-chips { padding-bottom: 14px; }
+
+/* 알림 허브 — 목표가 알림 목록 관리 */
+.hub-row { gap: 6px; padding: 7px 8px; }
+.hub-open {
+  display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;
+  text-align: left; background: none; border: 0; padding: 0; color: inherit;
+}
+.hub-del {
+  flex: none; width: 30px; height: 30px; border-radius: 50%;
+  background: #fff; border: 1px solid var(--line); color: var(--ink-3); font-size: 12px;
+  display: grid; place-items: center;
+}
+.hub-del:active { background: #fdecec; border-color: #f7c9c9; color: #d92b2b; }
+.hub-sec-hint { margin-left: 6px; font-size: 11px; font-weight: 500; color: var(--ink-3); }
+.hub-empty {
+  margin-top: 6px; padding: 12px; border-radius: 12px; background: #f7f8fa;
+  font-size: 12px; line-height: 1.6; color: var(--ink-3);
+}
+.hub-empty b { color: var(--ink-2); }

@@ -27,6 +27,833 @@
    "item-mismatch": 0,
    "no-records": 0,
    "error": 0
+  },
+  "cleansing": {
+   "at": "2026-11-19",
+   "build": "r59",
+   "rule": "기준선 = 카드 현재가(cardPrice). 기준선의 50% 미만 또는 175% 초과 = 같은 상품 페이지의 다른 옵션(묶음 수량) 값으로 보고 제거. 한 상품에서 40% 넘게 빠지면 손대지 않음. 제거 후 통계 재계산.",
+   "cleaned": [
+    {
+     "id": "haetaehtb-galbaesaida-jero-355ml-24gae",
+     "name": "해태htb 갈배사이다 제로, 355ml, 24개",
+     "cardPrice": 13220,
+     "anchor": 13220,
+     "window": [
+      6610,
+      23135
+     ],
+     "removed": [
+      {
+       "date": "2026-09-29",
+       "price": 5590
+      }
+     ],
+     "statsBefore": {
+      "min": 5590,
+      "max": 13260,
+      "avg": 11686,
+      "observations": 25
+     },
+     "statsAfter": {
+      "min": 9020,
+      "max": 13260,
+      "avg": 11940,
+      "observations": 24
+     }
+    },
+    {
+     "id": "maeilduyu-godanbaek-peulrein-duyu-190ml-24gae",
+     "name": "매일두유 고단백 플레인 두유, 190ml, 24개",
+     "cardPrice": 15990,
+     "anchor": 15990,
+     "window": [
+      7995,
+      27982
+     ],
+     "removed": [
+      {
+       "date": "2026-09-27",
+       "price": 33280
+      },
+      {
+       "date": "2026-10-05",
+       "price": 34250
+      },
+      {
+       "date": "2026-10-10",
+       "price": 34480
+      },
+      {
+       "date": "2026-10-14",
+       "price": 33200
+      },
+      {
+       "date": "2026-10-16",
+       "price": 42560
+      },
+      {
+       "date": "2026-10-19",
+       "price": 34250
+      },
+      {
+       "date": "2026-10-22",
+       "price": 33800
+      },
+      {
+       "date": "2026-11-02",
+       "price": 31960
+      },
+      {
+       "date": "2026-11-06",
+       "price": 32450
+      },
+      {
+       "date": "2026-11-15",
+       "price": 29200
+      }
+     ],
+     "statsBefore": {
+      "min": 12300,
+      "max": 42560,
+      "avg": 22186,
+      "observations": 32
+     },
+     "statsAfter": {
+      "min": 12300,
+      "max": 18780,
+      "avg": 16842,
+      "observations": 22
+     }
+    },
+    {
+     "id": "nyukeeo-olpeurotin-gosohanmat-245ml-24gae",
+     "name": "뉴케어 올프로틴 고소한맛, 245ml, 24개",
+     "cardPrice": 41320,
+     "anchor": 41320,
+     "window": [
+      20660,
+      72310
+     ],
+     "removed": [
+      {
+       "date": "2026-09-24",
+       "price": 81120
+      },
+      {
+       "date": "2026-09-25",
+       "price": 81120
+      },
+      {
+       "date": "2026-09-26",
+       "price": 81120
+      },
+      {
+       "date": "2026-10-10",
+       "price": 114920
+      },
+      {
+       "date": "2026-11-17",
+       "price": 79740
+      }
+     ],
+     "statsBefore": {
+      "min": 35120,
+      "max": 114920,
+      "avg": 41869,
+      "observations": 85
+     },
+     "statsAfter": {
+      "min": 35120,
+      "max": 41320,
+      "avg": 39011,
+      "observations": 80
+     }
+    },
+    {
+     "id": "kokakolra-jerojero-190ml-30gae",
+     "name": "코카콜라 제로제로, 190ml, 30개",
+     "cardPrice": 14000,
+     "anchor": 14000,
+     "window": [
+      7000,
+      24500
+     ],
+     "removed": [
+      {
+       "date": "2026-10-19",
+       "price": 32940
+      },
+      {
+       "date": "2026-10-24",
+       "price": 32940
+      }
+     ],
+     "statsBefore": {
+      "min": 7140,
+      "max": 32940,
+      "avg": 18266,
+      "observations": 29
+     },
+     "statsAfter": {
+      "min": 7140,
+      "max": 22490,
+      "avg": 17179,
+      "observations": 27
+     }
+    },
+    {
+     "id": "deodanbaek-deuringkeu-dakeuchoko-330ml-12gae",
+     "name": "더단백 드링크 다크초코, 330ml, 12개",
+     "cardPrice": 27760,
+     "anchor": 27760,
+     "window": [
+      13880,
+      48580
+     ],
+     "removed": [
+      {
+       "date": "2026-10-12",
+       "price": 49120
+      },
+      {
+       "date": "2026-10-18",
+       "price": 50060
+      },
+      {
+       "date": "2026-10-27",
+       "price": 50300
+      },
+      {
+       "date": "2026-11-10",
+       "price": 49680
+      }
+     ],
+     "statsBefore": {
+      "min": 18100,
+      "max": 50300,
+      "avg": 27964,
+      "observations": 54
+     },
+     "statsAfter": {
+      "min": 18100,
+      "max": 29390,
+      "avg": 26218,
+      "observations": 50
+     }
+    },
+    {
+     "id": "pawoeideu-jero-600ml-20gae",
+     "name": "파워에이드 제로, 600ml, 20개",
+     "cardPrice": 19760,
+     "anchor": 19760,
+     "window": [
+      9880,
+      34580
+     ],
+     "removed": [
+      {
+       "date": "2026-09-25",
+       "price": 8180
+      },
+      {
+       "date": "2026-10-10",
+       "price": 37620
+      },
+      {
+       "date": "2026-10-31",
+       "price": 39060
+      }
+     ],
+     "statsBefore": {
+      "min": 8180,
+      "max": 39060,
+      "avg": 18953,
+      "observations": 50
+     },
+     "statsAfter": {
+      "min": 11940,
+      "max": 24150,
+      "avg": 18357,
+      "observations": 47
+     }
+    },
+    {
+     "id": "deodanbaek-deuringkeu-keopi-a-250ml-18gae",
+     "name": "더단백 드링크 커피 A, 250ml, 18개",
+     "cardPrice": 23930,
+     "anchor": 23930,
+     "window": [
+      11965,
+      41878
+     ],
+     "removed": [
+      {
+       "date": "2026-11-05",
+       "price": 46160
+      }
+     ],
+     "statsBefore": {
+      "min": 21560,
+      "max": 46160,
+      "avg": 23833,
+      "observations": 73
+     },
+     "statsAfter": {
+      "min": 21560,
+      "max": 26800,
+      "avg": 23523,
+      "observations": 72
+     }
+    },
+    {
+     "id": "deodanbaek-deuringkeu-choko-250ml-18gae",
+     "name": "더단백 드링크 초코, 250ml, 18개",
+     "cardPrice": 23930,
+     "anchor": 23930,
+     "window": [
+      11965,
+      41878
+     ],
+     "removed": [
+      {
+       "date": "2026-10-30",
+       "price": 45150
+      },
+      {
+       "date": "2026-11-02",
+       "price": 47180
+      },
+      {
+       "date": "2026-11-11",
+       "price": 47200
+      }
+     ],
+     "statsBefore": {
+      "min": 23070,
+      "max": 47200,
+      "avg": 25362,
+      "observations": 56
+     },
+     "statsAfter": {
+      "min": 23070,
+      "max": 26500,
+      "avg": 24165,
+      "observations": 53
+     }
+    },
+    {
+     "id": "monster-ultra",
+     "name": "몬스터에너지 울트라, 355ml, 24개",
+     "cardPrice": 30330,
+     "anchor": 30330,
+     "window": [
+      15165,
+      53078
+     ],
+     "removed": [
+      {
+       "date": "2026-10-07",
+       "price": 10370
+      },
+      {
+       "date": "2026-11-03",
+       "price": 58600
+      },
+      {
+       "date": "2026-11-07",
+       "price": 59780
+      }
+     ],
+     "statsBefore": {
+      "min": 10370,
+      "max": 59780,
+      "avg": 32063,
+      "observations": 83
+     },
+     "statsAfter": {
+      "min": 29200,
+      "max": 41210,
+      "avg": 31656,
+      "observations": 80
+     }
+    },
+    {
+     "id": "cola-zero",
+     "name": "코카콜라 제로, 350ml, 24개",
+     "cardPrice": 18700,
+     "anchor": 18700,
+     "window": [
+      9350,
+      32725
+     ],
+     "removed": [
+      {
+       "date": "2026-09-29",
+       "price": 37500
+      },
+      {
+       "date": "2026-10-16",
+       "price": 47480
+      },
+      {
+       "date": "2026-11-06",
+       "price": 37580
+      },
+      {
+       "date": "2026-11-10",
+       "price": 38120
+      },
+      {
+       "date": "2026-11-11",
+       "price": 9210
+      },
+      {
+       "date": "2026-11-13",
+       "price": 37400
+      },
+      {
+       "date": "2026-11-13",
+       "price": 38120
+      },
+      {
+       "date": "2026-11-17",
+       "price": 37400
+      }
+     ],
+     "statsBefore": {
+      "min": 9210,
+      "max": 47480,
+      "avg": 18538,
+      "observations": 192
+     },
+     "statsAfter": {
+      "min": 12980,
+      "max": 28420,
+      "avg": 17807,
+      "observations": 184
+     }
+    },
+    {
+     "id": "toreta-jero-ioneumryo-500ml-24gae",
+     "name": "토레타 제로 이온음료, 500ml, 24개",
+     "cardPrice": 17950,
+     "anchor": 17950,
+     "window": [
+      8975,
+      31412
+     ],
+     "removed": [
+      {
+       "date": "2026-09-24",
+       "price": 37600
+      },
+      {
+       "date": "2026-10-04",
+       "price": 6230
+      },
+      {
+       "date": "2026-10-27",
+       "price": 6170
+      },
+      {
+       "date": "2026-11-06",
+       "price": 6170
+      }
+     ],
+     "statsBefore": {
+      "min": 6170,
+      "max": 37600,
+      "avg": 15954,
+      "observations": 20
+     },
+     "statsAfter": {
+      "min": 10790,
+      "max": 19120,
+      "avg": 16431,
+      "observations": 16
+     }
+    },
+    {
+     "id": "narangd-cider-zero",
+     "name": "나랑드사이다 제로, 245ml, 30개",
+     "cardPrice": 12770,
+     "anchor": 12770,
+     "window": [
+      6385,
+      22348
+     ],
+     "removed": [
+      {
+       "date": "2026-09-28",
+       "price": 25950
+      },
+      {
+       "date": "2026-09-28",
+       "price": 25950
+      }
+     ],
+     "statsBefore": {
+      "min": 7900,
+      "max": 25950,
+      "avg": 12358,
+      "observations": 53
+     },
+     "statsAfter": {
+      "min": 7900,
+      "max": 13120,
+      "avg": 11825,
+      "observations": 51
+     }
+    },
+    {
+     "id": "chilseongsaida-jero-210ml-30gae",
+     "name": "칠성사이다 제로, 210ml, 30개",
+     "cardPrice": 16280,
+     "anchor": 16280,
+     "window": [
+      8140,
+      28490
+     ],
+     "removed": [
+      {
+       "date": "2026-10-08",
+       "price": 37230
+      },
+      {
+       "date": "2026-10-19",
+       "price": 35730
+      },
+      {
+       "date": "2026-10-22",
+       "price": 7700
+      },
+      {
+       "date": "2026-10-26",
+       "price": 30260
+      },
+      {
+       "date": "2026-10-27",
+       "price": 35730
+      },
+      {
+       "date": "2026-11-09",
+       "price": 29900
+      }
+     ],
+     "statsBefore": {
+      "min": 7700,
+      "max": 37230,
+      "avg": 17794,
+      "observations": 32
+     },
+     "statsAfter": {
+      "min": 11030,
+      "max": 28210,
+      "avg": 15110,
+      "observations": 26
+     }
+    },
+    {
+     "id": "chorokmaesil-seupakeulring-jero-kaen-350ml-24gae",
+     "name": "초록매실 스파클링 제로 캔, 350ml, 24개",
+     "cardPrice": 13510,
+     "anchor": 13510,
+     "window": [
+      6755,
+      23642
+     ],
+     "removed": [
+      {
+       "date": "2026-09-19",
+       "price": 25110
+      },
+      {
+       "date": "2026-10-03",
+       "price": 5480
+      },
+      {
+       "date": "2026-11-07",
+       "price": 25110
+      }
+     ],
+     "statsBefore": {
+      "min": 5480,
+      "max": 25110,
+      "avg": 14126,
+      "observations": 17
+     },
+     "statsAfter": {
+      "min": 10960,
+      "max": 13900,
+      "avg": 13174,
+      "observations": 14
+     }
+    },
+    {
+     "id": "maeilduyu-99-9-seoritae-24gae-190ml",
+     "name": "매일두유 99.9 서리태, 24개, 190ml",
+     "cardPrice": 17430,
+     "anchor": 17430,
+     "window": [
+      8715,
+      30502
+     ],
+     "removed": [
+      {
+       "date": "2026-09-21",
+       "price": 33350
+      }
+     ],
+     "statsBefore": {
+      "min": 13990,
+      "max": 33350,
+      "avg": 18639,
+      "observations": 15
+     },
+     "statsAfter": {
+      "min": 13990,
+      "max": 28960,
+      "avg": 17589,
+      "observations": 14
+     }
+    },
+    {
+     "id": "haneulbori-eko-murabel-1-5l-12gae",
+     "name": "하늘보리 에코 무라벨, 1.5L, 12개",
+     "cardPrice": 15550,
+     "anchor": 15550,
+     "window": [
+      7775,
+      27212
+     ],
+     "removed": [
+      {
+       "date": "2026-10-03",
+       "price": 29800
+      },
+      {
+       "date": "2026-10-07",
+       "price": 29800
+      },
+      {
+       "date": "2026-10-14",
+       "price": 29800
+      },
+      {
+       "date": "2026-10-16",
+       "price": 36800
+      },
+      {
+       "date": "2026-10-31",
+       "price": 31160
+      },
+      {
+       "date": "2026-11-19",
+       "price": 29800
+      }
+     ],
+     "statsBefore": {
+      "min": 11440,
+      "max": 36800,
+      "avg": 16009,
+      "observations": 60
+     },
+     "statsAfter": {
+      "min": 11440,
+      "max": 18400,
+      "avg": 14321,
+      "observations": 54
+     }
+    },
+    {
+     "id": "selrekseu-peuropit-moka-chokolrit-250ml-18gae",
+     "name": "셀렉스 프로핏 모카 초콜릿, 250ml, 18개",
+     "cardPrice": 24900,
+     "anchor": 24900,
+     "window": [
+      12450,
+      43575
+     ],
+     "removed": [
+      {
+       "date": "2026-09-19",
+       "price": 49980
+      },
+      {
+       "date": "2026-09-26",
+       "price": 49190
+      },
+      {
+       "date": "2026-11-08",
+       "price": 9480
+      }
+     ],
+     "statsBefore": {
+      "min": 9480,
+      "max": 49980,
+      "avg": 26960,
+      "observations": 24
+     },
+     "statsAfter": {
+      "min": 24900,
+      "max": 26540,
+      "avg": 25637,
+      "observations": 21
+     }
+    },
+    {
+     "id": "haimyun-peurotin-baelreonseu-aektibeu-orijineol-250ml-18gae",
+     "name": "하이뮨 프로틴 밸런스 액티브 오리지널, 250ml, 18개",
+     "cardPrice": 28000,
+     "anchor": 28000,
+     "window": [
+      14000,
+      49000
+     ],
+     "removed": [
+      {
+       "date": "2026-09-23",
+       "price": 56000
+      },
+      {
+       "date": "2026-09-26",
+       "price": 56000
+      },
+      {
+       "date": "2026-09-27",
+       "price": 56000
+      },
+      {
+       "date": "2026-09-29",
+       "price": 56000
+      },
+      {
+       "date": "2026-10-06",
+       "price": 56000
+      }
+     ],
+     "statsBefore": {
+      "min": 23800,
+      "max": 56000,
+      "avg": 31161,
+      "observations": 31
+     },
+     "statsAfter": {
+      "min": 23800,
+      "max": 28000,
+      "avg": 26385,
+      "observations": 26
+     }
+    },
+    {
+     "id": "shake-peurotinseutori-purepeurotin7-3kg-choko",
+     "name": "프로틴스토리 맛있는 단백질 퓨어프로틴7 3kg 쇼콜라초코, 3kg, 1개",
+     "cardPrice": 42410,
+     "anchor": 42410,
+     "window": [
+      21205,
+      74218
+     ],
+     "removed": [
+      {
+       "date": "2026-11-10",
+       "price": 19900
+      }
+     ],
+     "statsBefore": {
+      "min": 19900,
+      "max": 45500,
+      "avg": 37090,
+      "observations": 7
+     },
+     "statsAfter": {
+      "min": 21500,
+      "max": 45500,
+      "avg": 39955,
+      "observations": 6
+     }
+    }
+   ],
+   "skipped": [
+    {
+     "id": "amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae",
+     "name": "아몬드브리즈 뉴트리플러스 프로틴, 190ml, 24개",
+     "reason": "removal-would-erase-majority",
+     "anchor": 17490,
+     "observations": 14,
+     "wouldRemove": 7,
+     "sample": [
+      32250,
+      31520,
+      31660,
+      32720,
+      31850,
+      32720
+     ]
+    },
+    {
+     "id": "keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae",
+     "name": "클룹 애사비소다 오리지널 탄산음료, 500ml, 12개",
+     "reason": "removal-would-erase-majority",
+     "anchor": 14000,
+     "observations": 65,
+     "wouldRemove": 58,
+     "sample": [
+      25800,
+      25580,
+      25800,
+      25580,
+      25800,
+      25580
+     ]
+    },
+    {
+     "id": "tamsaseupakeulring-peulrein-murabel-500ml-20gae",
+     "name": "탐사스파클링 플레인 무라벨, 500ml, 20개",
+     "reason": "removal-would-erase-majority",
+     "anchor": 8790,
+     "observations": 6,
+     "wouldRemove": 4,
+     "sample": [
+      17050,
+      15640,
+      39990,
+      32340
+     ]
+    },
+    {
+     "id": "teurebi-peulrein-190ml-30gae",
+     "name": "트레비 플레인, 190ml, 30개",
+     "reason": "removal-would-erase-majority",
+     "anchor": 9900,
+     "observations": 19,
+     "wouldRemove": 8,
+     "sample": [
+      19400,
+      17480,
+      19300,
+      19300,
+      19300,
+      19400
+     ]
+    },
+    {
+     "id": "chojeongtansansu-190ml-30gae",
+     "name": "초정탄산수, 190ml, 30개",
+     "reason": "removal-would-erase-majority",
+     "anchor": 10900,
+     "observations": 40,
+     "wouldRemove": 18,
+     "sample": [
+      21050,
+      21050,
+      30900,
+      30900,
+      21600,
+      30900
+     ]
+    }
+   ]
   }
  },
  "products": {
@@ -1620,12 +2447,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-09-29",
-     "price": 5590,
-     "ts": "2026-09-28T15:50:44.627938+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-05",
      "price": 12570,
      "ts": "2026-10-05T06:02:27.633066+00:00",
@@ -1761,15 +2582,15 @@
    "firstObservedAt": "2026-09-22T07:47:51.371299+00:00",
    "lastObservedAt": "2026-11-19T21:07:00+09:00",
    "stats": {
-    "min": 5590,
-    "minDate": "2026-09-29",
+    "min": 9020,
+    "minDate": "2026-11-18",
     "max": 13260,
     "maxDate": "2026-10-13",
-    "avg": 11686,
+    "avg": 11940,
     "latest": 13220,
     "latestDate": "2026-11-19",
-    "observations": 25,
-    "days": 19
+    "observations": 24,
+    "days": 18
    }
   },
   "haneulbori-500ml-20gae": {
@@ -2105,12 +2926,6 @@
     },
     {
      "date": "2026-09-27",
-     "price": 33280,
-     "ts": "2026-09-26T21:47:39.394101+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-27",
      "price": 16640,
      "ts": "2026-09-27T01:26:22.414067+00:00",
      "src": "couprice"
@@ -2129,12 +2944,6 @@
     },
     {
      "date": "2026-10-05",
-     "price": 34250,
-     "ts": "2026-10-04T15:27:57.206164+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-05",
      "price": 18530,
      "ts": "2026-10-04T17:09:51.880085+00:00",
      "src": "couprice"
@@ -2143,36 +2952,6 @@
      "date": "2026-10-06",
      "price": 18780,
      "ts": "2026-10-06T07:59:15.958879+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-10",
-     "price": 34480,
-     "ts": "2026-10-10T08:51:41.342258+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-14",
-     "price": 33200,
-     "ts": "2026-10-13T22:54:10.092707+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-16",
-     "price": 42560,
-     "ts": "2026-10-16T04:58:41.485293+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-19",
-     "price": 34250,
-     "ts": "2026-10-19T07:13:05.427891+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-22",
-     "price": 33800,
-     "ts": "2026-10-22T04:58:18.698558+00:00",
      "src": "couprice"
     },
     {
@@ -2242,27 +3021,9 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-02",
-     "price": 31960,
-     "ts": "2026-11-01T23:41:46.007161+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-06",
-     "price": 32450,
-     "ts": "2026-11-06T05:41:52.675689+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-11-11",
      "price": 16520,
      "ts": "2026-11-11T00:54:00.684655+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-15",
-     "price": 29200,
-     "ts": "2026-11-15T09:48:16.748335+00:00",
      "src": "couprice"
     },
     {
@@ -2277,13 +3038,13 @@
    "stats": {
     "min": 12300,
     "minDate": "2026-09-21",
-    "max": 42560,
-    "maxDate": "2026-10-16",
-    "avg": 22186,
+    "max": 18780,
+    "maxDate": "2026-10-06",
+    "avg": 16842,
     "latest": 17500,
     "latestDate": "2026-11-18",
-    "observations": 32,
-    "days": 19
+    "observations": 22,
+    "days": 11
    }
   },
   "amondeubeurijeu-nyuteuripeulreoseu-peurotin-190ml-24gae": {
@@ -2559,32 +3320,14 @@
     },
     {
      "date": "2026-09-24",
-     "price": 81120,
-     "ts": "2026-09-24T09:52:32.256721+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-24",
      "price": 40130,
      "ts": "2026-09-24T14:53:43.298677+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-25",
-     "price": 81120,
-     "ts": "2026-09-24T17:49:35.233588+00:00",
      "src": "couprice"
     },
     {
      "date": "2026-09-26",
      "price": 38500,
      "ts": "2026-09-26T02:03:25.456731+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-26",
-     "price": 81120,
-     "ts": "2026-09-26T03:53:49.282959+00:00",
      "src": "couprice"
     },
     {
@@ -2597,12 +3340,6 @@
      "date": "2026-10-07",
      "price": 41320,
      "ts": "2026-10-06T20:50:28.581121+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-10",
-     "price": 114920,
-     "ts": "2026-10-09T15:57:30.943009+00:00",
      "src": "couprice"
     },
     {
@@ -2949,12 +3686,6 @@
     },
     {
      "date": "2026-11-17",
-     "price": 79740,
-     "ts": "2026-11-17T09:52:04.153421+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-17",
      "price": 41320,
      "ts": "2026-11-17T10:02:41.354065+00:00",
      "src": "couprice"
@@ -2965,13 +3696,13 @@
    "stats": {
     "min": 35120,
     "minDate": "2026-09-21",
-    "max": 114920,
-    "maxDate": "2026-10-10",
-    "avg": 41869,
+    "max": 41320,
+    "maxDate": "2026-09-21",
+    "avg": 39011,
     "latest": 41320,
     "latestDate": "2026-11-17",
-    "observations": 85,
-    "days": 27
+    "observations": 80,
+    "days": 26
    }
   },
   "kalobai-peopekteu-pawosweikeu-choko-250ml-24gae": {
@@ -3199,21 +3930,9 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-19",
-     "price": 32940,
-     "ts": "2026-10-18T23:46:39.555927+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-21",
      "price": 17600,
      "ts": "2026-10-20T22:03:14.083652+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-24",
-     "price": 32940,
-     "ts": "2026-10-23T23:53:33.507939+00:00",
      "src": "couprice"
     },
     {
@@ -3246,13 +3965,13 @@
    "stats": {
     "min": 7140,
     "minDate": "2026-10-05",
-    "max": 32940,
-    "maxDate": "2026-10-19",
-    "avg": 18266,
+    "max": 22490,
+    "maxDate": "2026-09-28",
+    "avg": 17179,
     "latest": 14000,
     "latestDate": "2026-11-15",
-    "observations": 29,
-    "days": 14
+    "observations": 27,
+    "days": 12
    }
   },
   "peulraimil-rieolchoko-630g": {
@@ -3546,12 +4265,6 @@
     },
     {
      "date": "2026-10-12",
-     "price": 49120,
-     "ts": "2026-10-12T04:13:05.30522+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-12",
      "price": 29070,
      "ts": "2026-10-12T04:14:08.317777+00:00",
      "src": "couprice"
@@ -3566,12 +4279,6 @@
      "date": "2026-10-13",
      "price": 27020,
      "ts": "2026-10-13T04:10:47.567891+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-18",
-     "price": 50060,
-     "ts": "2026-10-18T02:59:56.162573+00:00",
      "src": "couprice"
     },
     {
@@ -3665,12 +4372,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-27",
-     "price": 50300,
-     "ts": "2026-10-27T05:58:42.34205+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-28",
      "price": 26400,
      "ts": "2026-10-28T06:04:03.98406+00:00",
@@ -3756,12 +4457,6 @@
     },
     {
      "date": "2026-11-10",
-     "price": 49680,
-     "ts": "2026-11-09T18:51:26.202214+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-10",
      "price": 27120,
      "ts": "2026-11-10T06:03:12.032552+00:00",
      "src": "couprice"
@@ -3808,12 +4503,12 @@
    "stats": {
     "min": 18100,
     "minDate": "2026-10-20",
-    "max": 50300,
-    "maxDate": "2026-10-27",
-    "avg": 27964,
+    "max": 29390,
+    "maxDate": "2026-09-23",
+    "avg": 26218,
     "latest": 18100,
     "latestDate": "2026-11-19",
-    "observations": 54,
+    "observations": 50,
     "days": 34
    }
   },
@@ -3994,12 +4689,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-09-25",
-     "price": 8180,
-     "ts": "2026-09-24T15:51:32.788593+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-09-27",
      "price": 19680,
      "ts": "2026-09-27T10:43:50.384345+00:00",
@@ -4021,12 +4710,6 @@
      "date": "2026-10-08",
      "price": 18810,
      "ts": "2026-10-08T11:54:44.385726+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-10",
-     "price": 37620,
-     "ts": "2026-10-09T15:58:39.432248+00:00",
      "src": "couprice"
     },
     {
@@ -4150,12 +4833,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-31",
-     "price": 39060,
-     "ts": "2026-10-31T07:46:58.582145+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-11-01",
      "price": 11940,
      "ts": "2026-10-31T15:51:26.144804+00:00",
@@ -4213,15 +4890,15 @@
    "firstObservedAt": "2026-09-20T17:47:24.685766+00:00",
    "lastObservedAt": "2026-11-16T23:51:59.820877+00:00",
    "stats": {
-    "min": 8180,
-    "minDate": "2026-09-25",
-    "max": 39060,
-    "maxDate": "2026-10-31",
-    "avg": 18953,
+    "min": 11940,
+    "minDate": "2026-11-01",
+    "max": 24150,
+    "maxDate": "2026-10-25",
+    "avg": 18357,
     "latest": 19020,
     "latestDate": "2026-11-17",
-    "observations": 50,
-    "days": 23
+    "observations": 47,
+    "days": 20
    }
   },
   "meat-chicken-k1-sai-jeongyuk-1kg": {
@@ -4659,12 +5336,6 @@
     },
     {
      "date": "2026-11-05",
-     "price": 46160,
-     "ts": "2026-11-05T11:51:27.893795+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-05",
      "price": 24030,
      "ts": "2026-11-05T12:03:07.563044+00:00",
      "src": "couprice"
@@ -4885,12 +5556,12 @@
    "stats": {
     "min": 21560,
     "minDate": "2026-10-23",
-    "max": 46160,
-    "maxDate": "2026-11-05",
-    "avg": 23833,
+    "max": 26800,
+    "maxDate": "2026-10-27",
+    "avg": 23523,
     "latest": 23920,
     "latestDate": "2026-11-18",
-    "observations": 73,
+    "observations": 72,
     "days": 27
    }
   },
@@ -5155,18 +5826,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-30",
-     "price": 45150,
-     "ts": "2026-10-30T02:53:00.301115+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-02",
-     "price": 47180,
-     "ts": "2026-11-02T05:47:28.598245+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-11-06",
      "price": 23070,
      "ts": "2026-11-06T11:45:44.668464+00:00",
@@ -5176,12 +5835,6 @@
      "date": "2026-11-10",
      "price": 23750,
      "ts": "2026-11-09T18:44:51.284583+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-11",
-     "price": 47200,
-     "ts": "2026-11-11T09:51:51.076193+00:00",
      "src": "couprice"
     },
     {
@@ -5268,13 +5921,13 @@
    "stats": {
     "min": 23070,
     "minDate": "2026-11-06",
-    "max": 47200,
-    "maxDate": "2026-11-11",
-    "avg": 25362,
+    "max": 26500,
+    "maxDate": "2026-10-09",
+    "avg": 24165,
     "latest": 23930,
     "latestDate": "2026-11-19",
-    "observations": 56,
-    "days": 28
+    "observations": 53,
+    "days": 26
    }
   },
   "monster-ultra": {
@@ -5397,12 +6050,6 @@
      "date": "2026-10-06",
      "price": 30890,
      "ts": "2026-10-06T02:08:21.738321+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-07",
-     "price": 10370,
-     "ts": "2026-10-07T08:03:47.530201+00:00",
      "src": "couprice"
     },
     {
@@ -5701,12 +6348,6 @@
     },
     {
      "date": "2026-11-03",
-     "price": 58600,
-     "ts": "2026-11-02T20:51:27.7345+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-03",
      "price": 29300,
      "ts": "2026-11-03T08:03:53.162675+00:00",
      "src": "couprice"
@@ -5715,12 +6356,6 @@
      "date": "2026-11-05",
      "price": 29980,
      "ts": "2026-11-04T20:02:23.167504+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-07",
-     "price": 59780,
-     "ts": "2026-11-07T03:51:38.654476+00:00",
      "src": "couprice"
     },
     {
@@ -5811,14 +6446,14 @@
    "firstObservedAt": "2026-09-19T16:48:42.054737+00:00",
    "lastObservedAt": "2026-11-15T19:25:00+09:00",
    "stats": {
-    "min": 10370,
-    "minDate": "2026-10-07",
-    "max": 59780,
-    "maxDate": "2026-11-07",
-    "avg": 32063,
+    "min": 29200,
+    "minDate": "2026-10-08",
+    "max": 41210,
+    "maxDate": "2026-11-08",
+    "avg": 31656,
     "latest": 30330,
     "latestDate": "2026-11-15",
-    "observations": 83,
+    "observations": 80,
     "days": 33
    }
   },
@@ -6368,12 +7003,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-09-29",
-     "price": 37500,
-     "ts": "2026-09-29T04:56:26.959206+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-02",
      "price": 19480,
      "ts": "2026-10-02T13:53:46.412931+00:00",
@@ -6653,12 +7282,6 @@
      "date": "2026-10-16",
      "price": 17790,
      "ts": "2026-10-15T16:03:09.679458+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-16",
-     "price": 47480,
-     "ts": "2026-10-15T22:53:26.964769+00:00",
      "src": "couprice"
     },
     {
@@ -7041,12 +7664,6 @@
     },
     {
      "date": "2026-11-06",
-     "price": 37580,
-     "ts": "2026-11-06T10:51:29.726661+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-06",
      "price": 19500,
      "ts": "2026-11-06T12:02:37.901571+00:00",
      "src": "couprice"
@@ -7085,12 +7702,6 @@
      "date": "2026-11-08",
      "price": 19500,
      "ts": "2026-11-08T08:02:33.085321+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-10",
-     "price": 38120,
-     "ts": "2026-11-09T17:51:40.469232+00:00",
      "src": "couprice"
     },
     {
@@ -7139,12 +7750,6 @@
      "date": "2026-11-11",
      "price": 18700,
      "ts": "2026-11-11T08:02:40.11567+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-11",
-     "price": 9210,
-     "ts": "2026-11-11T10:51:51.335475+00:00",
      "src": "couprice"
     },
     {
@@ -7215,20 +7820,8 @@
     },
     {
      "date": "2026-11-13",
-     "price": 37400,
-     "ts": "2026-11-12T15:51:34.784868+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-13",
      "price": 19360,
      "ts": "2026-11-12T16:02:22.209104+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-13",
-     "price": 38120,
-     "ts": "2026-11-12T20:51:36.525131+00:00",
      "src": "couprice"
     },
     {
@@ -7388,12 +7981,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-17",
-     "price": 37400,
-     "ts": "2026-11-17T07:51:57.741959+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-11-18",
      "price": 15740,
      "ts": "2026-11-17T20:52:01.888066+00:00",
@@ -7415,14 +8002,14 @@
    "firstObservedAt": "2026-09-20T22:02:32.04339+00:00",
    "lastObservedAt": "2026-11-19T12:45:00+09:00",
    "stats": {
-    "min": 9210,
-    "minDate": "2026-11-11",
-    "max": 47480,
-    "maxDate": "2026-10-16",
-    "avg": 18538,
+    "min": 12980,
+    "minDate": "2026-10-13",
+    "max": 28420,
+    "maxDate": "2026-10-19",
+    "avg": 17807,
     "latest": 18700,
     "latestDate": "2026-11-19",
-    "observations": 192,
+    "observations": 184,
     "days": 47
    }
   },
@@ -7489,12 +8076,6 @@
    "statusDetail": "ok",
    "series": [
     {
-     "date": "2026-09-24",
-     "price": 37600,
-     "ts": "2026-09-24T09:45:00.845032+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-09-25",
      "price": 18910,
      "ts": "2026-09-24T22:02:41.16609+00:00",
@@ -7504,12 +8085,6 @@
      "date": "2026-09-28",
      "price": 19000,
      "ts": "2026-09-27T16:48:52.992788+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-04",
-     "price": 6230,
-     "ts": "2026-10-03T21:44:54.897702+00:00",
      "src": "couprice"
     },
     {
@@ -7561,21 +8136,9 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-27",
-     "price": 6170,
-     "ts": "2026-10-27T01:19:12.739753+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-11-02",
      "price": 17370,
      "ts": "2026-11-02T02:40:51.317357+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-06",
-     "price": 6170,
-     "ts": "2026-11-06T07:51:16.092502+00:00",
      "src": "couprice"
     },
     {
@@ -7612,15 +8175,15 @@
    "firstObservedAt": "2026-09-24T09:45:00.845032+00:00",
    "lastObservedAt": "2026-11-16T23:50:31.228311+00:00",
    "stats": {
-    "min": 6170,
-    "minDate": "2026-10-27",
-    "max": 37600,
-    "maxDate": "2026-09-24",
-    "avg": 15954,
+    "min": 10790,
+    "minDate": "2026-10-06",
+    "max": 19120,
+    "maxDate": "2026-10-21",
+    "avg": 16431,
     "latest": 14750,
     "latestDate": "2026-11-17",
-    "observations": 20,
-    "days": 18
+    "observations": 16,
+    "days": 14
    }
   },
   "toss-naldam-baekkop-bagel-10": {
@@ -8628,20 +9191,8 @@
     },
     {
      "date": "2026-09-28",
-     "price": 25950,
-     "ts": "2026-09-28T02:08:56.916773+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-28",
      "price": 11900,
      "ts": "2026-09-28T02:11:27.986398+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-28",
-     "price": 25950,
-     "ts": "2026-09-28T03:03:56.35576+00:00",
      "src": "couprice"
     },
     {
@@ -8884,12 +9435,12 @@
    "stats": {
     "min": 7900,
     "minDate": "2026-09-27",
-    "max": 25950,
-    "maxDate": "2026-09-28",
-    "avg": 12358,
+    "max": 13120,
+    "maxDate": "2026-09-24",
+    "avg": 11825,
     "latest": 12770,
     "latestDate": "2026-11-19",
-    "observations": 53,
+    "observations": 51,
     "days": 31
    }
   },
@@ -9821,12 +10372,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-08",
-     "price": 37230,
-     "ts": "2026-10-08T08:01:04.230168+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-12",
      "price": 14850,
      "ts": "2026-10-12T02:14:32.611566+00:00",
@@ -9842,18 +10387,6 @@
      "date": "2026-10-16",
      "price": 14800,
      "ts": "2026-10-15T16:50:36.966741+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-19",
-     "price": 35730,
-     "ts": "2026-10-18T16:50:28.92403+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-22",
-     "price": 7700,
-     "ts": "2026-10-21T16:50:54.395746+00:00",
      "src": "couprice"
     },
     {
@@ -9887,18 +10420,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-26",
-     "price": 30260,
-     "ts": "2026-10-26T03:05:09.661508+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-27",
-     "price": 35730,
-     "ts": "2026-10-26T19:08:39.928057+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-30",
      "price": 15130,
      "ts": "2026-10-29T17:45:22.816398+00:00",
@@ -9908,12 +10429,6 @@
      "date": "2026-11-06",
      "price": 15780,
      "ts": "2026-11-06T01:52:18.172725+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-09",
-     "price": 29900,
-     "ts": "2026-11-09T03:51:47.26371+00:00",
      "src": "couprice"
     },
     {
@@ -9944,15 +10459,15 @@
    "firstObservedAt": "2026-10-04T22:02:46.950158+00:00",
    "lastObservedAt": "2026-11-18T01:02:51.727963+00:00",
    "stats": {
-    "min": 7700,
-    "minDate": "2026-10-22",
-    "max": 37230,
-    "maxDate": "2026-10-08",
-    "avg": 17794,
+    "min": 11030,
+    "minDate": "2026-11-15",
+    "max": 28210,
+    "maxDate": "2026-10-13",
+    "avg": 15110,
     "latest": 16050,
     "latestDate": "2026-11-18",
-    "observations": 32,
-    "days": 16
+    "observations": 26,
+    "days": 11
    }
   },
   "toss-deo-biktoria-cheongpodo-remon-500ml-40gae": {
@@ -10226,21 +10741,9 @@
      "src": "couprice"
     },
     {
-     "date": "2026-09-19",
-     "price": 25110,
-     "ts": "2026-09-19T01:58:41.844893+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-09-24",
      "price": 12900,
      "ts": "2026-09-24T11:46:21.710412+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-03",
-     "price": 5480,
-     "ts": "2026-10-03T07:09:37.639545+00:00",
      "src": "couprice"
     },
     {
@@ -10304,12 +10807,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-07",
-     "price": 25110,
-     "ts": "2026-11-07T09:51:33.057725+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-11-08",
      "price": 13900,
      "ts": "2026-11-08T01:02:31.018386+00:00",
@@ -10325,15 +10822,15 @@
    "firstObservedAt": "2026-09-19T01:15:21.579633+00:00",
    "lastObservedAt": "2026-11-15T20:51:00+09:00",
    "stats": {
-    "min": 5480,
-    "minDate": "2026-10-03",
-    "max": 25110,
+    "min": 10960,
+    "minDate": "2026-10-05",
+    "max": 13900,
     "maxDate": "2026-09-19",
-    "avg": 14126,
+    "avg": 13174,
     "latest": 13510,
     "latestDate": "2026-11-15",
-    "observations": 17,
-    "days": 13
+    "observations": 14,
+    "days": 11
    }
   },
   "maeilduyu-99-9-seoritae-24gae-190ml": {
@@ -10368,12 +10865,6 @@
    "status": "history",
    "statusDetail": "ok",
    "series": [
-    {
-     "date": "2026-09-21",
-     "price": 33350,
-     "ts": "2026-09-21T10:43:52.503286+00:00",
-     "src": "couprice"
-    },
     {
      "date": "2026-09-27",
      "price": 17450,
@@ -10464,13 +10955,13 @@
    "stats": {
     "min": 13990,
     "minDate": "2026-10-10",
-    "max": 33350,
-    "maxDate": "2026-09-21",
-    "avg": 18639,
+    "max": 28960,
+    "maxDate": "2026-10-09",
+    "avg": 17589,
     "latest": 17230,
     "latestDate": "2026-11-18",
-    "observations": 15,
-    "days": 13
+    "observations": 14,
+    "days": 12
    }
   },
   "acv-denigris-organic-1l": {
@@ -10554,12 +11045,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-03",
-     "price": 29800,
-     "ts": "2026-10-03T04:06:38.39704+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-05",
      "price": 15550,
      "ts": "2026-10-04T22:02:40.72743+00:00",
@@ -10572,12 +11057,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-10-07",
-     "price": 29800,
-     "ts": "2026-10-07T10:57:57.931497+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-10",
      "price": 15400,
      "ts": "2026-10-10T06:59:11.135194+00:00",
@@ -10587,12 +11066,6 @@
      "date": "2026-10-13",
      "price": 15900,
      "ts": "2026-10-12T16:03:16.778337+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-14",
-     "price": 29800,
-     "ts": "2026-10-13T20:56:38.525827+00:00",
      "src": "couprice"
     },
     {
@@ -10623,12 +11096,6 @@
      "date": "2026-10-15",
      "price": 15900,
      "ts": "2026-10-14T20:03:15.721664+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-16",
-     "price": 36800,
-     "ts": "2026-10-16T05:56:38.844444+00:00",
      "src": "couprice"
     },
     {
@@ -10689,12 +11156,6 @@
      "date": "2026-10-31",
      "price": 15210,
      "ts": "2026-10-30T15:50:09.436634+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-31",
-     "price": 31160,
-     "ts": "2026-10-31T07:51:45.546634+00:00",
      "src": "couprice"
     },
     {
@@ -10888,12 +11349,6 @@
      "price": 15500,
      "ts": "2026-11-17T03:49:44.794402+00:00",
      "src": "couprice"
-    },
-    {
-     "date": "2026-11-19",
-     "price": 29800,
-     "ts": "2026-11-19T01:53:49.559202+00:00",
-     "src": "couprice"
     }
    ],
    "firstObservedAt": "2026-09-22T14:52:30.712402+00:00",
@@ -10901,13 +11356,13 @@
    "stats": {
     "min": 11440,
     "minDate": "2026-11-05",
-    "max": 36800,
-    "maxDate": "2026-10-16",
-    "avg": 16009,
-    "latest": 29800,
-    "latestDate": "2026-11-19",
-    "observations": 60,
-    "days": 25
+    "max": 18400,
+    "maxDate": "2026-10-19",
+    "avg": 14321,
+    "latest": 15500,
+    "latestDate": "2026-11-17",
+    "observations": 54,
+    "days": 22
    }
   },
   "teurebi-peulrein-190ml-30gae": {
@@ -12027,20 +12482,8 @@
    "series": [
     {
      "date": "2026-09-19",
-     "price": 49980,
-     "ts": "2026-09-19T11:48:09.284583+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-19",
      "price": 25560,
      "ts": "2026-09-19T14:02:39.158409+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-26",
-     "price": 49190,
-     "ts": "2026-09-25T21:44:42.746145+00:00",
      "src": "couprice"
     },
     {
@@ -12147,12 +12590,6 @@
     },
     {
      "date": "2026-11-08",
-     "price": 9480,
-     "ts": "2026-11-08T06:51:57.659617+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-11-08",
      "price": 25030,
      "ts": "2026-11-08T08:02:36.426221+00:00",
      "src": "couprice"
@@ -12173,14 +12610,14 @@
    "firstObservedAt": "2026-09-19T11:48:09.284583+00:00",
    "lastObservedAt": "2026-11-15T19:51:00+09:00",
    "stats": {
-    "min": 9480,
-    "minDate": "2026-11-08",
-    "max": 49980,
-    "maxDate": "2026-09-19",
-    "avg": 26960,
+    "min": 24900,
+    "minDate": "2026-10-22",
+    "max": 26540,
+    "maxDate": "2026-10-06",
+    "avg": 25637,
     "latest": 24900,
     "latestDate": "2026-11-15",
-    "observations": 24,
+    "observations": 21,
     "days": 17
    }
   },
@@ -12217,21 +12654,9 @@
    "statusDetail": "ok",
    "series": [
     {
-     "date": "2026-09-23",
-     "price": 56000,
-     "ts": "2026-09-23T09:52:14.4785+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-09-26",
      "price": 28000,
      "ts": "2026-09-26T03:47:04.31402+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-09-26",
-     "price": 56000,
-     "ts": "2026-09-26T04:52:53.532603+00:00",
      "src": "couprice"
     },
     {
@@ -12241,33 +12666,15 @@
      "src": "couprice"
     },
     {
-     "date": "2026-09-27",
-     "price": 56000,
-     "ts": "2026-09-26T19:48:55.639905+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-09-29",
      "price": 28000,
      "ts": "2026-09-28T19:51:19.023436+00:00",
      "src": "couprice"
     },
     {
-     "date": "2026-09-29",
-     "price": 56000,
-     "ts": "2026-09-29T01:23:58.051259+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-10-06",
      "price": 28000,
      "ts": "2026-10-05T15:51:31.820964+00:00",
-     "src": "couprice"
-    },
-    {
-     "date": "2026-10-06",
-     "price": 56000,
-     "ts": "2026-10-05T16:56:40.366443+00:00",
      "src": "couprice"
     },
     {
@@ -12408,13 +12815,13 @@
    "stats": {
     "min": 23800,
     "minDate": "2026-10-06",
-    "max": 56000,
-    "maxDate": "2026-09-23",
-    "avg": 31161,
+    "max": 28000,
+    "maxDate": "2026-09-26",
+    "avg": 26385,
     "latest": 28000,
     "latestDate": "2026-11-15",
-    "observations": 31,
-    "days": 11
+    "observations": 26,
+    "days": 9
    }
   },
   "toss-haedambyeol-jeju-heukdwaeji-wang-gui-1-2kg-2": {
@@ -14411,12 +14818,6 @@
      "src": "couprice"
     },
     {
-     "date": "2026-11-10",
-     "price": 19900,
-     "ts": "2026-11-10T10:51:35.084285+00:00",
-     "src": "couprice"
-    },
-    {
      "date": "2026-11-15",
      "price": 42410,
      "ts": "2026-11-14T19:43:36.033258+00:00",
@@ -14432,15 +14833,15 @@
    "firstObservedAt": "2026-10-12T18:03:15.790131+00:00",
    "lastObservedAt": "2026-11-18T18:50:00+09:00",
    "stats": {
-    "min": 19900,
-    "minDate": "2026-11-10",
+    "min": 21500,
+    "minDate": "2026-10-17",
     "max": 45500,
     "maxDate": "2026-10-13",
-    "avg": 37090,
+    "avg": 39955,
     "latest": 42410,
     "latestDate": "2026-11-18",
-    "observations": 7,
-    "days": 6
+    "observations": 6,
+    "days": 5
    }
   },
   "meat-beef-besteumil-au-buchaesal-gui-1-2kg": {

@@ -526,28 +526,43 @@ function alertHubHTML() {
   const on = typeof pushState !== "undefined" && pushState.alerts ? pushState.alerts : {};
   /* 상품 알림만 목록에 올립니다(__hotdeal_all__ 은 맨 위 전용 카드가 따로 그립니다) */
   const ids = Object.keys(on).filter((id) => id !== HUB_HOT_ID);
+  const findProduct = (id) => (state.data.products || []).find((p) => p.id === id);
+  /* r59 — 목표가 알림 목록: 상품·현재가·걸어 둔 목표가를 보여 주고, 각 줄에 삭제(✕) 버튼 */
   const mine = ids
-    .map((id) => (state.data.products || []).find((p) => p.id === id))
-    .filter(Boolean)
-    .slice(0, 6);
-  const rowHTML = (p, isOn) => {
+    .map((id) => ({ id, rec: on[id] || {}, p: findProduct(id) }))
+    .filter((x) => x.p)
+    .slice(0, 8);
+  const rowHTML = (p, isOn, rec) => {
     const view = cheapView(p);
     const unit = numOrNull(measureValue(p)) != null ? `${measureLabel(p)} ${won(Math.round(measureValue(p)))}` : "";
-    return `<button type="button" class="hub-row${isOn ? " is-on" : ""}" data-alert="${escapeHtml(p.id)}">
-      <span class="hub-photo">${p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">` : ""}</span>
-      <span class="hub-txt"><b>${escapeHtml(p.name)}</b><em>${won(view.price)}${unit ? ` · ${escapeHtml(unit)}` : ""}</em></span>
-      <span class="hub-bell" aria-hidden="true">${isOn ? "✅" : "🔔"}</span>
-    </button>`;
+    const target = isOn && rec && rec.target ? ` · 목표 ${won(rec.target)} 이하` : "";
+    const name = escapeHtml(p.name);
+    return `<div class="hub-row${isOn ? " is-on" : ""}">
+      <button type="button" class="hub-open" data-alert="${escapeHtml(p.id)}" aria-label="${name} 알림 ${
+      isOn ? "설정 바꾸기" : "켜기"
+    }">
+        <span class="hub-photo">${p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async">` : ""}</span>
+        <span class="hub-txt"><b>${escapeHtml(p.name)}</b><em>${won(view.price)}${unit ? ` · ${escapeHtml(
+      unit
+    )}` : ""}${target}</em></span>
+      </button>
+      ${
+        isOn
+          ? `<button type="button" class="hub-del" data-alert-del="${escapeHtml(p.id)}" aria-label="${name} 알림 삭제" title="알림 삭제">✕</button>`
+          : `<span class="hub-bell" aria-hidden="true">🔔</span>`
+      }
+    </div>`;
   };
   const mineBlock = mine.length
-    ? `<p class="hub-sec">내가 켜 둔 알림 <b>${ids.length}개</b></p>
-       <div class="hub-list">${mine.map((p) => rowHTML(p, true)).join("")}</div>`
-    : "";
+    ? `<p class="hub-sec">내가 걸어 둔 목표가 알림 <b>${ids.length}개</b><span class="hub-sec-hint">✕ 를 누르면 지워져요</span></p>
+       <div class="hub-list">${mine.map((x) => rowHTML(x.p, true, x.rec)).join("")}</div>`
+    : `<p class="hub-sec">내가 걸어 둔 목표가 알림</p>
+       <p class="hub-empty">아직 걸어 둔 알림이 없어요. 아래 상품을 눌러 <b>목표가</b>를 정하면 그 가격 이하로 내려갈 때 알려드려요.</p>`;
   const pickBlock = picks.length
     ? `<p class="hub-sec">지금 많이 보는 상품</p>
        <div class="hub-list">${picks
-         .filter((p) => !mine.some((m) => m.id === p.id))
-         .map((p) => rowHTML(p, false))
+         .filter((p) => !mine.some((m) => m.p.id === p.id))
+         .map((p) => rowHTML(p, false, null))
          .join("")}</div>`
     : "";
   return `${typeof hotdealCardHTML === "function" ? hotdealCardHTML() : ""}

@@ -1,6 +1,9 @@
 /* 🤔 애매해요 — 상품별 익명 카운트.
 
    GET  /api/vote?ids=a,b,c  → { ok, counts: { "상품ID": 누적수 } }
+   GET  /api/vote?flagged=1  → { ok, flagged: [{ id, count }], min }   ← 5표 이상 점검 목록(r59)
+        ?min=5 로 기준을 바꿀 수 있어요(기본 5, 1~100).
+        가격 재확인 루틴(scripts/flagged_recheck_r59.py)이 이 목록을 먼저 봅니다.
    POST /api/vote  { "productId": "…" }
         → 그 상품의 '애매해요'를 1 올리고 { ok, productId, count } 를 돌려줍니다.
 
@@ -16,6 +19,8 @@ const KEY = "ttini:vote:meh:v1";
 const ID_RE = /^[A-Za-z0-9#._-]{1,80}$/;
 const MAX_BODY = 300;
 const MAX_IDS = 60;
+const FLAG_MIN = 5;
+const FLAG_LIMIT = 50;
 
 async function countsOf(ids) {
   const counts = {};
@@ -55,8 +60,13 @@ module.exports = async (req, res) => {
     }
 
     let ids = [];
+    let flagged = false;
+    let min = FLAG_MIN;
     try {
       const url = new URL(req.url || "/api/vote", "https://ttini.kr");
+      flagged = url.searchParams.get("flagged") === "1" || url.searchParams.get("flagged") === "true";
+      const minParam = Number(url.searchParams.get("min"));
+      if (Number.isFinite(minParam) && minParam >= 1) min = Math.min(100, Math.round(minParam));
       ids = String(url.searchParams.get("ids") || "")
         .split(",")
         .map((s) => s.trim())
@@ -65,6 +75,21 @@ module.exports = async (req, res) => {
     } catch (err) {
       ids = [];
     }
+
+    /* 5표 이상 쌓인 상품 = 가격이 애매하다는 신호. 가격 재확인 루틴이 먼저 볼 목록. */
+    if (flagged) {
+      const flat = (await redisCommand(["HGETALL", KEY])) || [];
+      const list = [];
+      for (let i = 0; i + 1 < flat.length; i += 2) {
+        const id = String(flat[i] || "");
+        const count = Number(flat[i + 1]) || 0;
+        if (!ID_RE.test(id) || count < min) continue;
+        list.push({ id, count });
+      }
+      list.sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
+      return sendJson(res, 200, { ok: true, flagged: list.slice(0, FLAG_LIMIT), min });
+    }
+
     const counts = await countsOf(ids);
     return sendJson(res, 200, { ok: true, counts });
   } catch (err) {

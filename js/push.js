@@ -428,8 +428,55 @@ async function disableAlert(p) {
   }
 }
 
+/* r59 — 알림 허브 목록의 ✕(상품 ID만으로 삭제).
+   서버 응답이 없어도 이 브라우저의 목록(localStorage)은 먼저 지워서
+   사용자가 누른 삭제가 화면에 바로 반영되게 합니다. */
+async function disableAlertById(id) {
+  if (!id || !pushState.alerts[id]) {
+    if (typeof refreshAlertHub === "function") refreshAlertHub();
+    return;
+  }
+  const saved = pushState.alerts[id];
+  try {
+    let reg = null;
+    try {
+      reg = "serviceWorker" in navigator ? await navigator.serviceWorker.getRegistration() : null;
+    } catch (err) {
+      reg = null;
+    }
+    const sub = reg ? await reg.pushManager.getSubscription() : null;
+    const endpoint = (sub && sub.endpoint) || (saved && saved.endpoint);
+    if (endpoint) {
+      await fetch("/api/push-subscribe", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ endpoint, productId: id }),
+      });
+    }
+  } catch (err) {
+    /* 서버와 끊겼어도 이 브라우저 목록은 지웁니다 */
+  }
+  delete pushState.alerts[id];
+  saveAlerts();
+  refreshAlertButtons();
+  /* 号 호출이 연결돼 있지 않은 경우(스크립트 순서)에도 목록은 바로 갱신 */
+  if (typeof refreshAlertHub === "function") refreshAlertHub();
+  if (pushState.productId === id) {
+    const p = (state.data.products || []).find((x) => x.id === id);
+    if (p) renderAlertBody(p);
+  }
+  showToast("알림을 지웠어요");
+}
+
 function initPushUI() {
   document.addEventListener("click", (e) => {
+    /* r59 — 허브 목록의 개별 삭제(✕)가 행 열기보다 먼저 동작해야 합니다 */
+    const del = e.target.closest("[data-alert-del]");
+    if (del) {
+      e.preventDefault();
+      disableAlertById(del.getAttribute("data-alert-del"));
+      return;
+    }
     const opener = e.target.closest("[data-alert]");
     if (opener) {
       e.preventDefault();

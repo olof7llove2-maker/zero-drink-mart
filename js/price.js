@@ -34,6 +34,22 @@ function meatCompare(p) {
   return compareInfo("meat", (x) => isMeat(x) && !isGadget(x));
 }
 
+/* r59 — 식단 고기를 '단백질 20g당 가격'으로 비교. 함량 참고치가 있는 고기끼리만. */
+function protein20Compare(p) {
+  if (!isMeat(p) || isGadget(p)) return null;
+  if (typeof protein20Info !== "function") return null;
+  const info = protein20Info(p, null);
+  if (!info) return null;
+  const rows = (state.data.products || [])
+    .filter((x) => isMeat(x) && !isGadget(x))
+    .map((x) => protein20Info(x, null))
+    .filter((x) => x && typeof x.value === "number");
+  if (rows.length < 3) return null;
+  const lower = rows.filter((x) => x.value < info.value).length;
+  const avg = Math.round(rows.reduce((s, x) => s + x.value, 0) / rows.length);
+  return { value: info.value, count: rows.length, rank: lower + 1, avg };
+}
+
 function compareIn(info, p) {
   const v = unitPer(p);
   if (v == null || !info.count) return null;
@@ -362,6 +378,15 @@ function categoryBlock(p) {
   const gadgetNote = isGadget(p)
     ? `<li>조리기구는 중량이 없어 <b>개당 가격</b>으로만 비교했어요.</li>`
     : "";
+  /* r59 — 식단 고기도 '단백질 20g당'으로 같은 기준 비교 */
+  const meatP20 = protein20Compare(p);
+  const meatP20Line = meatP20
+    ? `<li>단백질 20g당 <b class="minus">${won(meatP20.value)}</b> — 식단 고기 <b>${
+        meatP20.count
+      }개 중 ${meatP20.rank}번째</b>로 저렴해요(평균 ${won(meatP20.avg)})</li>`
+    : isMeat(p) && !isGadget(p)
+    ? `<li>이 부위는 부위 표준 단백질 참고치가 없어 <b>단백질 20g당 비교에서 뺐어요</b>(없는 값을 만들지 않습니다).</li>`
+    : "";
   const ratingLine =
     p.rating != null
       ? `<li>쿠팡 평점 <b>★ ${Number(p.rating).toFixed(1)}</b>${
@@ -378,7 +403,7 @@ function categoryBlock(p) {
       .filter((v) => v != null);
     if (g != null) {
       const avgG = vals.length >= 3 ? Math.round(vals.reduce((s, v) => s + v, 0) / vals.length) : null;
-      perGram = `<li>단백질 <b>1g당 ${won(g)}</b>${p20 ? ` · 20g당 <b>${won(p20)}</b>` : ""}${
+      perGram = `<li>단백질 <b>20g당 ${p20 ? won(p20) : "—"}</b>${g ? ` · 1g당 ${won(g)}` : ""}${
         avgG != null
           ? ` · 같은 분류 평균 1g당 ${won(avgG)} (${g <= avgG ? `평균보다 ${won(avgG - g)} 낮아요` : `평균보다 ${won(g - avgG)} 높아요`})`
           : ""
@@ -387,7 +412,7 @@ function categoryBlock(p) {
   }
   return `<div class="pm-block">
     <h4>② 카테고리 내 가성비 비교</h4>
-    <ul class="pm-list">${head}${line}${meatLine}${gadgetNote}${perGram}${ratingLine}${each}</ul>
+    <ul class="pm-list">${head}${line}${meatLine}${meatP20Line}${gadgetNote}${perGram}${ratingLine}${each}</ul>
   </div>`;
 }
 
@@ -494,6 +519,23 @@ function modalBuyBlock(p) {
 
 /* 확인 시각 표기는 app.js의 shortStamp()를 씁니다 (11/17 14:55 형식). */
 
+/* r59 — 상세 시트 상단: 상품 사진(88px 둥근 썸네일) + 분류·판매처 + 확인 시각 */
+function modalHeroHTML(p, freshText, headline) {
+  const photo = p.image
+    ? `<span class="pm-thumb"><img src="${escapeHtml(p.image)}" alt="" loading="lazy" decoding="async"></span>`
+    : `<span class="pm-thumb is-blank" aria-hidden="true">${escapeHtml((p.brand || "띠니").slice(0, 2))}</span>`;
+  return `<div class="pm-hero">
+    ${photo}
+    <div class="pm-hero-meta">
+      <p class="pm-eyebrow">${escapeHtml(categoryLabel(p.category))} · ${escapeHtml(
+    PLATFORMS[platformOf(p)].label
+  )}</p>
+      <p class="pm-hero-brand">${escapeHtml(p.brand || "")}</p>
+      <p class="pm-src">가격 확인 <b>${escapeHtml(freshText)}</b>${headline ? ` · ${headline}` : ""}</p>
+    </div>
+  </div>`;
+}
+
 /* r57 — 상세 시트: 가격·구매를 맨 위로, 판정은 한 번만(B8), 확인 시점은 정직하게(A1) */
 function priceModalHTML(p, entry) {
   const hasHistory = entry && entry.status === "history" && (entry.series || []).length > 1;
@@ -506,9 +548,9 @@ function priceModalHTML(p, entry) {
       ? `관측 최고가 대비 <b>${Math.round(((st.max - p.price) / st.max) * 100)}%</b> 낮은 가격`
       : "";
   return `
-    <p class="pm-eyebrow">${escapeHtml(categoryLabel(p.category))} · ${escapeHtml(PLATFORMS[platformOf(p)].label)}</p>
+    ${modalHeroHTML(p, freshText, headline)}
     <h2 class="pm-title" id="pm-title">${escapeHtml(p.name)}</h2>
-    <p class="pm-src">가격 확인 <b>${escapeHtml(freshText)}</b>${headline ? ` · ${headline}` : ""}</p>
+    ${typeof unitSummaryHTML === "function" ? unitSummaryHTML(p) : ""}
     ${modalBuyBlock(p)}
     ${gradeBlock(p)}
     <h3 class="pm-h3">가격 비교</h3>

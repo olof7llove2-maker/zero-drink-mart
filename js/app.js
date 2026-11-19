@@ -220,6 +220,31 @@ function proteinUnitHTML(p, view) {
   }</p>`;
 }
 
+/* r59 — '단백질 20g당 가격'을 고기·단백질 음료·쉐이크에서 같은 규칙으로.
+   계산 근거는 화면에 보이는 가격(카드 대표가·네이버가)과 100g당 단백질(또는 1병 단백질)을 씁니다.
+   함량을 모르는 상품(우삼겹·뒷고기·계란 등)은 값을 만들지 않고 표시도 하지 않습니다. */
+function protein20Info(p, view) {
+  if (!p || isGadget(p)) return null;
+  const kind = measureKind(p);
+  if (kind === "each") return null;
+  const g100 = typeof p.proteinPer100g === "number" && p.proteinPer100g > 0 ? p.proteinPer100g : null;
+  const per = view && typeof view.perValue === "number" ? view.perValue : measureValue(p);
+  if (kind === "per100g" && g100 && per != null) {
+    return {
+      value: Math.round((per * 20) / g100),
+      note: p.nutritionBasis === "부위 기준 참고치" ? "부위 기준 참고치" : "",
+    };
+  }
+  const gb = proteinValue(p);
+  const each = view && typeof view.eachPrice === "number" ? view.eachPrice : p.eachPrice;
+  if (gb && gb > 0 && each) {
+    return { value: Math.round((each / gb) * 20), note: "" };
+  }
+  const stored = protein20(p);
+  if (stored != null) return { value: stored, note: "" };
+  return null;
+}
+
 /* ── 확인 시각 신선도 (48시간 룰 · 내부용) ──────────────
    재영 님(2026-11-19): "아니면 아싸리 48시간 지남을 없애거나"
    → '48시간+ 전 확인' 배지는 화면에서 없애고, 이 계산은 정기 점검용으로만 남깁니다. */
@@ -474,6 +499,28 @@ function matchesSource(p) {
 function normText(s) {
   return String(s == null ? "" : s).toLowerCase().replace(/[\s()\[\]{},·\-–—/]+/g, "");
 }
+
+/* r59 — 추천 검색어는 사람 말이고 상품명은 브랜드 말이라, 둘을 이어 주는 별칭.
+   예) '제로콜라'로 검색해도 '코카콜라 제로'·'펩시 제로'가 나오도록. */
+const SEARCH_ALIASES = {
+  "제로콜라": ["제로콜라", "콜라 제로", "코카콜라 제로", "펩시 제로", "맥콜 제로", "부르르콜라 제로"],
+  "콜라": ["콜라"],
+  "프로틴": ["프로틴", "단백질"],
+  "단백질": ["단백질", "프로틴"],
+  "애사비": ["애사비", "애플 사이다", "사과식초"],
+  "생수": ["생수"],
+  "햇반": ["햇반"],
+};
+
+function aliasMatches(hay, phrase) {
+  const parts = String(phrase)
+    .toLowerCase()
+    .split(/\s+/)
+    .map(normText)
+    .filter(Boolean);
+  return parts.length > 0 && parts.every((t) => hay.includes(t));
+}
+
 function searchTokens() {
   return String(state.query || "").toLowerCase().split(/\s+/).map(normText).filter(Boolean);
 }
@@ -487,7 +534,11 @@ function matchesQuery(p) {
   const tokens = searchTokens();
   if (!tokens.length) return true;
   const hay = haystack(p);
-  return tokens.every((t) => hay.includes(t));
+  if (tokens.every((t) => hay.includes(t))) return true;
+  const raw = String(state.query || "").trim();
+  const aliases = SEARCH_ALIASES[raw] || SEARCH_ALIASES[raw.replace(/\s+/g, "")];
+  if (aliases) return aliases.some((phrase) => aliasMatches(hay, phrase));
+  return false;
 }
 function basePool() {
   const all = (state.data.products || []).filter((p) => matchesSource(p));
@@ -601,7 +652,35 @@ function unitLine(p, view) {
     kind !== "each" && eachVal
       ? `<span class="pc-each"> · 1${escapeHtml(p.eachLabel || "개")}당 <b>${won(Math.round(eachVal))}</b></span>`
       : "";
-  return `<p class="pc-unit"><b>${won(Math.round(v))}</b><span class="per">/${measureLabel(p).replace("당", "")}</span>${each}</p>`;
+  return `<p class="pc-unit"><b>${won(Math.round(v))}</b><span class="per">/${measureLabel(p).replace("당", "")}</span>${each}</p>${protein20Line(p, view)}`;
+}
+
+/* r59 — 단가 바로 아래 한 줄. 고기·단백질 음료·쉐이크가 같은 자리·같은 문구로 보입니다. */
+function protein20Line(p, view) {
+  const info = protein20Info(p, view);
+  if (!info) return "";
+  return `<p class="pc-prot20">단백질 20g당 <b>${won(info.value)}</b>${
+    info.note ? `<span class="pc-prot20-n">부위 기준</span>` : ""
+  }</p>`;
+}
+
+/* 상세 시트 상단용 — '100g당 · 단백질 20g당'을 한 줄로 */
+function unitSummaryHTML(p) {
+  const v = measureValue(p);
+  const bits = [];
+  if (v != null) {
+    bits.push(`<span><b>${won(Math.round(v))}</b>/${measureLabel(p).replace("당", "")}</span>`);
+  }
+  const info = protein20Info(p, null);
+  if (info) {
+    bits.push(
+      `<span class="pm-unit-p20">단백질 20g당 <b>${won(info.value)}</b>${
+        info.note ? `<em>${escapeHtml(info.note)}</em>` : ""
+      }</span>`
+    );
+  }
+  if (!bits.length) return "";
+  return `<p class="pm-units">${bits.join('<span class="pm-unit-sep">·</span>')}</p>`;
 }
 
 /* r57 — 기간 한정 특가(톡딜·타임세일) 마감 시각 */
@@ -1766,16 +1845,95 @@ function renderRankBlock(id, items, mode) {
 
 /* ── 검색 ────────────────────────────────────────────── */
 
+/* r59 — 최근 검색어. 이 브라우저(localStorage)에만 남기고, 누구와도 공유하지 않습니다.
+   서버로 보내지 않으므로 계정·IP와 묶여 저장되는 일이 없어요. */
+const RECENT_KEY = "ttini:recent:v1";
+const RECENT_MAX = 8;
+
+function loadRecent() {
+  try {
+    const arr = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
+    return Array.isArray(arr)
+      ? arr.filter((x) => typeof x === "string" && x.trim()).map((x) => x.trim()).slice(0, RECENT_MAX)
+      : [];
+  } catch (err) {
+    return [];
+  }
+}
+
+function saveRecent(list) {
+  try {
+    localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_MAX)));
+  } catch (err) {
+    /* 저장 공간이 없으면 이번 화면에서만 보입니다 */
+  }
+}
+
+function pushRecent(value) {
+  const q = String(value || "").trim();
+  if (q.length < 2) return;
+  saveRecent([q, ...loadRecent().filter((x) => x !== q)]);
+  renderRecent();
+}
+
+function removeRecent(value) {
+  saveRecent(loadRecent().filter((x) => x !== value));
+  renderRecent();
+}
+
+function clearRecent() {
+  saveRecent([]);
+  renderRecent();
+}
+
+function renderRecent() {
+  const box = $("search-recent");
+  const list = $("search-recent-list");
+  if (!box || !list) return;
+  const items = loadRecent();
+  const typing = !!String(state.query || "").trim();
+  box.hidden = typing || !items.length;
+  if (!items.length) {
+    list.innerHTML = "";
+    return;
+  }
+  list.innerHTML = items
+    .map(
+      (q) => `<span class="chip-recent">
+        <button type="button" class="chip-recent-go" data-recent="${escapeHtml(q)}">${escapeHtml(q)}</button>
+        <button type="button" class="chip-recent-x" data-recent-del="${escapeHtml(q)}" aria-label="${escapeHtml(
+        q
+      )} 검색어 지우기">✕</button>
+      </span>`
+    )
+    .join("");
+}
+
+/* 추천어·최근어·직접 입력을 모두 같은 경로로 */
+function applyQuery(value) {
+  const q = String(value || "");
+  state.query = q;
+  state.highlightId = null;
+  const input = $("search-input");
+  if (input) input.value = q;
+  const hdr = $("hdr-find-input");
+  if (hdr) hdr.value = q;
+  paint();
+}
+
 function renderSearchView() {
   const q = String(state.query || "").trim();
   const chips = $("search-chips");
+  const rec = $("search-rec");
   const lead = $("search-lead");
   const promos = $("search-promos");
   const head = $("search-head");
   const panel = $("search-controls");
   const list = $("search-list");
   if (chips) chips.hidden = !!q;
+  if (rec) rec.hidden = !!q;
   if (lead) lead.hidden = !!q;
+  renderRecent();
   if (promos) promos.hidden = !!q; /* 검색어를 넣으면 결과가 먼저 보이도록 기획전은 접습니다 */
   if (head) head.hidden = !q;
   if (panel) panel.hidden = !q;
@@ -2431,8 +2589,16 @@ function initSearch() {
       if (e.key === "Escape") {
         e.preventDefault();
         resetSearch();
+        return;
+      }
+      /* r59 — 검색을 마쳤을 때(엔터) 최근 검색어에 남깁니다 */
+      if (e.key === "Enter") {
+        e.preventDefault();
+        pushRecent(input.value);
+        input.blur();
       }
     });
+    input.addEventListener("blur", () => pushRecent(input.value));
   }
   if (clear) {
     clear.addEventListener("click", () => {
@@ -2459,8 +2625,14 @@ function initSearch() {
       if (e.key === "Escape") {
         e.preventDefault();
         resetSearch();
+        return;
+      }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        pushRecent(hdr.value);
       }
     });
+    hdr.addEventListener("blur", () => pushRecent(hdr.value));
   }
   if (hdrClear) {
     hdrClear.addEventListener("click", () => {
@@ -2471,13 +2643,28 @@ function initSearch() {
   document.addEventListener("click", (e) => {
     if (e.target && e.target.id === "empty-clear") resetSearch();
     if (e.target && e.target.id === "empty-reset") resetAllFilters();
+    /* r59 — 최근 검색어: 누르면 그 검색어로, ✕는 그 하나만, '전체 삭제'는 모두 */
+    const delRecent = e.target.closest("[data-recent-del]");
+    if (delRecent) {
+      removeRecent(delRecent.getAttribute("data-recent-del"));
+      return;
+    }
+    if (e.target.closest("#search-recent-clear")) {
+      clearRecent();
+      return;
+    }
+    const recent = e.target.closest("[data-recent]");
+    if (recent) {
+      const q = recent.getAttribute("data-recent");
+      applyQuery(q);
+      pushRecent(q);
+      return;
+    }
     const chip = e.target.closest("[data-keyword]");
     if (chip) {
-      state.query = chip.getAttribute("data-keyword");
-      state.highlightId = null;
-      const el = $("search-input");
-      if (el) el.value = state.query;
-      paint();
+      const q = chip.getAttribute("data-keyword");
+      applyQuery(q);
+      pushRecent(q);
     }
   });
 }
