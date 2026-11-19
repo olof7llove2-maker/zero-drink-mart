@@ -35,7 +35,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- Pretendard 가변 폰트 + dynamic subset: 쓰는 글자 구간만 내려받아요(정적 웨이트 9종 ~3.5MB → 수백 KB) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20261119r44">
+  <link rel="stylesheet" href="css/style.css?v=20261119r45">
 </head>
 <body data-tab="home">
   <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -187,12 +187,12 @@
       <p class="legal-foot">이 포스팅은 네이버 쇼핑 커넥트 활동의 일환으로, 수수료를 제공받습니다.</p>
       <p class="legal-foot">띠니픽은 직접 상품을 판매하지 않는 <b>최저가 비교 사이트</b>예요. 구매·배송·교환·환불은 링크를 누른 판매처(쿠팡·토스·네이버)에서 이뤄집니다.</p>
       <div class="foot-bgm" id="foot-bgm">
-        <button type="button" class="bgm-btn" id="bgm-toggle" aria-pressed="false" aria-label="신나는 배경음악 켜기" title="신나는 배경음악">
+        <button type="button" class="bgm-btn" id="bgm-toggle" aria-pressed="false" aria-label="배경음악 켜기" title="배경음악">
           <span class="bgm-eq" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="bgm-name" id="bgm-name">신나는 비트 · Electro Cabello</span>
+          <span class="bgm-name" id="bgm-name">All That You Wanted · Hersh</span>
           <span class="bgm-state" id="bgm-state">OFF</span>
         </button>
-        <span class="bgm-credit" id="bgm-credit">BGM: Kevin MacLeod (incompetech.com), CC BY 4.0</span>
+        <span class="bgm-credit" id="bgm-credit">BGM: JINBO, Hersh, PoPoMo — All That You Wanted (POCLANOS)</span>
       </div>
       <p class="foot-meta" id="update-band" aria-label="가격 업데이트 안내">
         <span class="update-ico" aria-hidden="true">🔄</span>
@@ -207,7 +207,8 @@
   <nav class="tabbar" id="tabbar" aria-label="주요 메뉴"></nav>
 
   <!-- r39: 화면 우하단 BGM 즉시 음소거/재생 — 스크롤과 상관없이 바로 끌 수 있게.
-       푸터 BGM 한 줄과 같은 상태를 씁니다(js/bgm.js). -->
+       푸터 BGM 한 줄과 같은 상태를 씁니다(js/bgm.js). 첫 터치를 기다리지 않고 여기를 눌러도
+       유튜브 플레이어의 unMute() + playVideo()가 바로 걸립니다. -->
   <button type="button" class="bgm-fab" id="bgm-fab" aria-pressed="false" aria-label="배경음악 켜기" title="배경음악 켜기/끄기">
     <span class="bgm-fab-ico" id="bgm-fab-ico" aria-hidden="true">🔇</span>
   </button>
@@ -302,18 +303,19 @@
     </div>
   </div>
 
-  <!-- 신나는 배경음악 — 푸터의 1줄 컨트롤로만 켜고 끕니다. 첫 터치에 자동으로 시작하고,
-       곡이 끝나면 Kevin MacLeod 업비트 3곡을 번갈아 이어 틉니다(js/bgm.js). -->
-  <audio id="bgm-audio" src="audio/electro-cabello.mp3" preload="auto" playsinline aria-hidden="true"></audio>
+  <!-- 배경음악 — 유튜브 임베드(JINBO, Hersh, PoPoMo 「All That You Wanted」, POCLANOS 공식 오디오).
+       아이폰은 화면 밖·display:none 플레이어의 소리를 막아서, 화면 안에 1px로 깔아 두고 그 안에서
+       재생합니다. 첫 터치나 우하단 🔇 버튼에서 unMute() + playVideo()로 바로 소리가 납니다(js/bgm.js). -->
+  <div class="bgm-yt" aria-hidden="true"><div id="bgm-yt"></div></div>
 
-  <script src="js/price.js?v=20261119r44" defer></script>
-  <script src="js/products.js?v=20261119r44" defer></script>
-  <script src="js/views.js?v=20261119r44" defer></script>
-  <script src="js/grade.js?v=20261119r44" defer></script>
-  <script src="js/protein.js?v=20261119r44" defer></script>
-  <script src="js/smart.js?v=20261119r44" defer></script>
-  <script src="js/app.js?v=20261119r44" defer></script>
-  <script src="js/push.js?v=20261119r44" defer></script>
-  <script src="js/bgm.js?v=20261119r44" defer></script>
+  <script src="js/price.js?v=20261119r45" defer></script>
+  <script src="js/products.js?v=20261119r45" defer></script>
+  <script src="js/views.js?v=20261119r45" defer></script>
+  <script src="js/grade.js?v=20261119r45" defer></script>
+  <script src="js/protein.js?v=20261119r45" defer></script>
+  <script src="js/smart.js?v=20261119r45" defer></script>
+  <script src="js/app.js?v=20261119r45" defer></script>
+  <script src="js/push.js?v=20261119r45" defer></script>
+  <script src="js/bgm.js?v=20261119r45" defer></script>
 </body>
 </html>

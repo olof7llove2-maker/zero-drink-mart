@@ -779,7 +779,16 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
 .legal-foot { margin-bottom: 8px; }
 .copy { margin-top: 12px; font-size: 10.5px; color: #a9a29a; }
 
-/* 푸터 BGM 1줄 컨트롤 (예전 헤더 🎧 BGM 버튼이 여기로) — 신나는 업비트 3곡 */
+/* 유튜브 BGM 플레이어 — 화면 안에 두되 눈에 안 보이게 1px로 깔아 둡니다.
+   아이폰(WebKit)은 화면 밖·display:none 플레이어의 소리를 막아서 이렇게 둡니다(js/bgm.js). */
+.bgm-yt {
+  position: fixed; left: 0; bottom: 0;
+  width: 1px; height: 1px; overflow: hidden;
+  opacity: 0.01; pointer-events: none; z-index: 0;
+}
+.bgm-yt iframe { width: 200px; height: 112px; border: 0; display: block; }
+
+/* 푸터 BGM 1줄 컨트롤 (예전 헤더 🎧 BGM 버튼이 여기로) — 유튜브 「All That You Wanted」 */
 .foot-bgm { margin-top: 12px; }
 .bgm-btn {
   display: inline-flex; align-items: center; gap: 7px;
@@ -792,7 +801,7 @@ select.sel:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; 
 }
 .bgm-btn.is-on { color: var(--sage-text); border-color: #cfe6da; background: var(--sage-soft); }
 .bgm-btn:active { transform: scale(0.99); }
-.bgm-name { max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bgm-name { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bgm-state { flex: none; font-size: 9px; font-weight: 900; letter-spacing: 0.02em; opacity: 0.72; }
 .bgm-credit {
   display: block; margin-top: 5px;

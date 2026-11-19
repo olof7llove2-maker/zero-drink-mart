@@ -1,80 +1,58 @@
-/* 띠니픽 — 푸터 1줄 신나는 BGM (Kevin MacLeod 업비트 3곡)
-   재영 님(2026-11-18): "잔잔한 로파이 말고 신나고 밝은 업비트로" (r37)
-   - audio/ 아래 192kbps·2분·페이드인아웃 통일 MP3 3곡을 한 <audio>로 번갈아 틉니다.
-       electro-cabello.mp3 · exit-the-premises.mp3 · groove-grove.mp3
-       모두 Kevin MacLeod(incompetech.com), CC BY 4.0 → 푸터에 출처를 적어 둡니다.
-   - 처음 곡은 열 때 무작위로 고르고, 곡이 끝나면 다른 곡으로 이어 틉니다(같은 곡 연속 없음).
-       한 <audio> 요소를 계속 쓰므로 iOS에서도 두 번째 곡부터 자동재생 권한이 유지됩니다.
-   - 페이지 어디든 첫 터치(touchend·click·keydown)에 자동으로 시작합니다.
-       · 브라우저 자동재생 정책상 '사용자 제스처 안에서 play()'가 조건이라, 첫 터치에 맞춰 겁니다.
-       · iOS 사파리는 touchstart·pointerdown 에서는 오디오/AudioContext 잠금을 풀지 않고
-         touchend·click 에서만 풉니다. 그래서 시작 신호는 touchend·click·keydown 만 씁니다.
-       · 그 탭에서 재생이 거부되면 듣지 않고 다음 탭에서 다시 시도합니다(armed 유지).
-       · 끈 기록(localStorage ttini-bgm-off)이 있으면 자동으로 켜지 않습니다.
-   - 소리는 0 → 0.28로 0.8초에 걸쳐 올립니다(첫 탭 직후 바로 들리되 놀라지 않게).
-   - iOS처럼 audio.volume이 듣지 않는 브라우저는 WebAudio 게인으로 볼륨을 맞춥니다.
+/* 띠니픽 — BGM: 유튜브 (JINBO, Hersh, PoPoMo 「All That You Wanted」)
+   재영 님(2026-11-19): "그때처럼 걍 유툽으로 틀자"
+   - POCLANOS 공식 오디오(videoId 0-DwYWZC870 · 4분 5초)를 YouTube IFrame API로 재생합니다.
+     임베드·재생 가능 여부는 ttini.kr에서 직접 띄워 확인했습니다(2026-11-19).
+   - 아이폰(사파리·크롬 모두 WebKit)은 화면 밖(left:-10000px)·display:none 플레이어의 소리를
+     막습니다. 그래서 플레이어는 화면 안(좌하단)에 1px로 깔아 두고 그 안에서 재생합니다.
+   - 첫 로드에는 소리 없는 미리 재생만 걸어 둡니다(무음 자동재생은 iOS도 허용).
+     사용자가 화면을 탭하거나 우하단 🔇 버튼을 누르면 그 제스처 안에서
+     unMute() + playVideo()로 바로 소리가 납니다. 첫 소리 때는 곡을 처음부터.
+   - 켜짐 표시는 실제로 소리가 나는지(unMute + 재생 상태) 확인한 뒤에만 켭니다.
+     막히면 표시를 되돌리고, 다음 탭에서 다시 시도합니다.
+   - 끈 기록(localStorage ttini-bgm-off)이 있으면 자동으로 켜지도, 미리 받지도 않습니다.
    - 끄고 켜는 곳은 푸터의 1줄 컨트롤과 화면 우하단 떠 있는 작은 버튼 두 곳이고(r39),
-     둘 다 같은 상태를 보고 같이 바뀝니다. 각 버튼은 지금 상태만 보여 줍니다. */
+     둘 다 같은 상태를 보고 같이 바뀝니다. */
 
 (function () {
   "use strict";
 
-  var audio = document.getElementById("bgm-audio");
   var btn = document.getElementById("bgm-toggle");
   var stateEl = document.getElementById("bgm-state");
   var nameEl = document.getElementById("bgm-name");
   var bar = document.getElementById("foot-bgm");
-  var fab = document.getElementById("bgm-fab"); /* r39 — 화면 우하단 상시 음소거/재생 */
+  var fab = document.getElementById("bgm-fab");
   var fabIco = document.getElementById("bgm-fab-ico");
-  if (!audio || !btn) return;
+  var host = document.getElementById("bgm-yt");
+  if (!btn || !host) return;
 
-  var TRACKS = [
-    { src: "audio/electro-cabello.mp3", title: "Electro Cabello" },
-    { src: "audio/exit-the-premises.mp3", title: "Exit the Premises" },
-    { src: "audio/groove-grove.mp3", title: "Groove Grove" }
-  ];
-  var LABEL = "신나는 비트 · ";
+  var VIDEO_ID = "0-DwYWZC870"; /* [Official Audio] JINBO, Hersh, PoPoMo - All That You Wanted */
+  var SONG = "All That You Wanted";
+  var ARTIST = "Hersh";
+  var LABEL = SONG + " · ";
 
-  var VOLUME = 0.28; /* 첫 탭 직후 바로 존재감 있게, 그래도 대화를 덮지 않게 */
-  var FADE_IN = 800;
-  var FADE_OUT = 900;
+  var VOLUME = 30; /* 0~100 — 대화를 덮지 않을 만큼만 */
+  var FADE_IN = 700;
+  var VERIFY_MS = 2200;
   var KEY_OFF = "ttini-bgm-off";
-  /* iOS 사파리는 touchstart/pointerdown 에서 오디오·AudioContext 잠금을 풀지 않습니다.
+  /* iOS 사파리는 touchstart·pointerdown 에서 오디오 잠금을 풀지 않습니다.
      touchend·click 에서만 풀리므로, 시작 신호를 이 셋으로만 겁니다. */
   var GESTURES = ["touchend", "click", "keydown"];
 
-  var on = false;
-  var starting = false;
+  var player = null;
+  var ready = false;
+  var want = false; /* 사용자가 소리를 원하는 상태 */
+  var on = false; /* 실제로 소리가 나고 있다고 확인된 상태(버튼 표시) */
+  var firstSound = true;
+  var retried = false;
   var armed = false;
-  var ctx = null;
-  var gain = null;
-  var vol = 0;
-  var raf = 0;
-  var fails = 0;
-  /* 처음 곡은 무작위 — 들어올 때마다 첫 곡이 달라집니다. */
-  var idx = Math.floor(Math.random() * TRACKS.length);
+  var apiLoading = false;
+  var apiFailed = false;
+  var apiCbs = [];
+  var bootTimer = 0;
+  var verifyTimer = 0;
+  var rampTimer = 0;
 
-  /* ── 곡 고르기 ─────────────────────────────────────── */
-
-  function pickOther(cur) {
-    var others = [];
-    for (var i = 0; i < TRACKS.length; i++) if (i !== cur) others.push(i);
-    if (!others.length) return cur;
-    return others[Math.floor(Math.random() * others.length)];
-  }
-
-  /* 곡 이름 표시 + 필요하면 <audio> src 교체(같은 요소를 계속 씁니다). */
-  function setTrack(i) {
-    idx = i;
-    var t = TRACKS[i];
-    if (String(audio.src || "").indexOf(t.src) === -1) {
-      try {
-        audio.src = t.src;
-        audio.load();
-      } catch (err) {}
-    }
-    if (nameEl) nameEl.textContent = LABEL + t.title;
-  }
+  if (nameEl) nameEl.textContent = LABEL + ARTIST;
 
   /* ── 설정 기억 ─────────────────────────────────────── */
 
@@ -97,7 +75,7 @@
   function paint() {
     btn.classList.toggle("is-on", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
-    btn.setAttribute("aria-label", on ? "배경음악 끄기" : "신나는 배경음악 켜기");
+    btn.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기");
     if (stateEl) stateEl.textContent = on ? "ON" : "OFF";
     /* r39 — 바로 꺼야 하니까 문구보다 아이콘으로 상태를 보여 줍니다 */
     if (fab) {
@@ -109,147 +87,251 @@
     if (fabIco) fabIco.textContent = on ? "🔊" : "🔇";
   }
 
-  /* ── 볼륨 ──────────────────────────────────────────── */
-
-  /* iOS 사파리는 audio.volume 설정이 무시되므로 WebAudio 게인을 먼저 씁니다.
-     첫 제스처 안에서 만들어야 AudioContext가 잠기지 않습니다. */
-  function ensureChain() {
-    if (gain) return true;
-    var AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return false;
-    try {
-      ctx = new AC();
-      var src = ctx.createMediaElementSource(audio);
-      gain = ctx.createGain();
-      gain.gain.value = 0;
-      src.connect(gain);
-      gain.connect(ctx.destination);
-      audio.volume = 1;
-      return true;
-    } catch (err) {
-      ctx = null;
-      gain = null;
-      return false;
-    }
-  }
-
-  function applyVol(v) {
-    vol = v;
-    if (gain && ctx) {
-      try {
-        gain.gain.value = v;
-        return;
-      } catch (err) {}
-    }
-    try {
-      audio.volume = v;
-    } catch (err) {}
-  }
-
-  function fadeTo(to, ms, done) {
-    if (raf) {
-      cancelAnimationFrame(raf);
-      raf = 0;
-    }
-    if (gain && ctx) {
-      try {
-        var t = ctx.currentTime;
-        gain.gain.cancelScheduledValues(t);
-        gain.gain.setValueAtTime(gain.gain.value, t);
-        gain.gain.linearRampToValueAtTime(to, t + Math.max(0.05, ms / 1000));
-        vol = to;
-        if (done) setTimeout(done, ms + 40);
-        return;
-      } catch (err) {}
-    }
-    var from = vol;
-    var t0 = 0;
-    function step(now) {
-      if (!t0) t0 = now;
-      var k = ms > 0 ? Math.min(1, (now - t0) / ms) : 1;
-      var e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; /* ease-in-out */
-      applyVol(from + (to - from) * e);
-      if (k < 1) raf = requestAnimationFrame(step);
-      else {
-        raf = 0;
-        if (done) done();
-      }
-    }
-    raf = requestAnimationFrame(step);
-  }
-
-  /* ── 재생/정지 ─────────────────────────────────────── */
-
-  function play() {
-    if (on || starting) return;
-    starting = true;
-    ensureChain();
-    if (ctx && ctx.state === "suspended") {
-      try {
-        ctx.resume();
-      } catch (err) {}
-    }
-    setTrack(idx);
-    applyVol(0);
-    var p = null;
-    try {
-      p = audio.play();
-    } catch (err) {
-      p = null;
-    }
-    var ok = function () {
-      starting = false;
-      on = true;
-      fails = 0;
-      paint();
-      fadeTo(VOLUME, FADE_IN);
-      unarm();
-    };
-    var fail = function () {
-      starting = false;
-      on = false;
-      paint();
-      if (readOff()) unarm();
-      else arm(); /* disarm 하지 않고 armed 유지 — 다음 탭에서 다시 시도 */
-    };
-    if (p && typeof p.then === "function") p.then(ok).catch(fail);
-    else if (audio.paused) fail();
-    else ok();
-  }
-
-  function stop(save) {
+  /* 플레이어를 아예 못 쓰는 상황이면 죽은 버튼을 남기지 않습니다 */
+  function dead() {
+    want = false;
     on = false;
-    starting = false;
     paint();
-    if (save) writeOff(true);
-    fadeTo(0, FADE_OUT, function () {
+    if (bar) bar.hidden = true;
+    if (fab) fab.hidden = true;
+    unarm();
+  }
+
+  /* ── 유튜브 IFrame API ─────────────────────────────── */
+
+  function loadApi(cb) {
+    if (window.YT && window.YT.Player) {
+      cb();
+      return;
+    }
+    if (apiFailed) return;
+    apiCbs.push(cb);
+    if (apiLoading) return;
+    apiLoading = true;
+    var prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () {
+      apiLoading = false;
+      if (typeof prev === "function") {
+        try {
+          prev();
+        } catch (err) {}
+      }
+      var list = apiCbs;
+      apiCbs = [];
+      for (var i = 0; i < list.length; i++) {
+        try {
+          list[i]();
+        } catch (err) {}
+      }
+    };
+    var s = document.createElement("script");
+    s.src = "https://www.youtube.com/iframe_api";
+    s.async = true;
+    s.onerror = function () {
+      apiFailed = true;
+      dead();
+    };
+    document.head.appendChild(s);
+  }
+
+  function ensurePlayer() {
+    if (player || apiFailed) return;
+    loadApi(function () {
+      if (player || apiFailed) return;
       try {
-        audio.pause();
-      } catch (err) {}
+        player = new window.YT.Player(host, {
+          videoId: VIDEO_ID,
+          width: 200,
+          height: 112,
+          playerVars: {
+            autoplay: 0,
+            controls: 0,
+            disablekb: 1,
+            modestbranding: 1,
+            rel: 0,
+            playsinline: 1,
+            loop: 1,
+            playlist: VIDEO_ID,
+            mute: 1,
+            origin: window.location.origin
+          },
+          events: {
+            onReady: onReady,
+            onStateChange: onState,
+            onError: onError
+          }
+        });
+      } catch (err) {
+        apiFailed = true;
+        dead();
+      }
     });
   }
 
-  /* ── 곡이 끝나면 다음 곡 ───────────────────────────── */
-
-  audio.addEventListener("ended", function () {
-    if (!on) return;
-    setTrack(pickOther(idx));
-    /* 이미 VOLUME으로 맞춰 둔 게인을 그대로 씁니다 — 곡마다 페이드가 들어 있어 이어 붙입니다. */
-    var p = null;
+  function onReady() {
+    ready = true;
     try {
-      p = audio.play();
+      player.setVolume(0);
+      player.mute();
+    } catch (err) {}
+    /* 아직 소리를 원하기 전이면 ‘소리 없는 미리 재생’만 걸어 둡니다.
+       아이폰도 무음 재생은 허용하고, 그 뒤 제스처에서 unMute하면 바로 소리가 납니다. */
+    if (!want && !readOff()) {
+      try {
+        player.playVideo();
+      } catch (err) {}
+    }
+    if (want) requestSound();
+  }
+
+  function state() {
+    try {
+      return player.getPlayerState();
     } catch (err) {
-      p = null;
+      return -1;
     }
-    if (p && typeof p.then === "function") {
-      p.catch(function () {
-        /* 다음 곡 자동재생이 막히면 조용히 멈춰 두고, 다음 탭에서 이어집니다. */
-        on = false;
-        paint();
-        if (!readOff()) arm();
-      });
+  }
+
+  function isMuted() {
+    try {
+      return player.isMuted();
+    } catch (err) {
+      return true;
     }
-  });
+  }
+
+  /* ── 소리 켜기 ─────────────────────────────────────── */
+
+  /* 제스처 안에서 그대로 불립니다 — 사파리가 소리를 내는 조건. */
+  function requestSound() {
+    want = true;
+    if (!ready || !player) {
+      ensurePlayer();
+      return;
+    }
+    try {
+      if (firstSound || state() === 0) player.seekTo(0, true);
+      player.setVolume(0);
+      player.unMute();
+      player.playVideo();
+    } catch (err) {}
+    ramp(VOLUME, FADE_IN);
+    clearTimeout(verifyTimer);
+    verifyTimer = setTimeout(checkSound, VERIFY_MS);
+  }
+
+  /* 실제로 소리가 나는지 확인 — 안 되면 표시를 되돌리고 다음 탭에서 다시 시도합니다. */
+  function checkSound() {
+    if (!want || !player) return;
+    var s = state();
+    if (!isMuted() && (s === 1 || s === 3)) {
+      found();
+      return;
+    }
+    /* 한 번 더: 음소거로 재생을 걸었다가 바로 풀어 봅니다(아이폰에서 자주 통하는 순서) */
+    if (!retried) {
+      retried = true;
+      try {
+        player.mute();
+        player.playVideo();
+      } catch (err) {}
+      setTimeout(function () {
+        if (!want || !player) return;
+        try {
+          player.unMute();
+          player.setVolume(VOLUME);
+        } catch (err) {}
+        setTimeout(function () {
+          if (!want || !player) return;
+          var s2 = state();
+          if (!isMuted() && (s2 === 1 || s2 === 3)) found();
+          else lost();
+        }, 900);
+      }, 350);
+      return;
+    }
+    lost();
+  }
+
+  function found() {
+    on = true;
+    firstSound = false;
+    clearTimeout(verifyTimer);
+    paint();
+    unarm();
+  }
+
+  function lost() {
+    on = false;
+    paint();
+    if (!readOff()) arm(); /* 다음 탭에서 다시 시도 */
+  }
+
+  function ramp(to, ms) {
+    if (!player) return;
+    var t0 = Date.now();
+    clearInterval(rampTimer);
+    rampTimer = setInterval(function () {
+      if (!player || !want) {
+        clearInterval(rampTimer);
+        return;
+      }
+      var k = Math.min(1, (Date.now() - t0) / ms);
+      try {
+        player.setVolume(Math.round(to * k));
+      } catch (err) {}
+      if (k >= 1) clearInterval(rampTimer);
+    }, 60);
+  }
+
+  function onState(e) {
+    var s = e && e.data;
+    if (s === 1) {
+      if (want && !isMuted()) found();
+    } else if (s === 0) {
+      /* loop 설정이 풀린 경우에도 한 곡을 계속 이어서 */
+      if (want && player) {
+        try {
+          player.seekTo(0, true);
+          player.playVideo();
+        } catch (err) {}
+      }
+    }
+  }
+
+  function onError() {
+    /* 101·150 = 임베드 제한, 100 = 비공개·삭제, 2·5 = 재생 불가 */
+    apiFailed = true;
+    dead();
+  }
+
+  /* ── 켜고 끄기 ─────────────────────────────────────── */
+
+  function turnOn() {
+    writeOff(false);
+    retried = false;
+    want = true;
+    on = true; /* 곧바로 눌린 느낌을 주고, 실제 소리는 확인해서 확정합니다 */
+    paint();
+    unarm();
+    requestSound();
+  }
+
+  function turnOff() {
+    want = false;
+    on = false;
+    clearTimeout(verifyTimer);
+    clearInterval(rampTimer);
+    paint();
+    writeOff(true);
+    if (player) {
+      try {
+        player.mute();
+        player.setVolume(0);
+        player.pauseVideo();
+      } catch (err) {}
+    }
+  }
 
   /* ── 첫 터치에 자동 시작 ───────────────────────────── */
 
@@ -257,16 +339,16 @@
     /* 푸터 BGM 버튼·우하단 버튼은 직접 켜고 끄는 곳이라 자동 시작 대상에서 뺍니다 */
     var t = e && e.target;
     if (t && t.closest && t.closest("#foot-bgm, #bgm-fab")) return;
-    if (on) {
+    if (want) {
       unarm();
       return;
     }
-    if (starting) return; /* 이미 시작 중 — 이 탭이 끝나기를 기다립니다 */
     if (readOff()) {
       unarm();
       return;
     }
-    play();
+    if (!ready) return; /* 플레이어가 아직이면 이 탭은 넘기고 다음 탭에서 */
+    turnOn();
   }
 
   function arm() {
@@ -289,11 +371,8 @@
 
   btn.addEventListener("click", function (e) {
     e.preventDefault();
-    if (on) stop(true);
-    else {
-      writeOff(false);
-      play();
-    }
+    if (on) turnOff();
+    else turnOn();
   });
 
   /* r39 — 우하단 떠 있는 버튼도 같은 동작(푸터와 상태 동기화) */
@@ -301,34 +380,30 @@
     fab.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
-      if (on) stop(true);
-      else {
-        writeOff(false);
-        play();
-      }
+      if (on) turnOff();
+      else turnOn();
     });
   }
 
-  /* 한 곡이라도 못 받으면 다른 곡으로 넘어가고, 3곡 다 실패하면 죽은 버튼을 남기지 않습니다. */
-  audio.addEventListener("error", function () {
-    fails += 1;
-    if (fails < TRACKS.length) {
-      setTrack(pickOther(idx));
-      if (on) {
-        try {
-          audio.play();
-        } catch (err) {}
-      }
-      return;
-    }
-    if (bar) bar.hidden = true;
-    if (fab) fab.hidden = true;
-  });
+  /* ── 미리 받기 ─────────────────────────────────────── */
 
-  setTrack(idx); /* 첫 곡 이름을 바로 띄우고 그 곡을 미리 받아 둡니다 */
-  try {
-    audio.load();
-  } catch (err) {}
+  function warmNow() {
+    clearTimeout(bootTimer);
+    if (readOff()) return;
+    ensurePlayer();
+  }
+
+  /* 첫 터치가 오면 바로, 아니면 화면이 다 뜨고 1.2초 뒤에 플레이어를 만들어 둡니다. */
+  document.addEventListener("pointerdown", warmNow, { once: true, passive: true });
+  document.addEventListener("keydown", warmNow, { once: true });
+
+  function boot() {
+    if (readOff()) return;
+    bootTimer = setTimeout(ensurePlayer, 1200);
+  }
+  if (document.readyState === "complete") boot();
+  else window.addEventListener("load", boot, { once: true });
+
   paint();
   if (!readOff()) arm();
 })();
