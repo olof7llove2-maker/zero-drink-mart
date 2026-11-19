@@ -2626,3 +2626,21 @@ main { padding: 0 var(--pad) 24px; }
   .spot-card { flex-basis: 300px; }
   .prot-card { flex-basis: 240px; }
 }
+
+/* r46 후속 — 남아 있던 플랫폼 원색 정리 (스팟 카드·판매처 표기) */
+.spot-buy.is-coupang, .spot-buy.is-toss, .spot-buy.is-naver {
+  background: var(--ink); border-color: var(--ink); color: #fff;
+}
+.spot-src.src-coupang, .spot-src.src-toss, .spot-src.src-naver {
+  color: var(--muted-2); background: transparent; font-weight: 500;
+}
+.prot-src.src-coupang, .prot-src.src-toss, .prot-src.src-naver {
+  color: var(--muted-2); background: transparent; font-weight: 500;
+}
+/* 넓은 화면에서는 카테고리 칩을 내용 폭만큼 (3+2 그리드 해제) */
+@media (min-width: 860px) {
+  .spot-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .spot-chip { grid-column: auto; min-height: 38px; padding: 0 18px; font-size: 13px; }
+  .prot-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .prot-chip { flex: 0 0 auto; padding: 7px 16px; font-size: 12px; }
+}
