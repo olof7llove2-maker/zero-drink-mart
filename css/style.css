@@ -2816,7 +2816,7 @@ select.sel {
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   box-shadow: none;
 }
-.pc-rank.is-top { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-fg); }
+.pc-rank.is-top { background: #101013; border-color: #101013; color: #f5f5f7; }
 .pc-fab .btn-icon, .pc-fab .pc-ico {
   background: rgba(11, 11, 13, 0.6); border-color: rgba(255, 255, 255, 0.16); color: #f5f5f7;
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -3057,7 +3057,7 @@ select.sel {
 /* ── 푸터 ─────────────────────────────────────────────── */
 .foot { border-top-color: var(--line); color: var(--muted-2); }
 .legal-foot { color: #8a8a93; }
-.copy { color: #5a5a63; }
+.copy { color: var(--muted-2); }
 .bgm-btn.is-on { color: var(--sage-text); border-color: var(--sage-line); background: rgba(52, 211, 153, 0.08); }
 .bgm-credit { color: var(--muted-2); }
 .bgm-fab {
