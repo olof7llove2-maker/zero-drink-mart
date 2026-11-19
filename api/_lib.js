@@ -22,7 +22,7 @@ const VAPID_PUBLIC_KEY =
   process.env.VAPID_PUBLIC_KEY ||
   "BAlodXA0lfszG4Wo_xTHYmAHMM4TI0KsMx6xmUFdjfNBqUmJyPAufg4aP64P9Qu_W6W-p3DL8Oiu1u9pvztuJcg";
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY || "";
-const VAPID_SUBJECT = process.env.VAPID_SUBJECT || "https://zero-drink-mart.vercel.app";
+const VAPID_SUBJECT = process.env.VAPID_SUBJECT || "https://ttini.kr";
 
 function storageConfigured() {
   return Boolean(REDIS_URL && REDIS_TOKEN);

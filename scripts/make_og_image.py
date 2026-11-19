@@ -70,7 +70,7 @@ for col, lab in pills:
     px += 32 + tw + 34
 
 # 오른쪽 아래 주소
-text(d, (W - 72, H - 62), "zero-drink-mart.vercel.app", 22, MUTED2, anchor="ra")
+text(d, (W - 72, H - 62), "ttini.kr", 22, MUTED2, anchor="ra")
 
 out = os.path.join(os.path.dirname(__file__), "..", "images", "og-image.png")
 img.save(out, "PNG", optimize=True)

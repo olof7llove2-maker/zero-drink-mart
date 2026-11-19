@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
   }
 
   const dry = Boolean(req.query && (req.query.dry === "1" || req.query.dry === "true"));
-  const host = req.headers["x-forwarded-host"] || req.headers.host || "zero-drink-mart.vercel.app";
+  const host = req.headers["x-forwarded-host"] || req.headers.host || "ttini.kr";
   const proto = req.headers["x-forwarded-proto"] || "https";
   const base = `${proto}://${host}`;
 

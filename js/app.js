@@ -2,7 +2,7 @@
    데이터: js/products.js (PRODUCTS · PARTS · CATEGORIES …), data/price-history.json */
 const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
 const $ = (id) => document.getElementById(id);
-const SHARE_BASE = "https://zero-drink-mart.vercel.app";
+const SHARE_BASE = "https://ttini.kr";
 
 const TABS = [
   { id: "home", label: "홈", icon: "🏠" },

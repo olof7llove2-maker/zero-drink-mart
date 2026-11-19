@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
   let hit = req.method === "POST";
   if (!hit) {
     try {
-      const url = new URL(req.url || "/api/views", "https://zero-drink-mart.vercel.app");
+      const url = new URL(req.url || "/api/views", "https://ttini.kr");
       hit = url.searchParams.get("hit") === "1";
     } catch (err) {
       hit = false;

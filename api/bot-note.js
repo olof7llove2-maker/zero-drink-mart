@@ -333,7 +333,7 @@ module.exports = async (req, res) => {
       });
     }
 
-    const url = new URL(req.url || "/api/bot-note", "https://zero-drink-mart.vercel.app");
+    const url = new URL(req.url || "/api/bot-note", "https://ttini.kr");
     if (method === "POST") return await createNote(req, res);
     if (method === "DELETE") return await deleteNote(res, url);
     return await listNotes(req, res, url);

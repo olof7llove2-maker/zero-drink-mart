@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
 
     let limit = 20;
     try {
-      const url = new URL(req.url || "/api/clicks", "https://zero-drink-mart.vercel.app");
+      const url = new URL(req.url || "/api/clicks", "https://ttini.kr");
       const q = Number(url.searchParams.get("top"));
       if (Number.isFinite(q) && q > 0) limit = Math.min(100, Math.floor(q));
     } catch (err) {

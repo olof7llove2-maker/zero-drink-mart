@@ -26,7 +26,7 @@ const {
   readBody,
 } = require("./_lib");
 
-const SITE_URL = "https://zero-drink-mart.vercel.app";
+const SITE_URL = "https://ttini.kr";
 const LAST_KEY = "ttini:push:broadcast:last";
 const RATE_KEY = "ttini:push:broadcast:rate";
 const RATE_LIMIT = 6; /* 한 시간에 최대 6번까지만 */

@@ -3,7 +3,7 @@
 제로음료·단백질음료·단백질쉐이크·식단고기를 단가와 단백질·성분으로 비교하는 정적 사이트입니다.
 `index.html` 하나와 `css/`, `js/`, `images/`, `data/` 자산으로 이루어져 있고, 빌드 없이 그대로 열립니다.
 
-- 배포: https://zero-drink-mart.vercel.app (Vercel, main 브랜치 push 시 자동 배포)
+- 배포: https://ttini.kr (Vercel, main 브랜치 push 시 자동 배포)
 - 상품 데이터: `js/products.js` (203개 상품). `data/products.json`은 같은 데이터의 JSON 사본이고,
   `js/products.js`가 로드되지 않을 때 사이트가 이 파일로 넘어갑니다. 두 파일 내용은 항상 같게 유지합니다.
 - 첫 화면의 **마지막 업데이트** 날짜는 상품 카드의 `priceCheckedAt` 중 가장 늦은 날짜에서 계산합니다
@@ -102,7 +102,7 @@
 - 저장소: **Upstash Redis(Vercel Marketplace) REST**. 아래 환경변수가 자동으로 들어오면 그대로 씁니다.
   - `KV_REST_API_URL` · `KV_REST_API_TOKEN` (또는 `UPSTASH_REDIS_REST_URL` · `UPSTASH_REDIS_REST_TOKEN`)
 - VAPID: 공개키는 `api/_lib.js`에 함께 있고, **개인키만 환경변수** `VAPID_PRIVATE_KEY`로 넣습니다.
-  `VAPID_SUBJECT`(기본값 `https://zero-drink-mart.vercel.app`)는 필요할 때만 바꿉니다.
+  `VAPID_SUBJECT`(기본값 `https://ttini.kr`)는 필요할 때만 바꿉니다.
 - 발송 주기: `vercel.json`의 cron `20 0 * * *`(UTC) = 매일 09:20 KST. 아침 9시 가격 갱신·배포 뒤에 돕니다.
   수동 점검: `GET /api/push-check?dry=1` → 발송 없이 조건에 맞은 구독만 알려줍니다.
   `CRON_SECRET`을 넣으면 `Authorization: Bearer <CRON_SECRET>` 없는 호출은 401로 막힙니다.
@@ -122,7 +122,7 @@
   응답의 `hotdeal` 값이 초특가 구독자 수입니다.
 - **발송**: `api/push-broadcast.js`.
   - 확인(발송 없음): `GET /api/push-broadcast?dry=1` → `{targeted, payload}`
-  - 실제 발송: `POST /api/push-broadcast` `{"title":"🔥 …","body":"…","url":"https://zero-drink-mart.vercel.app/?p=…"}`
+  - 실제 발송: `POST /api/push-broadcast` `{"title":"🔥 …","body":"…","url":"https://ttini.kr/?p=…"}`
     (또는 `GET /api/push-broadcast?send=1&title=…&body=…&url=…` — cron용)
   - 인증: `CRON_SECRET` 또는 `PUSH_BROADCAST_SECRET`이 있으면 `Authorization: Bearer <secret>` 필요(push-check와 같은 방식).
   - 안전장치: 같은 제목·내용·링크를 10분 안에 다시 보내면 `skipped: "duplicate"`로 건너뜀(`force=1`로 해제),
