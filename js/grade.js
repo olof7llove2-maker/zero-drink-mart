@@ -300,7 +300,7 @@ function applyDeepCut(p, out) {
   out.tier = VERDICT_TIERS[0];
   out.badge = GRADE_BANDS[0];
   out.deepCut = true;
-  out.why = `정가 대비 ${disc}% 할인 — 역대급${out.pct != null ? ` (60일 평소가 ${signedPct(out.pct)})` : ""}`;
+  out.why = `정가 대비 ${disc}% 할인${out.pct != null ? ` · 60일 평소가 ${signedPct(out.pct)}` : ""}`;
   return out;
 }
 
