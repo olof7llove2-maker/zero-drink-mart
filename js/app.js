@@ -32,6 +32,9 @@ const SORT_OPTIONS = [
 ];
 const SORT_IDS = new Set(SORT_OPTIONS.map((s) => s.id));
 
+/* r55 — 홈 '🟢 지금 사기 좋아요' 기본 노출 개수(모바일 2열 4줄 · 데스크톱 4열 2줄) */
+const HOME_LIMIT = 8;
+
 const state = {
   data: null,
   priceHistory: null,
@@ -50,7 +53,7 @@ const state = {
   homeCat: "all", /* r53 — 홈 맨 위 카테고리 버튼 선택값 */
   query: "",
   highlightId: null,
-  limit: { home: 6, category: 30, hotdeal: 30 },
+  limit: { home: 8, category: 30, hotdeal: 30 },
 };
 
 function escapeHtml(s) {
@@ -1759,7 +1762,7 @@ function resetAllFilters() {
   state.goal = "all";
   state.sources = { coupang: true, toss: true };
   state.highlightId = null;
-  state.limit = { home: 6, category: 30, hotdeal: 30 };
+  state.limit = { home: 8, category: 30, hotdeal: 30 };
   const input = $("search-input");
   if (input) input.value = "";
   const hdr = $("hdr-find-input");
@@ -2229,7 +2232,7 @@ function initControls() {
     if (!SORT_IDS.has(id) || id === state.sort) return;
     state.sort = id;
     state.goal = "all";
-    state.limit.home = 6;
+    state.limit.home = HOME_LIMIT;
     state.limit.category = 30;
     paint();
   });
@@ -2273,7 +2276,7 @@ function initControls() {
     if (pickBtn) {
       const id = pickBtn.getAttribute("data-pick");
       state.pick = state.pick === id ? "" : id;
-      state.limit.home = 6;
+      state.limit.home = HOME_LIMIT;
       state.limit.category = 30;
       state.limit.hotdeal = 30;
       paint();
