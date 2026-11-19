@@ -1269,6 +1269,9 @@ function spotCardHTML(p) {
    r54 — 재영 님(2026-11-19): "중복된 카테고리 버튼 2줄을 1줄로", "보기좋게 두줄로".
    홈 맨 위 6개 버튼 하나만 남기고, 그 선택값(state.homeCat)이
    ① 오늘의 역대급 할인 카드(가로 레일)와 ② 아래 상품 비교 리스트를 함께 필터링합니다. */
+/* r55 — 위 '오늘의 역대급 할인' 레일 노출 개수. 재영 님(2026-11-19): 5개 → 4개 */
+const SPOT_LIMIT = 4;
+
 /* r55 — 지금 홈 위 '오늘의 역대급 할인' 레일에 실제로 걸린 상품 ID.
    renderSpotlight()가 매번 채우고, renderHome()이 아래 목록에서 이 상품들을 뺍니다. */
 let SPOT_SHOWN_IDS = [];
@@ -1374,7 +1377,7 @@ function renderSpotlight() {
   if (!box) return;
   /* r54 — 홈 맨 위 카테고리 버튼과 같은 선택값을 씁니다(별도 칩 줄은 없앴습니다). */
   const activeCat = homeCatDef().id;
-  const picks = spotCatPicks(activeCat, 5);
+  const picks = spotCatPicks(activeCat, SPOT_LIMIT);
   SPOT_SHOWN_IDS = picks.map((p) => p.id); /* r55 — 아래 목록에서 겹치지 않게 뺄 상품 */
   const cat = SPOT_CATS.find((c) => c.id === activeCat) || SPOT_CATS[0];
   box.hidden = false;
@@ -1435,7 +1438,7 @@ function withoutSpotPicks(list) {
 }
 
 function renderHome() {
-  renderSpotlight(); /* 위 역대급 Top 5 — 걸린 상품 ID를 SPOT_SHOWN_IDS 에 남깁니다 */
+  renderSpotlight(); /* 위 역대급 할인(4개) — 걸린 상품 ID를 SPOT_SHOWN_IDS 에 남깁니다 */
   if (typeof renderProteinSection === "function") renderProteinSection();
   renderHomeHead();
   const goalOn = state.goal && state.goal !== "all" && typeof goalList === "function";
