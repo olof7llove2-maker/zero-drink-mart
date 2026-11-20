@@ -29,9 +29,17 @@ function categoryCompare(p) {
   return compareInfo(`cat:${p.category}`, (x) => x.category === p.category);
 }
 
-/* 고기 파트 전체(100g 기준)와 비교 — 조리기구는 중량이 없어 뺀다 */
+/* r62 — 같은 축(닭가슴살·안심 / 소·돼지고기) 안에서만 100g당으로 비교한다.
+   닭가슴살과 소고기를 한 줄에 세우면 100g 단가 차이가 커서 비교가 의미를 잃는다. */
+function meatPartOf(p) {
+  return p && p.part === "chicken" ? "chicken" : "meat";
+}
+function meatPartLabel(p) {
+  return meatPartOf(p) === "chicken" ? "닭가슴살·안심" : "소·돼지고기";
+}
 function meatCompare(p) {
-  return compareInfo("meat", (x) => isMeat(x) && !isGadget(x));
+  const part = meatPartOf(p);
+  return compareInfo("meat", (x) => isMeat(x) && !isGadget(x) && meatPartOf(x) === part);
 }
 
 /* r59 — 식단 고기를 '단백질 20g당 가격'으로 비교. 함량 참고치가 있는 고기끼리만. */
@@ -41,7 +49,7 @@ function protein20Compare(p) {
   const info = protein20Info(p, null);
   if (!info) return null;
   const rows = (state.data.products || [])
-    .filter((x) => isMeat(x) && !isGadget(x))
+    .filter((x) => isMeat(x) && !isGadget(x) && meatPartOf(x) === meatPartOf(p))
     .map((x) => protein20Info(x, null))
     .filter((x) => x && typeof x.value === "number");
   if (rows.length < 3) return null;
@@ -366,7 +374,7 @@ function categoryBlock(p) {
   if (isMeat(p) && !isGadget(p)) {
     const mc = compareIn(meatCompare(p), p);
     if (mc && mc.count >= 3) {
-      meatLine = `<li>식단 고기 <b>${mc.count}개 전체</b> 100g당 평균 <b>${wonShort(
+      meatLine = `<li>${escapeHtml(meatPartLabel(p))} <b>${mc.count}개 전체</b> 100g당 평균 <b>${wonShort(
         Math.round(mc.avg)
       )}원</b> · 이 상품 <b>${wonShort(Math.round(mc.value))}원</b> → ${
         mc.diffWon >= 0
@@ -381,7 +389,7 @@ function categoryBlock(p) {
   /* r59 — 식단 고기도 '단백질 20g당'으로 같은 기준 비교 */
   const meatP20 = protein20Compare(p);
   const meatP20Line = meatP20
-    ? `<li>단백질 20g당 <b class="minus">${won(meatP20.value)}</b> — 식단 고기 <b>${
+    ? `<li>단백질 20g당 <b class="minus">${won(meatP20.value)}</b> — ${escapeHtml(meatPartLabel(p))} <b>${
         meatP20.count
       }개 중 ${meatP20.rank}번째</b>로 저렴해요(평균 ${won(meatP20.avg)})</li>`
     : isMeat(p) && !isGadget(p)

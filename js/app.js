@@ -23,11 +23,10 @@ const LEGACY_TABS = { hotdeal: "home" };
 
 /* 카테고리 탭 대표 사진 — 재영 님이 고른 대표 상품 */
 const PART_TILES = [
-  { part: "zero", label: "제로 음료", emoji: "🥤", sub: "펩시·나랑드·몬스터", image: "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg" },
-  { part: "protein", label: "단백질 음료", emoji: "💪", sub: "더단백·셀렉스·테이크핏", image: "images/deodanbaek-deuringkeu-choko-250ml-18gae.jpg" },
-  { part: "shake", label: "단백질 쉐이크", emoji: "🥛", sub: "신타6·옵티멈·마이프로틴", image: "images/shake-bsn-syntha6-chocolate-milkshake-2-27kg.jpg" },
-  { part: "meat", label: "식단 고기", emoji: "🥩", sub: "소·돼지·닭 원물", image: "images/meat-beef-au-buchaesal-steak-600g.jpg" },
-  { part: "cheat", label: "치팅·간편식", emoji: "🍕", sub: "햇반·간편 닭가슴살·스팸", image: "images/retort-can-spam-classic-340g-6.jpg" },
+  { part: "zero", label: "제로음료·생수", emoji: "🥤", sub: "펩시·나랑드·초정·생수", image: "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg" },
+  { part: "protein", label: "단백질 쉐이크·음료", emoji: "💪", sub: "더단백·셀렉스·하이뮨·뉴욕웨이", image: "images/deodanbaek-deuringkeu-choko-250ml-18gae.jpg" },
+  { part: "chicken", label: "닭가슴살·안심", emoji: "🍗", sub: "하림·한강·더바른닭", image: "images/meat-chicken-harim-jayeonsilrok-breast-400g.jpg" },
+  { part: "meat", label: "소·돼지고기", emoji: "🥩", sub: "부채살·삼겹·목살·대패", image: "images/meat-beef-au-buchaesal-steak-600g.jpg" },
 ];
 
 /* r58 — 정렬은 소비자가 실제로 고르는 5기준으로 정리(재영 님 2026-11-19).
@@ -159,7 +158,7 @@ function clearFilters() {
 const MEASURE_LABEL = { per100ml: "100ml당", per100g: "100g당", each: "개당" };
 
 function isMeat(p) {
-  return partOf(p) === "meat";
+  return partOf(p) === "meat" || partOf(p) === "chicken";
 }
 function isGadget(p) {
   return p.category === "gadget";
@@ -167,7 +166,7 @@ function isGadget(p) {
 function measureKind(p) {
   if (p.measure) return p.measure;
   if (isGadget(p)) return "each";
-  if (p.category === "shake" || p.container === "powder") return "per100g";
+  if (p.category === "shake" || p.category === "breast" || p.category === "tenderloin" || p.container === "powder") return "per100g";
   if (partOf(p) === "zero" || partOf(p) === "protein") return "per100ml";
   return "per100g";
 }
@@ -938,12 +937,11 @@ const SPOT_KNOWN_BRANDS = SPOT_HERO_BRANDS.concat([
    → 단백질 2 + 식단 고기 2 + 제로 음료 1 + 간편식 1.
    window는 '매일 섞을 상위 후보 수'입니다. 창 안에서만 섞어 품질을 지킵니다. */
 const SPOT_GROUPS = [
-  { id: "protein", parts: ["protein", "shake"], quota: 2, window: 7 },
+  { id: "protein", parts: ["protein"], quota: 2, window: 7 },
   { id: "meat", parts: ["meat"], quota: 2, window: 5 },
+  { id: "chicken", parts: ["chicken"], quota: 1, window: 4 },
   { id: "zero", parts: ["zero"], quota: 1, window: 6 },
-  { id: "meal", parts: ["cheat"], quota: 1, window: 4 },
 ];
-const SPOT_MEAL_CATS = ["rice", "can", "meal", "jeyuk", "snack", "ready", "bakery", "egg"];
 
 /* KST 오늘 날짜 — 로테이션 시드 (YYYY-MM-DD) */
 function spotDayKey(date) {
@@ -1024,7 +1022,7 @@ function spotMerit(p, dayKey) {
   const judge = typeof judgeOf === "function" ? judgeOf(p) : null;
   const good = judge && judge.tier ? (judge.tier.id === "good" ? 1 : judge.tier.id === "mid" ? 0.5 : 0.15) : 0.4;
   let wow = 0;
-  if (p.part === "shake") wow += 0.04; /* 웨이 파우더 큰 통 */
+  if (p.category === "shake") wow += 0.04; /* 웨이 파우더 큰 통 */
   const g = proteinValue(p);
   if (g != null && g >= 20) wow += 0.04; /* 한 병 단백질 20g 이상 */
   if (/부채살|삼겹|닭가슴살|안심|등심|스테이크/.test(String(p.name || ""))) wow += 0.03;
@@ -1038,12 +1036,12 @@ function spotMerit(p, dayKey) {
 function spotGroupOf(p) {
   const part = p.part || "zero";
   if (part === "zero") return "zero";
-  if (part === "protein" || part === "shake") return "protein";
+  if (part === "protein") return "protein";
+  if (part === "chicken") return "chicken";
   if (part === "meat") {
     if (p.category === "egg" || p.category === "gadget") return null;
     return "meat";
   }
-  if (part === "cheat") return SPOT_MEAL_CATS.indexOf(p.category) >= 0 ? "meal" : null;
   return null;
 }
 
@@ -1128,7 +1126,7 @@ function spotlightOrder(chosen, dayKey, limit) {
     if (groupOf(row) !== "protein") return;
     const s =
       spotAwareness(row.p) +
-      (row.p.part === "protein" ? 0.06 : 0) /* 큰 통 웨이보다 마시는 단백질 음료를 살짝 앞에 */
+      (row.p.part === "protein" && row.p.category === "protein" ? 0.06 : 0) /* 큰 통 웨이보다 마시는 단백질 음료를 살짝 앞에 */
       + 0.03 * spotHash(`${row.p.id}|${dayKey}|hero`);
     if (s > heroScore) {
       hero = row;
@@ -1160,10 +1158,10 @@ function spotlightOrder(chosen, dayKey, limit) {
    분야마다 인지도 상위 3종만 후보로 두고, 그중 오늘 메리트(할인·저점·인하)가 가장 높은 1종이
    기본 '인기·할인 순' 홈 그리드 첫 칸(🏆 1위)에 옵니다. 날짜 시드로 매일 바뀝니다. */
 const HOME_FIELDS = [
-  { id: "protein", parts: ["protein", "shake"] },
+  { id: "protein", parts: ["protein"] },
+  { id: "chicken", parts: ["chicken"] },
   { id: "meat", parts: ["meat"] },
   { id: "zero", parts: ["zero"] },
-  { id: "cheat", parts: ["cheat"] },
 ];
 const HOME_FIELD_TOP = 3;
 
@@ -1256,9 +1254,9 @@ function spotTagOf(p, dayKey) {
   const disc = Number(p.discountPct) || 0;
   const score = typeof p.popularScore === "number" ? p.popularScore : 0;
   const g = proteinValue(p);
-  if (p.part === "protein" && g != null && g >= 20) return { text: `고단백 ${g}g`, cls: "is-prot" };
-  if (p.part === "protein" || p.part === "shake") {
-    if (p.part === "shake" && score >= 85) return { text: "단백질 인기", cls: "is-prot" };
+  if (p.part === "protein" && p.category !== "shake" && g != null && g >= 20) return { text: `고단백 ${g}g`, cls: "is-prot" };
+  if (p.part === "protein") {
+    if (p.category === "shake" && score >= 85) return { text: "단백질 인기", cls: "is-prot" };
     if (disc >= 50) return { text: "반값 특가", cls: "is-good" };
     return { text: "단백질 인기", cls: "is-prot" };
   }
@@ -1332,10 +1330,10 @@ const SPOT_LIMIT = 4;
 
 const SPOT_CATS = [
   { id: "all", emoji: "🔥", label: "전체", parts: null },
-  { id: "zero", emoji: "🥤", label: "제로음료", parts: ["zero"] },
-  { id: "protein", emoji: "💪", label: "단백질", parts: ["protein", "shake"] },
-  { id: "meat", emoji: "🥩", label: "식단고기", parts: ["meat"] },
-  { id: "meal", emoji: "🍕", label: "간편식", parts: ["cheat"] },
+  { id: "zero", emoji: "🥤", label: "제로음료·생수", parts: ["zero"] },
+  { id: "protein", emoji: "💪", label: "단백질", parts: ["protein"] },
+  { id: "chicken", emoji: "🍗", label: "닭가슴살·안심", parts: ["chicken"] },
+  { id: "meat", emoji: "🥩", label: "소·돼지고기", parts: ["meat"] },
 ];
 
 /* r53 — '오늘의 역대급 할인' Top 5 기준 (재영 님 2026-11-19: "인지도(리뷰 수) × 할인 매력도")
@@ -1604,8 +1602,8 @@ const CAT_PROMOS = {
 };
 
 function catPromoOf() {
-  if (state.part === "meat") return (state.filters || []).includes("gadget") ? CAT_PROMOS.gadget : CAT_PROMOS.meat;
-  if (state.part === "protein" || state.part === "shake") return CAT_PROMOS.protein;
+  if (state.part === "meat" || state.part === "chicken") return CAT_PROMOS.meat;
+  if (state.part === "protein") return CAT_PROMOS.protein;
   return CAT_PROMOS.diet; /* 전체(타일) · 제로 음료 · 치팅·간편식 · 기타 */
 }
 
@@ -2351,11 +2349,13 @@ const LEGACY_CAT = {
   energy: ["zero", "energy"],
   icetea: ["zero", "tea"],
   tea: ["zero", "tea"],
-  protein: ["protein", "all"],
-  shake: ["shake", "all"],
+  protein: ["protein", "protein"],
+  shake: ["protein", "shake"],
   beef: ["meat", "beef"],
   pork: ["meat", "pork"],
-  chicken: ["meat", "chicken"],
+  chicken: ["chicken", "all"],
+  breast: ["chicken", "breast"],
+  tenderloin: ["chicken", "tenderloin"],
 };
 const LEGACY_SORT = { per100: "basis", per100g: "basis", reviews: "popular", rating: "popular" };
 

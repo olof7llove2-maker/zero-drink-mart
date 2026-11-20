@@ -16,9 +16,9 @@ const GOAL_DEFS = [
 ];
 
 const KIND_DEFS = [
-  { id: "drink", emoji: "🥤", label: "가벼운 음료", parts: ["zero", "protein"] },
-  { id: "shake", emoji: "🥛", label: "진한 쉐이크", parts: ["shake"] },
-  { id: "meal", emoji: "🍗", label: "든든한 고기·간편식", parts: ["meat", "cheat"] },
+  { id: "drink", emoji: "🥤", label: "제로음료·생수", parts: ["zero"] },
+  { id: "shake", emoji: "🥛", label: "단백질 쉐이크·음료", parts: ["protein"] },
+  { id: "meal", emoji: "🍗", label: "닭가슴살·소·돼지고기", parts: ["chicken", "meat"] },
 ];
 
 /* 판정 문구·색은 js/grade.js 의 VERDICT_TIERS 하나를 그대로 씁니다(화면마다 말이 달라지지 않게).
@@ -123,20 +123,17 @@ function tipOf(p) {
   /* 상품별 문구(p.tip)가 있으면 카테고리 기본 문구보다 먼저 쓴다 */
   const flavor = p.tip || TIP_FLAVOR[p.category] || "";
 
-  if (part === "protein" || part === "shake") {
+  if (part === "protein") {
     if (protein != null && protein >= 20) bits.push(`단백질 ${fmtG(protein)}g · 운동 직후`);
     else if (protein != null) bits.push(`단백질 ${fmtG(protein)}g`);
     if (sugar != null && sugar <= 1) bits.push(`당류 ${fmtG(sugar)}g`);
     else if (kcal != null) bits.push(`${kcal}kcal`);
-  } else if (part === "meat") {
+  } else if (part === "meat" || part === "chicken") {
     const pp = numOrNull(p.proteinPer100g);
     const fat = numOrNull(p.fatPer100g);
     if (pp != null && pp >= 20) bits.push(`단백질 ${fmtG(pp)}g/100g`);
     if (fat != null && fat <= 5) bits.push("지방 적은 부위");
     if (p.airfryerTip) bits.push(`에어프라이어 ${p.airfryerTip}`);
-  } else if (part === "cheat") {
-    if (flavor) bits.push(flavor);
-    if (bits.length < 2 && numOrNull(p.eachPrice) != null) bits.push(`1${p.eachLabel || "개"} ${won(p.eachPrice)}`);
   } else {
     if (flavor) bits.push(flavor);
     if (p.caffeine === "contains") bits.push("카페인 있음");
@@ -179,16 +176,16 @@ function goalFit(p, goal) {
       /* 생수는 어느 목적에서나 단가 1등이라 결론이 무의미해져 뺐습니다 */
       return ["cola", "cider", "sparkling", "acv", "ion", "energy", "icetea", "tea"].includes(p.category);
     }
-    if (part === "protein") {
+    if (part === "protein" && p.category !== "shake") {
       const s = numOrNull(p.sugarPerServing);
       const k = numOrNull(p.kcal_per_bottle);
       return (s != null && s <= 2) || (k != null && k <= 100);
     }
-    if (part === "shake") {
+    if (part === "protein" && p.category === "shake") {
       const s = numOrNull(p.sugarPerServing);
       return s != null && s <= 2;
     }
-    if (part === "meat") {
+    if (part === "meat" || part === "chicken") {
       const f = numOrNull(p.fatPer100g);
       return (f != null && f <= 5) || /가슴살|안심/.test(String(p.name || ""));
     }
@@ -483,9 +480,9 @@ function goalHint(id) {
   return "단위당 가격 최저";
 }
 function kindHint(id) {
-  if (id === "drink") return "제로음료·단백질 음료";
-  if (id === "shake") return "분말·파우치 쉐이크";
-  return "고기·즉석밥·간편식";
+  if (id === "drink") return "제로음료·생수";
+  if (id === "shake") return "마시는 단백질·가루 쉐이크";
+  return "닭가슴살·안심·소·돼지고기";
 }
 
 function renderRec() {

@@ -33,7 +33,7 @@ function containerClass(p) {
   if (!p) return null;
   if (p.category === "gadget") return null;
   if (p.category === "egg" || p.category === "bakery") return null;
-  if (p.part === "meat" || p.part === "cheat") return "raw";
+  if (p.part === "meat" || p.part === "chicken") return "raw";
   if (p.container === "powder" || p.category === "powder") return "powder";
   if (p.container) return p.container;
   return containerFromVolume(p.volumeMl);
