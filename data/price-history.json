@@ -1327,7 +1327,7 @@
    "name": "코카콜라 제로, 190ml, 30개",
    "platform": "coupang",
    "cardPrice": 15740,
-   "cardPriceCheckedAt": "2026-11-20 18:04",
+   "cardPriceCheckedAt": "2026-11-20 17:08",
    "cardListPrice": 21600,
    "sourceUrl": "https://www.couprice.co.kr/products/x-8174473713",
    "couprice": {
@@ -1363,7 +1363,7 @@
     {
      "date": "2026-11-20",
      "price": 15740,
-     "ts": "2026-11-20T18:04:00+09:00",
+     "ts": "2026-11-20T17:08:00+09:00",
      "src": "mart"
     }
    ],
@@ -1378,7 +1378,7 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T18:04:00+09:00"
+   "lastObservedAt": "2026-11-20T17:08:00+09:00"
   },
   "toss-pepsi-jero-syugeo-raimhyang-355ml-24gae": {
    "id": "toss-pepsi-jero-syugeo-raimhyang-355ml-24gae",
@@ -1416,7 +1416,7 @@
    "name": "해태htb 갈배사이다 제로, 185ml, 30개",
    "platform": "coupang",
    "cardPrice": 11160,
-   "cardPriceCheckedAt": "2026-11-20 18:12",
+   "cardPriceCheckedAt": "2026-11-20 17:12",
    "cardListPrice": 11160,
    "source": "mart",
    "status": "tracking-started",
@@ -1431,7 +1431,7 @@
     {
      "date": "2026-11-20",
      "price": 11160,
-     "ts": "2026-11-20T18:12:00+09:00",
+     "ts": "2026-11-20T17:12:00+09:00",
      "src": "mart"
     }
    ],
@@ -1446,14 +1446,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T18:12:00+09:00"
+   "lastObservedAt": "2026-11-20T17:12:00+09:00"
   },
   "seupeuraiteu-jero-saida-500ml-24gae": {
    "id": "seupeuraiteu-jero-saida-500ml-24gae",
    "name": "스프라이트 제로 사이다, 500ml, 24개",
    "platform": "coupang",
    "cardPrice": 16530,
-   "cardPriceCheckedAt": "2026-11-20 18:07",
+   "cardPriceCheckedAt": "2026-11-20 17:09",
    "cardListPrice": 38800,
    "source": "mart",
    "status": "tracking-started",
@@ -1468,7 +1468,7 @@
     {
      "date": "2026-11-20",
      "price": 16530,
-     "ts": "2026-11-20T18:07:00+09:00",
+     "ts": "2026-11-20T17:09:00+09:00",
      "src": "mart"
     }
    ],
@@ -1483,7 +1483,7 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T18:07:00+09:00"
+   "lastObservedAt": "2026-11-20T17:09:00+09:00"
   },
   "narangd-cider-zero": {
    "id": "narangd-cider-zero",
@@ -3006,7 +3006,7 @@
    "name": "더단백 40g 고함량 드링크 더블초코, 350ml, 20개",
    "platform": "coupang",
    "cardPrice": 52020,
-   "cardPriceCheckedAt": "2026-11-20 18:01",
+   "cardPriceCheckedAt": "2026-11-20 17:07",
    "cardListPrice": 78000,
    "source": "mart",
    "status": "tracking-started",
@@ -3021,7 +3021,7 @@
     {
      "date": "2026-11-20",
      "price": 52020,
-     "ts": "2026-11-20T18:01:00+09:00",
+     "ts": "2026-11-20T17:07:00+09:00",
      "src": "mart"
     }
    ],
@@ -3037,14 +3037,14 @@
     "days": 2
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044",
-   "lastObservedAt": "2026-11-20T18:01:00+09:00"
+   "lastObservedAt": "2026-11-20T17:07:00+09:00"
   },
   "selrekseu-peuropit-moka-chokolrit-250ml-18gae": {
    "id": "selrekseu-peuropit-moka-chokolrit-250ml-18gae",
    "name": "셀렉스 프로핏 모카 초콜릿, 250ml, 18개",
    "platform": "coupang",
    "cardPrice": 24900,
-   "cardPriceCheckedAt": "2026-11-20 17:50",
+   "cardPriceCheckedAt": "2026-11-20 17:02",
    "cardListPrice": 24900,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7553257510",
    "couprice": {
@@ -3200,12 +3200,12 @@
     {
      "date": "2026-11-20",
      "price": 24900,
-     "ts": "2026-11-20T17:50:00+09:00",
+     "ts": "2026-11-20T17:02:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-19T11:48:09.284583+00:00",
-   "lastObservedAt": "2026-11-20T17:50:00+09:00",
+   "lastObservedAt": "2026-11-20T17:02:00+09:00",
    "stats": {
     "min": 24900,
     "minDate": "2026-10-22",
@@ -3223,7 +3223,7 @@
    "name": "하이뮨 프로틴 밸런스 액티브 오리지널, 250ml, 18개",
    "platform": "coupang",
    "cardPrice": 28000,
-   "cardPriceCheckedAt": "2026-11-20 17:53",
+   "cardPriceCheckedAt": "2026-11-20 17:04",
    "cardListPrice": 28000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-6979534638",
    "couprice": {
@@ -3409,12 +3409,12 @@
     {
      "date": "2026-11-20",
      "price": 28000,
-     "ts": "2026-11-20T17:53:00+09:00",
+     "ts": "2026-11-20T17:04:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-23T09:52:14.4785+00:00",
-   "lastObservedAt": "2026-11-20T17:53:00+09:00",
+   "lastObservedAt": "2026-11-20T17:04:00+09:00",
    "stats": {
     "min": 23800,
     "minDate": "2026-10-06",
@@ -3432,7 +3432,7 @@
    "name": "테이크핏 맥스 초코맛 프로틴, 250ml, 24개",
    "platform": "coupang",
    "cardPrice": 32000,
-   "cardPriceCheckedAt": "2026-11-20 17:56",
+   "cardPriceCheckedAt": "2026-11-20 17:05",
    "cardListPrice": 32000,
    "sourceUrl": "https://www.couprice.co.kr/products/x-7923580560",
    "couprice": {
@@ -3990,12 +3990,12 @@
     {
      "date": "2026-11-20",
      "price": 32000,
-     "ts": "2026-11-20T17:56:00+09:00",
+     "ts": "2026-11-20T17:05:00+09:00",
      "src": "mart"
     }
    ],
    "firstObservedAt": "2026-09-20T04:02:56.170727+00:00",
-   "lastObservedAt": "2026-11-20T17:56:00+09:00",
+   "lastObservedAt": "2026-11-20T17:05:00+09:00",
    "stats": {
     "min": 15500,
     "minDate": "2026-09-23",
@@ -4087,7 +4087,7 @@
    "name": "더바른닭 국내산 냉장 촉촉 닭가슴살, 2kg, 1개",
    "platform": "coupang",
    "cardPrice": 15000,
-   "cardPriceCheckedAt": "2026-11-20 17:47",
+   "cardPriceCheckedAt": "2026-11-20 17:00",
    "cardListPrice": 18000,
    "source": "mart",
    "status": "tracking-started",
@@ -4102,7 +4102,7 @@
     {
      "date": "2026-11-20",
      "price": 15000,
-     "ts": "2026-11-20T17:47:00+09:00",
+     "ts": "2026-11-20T17:00:00+09:00",
      "src": "mart"
     }
    ],
@@ -4117,14 +4117,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:47:00+09:00"
+   "lastObservedAt": "2026-11-20T17:00:00+09:00"
   },
   "meat-chicken-harim-iff-breast-2kg": {
    "id": "meat-chicken-harim-iff-breast-2kg",
    "name": "하림 IFF 닭가슴살 (냉동), 2kg, 1개",
    "platform": "coupang",
    "cardPrice": 22200,
-   "cardPriceCheckedAt": "2026-11-20 17:27",
+   "cardPriceCheckedAt": "2026-11-20 16:46",
    "cardListPrice": 23100,
    "source": "mart",
    "status": "tracking-started",
@@ -4139,7 +4139,7 @@
     {
      "date": "2026-11-20",
      "price": 22200,
-     "ts": "2026-11-20T17:27:00+09:00",
+     "ts": "2026-11-20T16:46:00+09:00",
      "src": "mart"
     }
    ],
@@ -4154,14 +4154,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:27:00+09:00"
+   "lastObservedAt": "2026-11-20T16:46:00+09:00"
   },
   "meat-chicken-harim-jayeonsilrok-breast-400g": {
    "id": "meat-chicken-harim-jayeonsilrok-breast-400g",
    "name": "하림 자연실록 무항생제 인증 닭가슴살 (냉장), 400g, 1개",
    "platform": "coupang",
    "cardPrice": 6900,
-   "cardPriceCheckedAt": "2026-11-20 17:25",
+   "cardPriceCheckedAt": "2026-11-20 16:44",
    "cardListPrice": 7190,
    "sourceUrl": "https://www.couprice.co.kr/products/x-162464612",
    "couprice": {
@@ -4197,7 +4197,7 @@
     {
      "date": "2026-11-20",
      "price": 6900,
-     "ts": "2026-11-20T17:25:00+09:00",
+     "ts": "2026-11-20T16:44:00+09:00",
      "src": "mart"
     }
    ],
@@ -4212,14 +4212,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:25:00+09:00"
+   "lastObservedAt": "2026-11-20T16:44:00+09:00"
   },
   "meat-chicken-harim-jayeonsilrok-breast-1kg-3": {
    "id": "meat-chicken-harim-jayeonsilrok-breast-1kg-3",
    "name": "하림 자연실록 무항생제 닭가슴살 (냉동), 1kg, 3개",
    "platform": "coupang",
    "cardPrice": 29150,
-   "cardPriceCheckedAt": "2026-11-20 17:27",
+   "cardPriceCheckedAt": "2026-11-20 16:46",
    "cardListPrice": 30650,
    "source": "mart",
    "status": "tracking-started",
@@ -4234,7 +4234,7 @@
     {
      "date": "2026-11-20",
      "price": 29150,
-     "ts": "2026-11-20T17:27:00+09:00",
+     "ts": "2026-11-20T16:46:00+09:00",
      "src": "mart"
     }
    ],
@@ -4250,14 +4250,14 @@
     "days": 2
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-8853526798",
-   "lastObservedAt": "2026-11-20T17:27:00+09:00"
+   "lastObservedAt": "2026-11-20T16:46:00+09:00"
   },
   "meat-chicken-hangang-iqf-tenderloin-2kg": {
    "id": "meat-chicken-hangang-iqf-tenderloin-2kg",
    "name": "한강 무항생제 인증 IQF 닭 안심 (냉동), 2kg, 1개",
    "platform": "coupang",
    "cardPrice": 18400,
-   "cardPriceCheckedAt": "2026-11-20 17:44",
+   "cardPriceCheckedAt": "2026-11-20 16:58",
    "cardListPrice": 18700,
    "source": "mart",
    "status": "tracking-started",
@@ -4272,7 +4272,7 @@
     {
      "date": "2026-11-20",
      "price": 18400,
-     "ts": "2026-11-20T17:44:00+09:00",
+     "ts": "2026-11-20T16:58:00+09:00",
      "src": "mart"
     }
    ],
@@ -4287,14 +4287,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:44:00+09:00"
+   "lastObservedAt": "2026-11-20T16:58:00+09:00"
   },
   "meat-chicken-harim-tenderloin-350g": {
    "id": "meat-chicken-harim-tenderloin-350g",
    "name": "하림 자연실록 무항생제 인증 닭 안심 (냉장), 350g, 1개",
    "platform": "coupang",
    "cardPrice": 6150,
-   "cardPriceCheckedAt": "2026-11-20 17:26",
+   "cardPriceCheckedAt": "2026-11-20 16:45",
    "cardListPrice": 6150,
    "source": "mart",
    "status": "tracking-started",
@@ -4309,7 +4309,7 @@
     {
      "date": "2026-11-20",
      "price": 6150,
-     "ts": "2026-11-20T17:26:00+09:00",
+     "ts": "2026-11-20T16:45:00+09:00",
      "src": "mart"
     }
    ],
@@ -4324,14 +4324,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:26:00+09:00"
+   "lastObservedAt": "2026-11-20T16:45:00+09:00"
   },
   "meat-beef-gomgom-daepae-woosamgyup-1kg": {
    "id": "meat-beef-gomgom-daepae-woosamgyup-1kg",
    "name": "곰곰 대패 우삼겹 (냉동), 1kg, 1개",
    "platform": "coupang",
    "cardPrice": 15750,
-   "cardPriceCheckedAt": "2026-11-20 17:32",
+   "cardPriceCheckedAt": "2026-11-20 16:49",
    "cardListPrice": 19490,
    "source": "mart",
    "status": "tracking-started",
@@ -4346,7 +4346,7 @@
     {
      "date": "2026-11-20",
      "price": 15750,
-     "ts": "2026-11-20T17:32:00+09:00",
+     "ts": "2026-11-20T16:49:00+09:00",
      "src": "mart"
     }
    ],
@@ -4361,7 +4361,7 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:32:00+09:00"
+   "lastObservedAt": "2026-11-20T16:49:00+09:00"
   },
   "meat-beef-au-buchaesal-steak-600g": {
    "id": "meat-beef-au-buchaesal-steak-600g",
@@ -4474,7 +4474,7 @@
    "name": "곰곰 돌돌말이 대패삼겹살 (냉동), 1kg, 1개",
    "platform": "coupang",
    "cardPrice": 9900,
-   "cardPriceCheckedAt": "2026-11-20 17:35",
+   "cardPriceCheckedAt": "2026-11-20 16:51",
    "cardListPrice": 11000,
    "source": "mart",
    "status": "tracking-started",
@@ -4489,7 +4489,7 @@
     {
      "date": "2026-11-20",
      "price": 9900,
-     "ts": "2026-11-20T17:35:00+09:00",
+     "ts": "2026-11-20T16:51:00+09:00",
      "src": "mart"
     }
    ],
@@ -4504,14 +4504,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:35:00+09:00"
+   "lastObservedAt": "2026-11-20T16:51:00+09:00"
   },
   "meat-pork-gomgom-muyeongol-daepae-1-5kg": {
    "id": "meat-pork-gomgom-muyeongol-daepae-1-5kg",
    "name": "곰곰 돌돌말이 무연골 대패 삼겹살 (냉동), 1.5kg, 1개",
    "platform": "coupang",
    "cardPrice": 16390,
-   "cardPriceCheckedAt": "2026-11-20 17:35",
+   "cardPriceCheckedAt": "2026-11-20 16:51",
    "cardListPrice": 20990,
    "source": "mart",
    "status": "tracking-started",
@@ -4526,7 +4526,7 @@
     {
      "date": "2026-11-20",
      "price": 16390,
-     "ts": "2026-11-20T17:35:00+09:00",
+     "ts": "2026-11-20T16:51:00+09:00",
      "src": "mart"
     }
    ],
@@ -4541,14 +4541,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:35:00+09:00"
+   "lastObservedAt": "2026-11-20T16:51:00+09:00"
   },
   "meat-pork-moamit-canada-moksal-1kg": {
    "id": "meat-pork-moamit-canada-moksal-1kg",
    "name": "모아미트 캐나다산 보리먹인 암퇘지 목살 구이용 (냉장), 1kg, 1개",
    "platform": "coupang",
    "cardPrice": 14770,
-   "cardPriceCheckedAt": "2026-11-20 17:39",
+   "cardPriceCheckedAt": "2026-11-20 16:55",
    "cardListPrice": 22660,
    "source": "mart",
    "status": "tracking-started",
@@ -4563,7 +4563,7 @@
     {
      "date": "2026-11-20",
      "price": 14770,
-     "ts": "2026-11-20T17:39:00+09:00",
+     "ts": "2026-11-20T16:55:00+09:00",
      "src": "mart"
     }
    ],
@@ -4578,14 +4578,14 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:39:00+09:00"
+   "lastObservedAt": "2026-11-20T16:55:00+09:00"
   },
   "meat-pork-dodram-handon-samgyeopsal-1kg": {
    "id": "meat-pork-dodram-handon-samgyeopsal-1kg",
    "name": "도드람 한돈 1등급 삼겹살 구이용 (냉장), 1kg, 1개",
    "platform": "coupang",
    "cardPrice": 21390,
-   "cardPriceCheckedAt": "2026-11-20 17:37",
+   "cardPriceCheckedAt": "2026-11-20 16:53",
    "cardListPrice": 38000,
    "source": "mart",
    "status": "tracking-started",
@@ -4600,7 +4600,7 @@
     {
      "date": "2026-11-20",
      "price": 21390,
-     "ts": "2026-11-20T17:37:00+09:00",
+     "ts": "2026-11-20T16:53:00+09:00",
      "src": "mart"
     }
    ],
@@ -4615,7 +4615,7 @@
     "observations": 2,
     "days": 2
    },
-   "lastObservedAt": "2026-11-20T17:37:00+09:00"
+   "lastObservedAt": "2026-11-20T16:53:00+09:00"
   }
  }
 }
