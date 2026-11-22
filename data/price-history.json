@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-22T21:20:00+09:00",
+  "generatedAt": "2026-11-22T23:40:00+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -1319,7 +1319,7 @@
    ],
    "previousSkipped": "r59에서 옵션 불일치로 보류한 5종 — r61에서 정리 완료"
   },
-  "note": "r64(2026-11-22) — 50종 확장: 신규 16종(제로음료·생수 3, 유제품·간식 5, 닭가슴살 간편식 4, 볶음밥 1, 소·돼지고기 3) 추적 시작."
+  "note": "r66(2026-11-22) — 단백질 음료 맛별 확충: 신규 18종(더단백 9·셀렉스 3·테이크핏 3·닥터유 프로 3) 추적 시작."
  },
  "products": {
   "kokakolra-jero-190ml-30gae": {
@@ -5331,6 +5331,618 @@
     "days": 1
    },
    "lastObservedAt": "2026-11-22T21:20:00+09:00"
+  },
+  "deodanbaek-deuringkeu-ttalgi-250ml-18gae": {
+   "id": "deodanbaek-deuringkeu-ttalgi-250ml-18gae",
+   "name": "더단백 드링크 딸기, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 23290,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/7814209814?itemId=21359437294&vendorItemId=88266164587",
+   "coupang": {
+    "productId": "7814209814"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 23290,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 23290,
+    "minDate": "2026-11-22",
+    "max": 23290,
+    "maxDate": "2026-11-22",
+    "avg": 23290,
+    "latest": 23290,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "deodanbaek-deuringkeu-keopi-a-250ml-18gae": {
+   "id": "deodanbaek-deuringkeu-keopi-a-250ml-18gae",
+   "name": "더단백 드링크 커피 A, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 23980,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/7411107327?itemId=19202399565&vendorItemId=81135143112",
+   "coupang": {
+    "productId": "7411107327"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 23980,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 23980,
+    "minDate": "2026-11-22",
+    "max": 23980,
+    "maxDate": "2026-11-22",
+    "avg": 23980,
+    "latest": 23980,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "deodanbaek-deuringkeu-karamel-250ml-18gae": {
+   "id": "deodanbaek-deuringkeu-karamel-250ml-18gae",
+   "name": "더단백 드링크 카라멜, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 23750,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/7616812492?itemId=20184839209&vendorItemId=81133193583",
+   "coupang": {
+    "productId": "7616812492"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 23750,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 23750,
+    "minDate": "2026-11-22",
+    "max": 23750,
+    "maxDate": "2026-11-22",
+    "avg": 23750,
+    "latest": 23750,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "deodanbaek-deuringkeu-banana-250ml-18gae": {
+   "id": "deodanbaek-deuringkeu-banana-250ml-18gae",
+   "name": "더단백 드링크 바나나, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 27540,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/7821923664?itemId=21248069591&vendorItemId=88308626475",
+   "coupang": {
+    "productId": "7821923664"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 27540,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 27540,
+    "minDate": "2026-11-22",
+    "max": 27540,
+    "maxDate": "2026-11-22",
+    "avg": 27540,
+    "latest": 27540,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "deodanbaek-melron-250ml-18gae": {
+   "id": "deodanbaek-melron-250ml-18gae",
+   "name": "더단백 멜론, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 23750,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8308582418?itemId=23972733461&vendorItemId=90994072738",
+   "coupang": {
+    "productId": "8308582418"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 23750,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 23750,
+    "minDate": "2026-11-22",
+    "max": 23750,
+    "maxDate": "2026-11-22",
+    "avg": 23750,
+    "latest": 23750,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "deodanbaek-deuringkeu-milkteu-250ml-18gae": {
+   "id": "deodanbaek-deuringkeu-milkteu-250ml-18gae",
+   "name": "더단백 드링크 밀크티, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 27340,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/7821929485?vendorItemId=88308658437",
+   "coupang": {
+    "productId": "7821929485"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 27340,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 27340,
+    "minDate": "2026-11-22",
+    "max": 27340,
+    "maxDate": "2026-11-22",
+    "avg": 27340,
+    "latest": 27340,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "deodanbaek-deuringkeu-minteuchoko-250ml-18gae": {
+   "id": "deodanbaek-deuringkeu-minteuchoko-250ml-18gae",
+   "name": "더단백 드링크 민트초코, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 25450,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/9422053894?vendorItemId=95276536420",
+   "coupang": {
+    "productId": "9422053894"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 25450,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 25450,
+    "minDate": "2026-11-22",
+    "max": 25450,
+    "maxDate": "2026-11-22",
+    "avg": 25450,
+    "latest": 25450,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "deodanbaek-deuringkeu-dakeuchoko-330ml-12gae": {
+   "id": "deodanbaek-deuringkeu-dakeuchoko-330ml-12gae",
+   "name": "더단백 드링크 다크초코, 330ml, 12개",
+   "platform": "coupang",
+   "cardPrice": 24410,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/9165375222?itemId=27003819134&vendorItemId=93972516698",
+   "coupang": {
+    "productId": "9165375222"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 24410,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 24410,
+    "minDate": "2026-11-22",
+    "max": 24410,
+    "maxDate": "2026-11-22",
+    "avg": 24410,
+    "latest": 24410,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "binggeure-deodanbaek-6jong-gihoek-250ml-18gae": {
+   "id": "binggeure-deodanbaek-6jong-gihoek-250ml-18gae",
+   "name": "더단백 6종 기획(초코·카라멜·커피·딸기·바나나·멜론), 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 26190,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8628856177?itemId=25036110037&vendorItemId=92040776124",
+   "coupang": {
+    "productId": "8628856177"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 26190,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 26190,
+    "minDate": "2026-11-22",
+    "max": 26190,
+    "maxDate": "2026-11-22",
+    "avg": 26190,
+    "latest": 26190,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "selrekseu-peuropit-ttalgichoko-250ml-18gae": {
+   "id": "selrekseu-peuropit-ttalgichoko-250ml-18gae",
+   "name": "셀렉스 프로핏 딸기초코, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 27900,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8817045827?itemId=26033649782&vendorItemId=95580940394",
+   "coupang": {
+    "productId": "8817045827"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 27900,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 27900,
+    "minDate": "2026-11-22",
+    "max": 27900,
+    "maxDate": "2026-11-22",
+    "avg": 27900,
+    "latest": 27900,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "selrekseu-peuropit-banana-250ml-18gae": {
+   "id": "selrekseu-peuropit-banana-250ml-18gae",
+   "name": "셀렉스 프로핏 바나나, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 26880,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8397547499?vendorItemId=94499748277",
+   "coupang": {
+    "productId": "8397547499"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 26880,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 26880,
+    "minDate": "2026-11-22",
+    "max": 26880,
+    "maxDate": "2026-11-22",
+    "avg": 26880,
+    "latest": 26880,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "selrekseu-peuropit-milkeubanilla-250ml-18gae": {
+   "id": "selrekseu-peuropit-milkeubanilla-250ml-18gae",
+   "name": "셀렉스 프로핏 밀크 바닐라, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 26900,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8415619462?vendorItemId=86983543109",
+   "coupang": {
+    "productId": "8415619462"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 26900,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 26900,
+    "minDate": "2026-11-22",
+    "max": 26900,
+    "maxDate": "2026-11-22",
+    "avg": 26900,
+    "latest": 26900,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "teikeupit-maekseu-gosohanmat-250ml-18gae": {
+   "id": "teikeupit-maekseu-gosohanmat-250ml-18gae",
+   "name": "테이크핏 맥스 고소한맛, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 24400,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/7923583836?itemId=28988522008&vendorItemId=95917380087",
+   "coupang": {
+    "productId": "7923583836"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 24400,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 24400,
+    "minDate": "2026-11-22",
+    "max": 24400,
+    "maxDate": "2026-11-22",
+    "avg": 24400,
+    "latest": 24400,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "teikeupit-maekseu-ttalgimat-250ml-18gae": {
+   "id": "teikeupit-maekseu-ttalgimat-250ml-18gae",
+   "name": "테이크핏 맥스 딸기맛, 250ml, 18개",
+   "platform": "coupang",
+   "cardPrice": 24750,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/9675021781?itemId=28988522015&vendorItemId=95917380113",
+   "coupang": {
+    "productId": "9675021781"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 24750,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 24750,
+    "minDate": "2026-11-22",
+    "max": 24750,
+    "maxDate": "2026-11-22",
+    "avg": 24750,
+    "latest": 24750,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "teikeupit-maekseu-4jong-honhap-250ml-12pae": {
+   "id": "teikeupit-maekseu-4jong-honhap-250ml-12pae",
+   "name": "테이크핏 맥스 4종 혼합(초코·고소한맛·호박고구마·바나나), 250ml, 12개",
+   "platform": "coupang",
+   "cardPrice": 19010,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/9540506572?itemId=28458032267&vendorItemId=95408521277",
+   "coupang": {
+    "productId": "9540506572"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 19010,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 19010,
+    "minDate": "2026-11-22",
+    "max": 19010,
+    "maxDate": "2026-11-22",
+    "avg": 19010,
+    "latest": 19010,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "dakteoyu-peuro-40g-deuringkeu-choko-350ml-20gae": {
+   "id": "dakteoyu-peuro-40g-deuringkeu-choko-350ml-20gae",
+   "name": "닥터유 프로 단백질 40g 드링크 초코, 350ml, 20개",
+   "platform": "coupang",
+   "cardPrice": 47110,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8411577572?itemId=23873191270&vendorItemId=93469483090",
+   "coupang": {
+    "productId": "8411577572"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 47110,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 47110,
+    "minDate": "2026-11-22",
+    "max": 47110,
+    "maxDate": "2026-11-22",
+    "avg": 47110,
+    "latest": 47110,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "dakteoyu-peuro-40g-deuringkeu-ttalgi-350ml-20gae": {
+   "id": "dakteoyu-peuro-40g-deuringkeu-ttalgi-350ml-20gae",
+   "name": "닥터유 프로 단백질 40g 드링크 딸기, 350ml, 20개",
+   "platform": "coupang",
+   "cardPrice": 50890,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8866352646?itemId=25858860201&vendorItemId=93469537195",
+   "coupang": {
+    "productId": "8866352646"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 50890,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 50890,
+    "minDate": "2026-11-22",
+    "max": 50890,
+    "maxDate": "2026-11-22",
+    "avg": 50890,
+    "latest": 50890,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
+  },
+  "orion-dakteoyu-peuro-honhap-ttalgi-choko-banana-250ml-12gae": {
+   "id": "orion-dakteoyu-peuro-honhap-ttalgi-choko-banana-250ml-12gae",
+   "name": "닥터유 프로 단백질 드링크 딸기·초코·바나나 혼합, 250ml, 12개",
+   "platform": "coupang",
+   "cardPrice": 25100,
+   "cardPriceCheckedAt": "2026-11-22 23:40",
+   "sourceUrl": "https://www.coupang.com/vp/products/8313355115?itemId=23989965371&vendorItemId=93475628156",
+   "coupang": {
+    "productId": "8313355115"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 25100,
+     "ts": "2026-11-22T23:40:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 25100,
+    "minDate": "2026-11-22",
+    "max": 25100,
+    "maxDate": "2026-11-22",
+    "avg": 25100,
+    "latest": 25100,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T23:40:00+09:00"
   }
  }
 }
