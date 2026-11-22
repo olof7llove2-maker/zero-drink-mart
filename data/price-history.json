@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-22T20:50:00+09:00",
+  "generatedAt": "2026-11-22T21:20:00+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -1319,7 +1319,7 @@
    ],
    "previousSkipped": "r59에서 옵션 불일치로 보류한 5종 — r61에서 정리 완료"
   },
-  "note": "r63(2026-11-22) — 뉴욕웨이 라이트 제거, 쉐이크 유명 3종(옵티멈·BSN 신타6 추가), 고단백 볶음밥 3종 신규, 기존 25종 실가격 갱신."
+  "note": "r64(2026-11-22) — 50종 확장: 신규 16종(제로음료·생수 3, 유제품·간식 5, 닭가슴살 간편식 4, 볶음밥 1, 소·돼지고기 3) 추적 시작."
  },
  "products": {
   "kokakolra-jero-190ml-30gae": {
@@ -4777,6 +4777,560 @@
    },
    "lastObservedAt": "2026-11-22T20:50:00+09:00",
    "cardListPrice": 110900
+  },
+  "welchs-zero-applemango-355ml-24": {
+   "id": "welchs-zero-applemango-355ml-24",
+   "name": "웰치스 제로 애플망고맛, 355ml, 24개",
+   "platform": "coupang",
+   "cardPrice": 15900,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/9409709264?itemId=27958049331&vendorItemId=94916134748",
+   "coupang": {
+    "productId": "9409709264"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 15900,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 15900,
+    "minDate": "2026-11-22",
+    "max": 15900,
+    "maxDate": "2026-11-22",
+    "avg": 15900,
+    "latest": 15900,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00"
+  },
+  "monster-ultra-355ml-24": {
+   "id": "monster-ultra-355ml-24",
+   "name": "몬스터에너지 울트라, 355ml, 24개",
+   "platform": "coupang",
+   "cardPrice": 30290,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/8424947419?itemId=24411503064",
+   "coupang": {
+    "productId": "8424947419"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 30290,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 30290,
+    "minDate": "2026-11-22",
+    "max": 30290,
+    "maxDate": "2026-11-22",
+    "avg": 30290,
+    "latest": 30290,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 43200
+  },
+  "tamsa-saemmul-2l-12": {
+   "id": "tamsa-saemmul-2l-12",
+   "name": "탐사 샘물 무라벨, 2L, 12개",
+   "platform": "coupang",
+   "cardPrice": 5590,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/7689270513?itemId=20877904723",
+   "coupang": {
+    "productId": "7689270513"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 5590,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 5590,
+    "minDate": "2026-11-22",
+    "max": 5590,
+    "maxDate": "2026-11-22",
+    "avg": 5590,
+    "latest": 5590,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 9980
+  },
+  "yozm-greek-plain-450g": {
+   "id": "yozm-greek-plain-450g",
+   "name": "요즘 그릭요거트 플레인, 450g, 1개",
+   "platform": "coupang",
+   "cardPrice": 11470,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/331527359?itemId=28086202366",
+   "coupang": {
+    "productId": "331527359"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 11470,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 11470,
+    "minDate": "2026-11-22",
+    "max": 11470,
+    "maxDate": "2026-11-22",
+    "avg": 11470,
+    "latest": 11470,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 12750
+  },
+  "hoodis-greek-plain-450g-3": {
+   "id": "hoodis-greek-plain-450g-3",
+   "name": "후디스그릭요거트 플레인, 450g, 3개",
+   "platform": "coupang",
+   "cardPrice": 14790,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/168835912?itemId=19224726307",
+   "coupang": {
+    "productId": "168835912"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 14790,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 14790,
+    "minDate": "2026-11-22",
+    "max": 14790,
+    "maxDate": "2026-11-22",
+    "avg": 14790,
+    "latest": 14790,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00"
+  },
+  "dryou-proteinbar-crunch-560g": {
+   "id": "dryou-proteinbar-crunch-560g",
+   "name": "닥터유 프로 단백질바 크런치, 560g, 1개 (70g×8)",
+   "platform": "coupang",
+   "cardPrice": 14400,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/7537130432?itemId=18737915707",
+   "coupang": {
+    "productId": "7537130432"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 14400,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 14400,
+    "minDate": "2026-11-22",
+    "max": 14400,
+    "maxDate": "2026-11-22",
+    "avg": 14400,
+    "latest": 14400,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 16000
+  },
+  "post-proteinbar-mini-231g-2": {
+   "id": "post-proteinbar-mini-231g-2",
+   "name": "포스트 단백질바 미니, 231g, 2개 (11g×21개입×2)",
+   "platform": "coupang",
+   "cardPrice": 8360,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/8414651411?itemId=24292118425",
+   "coupang": {
+    "productId": "8414651411"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 8360,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 8360,
+    "minDate": "2026-11-22",
+    "max": 8360,
+    "maxDate": "2026-11-22",
+    "avg": 8360,
+    "latest": 8360,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 11600
+  },
+  "almondbreeze-unsweet-190ml-24": {
+   "id": "almondbreeze-unsweet-190ml-24",
+   "name": "아몬드브리즈 언스위트, 190ml, 24개",
+   "platform": "coupang",
+   "cardPrice": 15670,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/329389373?itemId=9060755624&vendorItemId=3006697064",
+   "coupang": {
+    "productId": "329389373"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 15670,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 15670,
+    "minDate": "2026-11-22",
+    "max": 15670,
+    "maxDate": "2026-11-22",
+    "avg": 15670,
+    "latest": 15670,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 26400
+  },
+  "matitdak-steak-100g-10": {
+   "id": "matitdak-steak-100g-10",
+   "name": "맛있닭 닭가슴살 스테이크 오리지널, 100g, 10개",
+   "platform": "coupang",
+   "cardPrice": 18480,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/8721477488?itemId=25222871430&vendorItemId=92219201893",
+   "coupang": {
+    "productId": "8721477488"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 18480,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 18480,
+    "minDate": "2026-11-22",
+    "max": 18480,
+    "maxDate": "2026-11-22",
+    "avg": 18480,
+    "latest": 18480,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 19880
+  },
+  "itmate-sausage-100g-20": {
+   "id": "itmate-sausage-100g-20",
+   "name": "잇메이트 닭가슴살 소시지 5종 혼합, 100g, 20개",
+   "platform": "coupang",
+   "cardPrice": 33800,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/7427855563?vendorItemId=70259022008",
+   "coupang": {
+    "productId": "7427855563"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 33800,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 33800,
+    "minDate": "2026-11-22",
+    "max": 33800,
+    "maxDate": "2026-11-22",
+    "avg": 33800,
+    "latest": 33800,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 46800
+  },
+  "heodak-cube-5jong-100g-20": {
+   "id": "heodak-cube-5jong-100g-20",
+   "name": "허닭 한입 닭가슴살 큐브 5종 혼합, 100g, 20개",
+   "platform": "coupang",
+   "cardPrice": 35990,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/1772224246?itemId=20012402727&vendorItemId=71005765859",
+   "coupang": {
+    "productId": "1772224246"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 35990,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 35990,
+    "minDate": "2026-11-22",
+    "max": 35990,
+    "maxDate": "2026-11-22",
+    "avg": 35990,
+    "latest": 35990,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 40900
+  },
+  "harim-blackpepper-100g-10": {
+   "id": "harim-blackpepper-100g-10",
+   "name": "하림 닭가슴살 블랙페퍼, 100g, 10개",
+   "platform": "coupang",
+   "cardPrice": 20700,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/7260940221?itemId=16938973800&vendorItemId=5269347916",
+   "coupang": {
+    "productId": "7260940221"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 20700,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 20700,
+    "minDate": "2026-11-22",
+    "max": 20700,
+    "maxDate": "2026-11-22",
+    "avg": 20700,
+    "latest": 20700,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00"
+  },
+  "matitdak-jumbo-friedrice-350g-12": {
+   "id": "matitdak-jumbo-friedrice-350g-12",
+   "name": "맛있닭 점보 닭가슴살 볶음밥 혼합, 350g, 12개",
+   "platform": "coupang",
+   "cardPrice": 53960,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/8243165020?itemId=24892490293&vendorItemId=90746708739",
+   "coupang": {
+    "productId": "8243165020"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 53960,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 53960,
+    "minDate": "2026-11-22",
+    "max": 53960,
+    "maxDate": "2026-11-22",
+    "avg": 53960,
+    "latest": 53960,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00",
+   "cardListPrice": 67800
+  },
+  "gomgom-handon-apdari-1kg": {
+   "id": "gomgom-handon-apdari-1kg",
+   "name": "곰곰 한돈 앞다리살 수육용 (냉장), 1kg, 1팩",
+   "platform": "coupang",
+   "cardPrice": 12380,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/1465326792?itemId=70512939979",
+   "coupang": {
+    "productId": "1465326792"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 12380,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 12380,
+    "minDate": "2026-11-22",
+    "max": 12380,
+    "maxDate": "2026-11-22",
+    "avg": 12380,
+    "latest": 12380,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00"
+  },
+  "gogeupjin-canada-moksal-1kg": {
+   "id": "gogeupjin-canada-moksal-1kg",
+   "name": "고급진 캐나다산 목살 구이용 (냉장), 1kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 14060,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/8259218904?itemId=23790226690",
+   "coupang": {
+    "productId": "8259218904"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 14060,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 14060,
+    "minDate": "2026-11-22",
+    "max": 14060,
+    "maxDate": "2026-11-22",
+    "avg": 14060,
+    "latest": 14060,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00"
+  },
+  "au-hongdukke-slice-500g-2": {
+   "id": "au-hongdukke-slice-500g-2",
+   "name": "호주산 우홍두깨 슬라이스 (냉동), 500g, 2개",
+   "platform": "coupang",
+   "cardPrice": 28000,
+   "cardPriceCheckedAt": "2026-11-22 21:20",
+   "sourceUrl": "https://www.coupang.com/vp/products/8510668564?vendorItemId=91673082289",
+   "coupang": {
+    "productId": "8510668564"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 28000,
+     "ts": "2026-11-22T21:20:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 28000,
+    "minDate": "2026-11-22",
+    "max": 28000,
+    "maxDate": "2026-11-22",
+    "avg": 28000,
+    "latest": 28000,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T21:20:00+09:00"
   }
  }
 }

@@ -34,16 +34,20 @@ function categoryCompare(p) {
 function meatPartOf(p) {
   /* r63 — 고단백 볶음밥도 자기 축(rice) 안에서만 비교한다. */
   if (p && p.part === "rice") return "rice";
+  /* r64 — 닭가슴살 간편식(스테이크·소시지·큐브)은 원물 닭가슴살과 단가 결이 달라 따로 비교한다. */
+  if (p && p.category === "chicken-meal") return "chicken-meal";
   return p && p.part === "chicken" ? "chicken" : "meat";
 }
 function meatPartLabel(p) {
   const part = meatPartOf(p);
-  return part === "chicken" ? "닭가슴살·안심" : part === "rice" ? "고단백 볶음밥" : "소·돼지고기";
+  if (part === "chicken") return "닭가슴살·안심";
+  if (part === "chicken-meal") return "닭가슴살 간편식";
+  return part === "rice" ? "고단백 볶음밥" : "소·돼지고기";
 }
 function meatCompare(p) {
   const part = meatPartOf(p);
   if (part === "rice") return null; /* 볶음밥은 100g당 비교 대신 아래 단백질 20g당 비교를 쓴다 */
-  return compareInfo("meat", (x) => isMeat(x) && !isGadget(x) && meatPartOf(x) === part);
+  return compareInfo(`meat:${part}`, (x) => isMeat(x) && !isGadget(x) && meatPartOf(x) === part);
 }
 
 /* r59 — 식단 고기를 '단백질 20g당 가격'으로 비교. 함량 참고치가 있는 고기끼리만.

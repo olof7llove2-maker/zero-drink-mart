@@ -25,8 +25,9 @@ const LEGACY_TABS = { hotdeal: "home" };
 const PART_TILES = [
   { part: "zero", label: "제로음료·생수", emoji: "🥤", sub: "펩시·나랑드·초정·생수", image: "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg" },
   { part: "protein", label: "단백질 쉐이크·음료", emoji: "💪", sub: "더단백·셀렉스·하이뮨·옵티멈", image: "images/deodanbaek-deuringkeu-choko-250ml-18gae.jpg" },
-  { part: "rice", label: "고단백 볶음밥", emoji: "🍚", sub: "미트리·허닭 곤약볶음밥", image: "images/mitree-jaieoneteu-dakgaseomsal-bokkeumbap-300g-12gae.jpg" },
-  { part: "chicken", label: "닭가슴살·안심", emoji: "🍗", sub: "하림·한강·더바른닭", image: "images/meat-chicken-harim-jayeonsilrok-breast-400g.jpg" },
+  { part: "rice", label: "고단백 볶음밥", emoji: "🍚", sub: "미트리·허닭·맛있닭 점보", image: "images/mitree-jaieoneteu-dakgaseomsal-bokkeumbap-300g-12gae.jpg" },
+  { part: "snack", label: "유제품·간식", emoji: "🥣", sub: "그릭요거트·프로틴바·아몬드브리즈", image: "images/yozm-greek-plain-450g.jpg" },
+  { part: "chicken", label: "닭가슴살·안심", emoji: "🍗", sub: "하림·한강·맛있닭·잇메이트", image: "images/meat-chicken-harim-jayeonsilrok-breast-400g.jpg" },
   { part: "meat", label: "소·돼지고기", emoji: "🥩", sub: "부채살·삼겹·목살·대패", image: "images/meat-beef-au-buchaesal-steak-600g.jpg" },
 ];
 
@@ -567,6 +568,8 @@ function sortList(list, key) {
   return list
     .map((p, i) => ({ p, i, v: sortValue(p, k) }))
     .sort((a, b) => {
+      /* r64 — 품절 상품은 어떤 정렬에서도 맨 뒤로 (재입고 알림만 되는 상품이 1번에 오지 않게) */
+      if (!!a.p.soldOut !== !!b.p.soldOut) return a.p.soldOut ? 1 : -1;
       const an = a.v == null;
       const bn = b.v == null;
       if (an && bn) return a.i - b.i;
@@ -735,7 +738,7 @@ function buyHTML(p, opts = {}) {
    제목·가격을 누르면 상세 모달이 열리고, 알림은 상세 모달 안의 큰 버튼으로 옮겼습니다. */
 function cardEl(p, opts = {}) {
   const el = document.createElement("article");
-  el.className = "pc" + (opts.rank ? " is-rank" : "");
+  el.className = "pc" + (opts.rank ? " is-rank" : "") + (p.soldOut ? " is-soldout" : "");
   el.dataset.id = p.id;
   el.__opts = opts;
   const view = cheapView(p);
@@ -752,16 +755,19 @@ function cardEl(p, opts = {}) {
     ? `<span class="fresh${fresh.stale ? " is-stale" : ""}" title="${escapeHtml(fresh.full)} 확인">${fresh.text}</span>`
     : "";
   const label = `${p.name} 상세 보기`;
+  /* r64 — 품절 상품은 카드 사진 위와 배지 줄에 모두 표시 */
+  const soldTag = p.soldOut ? `<span class="bd bd-soldout">품절</span>` : "";
+  const soldRibbon = p.soldOut ? `<span class="pc-sold">품절</span>` : "";
   el.innerHTML = `
     ${rank}
-    <button type="button" class="pc-photo" data-chart="${escapeHtml(p.id)}" aria-label="${escapeHtml(label)}">${photo}</button>
+    <button type="button" class="pc-photo" data-chart="${escapeHtml(p.id)}" aria-label="${escapeHtml(label)}">${photo}${soldRibbon}</button>
     <div class="pc-body">
       <p class="pc-top"><span class="pc-brand">${escapeHtml(p.brand || categoryLabel(p.category))}</span>${freshHTML}</p>
       <div class="pc-main" data-chart="${escapeHtml(p.id)}" role="button" tabindex="0" aria-label="${escapeHtml(label)}">
         <h3 class="pc-name">${escapeHtml(p.name)}</h3>
         <div class="pc-price">${offBadge(p)}<strong>${won(view.price)}</strong>${was}${nvTag}</div>
         ${unitLine(p, view)}
-        <p class="pc-flag">${pill}${deal}</p>
+        <p class="pc-flag">${soldTag}${pill}${deal}</p>
       </div>
       ${optionRow(p)}
       <div class="pc-acts">${buyHTML(p, { card: true })}${
@@ -918,6 +924,7 @@ function pinListFirst(list, ids) {
 /* 스포트라이트 제외 브랜드 — 재영 님: "링티는 빼줘" */
 function isSpotlightOut(p) {
   return (
+    !!p.soldOut ||
     /링티/.test(String(p.brand || "")) ||
     /링티/.test(String(p.name || "")) ||
     String(p.id || "").startsWith("ringti-")
@@ -931,6 +938,7 @@ const SPOT_KNOWN_BRANDS = SPOT_HERO_BRANDS.concat([
   "하이뮨", "닥터유", "마이프로틴", "잇더핏", "플라이밀", "밀잇", "곰곰", "햇반", "스팸", "비비고", "오뚜기", "동원",
   "하림", "풀토래", "한돈", "미트팜", "대패킹", "도드람", "더바른닭", "한강식품", "목우촌", "다향", "사조원", "케이원푸드",
   "매일두유", "뉴케어", "아몬드브리즈", "연세두유", "베지밀", "미트리", "부채살", "삼겹살", "닭가슴살", "펩시",
+  "아임닭", "잇메이트", "허닭", "맛있닭", "요즘", "후디스", "포스트", "몬스터", "웰치스", "탐사", "고급진", "호주청정우",
 ]);
 
 /* 레일 구성 — 재영 님(2026-11-18): "너무 단백질쉐이크만 보이니까 1번은 인지도·단백질,
@@ -943,6 +951,7 @@ const SPOT_GROUPS = [
   { id: "chicken", parts: ["chicken"], quota: 1, window: 4 },
   { id: "zero", parts: ["zero"], quota: 1, window: 6 },
   { id: "rice", parts: ["rice"], quota: 1, window: 3 },
+  { id: "snack", parts: ["snack"], quota: 1, window: 3 },
 ];
 
 /* KST 오늘 날짜 — 로테이션 시드 (YYYY-MM-DD) */
@@ -1039,6 +1048,8 @@ function spotGroupOf(p) {
   const part = p.part || "zero";
   if (part === "zero") return "zero";
   if (part === "protein") return "protein";
+  if (part === "rice") return "rice";
+  if (part === "snack") return "snack";
   if (part === "chicken") return "chicken";
   if (part === "meat") {
     if (p.category === "egg" || p.category === "gadget") return null;
@@ -1162,6 +1173,7 @@ function spotlightOrder(chosen, dayKey, limit) {
 const HOME_FIELDS = [
   { id: "protein", parts: ["protein"] },
   { id: "rice", parts: ["rice"] },
+  { id: "snack", parts: ["snack"] },
   { id: "chicken", parts: ["chicken"] },
   { id: "meat", parts: ["meat"] },
   { id: "zero", parts: ["zero"] },
@@ -1336,6 +1348,7 @@ const SPOT_CATS = [
   { id: "zero", emoji: "🥤", label: "제로음료·생수", parts: ["zero"] },
   { id: "protein", emoji: "💪", label: "단백질", parts: ["protein"] },
   { id: "rice", emoji: "🍚", label: "볶음밥", parts: ["rice"] },
+  { id: "snack", emoji: "🥣", label: "유제품·간식", parts: ["snack"] },
   { id: "chicken", emoji: "🍗", label: "닭가슴살·안심", parts: ["chicken"] },
   { id: "meat", emoji: "🥩", label: "소·돼지고기", parts: ["meat"] },
 ];
@@ -2026,7 +2039,7 @@ function setTab(id, scroll = true) {
   state.tab = id;
   document.body.dataset.tab = id;
   document.title =
-    id === "home" ? "띠니 | 제로음료·단백질·고기 최저가 비교" : `${TABS.find((t) => t.id === id).label} | 띠니`;
+    id === "home" ? "띠니 | 식단 최저가 비교 — 제로음료·단백질·닭가슴살·볶음밥·고기" : `${TABS.find((t) => t.id === id).label} | 띠니`;
   TABS.forEach((t) => {
     const view = $(`view-${t.id}`);
     if (view) view.hidden = t.id !== id;

@@ -807,3 +807,14 @@ main { max-width: var(--frame); margin: 0 auto; background: var(--bg); min-heigh
   font-size: 12px; line-height: 1.6; color: var(--ink-3);
 }
 .hub-empty b { color: var(--ink-2); }
+
+/* r64 — 품절 표시: 사진은 흐리게, 카드 위 '품절' 리본 + 배지 */
+.bd-soldout { background: #2a2f36; color: #fff; }
+.pc.is-soldout .pc-photo img { opacity: .5; filter: grayscale(.55); }
+.pc-sold {
+  position: absolute; left: 8px; top: 8px; z-index: 2;
+  display: inline-flex; align-items: center; height: 22px; padding: 0 8px;
+  border-radius: 7px; background: rgba(24, 28, 34, .82); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: -0.01em;
+}
+.pc-photo { position: relative; }
