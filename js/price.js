@@ -32,24 +32,31 @@ function categoryCompare(p) {
 /* r62 — 같은 축(닭가슴살·안심 / 소·돼지고기) 안에서만 100g당으로 비교한다.
    닭가슴살과 소고기를 한 줄에 세우면 100g 단가 차이가 커서 비교가 의미를 잃는다. */
 function meatPartOf(p) {
+  /* r63 — 고단백 볶음밥도 자기 축(rice) 안에서만 비교한다. */
+  if (p && p.part === "rice") return "rice";
   return p && p.part === "chicken" ? "chicken" : "meat";
 }
 function meatPartLabel(p) {
-  return meatPartOf(p) === "chicken" ? "닭가슴살·안심" : "소·돼지고기";
+  const part = meatPartOf(p);
+  return part === "chicken" ? "닭가슴살·안심" : part === "rice" ? "고단백 볶음밥" : "소·돼지고기";
 }
 function meatCompare(p) {
   const part = meatPartOf(p);
+  if (part === "rice") return null; /* 볶음밥은 100g당 비교 대신 아래 단백질 20g당 비교를 쓴다 */
   return compareInfo("meat", (x) => isMeat(x) && !isGadget(x) && meatPartOf(x) === part);
 }
 
-/* r59 — 식단 고기를 '단백질 20g당 가격'으로 비교. 함량 참고치가 있는 고기끼리만. */
+/* r59 — 식단 고기를 '단백질 20g당 가격'으로 비교. 함량 참고치가 있는 고기끼리만.
+   r63 — 고단백 볶음밥(팩 단백질 표기)도 같은 축(볶음밥) 안에서만 비교한다. */
 function protein20Compare(p) {
-  if (!isMeat(p) || isGadget(p)) return null;
+  if (isGadget(p)) return null;
+  const scope = meatPartOf(p);
+  if (scope === "rice" ? p.part !== "rice" : !isMeat(p)) return null;
   if (typeof protein20Info !== "function") return null;
   const info = protein20Info(p, null);
   if (!info) return null;
   const rows = (state.data.products || [])
-    .filter((x) => isMeat(x) && !isGadget(x) && meatPartOf(x) === meatPartOf(p))
+    .filter((x) => !isGadget(x) && (scope === "rice" ? x.part === "rice" : isMeat(x) && meatPartOf(x) === scope))
     .map((x) => protein20Info(x, null))
     .filter((x) => x && typeof x.value === "number");
   if (rows.length < 3) return null;

@@ -24,7 +24,8 @@ const LEGACY_TABS = { hotdeal: "home" };
 /* 카테고리 탭 대표 사진 — 재영 님이 고른 대표 상품 */
 const PART_TILES = [
   { part: "zero", label: "제로음료·생수", emoji: "🥤", sub: "펩시·나랑드·초정·생수", image: "images/toss-pepsi-jero-syugeo-raimhyang-355ml-24gae.jpeg" },
-  { part: "protein", label: "단백질 쉐이크·음료", emoji: "💪", sub: "더단백·셀렉스·하이뮨·뉴욕웨이", image: "images/deodanbaek-deuringkeu-choko-250ml-18gae.jpg" },
+  { part: "protein", label: "단백질 쉐이크·음료", emoji: "💪", sub: "더단백·셀렉스·하이뮨·옵티멈", image: "images/deodanbaek-deuringkeu-choko-250ml-18gae.jpg" },
+  { part: "rice", label: "고단백 볶음밥", emoji: "🍚", sub: "미트리·허닭 곤약볶음밥", image: "images/mitree-jaieoneteu-dakgaseomsal-bokkeumbap-300g-12gae.jpg" },
   { part: "chicken", label: "닭가슴살·안심", emoji: "🍗", sub: "하림·한강·더바른닭", image: "images/meat-chicken-harim-jayeonsilrok-breast-400g.jpg" },
   { part: "meat", label: "소·돼지고기", emoji: "🥩", sub: "부채살·삼겹·목살·대패", image: "images/meat-beef-au-buchaesal-steak-600g.jpg" },
 ];
@@ -941,6 +942,7 @@ const SPOT_GROUPS = [
   { id: "meat", parts: ["meat"], quota: 2, window: 5 },
   { id: "chicken", parts: ["chicken"], quota: 1, window: 4 },
   { id: "zero", parts: ["zero"], quota: 1, window: 6 },
+  { id: "rice", parts: ["rice"], quota: 1, window: 3 },
 ];
 
 /* KST 오늘 날짜 — 로테이션 시드 (YYYY-MM-DD) */
@@ -1159,6 +1161,7 @@ function spotlightOrder(chosen, dayKey, limit) {
    기본 '인기·할인 순' 홈 그리드 첫 칸(🏆 1위)에 옵니다. 날짜 시드로 매일 바뀝니다. */
 const HOME_FIELDS = [
   { id: "protein", parts: ["protein"] },
+  { id: "rice", parts: ["rice"] },
   { id: "chicken", parts: ["chicken"] },
   { id: "meat", parts: ["meat"] },
   { id: "zero", parts: ["zero"] },
@@ -1332,6 +1335,7 @@ const SPOT_CATS = [
   { id: "all", emoji: "🔥", label: "전체", parts: null },
   { id: "zero", emoji: "🥤", label: "제로음료·생수", parts: ["zero"] },
   { id: "protein", emoji: "💪", label: "단백질", parts: ["protein"] },
+  { id: "rice", emoji: "🍚", label: "볶음밥", parts: ["rice"] },
   { id: "chicken", emoji: "🍗", label: "닭가슴살·안심", parts: ["chicken"] },
   { id: "meat", emoji: "🥩", label: "소·돼지고기", parts: ["meat"] },
 ];
@@ -1343,6 +1347,7 @@ const NATIONAL_BRANDS = [
   "게토레이", "파워에이드", "하림", "동원", "오뚜기", "CJ", "햇반", "비비고", "스팸", "종가", "청정원", "풀무원", "대상",
   "매일", "매일유업", "남양", "빙그레", "서울우유", "웅진", "농심", "롯데", "곰곰", "더단백", "셀렉스", "테이크핏", "칼로바이",
   "옵티멈", "뉴욕웨이", "신타", "명인이만든", "미트팜", "도드람", "목우촌", "마이프로틴", "하이뮨", "아몬드브리즈", "베지밀",
+  "미트리", "허닭", "BSN",
 ];
 
 /* 리뷰 수 인지도 — 10만 개 이상이면 1.0, 리뷰가 없어도 국민 브랜드면 0.6 */

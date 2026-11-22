@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-19T21:13:01+09:00",
+  "generatedAt": "2026-11-22T20:50:00+09:00",
   "sources": {
    "couprice": {
     "name": "쿠프라이스",
@@ -1319,7 +1319,7 @@
    ],
    "previousSkipped": "r59에서 옵션 불일치로 보류한 5종 — r61에서 정리 완료"
   },
-  "note": "r62(2026-11-20) 카탈로그를 핵심 식단템 30종으로 압축 — 뺀 상품의 이력은 지웠습니다."
+  "note": "r63(2026-11-22) — 뉴욕웨이 라이트 제거, 쉐이크 유명 3종(옵티멈·BSN 신타6 추가), 고단백 볶음밥 3종 신규, 기존 25종 실가격 갱신."
  },
  "products": {
   "kokakolra-jero-190ml-30gae": {
@@ -3005,8 +3005,8 @@
    "id": "deodanbaek-40g-gohamryang-deuringkeu-deobeulchoko-350ml-20gae",
    "name": "더단백 40g 고함량 드링크 더블초코, 350ml, 20개",
    "platform": "coupang",
-   "cardPrice": 52020,
-   "cardPriceCheckedAt": "2026-11-20 17:07",
+   "cardPrice": 48080,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
    "cardListPrice": 78000,
    "source": "mart",
    "status": "tracking-started",
@@ -3023,21 +3023,27 @@
      "price": 52020,
      "ts": "2026-11-20T17:07:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-22",
+     "price": 48080,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
-    "min": 51840,
-    "minDate": "2026-11-19",
+    "min": 48080,
+    "minDate": "2026-11-22",
     "max": 52020,
     "maxDate": "2026-11-20",
-    "avg": 51930,
-    "latest": 52020,
-    "latestDate": "2026-11-20",
-    "observations": 2,
-    "days": 2
+    "avg": 50647,
+    "latest": 48080,
+    "latestDate": "2026-11-22",
+    "observations": 3,
+    "days": 3
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-9304930044",
-   "lastObservedAt": "2026-11-20T17:07:00+09:00"
+   "lastObservedAt": "2026-11-22T20:50:00+09:00"
   },
   "selrekseu-peuropit-moka-chokolrit-250ml-18gae": {
    "id": "selrekseu-peuropit-moka-chokolrit-250ml-18gae",
@@ -4008,43 +4014,6 @@
     "days": 38
    }
   },
-  "shake-newyorkwhey-light-2kg": {
-   "id": "shake-newyorkwhey-light-2kg",
-   "name": "뉴욕웨이 라이트 단백질 보충제, 2kg, 1개",
-   "platform": "coupang",
-   "cardPrice": 36700,
-   "cardPriceCheckedAt": "2026-11-20 09:35",
-   "cardListPrice": 99000,
-   "source": "mart",
-   "status": "tracking-started",
-   "statusDetail": "not-tracked",
-   "series": [
-    {
-     "date": "2026-11-17",
-     "price": 36700,
-     "ts": "2026-11-17T12:00:00+09:00",
-     "src": "mart"
-    },
-    {
-     "date": "2026-11-20",
-     "price": 36700,
-     "ts": "2026-11-20T09:35:00+09:00",
-     "src": "mart"
-    }
-   ],
-   "stats": {
-    "min": 36700,
-    "minDate": "2026-11-17",
-    "max": 36700,
-    "maxDate": "2026-11-17",
-    "avg": 36700,
-    "latest": 36700,
-    "latestDate": "2026-11-20",
-    "observations": 2,
-    "days": 2
-   },
-   "lastObservedAt": "2026-11-20T09:35:00+09:00"
-  },
   "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg": {
    "id": "kalobai-peopekteu-pawosweikeu-beulrende-choko-1-8kg",
    "name": "칼로바이 퍼펙트 파워쉐이크 블렌드 단백질쉐이크 초코맛, 1.8kg, 1개",
@@ -4123,8 +4092,8 @@
    "id": "meat-chicken-harim-iff-breast-2kg",
    "name": "하림 IFF 닭가슴살 (냉동), 2kg, 1개",
    "platform": "coupang",
-   "cardPrice": 22200,
-   "cardPriceCheckedAt": "2026-11-20 16:46",
+   "cardPrice": 19700,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
    "cardListPrice": 23100,
    "source": "mart",
    "status": "tracking-started",
@@ -4141,27 +4110,33 @@
      "price": 22200,
      "ts": "2026-11-20T16:46:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-22",
+     "price": 19700,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
-    "min": 22200,
-    "minDate": "2026-11-19",
+    "min": 19700,
+    "minDate": "2026-11-22",
     "max": 22200,
     "maxDate": "2026-11-19",
-    "avg": 22200,
-    "latest": 22200,
-    "latestDate": "2026-11-20",
-    "observations": 2,
-    "days": 2
+    "avg": 21367,
+    "latest": 19700,
+    "latestDate": "2026-11-22",
+    "observations": 3,
+    "days": 3
    },
-   "lastObservedAt": "2026-11-20T16:46:00+09:00"
+   "lastObservedAt": "2026-11-22T20:50:00+09:00"
   },
   "meat-chicken-harim-jayeonsilrok-breast-400g": {
    "id": "meat-chicken-harim-jayeonsilrok-breast-400g",
    "name": "하림 자연실록 무항생제 인증 닭가슴살 (냉장), 400g, 1개",
    "platform": "coupang",
-   "cardPrice": 6900,
-   "cardPriceCheckedAt": "2026-11-20 16:44",
+   "cardPrice": 6150,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
    "cardListPrice": 7190,
    "sourceUrl": "https://www.couprice.co.kr/products/x-162464612",
    "couprice": {
@@ -4199,6 +4174,12 @@
      "price": 6900,
      "ts": "2026-11-20T16:44:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-22",
+     "price": 6150,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
@@ -4206,13 +4187,13 @@
     "minDate": "2026-11-19",
     "max": 6900,
     "maxDate": "2026-11-20",
-    "avg": 6525,
-    "latest": 6900,
-    "latestDate": "2026-11-20",
-    "observations": 2,
-    "days": 2
+    "avg": 6400,
+    "latest": 6150,
+    "latestDate": "2026-11-22",
+    "observations": 3,
+    "days": 3
    },
-   "lastObservedAt": "2026-11-20T16:44:00+09:00"
+   "lastObservedAt": "2026-11-22T20:50:00+09:00"
   },
   "meat-chicken-harim-jayeonsilrok-breast-1kg-3": {
    "id": "meat-chicken-harim-jayeonsilrok-breast-1kg-3",
@@ -4367,8 +4348,8 @@
    "id": "meat-beef-au-buchaesal-steak-600g",
    "name": "호주산 부채살 구이용 (냉장), 600g, 1개",
    "platform": "coupang",
-   "cardPrice": 24900,
-   "cardPriceCheckedAt": "2026-11-20 07:45",
+   "cardPrice": 22900,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
    "cardListPrice": 29590,
    "source": "mart",
    "status": "tracking-started",
@@ -4385,21 +4366,27 @@
      "price": 24900,
      "ts": "2026-11-20T07:45:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-22",
+     "price": 22900,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
-    "min": 24900,
-    "minDate": "2026-11-19",
+    "min": 22900,
+    "minDate": "2026-11-22",
     "max": 24900,
     "maxDate": "2026-11-19",
-    "avg": 24900,
-    "latest": 24900,
-    "latestDate": "2026-11-20",
-    "observations": 2,
-    "days": 2
+    "avg": 24233,
+    "latest": 22900,
+    "latestDate": "2026-11-22",
+    "observations": 3,
+    "days": 3
    },
    "sourceUrl": "https://www.couprice.co.kr/products/x-7858546638",
-   "lastObservedAt": "2026-11-20T07:45:00+09:00"
+   "lastObservedAt": "2026-11-22T20:50:00+09:00"
   },
   "meat-beef-gomgom-au-buchaesal-gui-600g": {
    "id": "meat-beef-gomgom-au-buchaesal-gui-600g",
@@ -4616,6 +4603,180 @@
     "days": 2
    },
    "lastObservedAt": "2026-11-20T16:53:00+09:00"
+  },
+  "mitree-jaieoneteu-dakgaseomsal-bokkeumbap-300g-12gae": {
+   "id": "mitree-jaieoneteu-dakgaseomsal-bokkeumbap-300g-12gae",
+   "name": "미트리 자이언트 닭가슴살 볶음밥 3종 혼합, 300g, 12개",
+   "platform": "coupang",
+   "cardPrice": 40500,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
+   "sourceUrl": "https://www.coupang.com/vp/products/8498900048?itemId=24600730397&vendorItemId=91612791332",
+   "coupang": {
+    "productId": "8498900048"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 40500,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 40500,
+    "minDate": "2026-11-22",
+    "max": 40500,
+    "maxDate": "2026-11-22",
+    "avg": 40500,
+    "latest": 40500,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T20:50:00+09:00",
+   "cardListPrice": 54000
+  },
+  "heodak-gimchikonjak-bokkeumbap-250g-16gae": {
+   "id": "heodak-gimchikonjak-bokkeumbap-250g-16gae",
+   "name": "허닭 닭가슴살 김치곤약볶음밥, 250g, 16개",
+   "platform": "coupang",
+   "cardPrice": 39890,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
+   "sourceUrl": "https://www.coupang.com/vp/products/195110274?itemId=20199504665&vendorItemId=5252664887",
+   "coupang": {
+    "productId": "195110274"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 39890,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 39890,
+    "minDate": "2026-11-22",
+    "max": 39890,
+    "maxDate": "2026-11-22",
+    "avg": 39890,
+    "latest": 39890,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T20:50:00+09:00",
+   "cardListPrice": 62400
+  },
+  "heodak-ganjanggyeran-gonjak-bokkeumbap-250g-12p": {
+   "id": "heodak-ganjanggyeran-gonjak-bokkeumbap-250g-12p",
+   "name": "허닭 닭가슴살 간장계란 곤약 볶음밥 1인분 (냉동), 250g, 12팩",
+   "platform": "coupang",
+   "cardPrice": 29420,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
+   "sourceUrl": "https://www.coupang.com/vp/products/7761705128?itemId=21053184071&vendorItemId=88115665045",
+   "coupang": {
+    "productId": "7761705128"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 29420,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 29420,
+    "minDate": "2026-11-22",
+    "max": 29420,
+    "maxDate": "2026-11-22",
+    "avg": 29420,
+    "latest": 29420,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T20:50:00+09:00"
+  },
+  "optimum-gold-standard-whey-899g-choco": {
+   "id": "optimum-gold-standard-whey-899g-choco",
+   "name": "옵티멈뉴트리션 골드스탠다드웨이 더블 리치 프로틴 파우더 초코맛 29회분, 899g, 1개",
+   "platform": "coupang",
+   "cardPrice": 59890,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
+   "sourceUrl": "https://www.coupang.com/vp/products/7939328589?itemId=28906890269&vendorItemId=95838995062",
+   "coupang": {
+    "productId": "7939328589"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 59890,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 59890,
+    "minDate": "2026-11-22",
+    "max": 59890,
+    "maxDate": "2026-11-22",
+    "avg": 59890,
+    "latest": 59890,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T20:50:00+09:00",
+   "cardListPrice": 62900
+  },
+  "bsn-synta-6-2-27kg-choco": {
+   "id": "bsn-synta-6-2-27kg-choco",
+   "name": "신타6 정품 프로틴 파우더 초코맛, 2.27kg, 1개",
+   "platform": "coupang",
+   "cardPrice": 88890,
+   "cardPriceCheckedAt": "2026-11-22 20:50",
+   "sourceUrl": "https://www.coupang.com/vp/products/7470533914?itemId=19492433606&vendorItemId=86602114160",
+   "coupang": {
+    "productId": "7470533914"
+   },
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "new-item",
+   "series": [
+    {
+     "date": "2026-11-22",
+     "price": 88890,
+     "ts": "2026-11-22T20:50:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 88890,
+    "minDate": "2026-11-22",
+    "max": 88890,
+    "maxDate": "2026-11-22",
+    "avg": 88890,
+    "latest": 88890,
+    "latestDate": "2026-11-22",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-22T20:50:00+09:00",
+   "cardListPrice": 110900
   }
  }
 }
