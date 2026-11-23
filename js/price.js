@@ -408,7 +408,7 @@ function categoryBlock(p) {
     : "";
   const ratingLine =
     p.rating != null
-      ? `<li>쿠팡 평점 <b>★ ${Number(p.rating).toFixed(1)}</b>${
+      ? `<li>${PLATFORMS[platformOf(p)].label} 평점 <b>★ ${Number(p.rating).toFixed(1)}</b>${
           p.reviewCount != null ? ` · 리뷰 ${Number(p.reviewCount).toLocaleString("ko-KR")}개` : ""
         }</li>`
       : "";
