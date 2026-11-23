@@ -80,7 +80,6 @@ PRODUCTS = [
         ),
         "priceCheckedAt": CHECKED,
         "priceCheckedLabel": CHECKED_LABEL,
-        "storage": "냉장",
     },
     {
         "id": "toss-gogijungdok-samgyeop-8mm-1kg",
@@ -122,7 +121,6 @@ PRODUCTS = [
         ),
         "priceCheckedAt": CHECKED,
         "priceCheckedLabel": CHECKED_LABEL,
-        "storage": "냉장",
     },
     {
         "id": "toss-neoldam-godanbaek-baekkop-baegel-10",
@@ -192,10 +190,10 @@ PRODUCTS = [
         "url": "https://toss.shopping/t/1786959705",
         "affiliateUrl": "https://toss.shopping/t/1786959705",
         "image": "images/toss-benetin-plant-protein-isolate-choco-2kg.jpg",
-        "tip": "100g당 1,240원 — 띠니 파우더 중 가장 싼 100g 단가",
+        "tip": "식물성(분리대두단백) 단백 · 100g당 1,240원",
         "shipNote": "무료배송 · 판매자 베네틴",
         "note": (
-            "**식물성(분리대두단백) 단백질 파우더예요 — 유청(우유) 단백이 아닙니다.** "
+            "식물성(분리대두단백) 단백질 파우더예요 — 유청(우유) 단백이 아닙니다. "
             "2kg에 24,800원, 100g당 1,240원으로 띠니 파우더 중 100g 단가가 가장 낮아요"
             "(칼로바이 퍼펙트 파워쉐이크 1.8kg 100g당 2,328원, 신타6 3,916원). "
             "복합 프로틴 파우더 2위·리뷰 1,018개·평점 4.8. "
