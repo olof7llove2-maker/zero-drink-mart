@@ -5948,8 +5948,8 @@
    "id": "toss-papane-tongsamgyeop-suyuk-1kg-2",
    "name": "파파네정육점 통삼겹살, 수육용, 1kg, 2개",
    "platform": "toss",
-   "cardPrice": 15900,
-   "cardPriceCheckedAt": "2026-11-23 18:15",
+   "cardPrice": 18810,
+   "cardPriceCheckedAt": "2026-11-24 08:40",
    "cardListPrice": 35600,
    "source": "mart",
    "status": "tracking-started",
@@ -5960,26 +5960,32 @@
      "price": 15900,
      "ts": "2026-11-23T18:15:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-24",
+     "price": 18810,
+     "ts": "2026-11-24T08:40:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 15900,
     "minDate": "2026-11-23",
-    "max": 15900,
-    "maxDate": "2026-11-23",
-    "avg": 15900,
-    "latest": 15900,
-    "latestDate": "2026-11-23",
-    "observations": 1,
-    "days": 1
+    "max": 18810,
+    "maxDate": "2026-11-24",
+    "avg": 17355,
+    "latest": 18810,
+    "latestDate": "2026-11-24",
+    "observations": 2,
+    "days": 2
    }
   },
   "toss-gogijungdok-samgyeop-8mm-1kg": {
    "id": "toss-gogijungdok-samgyeop-8mm-1kg",
    "name": "고기중독 삼겹살, 8mm, 구이용, 1kg, 1개",
    "platform": "toss",
-   "cardPrice": 11560,
-   "cardPriceCheckedAt": "2026-11-23 18:15",
+   "cardPrice": 12990,
+   "cardPriceCheckedAt": "2026-11-24 08:40",
    "cardListPrice": 24900,
    "source": "mart",
    "status": "tracking-started",
@@ -5990,18 +5996,24 @@
      "price": 11560,
      "ts": "2026-11-23T18:15:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-24",
+     "price": 12990,
+     "ts": "2026-11-24T08:40:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 11560,
     "minDate": "2026-11-23",
-    "max": 11560,
-    "maxDate": "2026-11-23",
-    "avg": 11560,
-    "latest": 11560,
-    "latestDate": "2026-11-23",
-    "observations": 1,
-    "days": 1
+    "max": 12990,
+    "maxDate": "2026-11-24",
+    "avg": 12275,
+    "latest": 12990,
+    "latestDate": "2026-11-24",
+    "observations": 2,
+    "days": 2
    }
   },
   "toss-neoldam-godanbaek-baekkop-baegel-10": {
@@ -6009,7 +6021,7 @@
    "name": "널담 고단백 배꼽 베이글, 맛혼합, 10개",
    "platform": "toss",
    "cardPrice": 9600,
-   "cardPriceCheckedAt": "2026-11-23 18:15",
+   "cardPriceCheckedAt": "2026-11-24 08:40",
    "cardListPrice": 27900,
    "source": "mart",
    "status": "tracking-started",
@@ -6020,18 +6032,24 @@
      "price": 9600,
      "ts": "2026-11-23T18:15:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-24",
+     "price": 9600,
+     "ts": "2026-11-24T08:40:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 9600,
     "minDate": "2026-11-23",
     "max": 9600,
-    "maxDate": "2026-11-23",
+    "maxDate": "2026-11-24",
     "avg": 9600,
     "latest": 9600,
-    "latestDate": "2026-11-23",
-    "observations": 1,
-    "days": 1
+    "latestDate": "2026-11-24",
+    "observations": 2,
+    "days": 2
    }
   },
   "toss-benetin-plant-protein-isolate-choco-2kg": {
