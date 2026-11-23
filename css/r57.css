@@ -818,3 +818,6 @@ main { max-width: var(--frame); margin: 0 auto; background: var(--bg); min-heigh
   font-size: 11.5px; font-weight: 700; letter-spacing: -0.01em;
 }
 .pc-photo { position: relative; }
+
+/* r67d — 식물성 단백 표기(베네틴 등) */
+.pm-plant{display:inline-block;margin-top:4px;font-size:12px;font-weight:800;color:#0b7a4b;background:#e7f7ee;border-radius:8px;padding:3px 8px;}

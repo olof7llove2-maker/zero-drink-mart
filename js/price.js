@@ -550,6 +550,11 @@ function modalHeroHTML(p, freshText, headline) {
     PLATFORMS[platformOf(p)].label
   )}</p>
       <p class="pm-hero-brand">${escapeHtml(p.brand || "")}</p>
+      ${
+        p.proteinType === "plant"
+          ? `<span class="pm-plant">🌱 식물성(${escapeHtml(p.proteinSource || "식물성 단백")}) 단백</span>`
+          : ""
+      }
       <p class="pm-src">가격 확인 <b>${escapeHtml(freshText)}</b>${headline ? ` · ${headline}` : ""}</p>
     </div>
   </div>`;

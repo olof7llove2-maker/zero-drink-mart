@@ -3716,6 +3716,8 @@ const PRODUCTS = [
     "priceCheckedAt": "2026-11-23 18:15",
     "priceCheckedLabel": "11/23 18:15 토스쉐어링크 판매가 기준",
     "container": "powder",
-    "popularScore": 59.06
+    "popularScore": 59.06,
+    "proteinType": "plant",
+    "proteinSource": "분리대두단백"
   }
 ];

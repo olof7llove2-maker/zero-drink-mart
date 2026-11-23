@@ -205,6 +205,8 @@ PRODUCTS = [
         "priceCheckedAt": CHECKED,
         "priceCheckedLabel": CHECKED_LABEL,
         "container": "powder",
+        "proteinType": "plant",
+        "proteinSource": "분리대두단백",
     },
 ]
 
