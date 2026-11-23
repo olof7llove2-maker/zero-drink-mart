@@ -1986,9 +1986,9 @@
    "id": "toss-seupakeul-saengsu-murabel-2l-30gae",
    "name": "스파클 생수, 무라벨, 2L, 30개",
    "platform": "toss",
-   "cardPrice": 13900,
-   "cardPriceCheckedAt": "2026-11-17 14:00",
-   "cardListPrice": null,
+   "cardPrice": 15990,
+   "cardPriceCheckedAt": "2026-11-24 08:45",
+   "cardListPrice": 25000,
    "source": "mart",
    "status": "tracking-started",
    "statusDetail": "not-tracked",
@@ -1998,20 +1998,26 @@
      "price": 13900,
      "ts": "2026-11-17T14:00:00+09:00",
      "src": "mart"
+    },
+    {
+     "date": "2026-11-24",
+     "price": 15990,
+     "ts": "2026-11-24T08:45:00+09:00",
+     "src": "mart"
     }
    ],
    "stats": {
     "min": 13900,
     "minDate": "2026-11-17",
-    "max": 13900,
-    "maxDate": "2026-11-17",
-    "avg": 13900,
-    "latest": 13900,
-    "latestDate": "2026-11-17",
-    "observations": 1,
-    "days": 1
+    "max": 15990,
+    "maxDate": "2026-11-24",
+    "avg": 14945,
+    "latest": 15990,
+    "latestDate": "2026-11-24",
+    "observations": 2,
+    "days": 2
    },
-   "lastObservedAt": "2026-11-17T14:00:00+09:00"
+   "lastObservedAt": "2026-11-24T08:45:00+09:00"
   },
   "keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae": {
    "id": "keulrup-aesabisoda-orijineol-tansaneumryo-500ml-12gae",
@@ -6081,6 +6087,37 @@
     "observations": 1,
     "days": 1
    }
+  },
+  "toss-woongjin-aesabi-orijineol-500ml-24": {
+   "id": "toss-woongjin-aesabi-orijineol-500ml-24",
+   "name": "웅진식품 애사비 오리지널, 500ml, 24개",
+   "platform": "toss",
+   "cardPrice": 12900,
+   "cardPriceCheckedAt": "2026-11-24 08:45",
+   "cardListPrice": 28900,
+   "source": "mart",
+   "status": "tracking-started",
+   "statusDetail": "not-tracked",
+   "series": [
+    {
+     "date": "2026-11-24",
+     "price": 12900,
+     "ts": "2026-11-24T08:45:00+09:00",
+     "src": "mart"
+    }
+   ],
+   "stats": {
+    "min": 12900,
+    "minDate": "2026-11-24",
+    "max": 12900,
+    "maxDate": "2026-11-24",
+    "avg": 12900,
+    "latest": 12900,
+    "latestDate": "2026-11-24",
+    "observations": 1,
+    "days": 1
+   },
+   "lastObservedAt": "2026-11-24T08:45:00+09:00"
   }
  }
 }
