@@ -217,8 +217,9 @@ const VERDICT_TIERS = [
   { id: "high", label: "아쉬워요", short: "아쉬워요", dot: "🟡", max: Infinity },
 ];
 
-/* r55 — 정가 대비 70% 이상 할인이면 60일 이력과 무관하게 '역대급' (재영 님 2026-11-19) */
-const DEEP_CUT_PCT = 70;
+/* r55 — 정가 대비 큰 폭 할인이면 60일 이력과 무관하게 '역대급' (재영 님 2026-11-19)
+   r68 — 기준을 70% → 60%로 낮췄습니다(재영 님 2026-11-23). */
+const DEEP_CUT_PCT = 60;
 const VERDICT_NONE = { id: "none", label: "가격 기록 모으는 중", short: "가격 기록을 모으는 중", dot: "⚪", max: null };
 
 function verdictTierOf(pct) {
@@ -227,7 +228,7 @@ function verdictTierOf(pct) {
 }
 
 /* r58 — 화면 배지 3단계(재영 님 2026-11-19). 카드·상세 시트·필터 칩이 모두 이 함수 하나를 씁니다.
-   ① 🔥 역대 최저   — 60일 바닥가 수준(대박급 포함) 또는 정가 70%↑ 할인
+   ① 🔥 역대 최저   — 60일 바닥가 수준(대박급 포함) 또는 정가 60% 이상 할인
    ② 🟢 지금 사기 좋아요 — 평소가보다 5% 이상 싸거나(기록 짧은 상품은 정가 할인·30일 최저로 판정)
    ③ 🟡 아쉬워요   — 그 밖의 가격(보통·조금 비쌈·비쌈을 하나로)
    기록이 아예 없으면 '기록 중'만 회색으로 조용히 붙입니다. */
@@ -311,7 +312,7 @@ function marketRefOf(p) {
   };
 }
 
-/* r55 — 정가 대비 70% 이상이면 이력·점수와 무관하게 역대급으로 올립니다. */
+/* r55 — 정가 대비 큰 폭(r68: 60% 이상) 할인이면 이력·점수와 무관하게 역대급으로 올립니다. */
 function applyDeepCut(p, out) {
   const disc = Number(p && p.discountPct);
   if (!Number.isFinite(disc) || disc < DEEP_CUT_PCT) return out;
